@@ -1,11 +1,22 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from '@next/font/google'
-import styles from '@/styles/Home.module.css'
+import Head from 'next/head';
+import Image from 'next/image';
+import { Inter } from '@next/font/google';
+import styles from '@/styles/Home.module.css';
+import { useEffect, useState } from 'react';
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
+  const [time, setTime] = useState<Date | null>(null);
+  useEffect(() => {
+    fetch('/api/time')
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json);
+        setTime(new Date(json.time));
+      });
+  }, []);
+
   return (
     <>
       <Head>
@@ -15,6 +26,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
+        <h1 className={styles.title}>
+          Welcome to <a href="https://nextjs.org">`Next.js!</a>
+        </h1>
+        <h1 className={styles.title}>{`The time is ${time}`}</h1>
         <div className={styles.description}>
           <p>
             Get started by editing&nbsp;
@@ -119,5 +134,5 @@ export default function Home() {
         </div>
       </main>
     </>
-  )
+  );
 }
