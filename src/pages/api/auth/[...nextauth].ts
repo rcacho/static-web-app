@@ -10,6 +10,16 @@ export default NextAuth({
       clientSecret: process.env.AZURE_AD_B2C_CLIENT_SECRET!,
       primaryUserFlow: process.env.AZURE_AD_B2C_PRIMARY_USER_FLOW,
       authorization: { params: { scope: 'offline_access openid' } },
+      profile: (profile) => {
+        console.log('THE PROFILE', profile);
+
+        return {
+          id: profile.oid,
+          fName: profile.given_name,
+          lName: profile.surname,
+          email: profile.emails.length ? profile.emails[0] : null,
+        };
+      },
     }),
   ],
 });
