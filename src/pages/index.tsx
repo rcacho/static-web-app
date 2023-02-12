@@ -3,11 +3,14 @@ import Image from 'next/image';
 import { Inter } from '@next/font/google';
 import styles from '@/styles/Home.module.css';
 import { useEffect, useState } from 'react';
+import { useSession } from 'next-auth/react';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export default function Home() {
   const [time, setTime] = useState<Date | null>(null);
+  const { data: session } = useSession();
+
   useEffect(() => {
     fetch('/api/time')
       .then((res) => res.json())
@@ -29,7 +32,9 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">`Next.js!</a>
         </h1>
-        <h1 className={styles.title}>{`The time is ${time}`}</h1>
+        <h1 className={styles.title}>
+          {session ? `Hi, ${session?.user?.email}!` : `The time is ${time}`}
+        </h1>
         <div className={styles.description}>
           <p>
             Get started by editing&nbsp;

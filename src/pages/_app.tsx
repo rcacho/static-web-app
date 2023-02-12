@@ -3,8 +3,10 @@ import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 
 export default function App({ Component, pageProps }: AppProps) {
+  const { session } = pageProps;
+
   return (
-    <SessionProvider baseUrl={process.env.NEXTAUTH_URL}>
+    <SessionProvider session={session} baseUrl={process.env.NEXTAUTH_URL}>
       <Component {...pageProps} />
     </SessionProvider>
   );
