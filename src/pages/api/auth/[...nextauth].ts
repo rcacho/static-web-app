@@ -23,9 +23,8 @@ export default NextAuth({
     }),
   ],
   callbacks: {
-    async redirect() {
-      console.log('redirect');
-      return process.env.NEXTAUTH_URL!;
+    async redirect({ baseUrl }) {
+      return baseUrl;
     },
   },
 });
