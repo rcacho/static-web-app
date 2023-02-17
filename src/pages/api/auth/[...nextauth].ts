@@ -5,7 +5,7 @@ export default NextAuth({
   secret: process.env.JWT_SECRET,
   providers: [
     AzureADB2CProvider({
-      id: 'azureb2c',
+      id: 'azure-ad-b2c',
       tenantId: process.env.AZURE_AD_B2C_TENANT_NAME,
       clientId: process.env.AZURE_AD_B2C_CLIENT_ID!,
       clientSecret: process.env.AZURE_AD_B2C_CLIENT_SECRET!,
