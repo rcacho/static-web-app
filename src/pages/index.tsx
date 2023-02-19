@@ -1,7 +1,6 @@
 import Head from 'next/head';
 import * as React from 'react';
 import { Inter } from '@next/font/google';
-import styles from '@/styles/Home.module.css';
 import { useEffect, useState } from 'react';
 import { signIn, signOut, useSession } from 'next-auth/react';
 import TopBar from "@/components/TopBar";
@@ -31,7 +30,7 @@ export default function Home(this: any) {
     <>
       <Head>
       </Head>
-      {/*<main className={styles.main}>*/}
+      <main>
           <Stack direction="column" alignItems="stretch">
               <TopBar></TopBar>
               <Stack direction="row" className="mainS"
@@ -46,7 +45,7 @@ export default function Home(this: any) {
           </Stack>
 
 
-      {/*</main>*/}
+      </main>
     </>
   );
 }
