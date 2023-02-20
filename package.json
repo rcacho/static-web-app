@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.10.6",
+    "@emotion/styled": "^11.10.6",
+    "@mui/icons-material": "^5.11.9",
+    "@mui/material": "^5.11.9",
     "@next/font": "13.1.6",
     "@types/node": "18.11.19",
     "@types/react": "18.0.27",
@@ -16,6 +20,7 @@
     "dotenv": "^16.0.3",
     "eslint": "8.33.0",
     "eslint-config-next": "13.1.6",
+    "mui": "^0.0.1",
     "next": "13.1.6",
     "next-auth": "^4.19.2",
     "react": "18.2.0",
