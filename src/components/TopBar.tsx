@@ -26,6 +26,9 @@ function TopBar(this: any, props: any) {
     },
   });
 
+  const months = [    "January",    "February",    "March",    "April",    "May",    "June",    "July",    "August",    "September",    "October",    "November",    "December"  ];
+
+
   return (
     // <Box bgcolor="white" sx={{ height: 70 }}>
     <AppBar position="sticky">
@@ -50,6 +53,13 @@ function TopBar(this: any, props: any) {
           >
             <Image src="/img/logo.png" alt="logo" width="60" height="48" />
             <Typography variant="h6">Calendar</Typography>
+            <Button size="small" color="info" >
+              &lt;
+            </Button>
+            <Typography variant="h6">{months[new Date().getMonth()] }</Typography>
+            <Button size="small" color="info" >
+              &gt;
+            </Button>
           </Stack>
         </Stack>
 

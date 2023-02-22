@@ -6,13 +6,12 @@ import DayMonthView from "@/components/calendarComponents/DayMonthView";
 const Calendar = () => {
   return (
     <Box
-      bgcolor="beige"
+      bgcolor="white"
       color="black"
       flex={1}
       sx={{ height: "calc(100vh - 64px)" }}
       border={1}
     >
-      Calendar
       <DayMonthView />
       
     </Box>
