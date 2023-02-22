@@ -55,11 +55,11 @@ function TopBar(this: any, props: any) {
           >
             <Image src="/img/logo.png" alt="logo" width="60" height="48" />
             <Typography variant="h6">Calendar</Typography>
-            <Button size="small" color="info" onClick={(e) => props.prevMonth()}>
+            <Button size="small" color="info" onClick={(e) => props.prevMonth()} style = {{fontSize: "32px", color: "black"}}>
               &lt;
             </Button>
             <Typography variant="h6">{months[props.currentDate.getMonth()]} {props.currentDate.getFullYear()}</Typography>
-            <Button size="small" color="info" onClick={(e) => props.nextMonth()}>
+            <Button size="small" color="info" onClick={(e) => props.nextMonth()} style = {{fontSize: "32px", color: "black"}}>
               &gt;
             </Button>
           </Stack>
