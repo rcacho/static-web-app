@@ -26,13 +26,49 @@ export default function Home(this: any) {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
+
+  // calendar stuff
+  // this has to be here (i think) because two different componenets need these :sob:
+  const [currentDate, setDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date()); // to highlight a selected date
+
+  // to help print things
+  const days = ["SUN", "MON", "TUES", "WED", "THUR", "FRI", "SAT"];
+
+  // helper functions/the like state setter whatevers
+  function getNextMonth(){
+      setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+  }
+
+  function getPrevMonth(){
+      setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+  }
+
+  function getFirstDayOfMonth(date: Date) {
+      // 0 - 6 for sun - mon
+      return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  }
+
+  function getDaysInMonth(date: Date) {
+      // 0 in date param will get the highest date aka days in a month
+      // but for some reason the months param goes from 1-12 
+      // and the getMonth() returns 0-11????
+      // so inconsistent >:(
+      return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(); 
+  }
+
   return (
     <>
       <Head></Head>
       <main>
         {/* <Stack direction="column" alignItems="stretch"> */}
         <Box height="100vh" display="flex" flexDirection="column">
-          <TopBar></TopBar>
+          <TopBar 
+          nextMonth ={getNextMonth} 
+          prevMonth = {getPrevMonth} 
+          currentDate = {currentDate}
+          />
+
           <Stack
             direction="row"
             className="mainS"
@@ -42,7 +78,12 @@ export default function Home(this: any) {
             alignItems="stretch"
           >
             <Legend></Legend>
-            <Calendar></Calendar>
+            <Calendar 
+            firstDay = {getFirstDayOfMonth} 
+            daysInMonth = {getDaysInMonth} 
+            days = {days}
+            currentDate = {currentDate}
+            />
             <RightBar></RightBar>
           </Stack>
         </Box>

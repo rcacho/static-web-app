@@ -4,6 +4,8 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Box, Stack, Toolbar, Badge, Menu, MenuItem } from "@mui/material/";
 import Image from "next/image";
 import { Container } from "@mui/system";
+import DayMonthView from "@/components/calendarComponents/DayMonthView";
+
 
 function TopBar(this: any, props: any) {
   const StyledTopBar = styled(Toolbar)({
@@ -26,8 +28,8 @@ function TopBar(this: any, props: any) {
     },
   });
 
-  const months = [    "January",    "February",    "March",    "April",    "May",    "June",    "July",    "August",    "September",    "October",    "November",    "December"  ];
-
+  // to display the months (Date only returns numbers 0-11)
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   return (
     // <Box bgcolor="white" sx={{ height: 70 }}>
@@ -53,11 +55,11 @@ function TopBar(this: any, props: any) {
           >
             <Image src="/img/logo.png" alt="logo" width="60" height="48" />
             <Typography variant="h6">Calendar</Typography>
-            <Button size="small" color="info" >
+            <Button size="small" color="info" onClick={(e) => props.prevMonth()}>
               &lt;
             </Button>
-            <Typography variant="h6">{months[new Date().getMonth()] }</Typography>
-            <Button size="small" color="info" >
+            <Typography variant="h6">{months[props.currentDate.getMonth()]} {props.currentDate.getFullYear()}</Typography>
+            <Button size="small" color="info" onClick={(e) => props.nextMonth()}>
               &gt;
             </Button>
           </Stack>

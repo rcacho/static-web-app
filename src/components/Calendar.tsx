@@ -3,7 +3,7 @@ import { Box, Stack, Divider } from "@mui/material/";
 import Grid2 from "@mui/material/Unstable_Grid2";
 import DayMonthView from "@/components/calendarComponents/DayMonthView";
 
-const Calendar = () => {
+const Calendar = (props) => {
   return (
     <Box
       bgcolor="white"
@@ -12,7 +12,11 @@ const Calendar = () => {
       sx={{ height: "calc(100vh - 64px)" }}
       border={1}
     >
-      <DayMonthView />
+      <DayMonthView 
+      firstDay = {props.firstDay} 
+      daysInMonth = {props.daysInMonth} 
+      days = {props.days}
+      currentDate = {props.currentDate}/>
       
     </Box>
   );
