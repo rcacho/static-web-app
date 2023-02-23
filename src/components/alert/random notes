@@ -1,0 +1,15 @@
+Figure out how exactly alerts are going to be sent to the user.
+They should be handled in the back end, I think.
+There should be a table called 'see':
+    1. The table should have all events combined together with all users
+    2. The table should have an additional boolean attribute, called 'seen'
+
+Another idea:
+Alerts = notifactions for events that were added / updated from when the user last logged in.
+Idea: Event contains a date_added. 
+    Get all events, and filter out events that contain a date_added from before the user last logged in.
+    In other words, only keep events that were added / updated from when the user last logged in.
+    These will represent our alerts as per the definition above.
+    Though to do this, we'll need to know when the user last logged in: some backend work will likely be required.
+
+As a sidenote, we'll need to be able to fetch an admin's name given their admin ID since Event only contains admin_id
