@@ -30,18 +30,31 @@ export default function Home(this: any) {
   // calendar stuff
   // this has to be here (i think) because two different componenets need these :sob:
   const [currentDate, setDate] = useState(new Date());
-  const [selectedDate, setSelectedDate] = useState(new Date()); // to highlight a selected date
+  const [selectedDate, setSelectedDate] = useState(new Date()); // to highlight a selected date, maybe not needed
+  const [yearView, setYearView] = useState(false); // to determine which view
 
   // to help print things
   const days = ["SUN", "MON", "TUES", "WED", "THUR", "FRI", "SAT"];
 
   // helper functions/the like state setter whatevers
-  function getNextMonth(){
+  function changeView() {
+    setYearView(!yearView);
+  }
+
+  // following/previous month/year depending on view
+  // yearView is true (shows the year) by default
+  function getFollowing(){
+      yearView ? 
+      setDate(new Date(currentDate.getFullYear() + 1, currentDate.getMonth(), 1))
+      :
       setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
   }
 
-  function getPrevMonth(){
-      setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+  function getPrevious(){
+    yearView ? 
+    setDate(new Date(currentDate.getFullYear() - 1, currentDate.getMonth(), 1))
+    :
+    setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
   }
 
   function getFirstDayOfMonth(date: Date) {
@@ -64,9 +77,11 @@ export default function Home(this: any) {
         {/* <Stack direction="column" alignItems="stretch"> */}
         <Box height="100vh" display="flex" flexDirection="column">
           <TopBar 
-          nextMonth ={getNextMonth} 
-          prevMonth = {getPrevMonth} 
+          following ={getFollowing} 
+          previous = {getPrevious} 
           currentDate = {currentDate}
+          yearView = {yearView}
+          changeView = {changeView}
           />
 
           <Stack
@@ -83,6 +98,7 @@ export default function Home(this: any) {
             daysInMonth = {getDaysInMonth} 
             days = {days}
             currentDate = {currentDate}
+            yearView = {yearView}
             />
             <RightBar></RightBar>
           </Stack>

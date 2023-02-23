@@ -15,7 +15,8 @@ const DayMonthView = (props) => {
         sx={{height:'100%'}}>
 
             {Array.from(Array(42)).map((_, index) => (
-            <Grid key={index - day} sx={{height:'auto'}}
+            <Grid key={index - day} 
+                sx={{height:'auto'}}
                 xs={1} 
                 borderRight = {1} 
                 borderBottom = {1} 

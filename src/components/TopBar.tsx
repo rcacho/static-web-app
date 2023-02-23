@@ -55,13 +55,31 @@ function TopBar(this: any, props: any) {
           >
             <Image src="/img/logo.png" alt="logo" width="60" height="48" />
             <Typography variant="h6">Calendar</Typography>
-            <Button size="small" color="info" onClick={(e) => props.prevMonth()} style = {{fontSize: "32px", color: "black"}}>
+
+            {/* this part controls the calendar */}
+            <Typography variant="h6">
+
+            <Button size="small" color="info" onClick={(e) => props.previous()} style = {{fontSize: "32px", color: "black"}}>
               &lt;
             </Button>
-            <Typography variant="h6">{months[props.currentDate.getMonth()]} {props.currentDate.getFullYear()}</Typography>
-            <Button size="small" color="info" onClick={(e) => props.nextMonth()} style = {{fontSize: "32px", color: "black"}}>
+            
+            {props.yearView ? 
+            props.currentDate.getFullYear()
+            : 
+            (months[props.currentDate.getMonth()] + " " + props.currentDate.getFullYear()) 
+            }
+
+            <Button size="small" color="info" onClick={(e) => props.following()} style = {{fontSize: "32px", color: "black"}}>
               &gt;
             </Button>
+            </Typography>
+
+            {/* this button only shows if we are in month view */}
+            {props.yearView ? 
+            "" 
+            : 
+            <Button onClick={(e) => props.changeView()} style = {{fontSize: "24px", color: "black"}} >Year View</Button>}
+
           </Stack>
         </Stack>
 
