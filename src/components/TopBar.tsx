@@ -1,9 +1,9 @@
 import { AppBar, Button, Typography, styled } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import { Box, Stack, Toolbar, Badge, Menu, MenuItem } from "@mui/material/";
 import Image from "next/image";
 import { Container } from "@mui/system";
+import AlertButton from "./alert/AlertButton";
 
 function TopBar(this: any, props: any) {
   const StyledTopBar = styled(Toolbar)({
@@ -30,17 +30,6 @@ function TopBar(this: any, props: any) {
     // <Box bgcolor="white" sx={{ height: 70 }}>
     <AppBar position="sticky">
       <StyledTopBar>
-        <Stack sx={{ display: { xs: "block", sm: "none" } }}>
-          <Stack
-            direction="row"
-            spacing={1}
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Image src="/img/logo.png" alt="logo" width="30" height="24" />
-            <Typography variant="h6">Calendar</Typography>
-          </Stack>
-        </Stack>
         <Stack direction="row" sx={{ display: { xs: "none", sm: "block" } }}>
           <Stack
             direction="row"
@@ -54,10 +43,8 @@ function TopBar(this: any, props: any) {
         </Stack>
 
         <Stack direction="row" spacing={4}>
-          <Badge variant="dot" badgeContent={2} color="error">
-            <NotificationsIcon color="action" />
-          </Badge>
-          <MenuIcon />
+          <AlertButton/>
+          <MenuIcon/>  
         </Stack>
       </StyledTopBar>
     </AppBar>

@@ -28,7 +28,7 @@ export default function Home(this: any) {
 
   return (
     <>
-      <Head></Head>
+      <Head/>
       <main>
         {/* <Stack direction="column" alignItems="stretch"> */}
         <Box height="100vh" display="flex" flexDirection="column">
@@ -41,9 +41,9 @@ export default function Home(this: any) {
             spacing={0.1}
             alignItems="stretch"
           >
-            <Legend></Legend>
-            <Calendar></Calendar>
-            <RightBar></RightBar>
+            <Legend/>
+            <Calendar/>
+            <RightBar/>
           </Stack>
         </Box>
         {/* </Stack> */}
