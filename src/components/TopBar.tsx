@@ -3,7 +3,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Box, Stack, Toolbar, Badge, Menu, MenuItem } from "@mui/material/";
 import Image from "next/image";
 import { Container } from "@mui/system";
-import AlertButton from "./alert/AlertButton";
+import AlertArea from "./alert/AlertArea";
 
 function TopBar(this: any, props: any) {
   const StyledTopBar = styled(Toolbar)({
@@ -43,7 +43,7 @@ function TopBar(this: any, props: any) {
         </Stack>
 
         <Stack direction="row" spacing={4}>
-          <AlertButton/>
+          <AlertArea/>
           <MenuIcon/>  
         </Stack>
       </StyledTopBar>
