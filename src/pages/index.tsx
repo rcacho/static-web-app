@@ -7,7 +7,6 @@ import TopBar from "@/components/TopBar";
 import { Box, Stack, Divider } from "@mui/material/";
 import Legend from "@/components/Legend";
 import Calendar from "@/components/Calendar";
-import RightMenuButton from "@/components/menu/RightMenuBotton";
 
 const inter = Inter({ subsets: ["latin"] });
 
