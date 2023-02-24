@@ -4,6 +4,8 @@ import { Box, Stack, Toolbar, Badge, Menu, MenuItem } from "@mui/material/";
 import Image from "next/image";
 import { Container } from "@mui/system";
 import RightMenuButton from "./menu/RightMenuBotton";
+import DayMonthView from "@/components/calendarComponents/DayMonthView";
+
 
 function TopBar(this: any, props: any) {
   const StyledTopBar = styled(Toolbar)({
@@ -25,6 +27,9 @@ function TopBar(this: any, props: any) {
       color: "white",
     },
   });
+
+  // to display the months (Date only returns numbers 0-11)
+  const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   return (
     // <Box bgcolor="white" sx={{ height: 70 }}>
@@ -50,6 +55,31 @@ function TopBar(this: any, props: any) {
           >
             <Image src="/img/logo.png" alt="logo" width="60" height="48" />
             <Typography variant="h6">Calendar</Typography>
+
+            {/* this part controls the calendar */}
+            <Typography variant="h6">
+
+            <Button size="small" color="info" onClick={(e) => props.previous()} style = {{fontSize: "32px", color: "black"}}>
+              &lt;
+            </Button>
+            
+            {props.yearView ? 
+            props.currentDate.getFullYear()
+            : 
+            (months[props.currentDate.getMonth()] + " " + props.currentDate.getFullYear()) 
+            }
+
+            <Button size="small" color="info" onClick={(e) => props.following()} style = {{fontSize: "32px", color: "black"}}>
+              &gt;
+            </Button>
+            </Typography>
+
+            {/* this button only shows if we are in month view */}
+            {props.yearView ? 
+            "" 
+            : 
+            <Button onClick={(e) => props.changeView()} style = {{fontSize: "24px", color: "black"}} >Year View</Button>}
+
           </Stack>
         </Stack>
 

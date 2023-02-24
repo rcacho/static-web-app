@@ -72,7 +72,7 @@ const RightMenu = (props: any) => {
     }
 
     return (
-        <Popper open={Boolean(props.panelAnchor)} anchorEl={props.panelAnchor}>
+        <Popper open={Boolean(props.panelAnchor)} anchorEl={props.panelAnchor} sx={{bgcolor: 'white'}}>
             <ClickAwayListener onClickAway={props.onClickAway}>
                 <Stack style={alertPanelStyle}>
                     {/*Render the menu bar items here*/}
