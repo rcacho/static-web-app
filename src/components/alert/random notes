@@ -21,3 +21,8 @@ Idea: Event contains a date_added.
         
 
 As a sidenote, we'll need to be able to fetch an admin's name given their admin ID since Event only contains admin_id
+
+
+colours + first letter for each name (see ui proposal)
+
+add an 'empty' string inside alert panel when it's empty

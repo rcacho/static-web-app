@@ -29,7 +29,7 @@ const AlertButton = () => {
         fetch(apiPath)
             .then(res => res.json())
             .then(json => {
-                console.log(json) // @TODO: Placeholder: will initialise alerts later.
+                console.log(json); // @TODO: Placeholder: will initialise alerts later.
                 setAlerts([
                     { name: "Expense Cutoff", date: new Date("2023-10-13"), admin: "Steve", action: "added" },
                     { name: "Annual General Meeting", date: new Date("2023-05-13"), admin: "Shawn", action: "added" },
@@ -111,7 +111,7 @@ const AlertItem = (props: any) => {
     }
 
     return (
-        <Stack direction="row" alignItems="center" style={alertItemStyle}>
+        <Stack direction="row" alignItems="center" spacing={"5px"} style={alertItemStyle}>
             <Typography color={defaultColour}>
                 {`${props.alert.admin} ${props.alert.action} `}
                 <strong>{props.alert.name}</strong>
