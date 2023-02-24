@@ -6,7 +6,6 @@ import { signIn, signOut, useSession } from "next-auth/react";
 import TopBar from "@/components/TopBar";
 import { Box, Stack, Divider } from "@mui/material/";
 import Legend from "@/components/Legend";
-import RightBar from "@/components/RightBar";
 import Calendar from "@/components/Calendar";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -43,7 +42,6 @@ export default function Home(this: any) {
           >
             <Legend></Legend>
             <Calendar></Calendar>
-            <RightBar></RightBar>
           </Stack>
         </Box>
         {/* </Stack> */}
