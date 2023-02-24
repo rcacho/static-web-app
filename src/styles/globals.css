@@ -25,3 +25,7 @@ body {
     color-scheme: dark;
   }
 }
+
+.MuiButton-root {
+  border-radius: 60px;
+} 

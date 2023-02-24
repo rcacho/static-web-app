@@ -26,13 +26,64 @@ export default function Home(this: any) {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
+
+  // calendar stuff
+  // this has to be here (i think) because two different componenets need these :sob:
+  const [currentDate, setDate] = useState(new Date());
+  const [selectedDate, setSelectedDate] = useState(new Date()); // to highlight a selected date, maybe not needed
+  const [yearView, setYearView] = useState(false); // to determine which view
+
+  // to help print things
+  const days = ["SUN", "MON", "TUES", "WED", "THUR", "FRI", "SAT"];
+
+  // helper functions/the like state setter whatevers
+  function changeView() {
+    setYearView(!yearView);
+  }
+
+  // following/previous month/year depending on view
+  // yearView is true (shows the year) by default
+  function getFollowing(){
+      yearView ? 
+      setDate(new Date(currentDate.getFullYear() + 1, currentDate.getMonth(), 1))
+      :
+      setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1));
+  }
+
+  function getPrevious(){
+    yearView ? 
+    setDate(new Date(currentDate.getFullYear() - 1, currentDate.getMonth(), 1))
+    :
+    setDate(new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1));
+  }
+
+  function getFirstDayOfMonth(date: Date) {
+      // 0 - 6 for sun - mon
+      return new Date(date.getFullYear(), date.getMonth(), 1).getDay();
+  }
+
+  function getDaysInMonth(date: Date) {
+      // 0 in date param will get the highest date aka days in a month
+      // but for some reason the months param goes from 1-12 
+      // and the getMonth() returns 0-11????
+      // so inconsistent >:(
+      return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(); 
+  }
+
   return (
     <>
       <Head></Head>
       <main>
         {/* <Stack direction="column" alignItems="stretch"> */}
         <Box height="100vh" display="flex" flexDirection="column">
-          <TopBar></TopBar>
+          <TopBar 
+          following ={getFollowing} 
+          previous = {getPrevious} 
+          currentDate = {currentDate}
+          yearView = {yearView}
+          changeView = {changeView}
+          />
+
           <Stack
             direction="row"
             className="mainS"
@@ -42,7 +93,13 @@ export default function Home(this: any) {
             alignItems="stretch"
           >
             <Legend></Legend>
-            <Calendar></Calendar>
+            <Calendar 
+            firstDay = {getFirstDayOfMonth} 
+            daysInMonth = {getDaysInMonth} 
+            days = {days}
+            currentDate = {currentDate}
+            yearView = {yearView}
+            />
             <RightBar></RightBar>
           </Stack>
         </Box>
