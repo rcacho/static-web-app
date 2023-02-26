@@ -1,12 +1,12 @@
-import React from "react";
-import { Box, Stack, Divider } from "@mui/material/";
+import React from 'react';
+import { Box } from '@mui/material/';
 
 const Legend = () => {
   return (
     <Box
       bgcolor="white"
       color="black"
-      sx={{ width: 200, height: "calc(100vh - 64px)" }}
+      sx={{ width: 200, height: 'calc(100vh - 64px)' }}
     >
       Legend
     </Box>

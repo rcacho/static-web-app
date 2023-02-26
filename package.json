@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build  && rm -rf ./.next/cache",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "check-ts": "tsc --noEmit --skipLibCheck --noUnusedLocals --noUnusedParameters",
+    "check-console": "yarn get-diff | egrep '^.[[[:digit:]]+m\\+' | grep 'console.log\\|console.time\\|console.timeEnd' && exit 1 || exit 0",
+    "check-prettier": "yarn prettier --config .prettierrc --check 'src/**/*.ts*' 'e2e/**/*.ts'",
+    "check-all": "yarn check-ts && yarn check-console && yarn check-prettier"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
