@@ -6,6 +6,8 @@ import { Box, Stack, Divider } from '@mui/material/';
 import Legend from '@/components/Legend';
 import Calendar from '@/components/Calendar';
 
+const daysOfWeek = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
+
 export default function Home(this: any) {
   // const [menuOpen, setMenuOpen] = useState(false);
 
@@ -16,7 +18,6 @@ export default function Home(this: any) {
   const [yearView, setYearView] = useState(false); // to determine which view
 
   // to help print things
-  const daysOfWeek = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT'];
 
   // helper functions/the like state setter whatevers
   function changeView() {
