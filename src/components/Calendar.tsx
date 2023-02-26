@@ -1,14 +1,14 @@
-import React from 'react';
-import { Box } from '@mui/material/';
-import DayMonthView from '@/components/calendarComponents/DayMonthView';
-import DayYearView from '@/components/calendarComponents/DayYearView';
+import React from 'react'
+import { Box } from '@mui/material/'
+import DayMonthView from '@/components/calendarComponents/DayMonthView'
+import DayYearView from '@/components/calendarComponents/DayYearView'
 
 export interface CalendarProps {
-  getFirstDayOfMonth: (date: Date) => number;
-  getNumDaysInMonth: (date: Date) => number;
-  currentDate: Date;
-  isYearView: boolean;
-  daysOfWeek: string[];
+  getFirstDayOfMonth: (date: Date) => number
+  getNumDaysInMonth: (date: Date) => number
+  currentDate: Date
+  isYearView: boolean
+  daysOfWeek: string[]
 }
 
 const Calendar = (props: CalendarProps) => {
@@ -26,7 +26,7 @@ const Calendar = (props: CalendarProps) => {
         <DayMonthView {...props} />
       )}
     </Box>
-  );
-};
+  )
+}
 
-export default Calendar;
+export default Calendar

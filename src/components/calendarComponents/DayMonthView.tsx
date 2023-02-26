@@ -1,11 +1,11 @@
-import React from 'react';
-import { Typography, Button } from '@mui/material';
+import React from 'react'
+import { Typography, Button } from '@mui/material'
 
-import Grid from '@mui/material/Unstable_Grid2';
-import { CalendarProps } from '../Calendar';
+import Grid from '@mui/material/Unstable_Grid2'
+import { CalendarProps } from '../Calendar'
 
 const DayMonthView = (props: CalendarProps) => {
-  let day: number = props.getFirstDayOfMonth(props.currentDate) - 1;
+  let day: number = props.getFirstDayOfMonth(props.currentDate) - 1
   return (
     <Grid
       container
@@ -44,7 +44,7 @@ const DayMonthView = (props: CalendarProps) => {
         </Grid>
       ))}
     </Grid>
-  );
-};
+  )
+}
 
-export default DayMonthView;
+export default DayMonthView
