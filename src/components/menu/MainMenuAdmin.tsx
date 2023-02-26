@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box } from '@mui/material/';
+import React from 'react'
+import { Box } from '@mui/material/'
 
 const MainMenuAdmin = () => {
   return (
@@ -60,7 +60,7 @@ const MainMenuAdmin = () => {
       {/* </ListItem> */}
       {/* </List> */}
     </Box>
-  );
-};
+  )
+}
 
-export default MainMenuAdmin;
+export default MainMenuAdmin

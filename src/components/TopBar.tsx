@@ -1,16 +1,16 @@
-import { AppBar, Button, Typography, styled } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { Stack, Toolbar, Badge } from '@mui/material/';
-import Image from 'next/image';
+import { AppBar, Button, Typography, styled } from '@mui/material'
+import MenuIcon from '@mui/icons-material/Menu'
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import { Stack, Toolbar, Badge } from '@mui/material/'
+import Image from 'next/image'
 
 function TopBar(this: any, props: any) {
   const StyledTopBar = styled(Toolbar)({
     display: 'flex',
     justifyContent: 'space-between',
     backgroundColor: 'white',
-    color: '#4D4D4D',
-  });
+    color: '#4D4D4D'
+  })
 
   // const TopButton = styled(Button)({
   //   backgroundColor: 'skyblue',
@@ -38,8 +38,8 @@ function TopBar(this: any, props: any) {
     'September',
     'October',
     'November',
-    'December',
-  ];
+    'December'
+  ]
 
   return (
     // <Box bgcolor="white" sx={{ height: 70 }}>
@@ -116,6 +116,6 @@ function TopBar(this: any, props: any) {
       </StyledTopBar>
     </AppBar>
     // </Box>
-  );
+  )
 }
-export default TopBar;
+export default TopBar
