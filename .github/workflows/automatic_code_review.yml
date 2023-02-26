@@ -1,0 +1,19 @@
+name: Automatic code review
+on:
+  pull_request:
+    branches:
+      - development
+      - master
+jobs:
+  build:
+    name: Automatic code review
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v3
+      - run: yarn check-console
+      - run: yarn install
+      - run: yarn check-prettier
+      - run: yarn check-ts
