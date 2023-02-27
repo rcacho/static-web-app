@@ -9,10 +9,11 @@ const RightMenuButton = () => {
         panelAnchor ? setPanelAnchor(null) : setPanelAnchor(event.currentTarget);
     }
 
+
     return (
         <div>
             <MenuIcon onClick={handleClick} color="action" />
-            <RightMenu panelAnchor={panelAnchor} onClickAway={handleClick}/>
+            <RightMenu panelAnchor={panelAnchor} onClickAway={handleClick} />
         </div>
     )
 }

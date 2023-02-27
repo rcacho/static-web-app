@@ -7,6 +7,8 @@ import TopBar from "@/components/TopBar";
 import { Box, Stack, Divider } from "@mui/material/";
 import Legend from "@/components/Legend";
 import Calendar from "@/components/Calendar";
+import {ThemeProvider} from "@mui/material";
+import MuiTheme from "@/pages/MuiTheme";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -70,7 +72,7 @@ export default function Home(this: any) {
   }
 
   return (
-    <>
+    <ThemeProvider theme={MuiTheme}>
       <Head></Head>
       <main>
         {/* <Stack direction="column" alignItems="stretch"> */}
@@ -103,6 +105,6 @@ export default function Home(this: any) {
         </Box>
         {/* </Stack> */}
       </main>
-    </>
+    </ThemeProvider>
   );
 }
