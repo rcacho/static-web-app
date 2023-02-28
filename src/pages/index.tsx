@@ -1,3 +1,5 @@
+import { ThemeProvider } from '@mui/material'
+import MuiTheme from '@/styles/MuiTheme'
 import Head from 'next/head'
 import * as React from 'react'
 import { useState } from 'react'
@@ -63,7 +65,7 @@ export default function Home(this: any) {
   }
 
   return (
-    <>
+    <ThemeProvider theme={MuiTheme}>
       <Head>
         <></>
       </Head>
@@ -100,6 +102,6 @@ export default function Home(this: any) {
         </Box>
         {/* </Stack> */}
       </main>
-    </>
+    </ThemeProvider>
   )
 }
