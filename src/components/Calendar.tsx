@@ -9,6 +9,8 @@ export interface CalendarProps {
   currentDate: Date
   isYearView: boolean
   daysOfWeek: string[]
+  changeView: (date: Date) => void
+  month: number
 }
 
 const Calendar = (props: CalendarProps) => {
