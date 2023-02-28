@@ -70,7 +70,9 @@ const DayYearView = (props) => {
             xs = {1}
             border = {0}
             >
-                <Button style={{color: "black", fontSize: "80%"}}>{months[index]}</Button>
+                <Button style={{color: "black", fontSize: "80%"}} onClick={(e) => props.changeView(
+                    new Date(props.currentDate.getFullYear(), index, 1)
+                )}>{months[index]}</Button>
 
                 <GenerateMonth
                 firstDay = {props.firstDay} 

@@ -20,7 +20,8 @@ const Calendar = (props) => {
       firstDay = {props.firstDay} 
       daysInMonth = {props.daysInMonth} 
       days = {props.days}
-      currentDate = {props.currentDate}/> 
+      currentDate = {props.currentDate}
+      changeView = {props.changeView}/> 
       : 
       <DayMonthView 
       firstDay = {props.firstDay} 

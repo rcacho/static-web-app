@@ -37,8 +37,11 @@ export default function Home(this: any) {
   const days = ["SUN", "MON", "TUES", "WED", "THUR", "FRI", "SAT"];
 
   // helper functions/the like state setter whatevers
-  function changeView() {
+  function changeView(date: Date) {
     setYearView(!yearView);
+    if(yearView) {
+      setDate(new Date(date.getFullYear(), date.getMonth(), 1));
+    }
   }
 
   // following/previous month/year depending on view
@@ -99,6 +102,7 @@ export default function Home(this: any) {
             days = {days}
             currentDate = {currentDate}
             yearView = {yearView}
+            changeView = {changeView}
             />
             <RightBar></RightBar>
           </Stack>
