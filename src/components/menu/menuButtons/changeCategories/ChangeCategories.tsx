@@ -4,17 +4,17 @@ import {
   ListItemText,
   ListItemButton,
   ThemeProvider,
-  TextField,
   Button
 } from '@mui/material'
 import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
+// @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 
 // placeholder for the list of categories
 const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 
-const ChangeCategories = (props: any) => {
+const ChangeCategories = () => {
   const [selected, setSelected] = useState(null)
 
   // render list for the scroll function

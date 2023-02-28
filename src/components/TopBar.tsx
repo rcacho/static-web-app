@@ -1,10 +1,8 @@
 import { AppBar, Button, Typography, styled } from '@mui/material'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import { Box, Stack, Toolbar, Badge, Menu, MenuItem } from '@mui/material/'
+import { Stack, Toolbar, Badge } from '@mui/material/'
 import Image from 'next/image'
-import { Container } from '@mui/system'
 import RightMenuButton from './menu/RightMenuBotton'
-import DayMonthView from '@/components/calendarComponents/DayMonthView'
 
 function TopBar(this: any, props: any) {
   const StyledTopBar = styled(Toolbar)({
