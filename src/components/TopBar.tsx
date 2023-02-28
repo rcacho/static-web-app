@@ -84,8 +84,8 @@ function TopBar(this: any, props: any) {
               {props.yearView
                 ? props.currentDate.getFullYear()
                 : months[props.currentDate.getMonth()] +
-                  ' ' +
-                  props.currentDate.getFullYear()}
+                ' ' +
+                props.currentDate.getFullYear()}
 
               <Button
                 size="small"
@@ -115,7 +115,7 @@ function TopBar(this: any, props: any) {
           <Badge variant="dot" badgeContent={2} color="error">
             <NotificationsIcon color="action" />
           </Badge>
-          <RightMenuButton/>
+          <RightMenuButton />
         </Stack>
       </StyledTopBar>
     </AppBar>
