@@ -15,6 +15,7 @@ import { FixedSizeList, ListChildComponentProps } from 'react-window'
 // placeholder for the list of categories
 const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 
+// @ts-ignore
 const AddEventRender = () => {
   const [selected, setSelected] = useState(null)
 

@@ -41,9 +41,9 @@ const RightMenu = (props: any) => {
           {menuState === 0 ? (
             <MainMenuItems updateState={updateState} />
           ) : menuState === 1 ? (
-            <AddEventRender updateState={updateState} />
+            <AddEventRender />
           ) : menuState === 2 ? (
-            <ChangeCategories updateState={updateState} />
+            <ChangeCategories />
           ) : null}
         </Stack>
       </ClickAwayListener>
