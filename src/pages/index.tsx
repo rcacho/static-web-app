@@ -8,7 +8,7 @@ import { Box, Stack, Divider } from "@mui/material/";
 import Legend from "@/components/Legend";
 import Calendar from "@/components/Calendar";
 import {ThemeProvider} from "@mui/material";
-import MuiTheme from "@/pages/MuiTheme";
+import MuiTheme from "@/styles/MuiTheme";
 
 const inter = Inter({ subsets: ["latin"] });
 

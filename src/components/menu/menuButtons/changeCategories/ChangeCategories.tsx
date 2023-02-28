@@ -7,7 +7,7 @@ import {
     TextField, Button,
 } from "@mui/material";
 import React, {useState} from "react";
-import MuiTheme from "@/pages/MuiTheme";
+import MuiTheme from "@/styles/MuiTheme";
 import {FixedSizeList, ListChildComponentProps} from 'react-window';
 
 

@@ -4,7 +4,6 @@ import {ListItemButton, ListItemIcon, ListItemText} from "@mui/material";
 const Buttons = (props: any) => {
     const handleClick = (event: any) => {
         props.parentProp.updateState(props.state);
-        console.log("pepe")
     }
 
         return(
