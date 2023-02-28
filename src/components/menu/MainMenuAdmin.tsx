@@ -1,27 +1,12 @@
-import React from "react";
-import {
-  Box,
-  Stack,
-  Divider,
-  List,
-  ListItemIcon,
-  ListItemButton,
-  ListItem,
-  ListItemText,
-} from "@mui/material/";
-import LogoutIcon from "@mui/icons-material/Logout";
-import PrintIcon from "@mui/icons-material/Print";
-import Export from "@mui/icons-material/IosShare";
-import AddIcon from "@mui/icons-material/Add";
-import AdminIcon from "@mui/icons-material/SupervisorAccount";
-import ModeIcon from "@mui/icons-material/Mode";
+import React from 'react'
+import { Box } from '@mui/material/'
 
 const MainMenuAdmin = () => {
   return (
     <Box
       bgcolor="white"
       color="black"
-      sx={{ height: "calc(100vh - 64px)", width: 200 }}
+      sx={{ height: 'calc(100vh - 64px)', width: 200 }}
     >
       Main Menu
       {/* <List> */}
@@ -75,7 +60,7 @@ const MainMenuAdmin = () => {
       {/* </ListItem> */}
       {/* </List> */}
     </Box>
-  );
-};
+  )
+}
 
-export default MainMenuAdmin;
+export default MainMenuAdmin

@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
-import {Typography, Button} from "@mui/material";
+import React from 'react'
 
-import {Box, Stack, Divider} from '@mui/material/';
-import Grid from '@mui/material/Unstable_Grid2';
-import DayMonthView from './DayMonthView';
+import Grid from '@mui/material/Unstable_Grid2'
+import DayMonthView from './DayMonthView'
+import { CalendarProps } from '../Calendar'
+import Button from '@mui/material/Button/Button'
+import Typography from '@mui/material/Typography/Typography'
 
 // slightly different from DayMonthView component
-function GenerateMonth(props) {
+function GenerateMonth(props: CalendarProps) {
     const smallDays = ["Su", "M", "T", "W", "Th", "F", "S"]
     // this is for the loop in the DayYearView component
     const currentYear = props.currentDate.getFullYear();
     // props.month is an index number 0-11, this
     const tempDate = new Date(currentYear, props.month, 1);
-    const day: Number = props.firstDay(tempDate) - 1;
+    const day: Number = props.getFirstDayOfMonth(tempDate) - 1;
     return (
         <Grid container 
         columns={7} 
@@ -23,7 +24,7 @@ function GenerateMonth(props) {
         sx={{height:'80%'}}>
 
             {Array.from(Array(42)).map((_, index) => (
-            ((index - day > 0 && index - day <= props.daysInMonth(tempDate)) || index < 7 ? 
+            ((index - day > 0 && index - day <= props.getNumDaysInMonth(tempDate)) || index < 7 ? 
             <Grid key={index - day} 
                 sx={{height:'auto'}}
                 xs={1} 
@@ -39,7 +40,7 @@ function GenerateMonth(props) {
                 {(index < 7 ? <br/> : "")}
                 
                 <Button size = "small" style={{fontSize: '62%', color: 'black'}} >
-                {(index - day > 0 && index - day <= props.daysInMonth(tempDate) ? index - day : " ")}
+                {(index - day > 0 && index - day <= props.getNumDaysInMonth(tempDate) ? index - day : " ")}
                 </Button>
                 </Typography>
             </Grid> :
@@ -52,8 +53,8 @@ function GenerateMonth(props) {
     )
 }
 
-const DayYearView = (props) => {
-    let day: Number = props.firstDay(props.currentDate) - 1;
+const DayYearView = (props: CalendarProps) => {
+    let day: Number = props.getFirstDayOfMonth(props.currentDate) - 1;
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
     
     return (
@@ -74,12 +75,8 @@ const DayYearView = (props) => {
                     new Date(props.currentDate.getFullYear(), index, 1)
                 )}>{months[index]}</Button>
 
-                <GenerateMonth
-                firstDay = {props.firstDay} 
-                daysInMonth = {props.daysInMonth} 
-                days = {props.days}
-                currentDate = {props.currentDate}
-                month = {index}/>
+            <GenerateMonth {...props} month = {index}/>
+
                     
             </Grid>
 
@@ -89,4 +86,4 @@ const DayYearView = (props) => {
         
 };
 
-export default DayYearView;
+export default DayYearView

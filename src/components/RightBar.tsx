@@ -1,10 +1,10 @@
-import React from "react";
-import MainMenuAdmin from "@/components/menu/MainMenuAdmin";
+import React from 'react'
+import MainMenuAdmin from '@/components/menu/MainMenuAdmin'
 
 const RightBar = () => {
   if (0) {
-    return <MainMenuAdmin />;
+    return <MainMenuAdmin />
   }
-};
+}
 
-export default RightBar;
+export default RightBar

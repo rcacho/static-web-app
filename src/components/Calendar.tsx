@@ -1,39 +1,34 @@
-import React from "react";
-import { Box, Stack, Divider } from "@mui/material/";
-import Grid2 from "@mui/material/Unstable_Grid2";
-import DayMonthView from "@/components/calendarComponents/DayMonthView";
-import DayYearView from "@/components/calendarComponents/DayYearView";
+import React from 'react'
+import { Box } from '@mui/material/'
+import DayMonthView from '@/components/calendarComponents/DayMonthView'
+import DayYearView from '@/components/calendarComponents/DayYearView'
 
-const Calendar = (props) => {
+export interface CalendarProps {
+  getFirstDayOfMonth: (date: Date) => number
+  getNumDaysInMonth: (date: Date) => number
+  currentDate: Date
+  isYearView: boolean
+  daysOfWeek: string[]
+  changeView: (date: Date) => void
+  month: number
+}
+
+const Calendar = (props: CalendarProps) => {
   return (
     <Box
       bgcolor="white"
       color="black"
       flex={1}
-      sx={{ height: "calc(100vh - 64px)" }}
+      sx={{ height: 'calc(100vh - 64px)' }}
       border={1}
     >
-      {console.log(props.yearView)}
-      {
-      props.yearView ? 
-      <DayYearView 
-      firstDay = {props.firstDay} 
-      daysInMonth = {props.daysInMonth} 
-      days = {props.days}
-      currentDate = {props.currentDate}
-      changeView = {props.changeView}/> 
-      : 
-      <DayMonthView 
-      firstDay = {props.firstDay} 
-      daysInMonth = {props.daysInMonth} 
-      days = {props.days}
-      currentDate = {props.currentDate}/>
-      }
-    
-      
-      
+      {props.isYearView ? (
+        <DayYearView {...props} />
+      ) : (
+        <DayMonthView {...props} />
+      )}
     </Box>
-  );
-};
+  )
+}
 
-export default Calendar;
+export default Calendar
