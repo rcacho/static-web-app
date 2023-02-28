@@ -23,9 +23,9 @@ export default function Home(this: any) {
 
   // helper functions/the like state setter whatevers
   function changeView(date: Date) {
-    setYearView(!yearView);
-    if(yearView) {
-      setDate(new Date(date.getFullYear(), date.getMonth(), 1));
+    setYearView(!yearView)
+    if (yearView) {
+      setDate(new Date(date.getFullYear(), date.getMonth(), 1))
     }
   }
 
@@ -95,8 +95,8 @@ export default function Home(this: any) {
               daysOfWeek={daysOfWeek}
               currentDate={currentDate}
               isYearView={yearView}
-              changeView = {changeView}
-              month = {0}
+              changeView={changeView}
+              month={0}
             />
           </Stack>
         </Box>

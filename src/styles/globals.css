@@ -1,5 +1,4 @@
 :root {
-
 }
 
 * {
@@ -11,7 +10,6 @@
 div {
   height: max-content;
 }
-
 
 html,
 body {
@@ -30,7 +28,6 @@ body {
   border-radius: 60px;
 }
 
-
 .menu-button {
   border-radius: 6px;
   height: 27px;
@@ -45,12 +42,12 @@ body {
   margin: auto;
   bottom: 0;
   width: 100%;
-  height: 13%
+  height: 13%;
 }
 .bottom-buttons-cat {
   position: absolute;
   margin: auto;
   bottom: 0;
   width: 100%;
-  height: 26%
+  height: 26%;
 }
