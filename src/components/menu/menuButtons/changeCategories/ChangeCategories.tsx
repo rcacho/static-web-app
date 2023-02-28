@@ -4,7 +4,9 @@ import {
   ListItemText,
   ListItemButton,
   ThemeProvider,
-  Button
+  Button,
+  Box,
+  Typography
 } from '@mui/material'
 import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
@@ -14,7 +16,7 @@ import { FixedSizeList, ListChildComponentProps } from 'react-window'
 // placeholder for the list of categories
 const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 
-const ChangeCategories = () => {
+const ChangeCategories = (props: any) => {
   const [selected, setSelected] = useState(null)
 
   // render list for the scroll function
@@ -39,6 +41,11 @@ const ChangeCategories = () => {
     )
   }
 
+  //function to handle Back button
+  const handleBackClick = () => {
+    props.updateState(0)
+  }
+
   return (
     <ThemeProvider theme={MuiTheme}>
       <List disablePadding={true}>
@@ -46,7 +53,24 @@ const ChangeCategories = () => {
           <ListItemText
             sx={{ color: '#898989', textDecoration: 'underline' }}
             secondary="Change Categories"
-          />
+          />{' '}
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              color: '#898989',
+              textDecoration: 'underline',
+              fontFamily: 'Roboto'
+            }}
+          >
+            <Typography
+              onClick={handleBackClick}
+              variant="body2"
+              color="#898989"
+            >
+              Back
+            </Typography>
+          </Box>
         </ListItem>
         <ListItem>
           <ListItemText primary="Please select category:" />

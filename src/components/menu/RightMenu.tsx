@@ -30,14 +30,14 @@ const RightMenu = (props: any) => {
       sx={{ bgcolor: 'white' }}
     >
       <ClickAwayListener onClickAway={handleClickAway}>
-        <Stack style={alertPanelStyle}>
+        <Stack style={alertPanelStyle} sx={{ minHeight: '650px' }}>
           {/*Render the menu bar items here*/}
           {props.menuState === 0 ? (
             <MainMenuItems updateState={props.updateState} />
           ) : props.menuState === 1 ? (
-            <AddEventRender />
+            <AddEventRender updateState={props.updateState} />
           ) : props.menuState === 2 ? (
-            <ChangeCategories />
+            <ChangeCategories updateState={props.updateState} />
           ) : null}
         </Stack>
       </ClickAwayListener>
