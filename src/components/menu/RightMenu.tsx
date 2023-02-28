@@ -8,11 +8,6 @@ const RightMenu = (props: any) => {
   // menu state to select which menu to show
   // 0 is initial menu
   // 1 is add event
-  const [menuState, setMenuState] = useState(0)
-
-  function updateState(state: any) {
-    setMenuState(state)
-  }
 
   const alertPanelStyle = {
     bgcolor: 'white',
@@ -26,7 +21,6 @@ const RightMenu = (props: any) => {
 
   const handleClickAway = () => {
     props.onClickAway()
-    setMenuState(0)
   }
 
   return (
@@ -38,11 +32,11 @@ const RightMenu = (props: any) => {
       <ClickAwayListener onClickAway={handleClickAway}>
         <Stack style={alertPanelStyle}>
           {/*Render the menu bar items here*/}
-          {menuState === 0 ? (
-            <MainMenuItems updateState={updateState} />
-          ) : menuState === 1 ? (
+          {props.menuState === 0 ? (
+            <MainMenuItems updateState={props.updateState} />
+          ) : props.menuState === 1 ? (
             <AddEventRender />
-          ) : menuState === 2 ? (
+          ) : props.menuState === 2 ? (
             <ChangeCategories />
           ) : null}
         </Stack>
