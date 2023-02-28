@@ -71,7 +71,12 @@ export default function Home(this: any) {
       </Head>
       <main>
         {/* <Stack direction="column" alignItems="stretch"> */}
-        <Box height="100vh" display="flex" flexDirection="column">
+        <Box
+          sx={{ color: '#fff', zIndex: 2 }}
+          height="100vh"
+          display="flex"
+          flexDirection="column"
+        >
           <TopBar
             following={getFollowing}
             previous={getPrevious}
@@ -97,10 +102,9 @@ export default function Home(this: any) {
               isYearView={yearView}
               changeView={changeView}
               month={0}
-            />
+            />{' '}
           </Stack>
         </Box>
-        {/* </Stack> */}
       </main>
     </ThemeProvider>
   )

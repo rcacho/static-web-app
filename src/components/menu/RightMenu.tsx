@@ -1,5 +1,5 @@
 import { ClickAwayListener, Popper, Stack } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
 import MainMenuItems from '@/components/menu/MainMenuItems'
 import AddEventRender from '@/components/menu/menuButtons/addEvent/AddEventRender'
 import ChangeCategories from '@/components/menu/menuButtons/changeCategories/ChangeCategories'
@@ -27,7 +27,7 @@ const RightMenu = (props: any) => {
     <Popper
       open={Boolean(props.panelAnchor)}
       anchorEl={props.panelAnchor}
-      sx={{ bgcolor: 'white' }}
+      sx={{ bgcolor: 'white', zIndex: (theme) => theme.zIndex.drawer + 2 }}
     >
       <ClickAwayListener onClickAway={handleClickAway}>
         <Stack style={alertPanelStyle} sx={{ minHeight: '650px' }}>

@@ -12,19 +12,6 @@ function TopBar(this: any, props: any) {
     color: '#4D4D4D'
   })
 
-  // const TopButton = styled(Button)({
-  //   backgroundColor: 'skyblue',
-  //   color: '#888',
-  //   margin: 5,
-  //   '&:hover': {
-  //     backgroundColor: '#898989',
-  //   },
-  //   '&:disabled': {
-  //     backgroundColor: 'gray',
-  //     color: 'white',
-  //   },
-  // });
-
   // to display the months (Date only returns numbers 0-11)
   const months = [
     'January',
@@ -45,7 +32,11 @@ function TopBar(this: any, props: any) {
     // <Box bgcolor="white" sx={{ height: 70 }}>
     <AppBar position="sticky">
       <StyledTopBar>
-        <Stack sx={{ display: { xs: 'block', sm: 'none' } }}>
+        <Stack
+          sx={{
+            display: { xs: 'block', sm: 'none' }
+          }}
+        >
           <Stack
             direction="row"
             spacing={1}
@@ -56,7 +47,13 @@ function TopBar(this: any, props: any) {
             <Typography variant="h6">Calendar</Typography>
           </Stack>
         </Stack>
-        <Stack direction="row" sx={{ display: { xs: 'none', sm: 'block' } }}>
+        <Stack
+          direction="row"
+          sx={{
+            zIndex: (theme) => theme.zIndex.drawer + 2,
+            display: { xs: 'none', sm: 'block' }
+          }}
+        >
           <Stack
             direction="row"
             justifyContent="space-between"
@@ -115,7 +112,6 @@ function TopBar(this: any, props: any) {
         </Stack>
       </StyledTopBar>
     </AppBar>
-    // </Box>
   )
 }
 export default TopBar
