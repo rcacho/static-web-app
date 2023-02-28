@@ -1,10 +1,8 @@
 import React from 'react'
-
 import Grid from '@mui/material/Unstable_Grid2'
 import DayMonthView from './DayMonthView'
 import { CalendarProps } from '../Calendar'
-import Button from '@mui/material/Button/Button'
-import Typography from '@mui/material/Typography/Typography'
+import { Typography, Button } from '@mui/material'
 
 // slightly different from DayMonthView component
 function GenerateMonth(props: CalendarProps) {
@@ -13,7 +11,7 @@ function GenerateMonth(props: CalendarProps) {
     const currentYear = props.currentDate.getFullYear();
     // props.month is an index number 0-11, this
     const tempDate = new Date(currentYear, props.month, 1);
-    const day: Number = props.getFirstDayOfMonth(tempDate) - 1;
+    const day: number = props.getFirstDayOfMonth(tempDate) - 1;
     return (
         <Grid container 
         columns={7} 
