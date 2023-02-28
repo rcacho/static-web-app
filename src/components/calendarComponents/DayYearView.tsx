@@ -1,6 +1,5 @@
 import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
-import DayMonthView from './DayMonthView'
 import { CalendarProps } from '../Calendar'
 import { Typography, Button } from '@mui/material'
 
@@ -41,7 +40,7 @@ function GenerateMonth(props: CalendarProps) {
               {index < 7 ? smallDays[index] : ''}
               {index < 7 ? <br /> : ''}
 
-              <Button size="small" style={{ fontSize: '62%', color: 'black' }}>
+              <Button size="small" style={{ fontSize: '100%', color: 'black' }}>
                 {index - day > 0 &&
                 index - day <= props.getNumDaysInMonth(tempDate)
                   ? index - day
@@ -58,7 +57,6 @@ function GenerateMonth(props: CalendarProps) {
 }
 
 const DayYearView = (props: CalendarProps) => {
-  let day: Number = props.getFirstDayOfMonth(props.currentDate) - 1
   const months = [
     'January',
     'February',
@@ -88,7 +86,7 @@ const DayYearView = (props: CalendarProps) => {
         <Grid xs={1} border={0}>
           <Button
             style={{ color: 'black', fontSize: '80%' }}
-            onClick={(e) =>
+            onClick={(_) =>
               props.changeView(
                 new Date(props.currentDate.getFullYear(), index, 1)
               )
