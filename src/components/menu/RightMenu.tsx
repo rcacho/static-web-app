@@ -1,8 +1,9 @@
 import { ClickAwayListener, Popper, Stack } from '@mui/material'
 import React from 'react'
 import MainMenuItems from '@/components/menu/MainMenuItems'
-import AddEventRender from '@/components/menu/menuButtons/addEvent/AddEventRender'
+import AddEventRender from '@/components/menu/menuButtons/changeEvents/AddEventRender'
 import ChangeCategories from '@/components/menu/menuButtons/changeCategories/ChangeCategories'
+import ChangeDeleteEvent from '@/components/menu/menuButtons/changeEvents/ChangeDeleteEvent'
 
 const RightMenu = (props: any) => {
   // menu state to select which menu to show
@@ -36,6 +37,8 @@ const RightMenu = (props: any) => {
             <MainMenuItems updateState={props.updateState} />
           ) : props.menuState === 1 ? (
             <AddEventRender updateState={props.updateState} />
+          ) : props.menuState === 1.5 ? (
+            <ChangeDeleteEvent updateState={props.updateState} />
           ) : props.menuState === 2 ? (
             <ChangeCategories updateState={props.updateState} />
           ) : null}

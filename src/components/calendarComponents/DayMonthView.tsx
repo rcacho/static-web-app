@@ -5,6 +5,10 @@ import { CalendarProps } from '../Calendar'
 
 const DayMonthView = (props: CalendarProps) => {
   let day: number = props.getFirstDayOfMonth(props.currentDate) - 1
+  const handleDayClick = () => {
+    props.handleDayClickBar()
+  }
+
   return (
     <Grid
       container
@@ -33,7 +37,11 @@ const DayMonthView = (props: CalendarProps) => {
             {index < 7 ? props.daysOfWeek[index] : ''}
             {index < 7 ? <br /> : ''}
 
-            <Button size="large" style={{ fontSize: '28px', color: 'black' }}>
+            <Button
+              onClick={handleDayClick}
+              size="large"
+              style={{ fontSize: '28px', color: 'black' }}
+            >
               {index - day > 0 &&
               index - day <= props.getNumDaysInMonth(props.currentDate)
                 ? index - day

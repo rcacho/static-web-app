@@ -11,6 +11,7 @@ export interface CalendarProps {
   daysOfWeek: string[]
   changeView: (date: Date) => void
   month: number
+  handleDayClickBar: Function
 }
 
 const Calendar = (props: CalendarProps) => {

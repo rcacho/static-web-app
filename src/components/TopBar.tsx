@@ -95,7 +95,10 @@ function TopBar(this: any, props: any) {
               ''
             ) : (
               <Button
-                onClick={() => props.changeView()}
+                onClick={() => {
+                  props.changeView()
+                  props.handleDayClickBar(0)
+                }}
                 style={{ fontSize: '24px', color: 'black' }}
               >
                 Year View
@@ -108,7 +111,7 @@ function TopBar(this: any, props: any) {
           <Badge variant="dot" badgeContent={2} color="error">
             <NotificationsIcon color="action" />
           </Badge>
-          <RightMenuButton />
+          <RightMenuButton dayClickBar={props.dayClickBar} />
         </Stack>
       </StyledTopBar>
     </AppBar>

@@ -10,6 +10,10 @@ function GenerateMonth(props: CalendarProps) {
   const currentYear = props.currentDate.getFullYear()
   // props.month is an index number 0-11, this
   const tempDate = new Date(currentYear, props.month, 1)
+  const handleDayClick = () => {
+    props.handleDayClickBar()
+  }
+
   const day: number = props.getFirstDayOfMonth(tempDate) - 1
   return (
     <Grid
@@ -40,7 +44,11 @@ function GenerateMonth(props: CalendarProps) {
               {index < 7 ? smallDays[index] : ''}
               {index < 7 ? <br /> : ''}
 
-              <Button size="small" style={{ fontSize: '100%', color: 'black' }}>
+              <Button
+                onClick={handleDayClick}
+                size="small"
+                style={{ fontSize: '100%', color: 'black' }}
+              >
                 {index - day > 0 &&
                 index - day <= props.getNumDaysInMonth(tempDate)
                   ? index - day
@@ -86,11 +94,12 @@ const DayYearView = (props: CalendarProps) => {
         <Grid xs={1} border={0}>
           <Button
             style={{ color: 'black', fontSize: '80%' }}
-            onClick={(_) =>
+            onClick={(_) => {
               props.changeView(
                 new Date(props.currentDate.getFullYear(), index, 1)
               )
-            }
+              props.handleDayClickBar(0)
+            }}
           >
             {months[index]}
           </Button>
