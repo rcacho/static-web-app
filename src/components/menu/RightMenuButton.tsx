@@ -31,6 +31,7 @@ const RightMenuButton = (props: any) => {
         onClickAway={() => handleClick(false)}
         updateState={updateState}
         menuState={menuState}
+        clickedDate={props.clickedDate}
       />
       <Backdrop
         sx={{

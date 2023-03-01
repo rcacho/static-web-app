@@ -19,6 +19,7 @@ export default function Home(this: any) {
   // const [selectedDate, setSelectedDate] = useState(new Date()); // to highlight a selected date, maybe not needed
   const [yearView, setYearView] = useState(false) // to determine which view
   const [dayClickBar, setDayClickBar] = useState(0)
+  const [clickedDate, setClickedDate] = useState(null)
 
   // to help print things
 
@@ -30,8 +31,10 @@ export default function Home(this: any) {
     }
   }
 
-  function handleDayClickBar(num: any) {
+  function handleDayClickBar(num: any, date: any) {
     num === 0 ? setDayClickBar(0) : setDayClickBar((bar) => bar + 1)
+    setClickedDate(date)
+    console.log('cliiik', date)
   }
 
   // following/previous month/year depending on view
@@ -90,6 +93,7 @@ export default function Home(this: any) {
             changeView={changeView}
             dayClickBar={dayClickBar}
             handleDayClickBar={handleDayClickBar}
+            clickedDate={clickedDate}
           />
 
           <Stack

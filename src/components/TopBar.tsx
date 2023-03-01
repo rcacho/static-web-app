@@ -111,7 +111,10 @@ function TopBar(this: any, props: any) {
           <Badge variant="dot" badgeContent={2} color="error">
             <NotificationsIcon color="action" />
           </Badge>
-          <RightMenuButton dayClickBar={props.dayClickBar} />
+          <RightMenuButton
+            clickedDate={props.clickedDate}
+            dayClickBar={props.dayClickBar}
+          />
         </Stack>
       </StyledTopBar>
     </AppBar>

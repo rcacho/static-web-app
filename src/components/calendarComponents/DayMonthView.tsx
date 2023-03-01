@@ -5,8 +5,28 @@ import { CalendarProps } from '../Calendar'
 
 const DayMonthView = (props: CalendarProps) => {
   let day: number = props.getFirstDayOfMonth(props.currentDate) - 1
-  const handleDayClick = () => {
-    props.handleDayClickBar()
+  const handleDayClick = (index: any, day: any) => {
+    props.handleDayClickBar(1, formatDate(props.currentDate, day))
+    console.log(index)
+  }
+
+  function formatDate(date: Date, day: any): String {
+    let mm = date.getMonth() + 1 //January is 0!
+    let finalDate = ''
+    const yyyy = date.getFullYear()
+    if (mm < 10) {
+      finalDate += '0' + mm
+    } else {
+      finalDate += mm
+    }
+    if (day < 10) {
+      finalDate += '-' + '0' + day
+    } else {
+      finalDate += '-' + day
+    }
+
+    finalDate += '-' + yyyy
+    return finalDate.toString()
   }
 
   return (
@@ -38,7 +58,7 @@ const DayMonthView = (props: CalendarProps) => {
             {index < 7 ? <br /> : ''}
 
             <Button
-              onClick={handleDayClick}
+              onClick={() => handleDayClick(index, index - day)}
               size="large"
               style={{ fontSize: '28px', color: 'black' }}
             >

@@ -4,7 +4,6 @@ import {
   ListItemText,
   ListItemButton,
   ThemeProvider,
-  TextField,
   Button,
   Typography,
   Box
@@ -20,6 +19,8 @@ const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
   const [selected, setSelected] = useState(null)
+
+  // format date
 
   // render list for the scroll function
   function renderList(props: ListChildComponentProps) {
@@ -37,7 +38,7 @@ const ChangeDeleteEvent = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`Item ${EventList[index]}`} />
+          <ListItemText primary={`Event ${EventList[index]}`} />
         </ListItemButton>
       </ListItem>
     )
@@ -74,7 +75,10 @@ const ChangeDeleteEvent = (props: any) => {
           </Box>
         </ListItem>
         <ListItem>
-          <ListItemText primary="Please select category:" />
+          <ListItemText primary={`Selected date: ${props.clickedDate}`} />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Please select event:" />
         </ListItem>
         <FixedSizeList
           height={200}
@@ -85,37 +89,8 @@ const ChangeDeleteEvent = (props: any) => {
         >
           {renderList}
         </FixedSizeList>
-
-        <ListItem>
-          <ListItemText primary="Please enter date:" />
-        </ListItem>
-        <ListItem sx={{ pl: 5, pt: 0 }}>
-          <TextField
-            id="standard-basic"
-            variant="standard"
-            label="Event Date"
-            type="date"
-            sx={{ width: 220, color: '#898989' }}
-            InputLabelProps={{
-              shrink: true
-            }}
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Event description:" />
-        </ListItem>
-        <ListItem sx={{ pl: 5, pt: 0 }}>
-          <TextField
-            multiline={true}
-            maxRows={4}
-            id="standard-basic"
-            label="(Optional)"
-            sx={{ color: '#898989' }}
-            variant="standard"
-          />
-        </ListItem>
       </List>
-      <List className="bottom-buttons" disablePadding={true}>
+      <List className="bottom-buttons-cat" disablePadding={true}>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className="menu-button"
@@ -123,7 +98,27 @@ const ChangeDeleteEvent = (props: any) => {
             variant="contained"
             color="primary"
           >
-            Add Event
+            Add New Event
+          </Button>
+        </ListItem>
+        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+          <Button
+            className="menu-button"
+            size="medium"
+            variant="contained"
+            color="primary"
+          >
+            Edit Event
+          </Button>
+        </ListItem>
+        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+          <Button
+            className="menu-button"
+            size="medium"
+            variant="contained"
+            color="primary"
+          >
+            Delete Event
           </Button>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
