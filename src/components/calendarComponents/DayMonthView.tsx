@@ -10,6 +10,7 @@ const DayMonthView = (props: CalendarProps) => {
     console.log(index)
   }
 
+  // function to format date
   function formatDate(date: Date, day: any): String {
     let mm = date.getMonth() + 1 //January is 0!
     let finalDate = ''

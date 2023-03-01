@@ -127,6 +127,7 @@ const ChangeDeleteEvent = (props: any) => {
             size="medium"
             variant="contained"
             color="primary"
+            onClick={handleBackClick}
           >
             Cancel
           </Button>
