@@ -10,7 +10,10 @@ type Alert = {
     action: String,
 }
 
-const AlertContext = React.createContext({});
+const defaultColour = 'rgb(137,137,137)';
+const fontColour = 'rgb(90,90,90)'
+
+const AlertContext = React.createContext<[Alert[], React.Dispatch<any>]>([[], () => []]);
 
 const AlertArea = () => {
     const [alerts, setAlerts] = useState<Alert[]>([]);
@@ -23,7 +26,7 @@ const AlertArea = () => {
 
 const AlertButton = () => {
     const [alerts, setAlerts] = React.useContext(AlertContext);
-    const apiPath = "/api/hello" // @TODO: Placeholder
+    const apiPath = "/api/time" // @TODO: Placeholder
 
     useEffect(() => {
         fetch(apiPath)
@@ -58,15 +61,22 @@ const AlertButton = () => {
 }
 
 const AlertPanel = (props: any) => {
-    const [alerts, setAlerts] = React.useContext(AlertContext);
+    const [alerts] = React.useContext(AlertContext);
+    const noAlerts = alerts.length == 0;
     const alertPanelStyle = {
         bgcolor: "white",
         color: "black",
         marginTop: '20px',
         paddingTop: '10px',
         height: "calc(100vh - 64px)",
-        width: 300,
+        width: 400,
         boxShadow: "0 0 5px #ccc",
+    }
+
+    const renderContent = () => {
+        return noAlerts
+            ? <Typography color={fontColour} align='center'>No alerts at this time.</Typography>
+            : renderAlerts()
     }
 
     const renderAlerts = () => {
@@ -78,10 +88,10 @@ const AlertPanel = (props: any) => {
     }
 
     return (
-        <Popper open={Boolean(props.panelAnchor)} anchorEl={props.panelAnchor}>
+        <Popper open={Boolean(props.panelAnchor)} anchorEl={props.panelAnchor} sx={{bgcolor: 'white'}}>
             <ClickAwayListener onClickAway={props.onClickAway}>
                 <Stack style={alertPanelStyle}>
-                    {renderAlerts()}
+                    {renderContent()}
                 </Stack>
             </ClickAwayListener>
         </Popper>
@@ -90,9 +100,9 @@ const AlertPanel = (props: any) => {
 
 const AlertItem = (props: any) => {
     const [alerts, setAlerts] = React.useContext(AlertContext);
-    const defaultColour = 'rgb(137,137,137)';
+
     const alertItemStyle = {
-        minHeight: '50px',
+        minHeight: '60px',
         borderStyle: 'solid',
         borderWidth: '1px 0px',
         borderColor: defaultColour,
@@ -111,8 +121,8 @@ const AlertItem = (props: any) => {
     }
 
     return (
-        <Stack direction="row" alignItems="center" spacing={"5px"} style={alertItemStyle}>
-            <Typography color={defaultColour}>
+        <Stack direction="row" alignItems="center" spacing={"5px"} justifyContent='space-between' style={alertItemStyle}>
+            <Typography color={fontColour}>
                 {`${props.alert.admin} ${props.alert.action} `}
                 <strong>{props.alert.name}</strong>
                 {` on ${props.alert.date.toDateString().substring(4)}`}

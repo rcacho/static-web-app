@@ -6,7 +6,11 @@
     "dev": "next dev",
     "build": "next build  && rm -rf ./.next/cache",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "check-ts": "tsc --noEmit --skipLibCheck --noUnusedLocals --noUnusedParameters",
+    "check-console": "yarn get-diff | egrep '^.[[[:digit:]]+m\\+' | grep 'console.log\\|console.time\\|console.timeEnd' && exit 1 || exit 0",
+    "check-prettier": "yarn prettier --config .prettierrc --check 'src/**/*.ts*'",
+    "check-all": "yarn check-ts && yarn check-console && yarn check-prettier"
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
@@ -18,13 +22,17 @@
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "dotenv": "^16.0.3",
-    "eslint": "8.33.0",
-    "eslint-config-next": "13.1.6",
     "mui": "^0.0.1",
     "next": "13.1.6",
     "next-auth": "^4.19.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-window": "^1.8.8",
     "typescript": "4.9.5"
+  },
+  "devDependencies": {
+    "eslint": "8.33.0",
+    "eslint-config-next": "13.1.6",
+    "prettier": "^2.8.4"
   }
 }

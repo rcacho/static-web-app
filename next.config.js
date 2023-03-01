@@ -10,8 +10,7 @@ module.exports = {
     AUTH_TENANT_NAME: process.env.AUTH_TENANT_NAME,
     AUTH_TENANT_GUID: process.env.AUTH_TENANT_GUID,
     JWT_SECRET: process.env.JWT_SECRET,
-    USER_FLOW: process.env.USER_FLOW,
+    USER_FLOW: process.env.USER_FLOW
   },
   reactStrictMode: true
 }
-
