@@ -5,7 +5,9 @@ import {
   ListItemButton,
   ThemeProvider,
   TextField,
-  Button
+  Button,
+  Typography,
+  Box
 } from '@mui/material'
 import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
@@ -16,7 +18,7 @@ import { FixedSizeList, ListChildComponentProps } from 'react-window'
 const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 
 // @ts-ignore
-const AddEventRender = () => {
+const AddEventRender = (props: any) => {
   const [selected, setSelected] = useState(null)
 
   // render list for the scroll function
@@ -41,6 +43,10 @@ const AddEventRender = () => {
     )
   }
 
+  const handleBackClick = () => {
+    props.updateState(0)
+  }
+
   return (
     <ThemeProvider theme={MuiTheme}>
       <List>
@@ -49,6 +55,23 @@ const AddEventRender = () => {
             sx={{ color: '#898989', textDecoration: 'underline' }}
             secondary="Add Event"
           />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              color: '#898989',
+              textDecoration: 'underline',
+              fontFamily: 'Roboto'
+            }}
+          >
+            <Typography
+              onClick={handleBackClick}
+              variant="body2"
+              color="#898989"
+            >
+              Back
+            </Typography>
+          </Box>
         </ListItem>
         <ListItem>
           <ListItemText primary="Please select category:" />
