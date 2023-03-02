@@ -28,6 +28,28 @@ function TopBar(this: any, props: any) {
     'December'
   ]
 
+  // following/previous month/year depending on view
+  // yearView is true (shows the year) by default
+  function getFollowing() {
+    props.yearView
+      ? props.setDate(
+          new Date(props.currentDate.getFullYear() + 1, props.currentDate.getMonth(), 1)
+        )
+      : props.setDate(
+          new Date(props.currentDate.getFullYear(), props.currentDate.getMonth() + 1, 1)
+        )
+  }
+
+  function getPrevious() {
+    props.yearView
+      ? props.setDate(
+          new Date(props.currentDate.getFullYear() - 1, props.currentDate.getMonth(), 1)
+        )
+      : props.setDate(
+          new Date(props.currentDate.getFullYear(), props.currentDate.getMonth() - 1, 1)
+        )
+  }
+
   return (
     // <Box bgcolor="white" sx={{ height: 70 }}>
     <AppBar position="sticky">
@@ -68,7 +90,7 @@ function TopBar(this: any, props: any) {
               <Button
                 size="small"
                 color="info"
-                onClick={() => props.previous()}
+                onClick={() => getPrevious()}
                 style={{ fontSize: '32px', color: 'black' }}
               >
                 &lt;
@@ -83,7 +105,7 @@ function TopBar(this: any, props: any) {
               <Button
                 size="small"
                 color="info"
-                onClick={() => props.following()}
+                onClick={() => getFollowing()}
                 style={{ fontSize: '32px', color: 'black' }}
               >
                 &gt;

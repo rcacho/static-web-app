@@ -6,9 +6,7 @@ import { useState } from 'react'
 import TopBar from '@/components/TopBar'
 import { Box, Stack, Divider } from '@mui/material/'
 import Legend from '@/components/Legend'
-import Calendar from '@/components/Calendar'
-
-const daysOfWeek = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT']
+import Calendar from '@/components/calendar/Calendar'
 
 export default function Home(this: any) {
   // const [menuOpen, setMenuOpen] = useState(false);
@@ -37,41 +35,6 @@ export default function Home(this: any) {
     console.log('cliiik', date)
   }
 
-  // following/previous month/year depending on view
-  // yearView is true (shows the year) by default
-  function getFollowing() {
-    yearView
-      ? setDate(
-          new Date(currentDate.getFullYear() + 1, currentDate.getMonth(), 1)
-        )
-      : setDate(
-          new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1)
-        )
-  }
-
-  function getPrevious() {
-    yearView
-      ? setDate(
-          new Date(currentDate.getFullYear() - 1, currentDate.getMonth(), 1)
-        )
-      : setDate(
-          new Date(currentDate.getFullYear(), currentDate.getMonth() - 1, 1)
-        )
-  }
-
-  function getFirstDayOfMonth(date: Date) {
-    // 0 - 6 for sun - mon
-    return new Date(date.getFullYear(), date.getMonth(), 1).getDay()
-  }
-
-  function getDaysInMonth(date: Date) {
-    // 0 in date param will get the highest date aka days in a month
-    // but for some reason the months param goes from 1-12
-    // and the getMonth() returns 0-11????
-    // so inconsistent >:(
-    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate()
-  }
-
   return (
     <ThemeProvider theme={MuiTheme}>
       <Head>
@@ -86,9 +49,8 @@ export default function Home(this: any) {
           flexDirection="column"
         >
           <TopBar
-            following={getFollowing}
-            previous={getPrevious}
             currentDate={currentDate}
+            setDate={setDate}
             yearView={yearView}
             changeView={changeView}
             dayClickBar={dayClickBar}
@@ -106,9 +68,6 @@ export default function Home(this: any) {
           >
             <Legend></Legend>
             <Calendar
-              getFirstDayOfMonth={getFirstDayOfMonth}
-              getNumDaysInMonth={getDaysInMonth}
-              daysOfWeek={daysOfWeek}
               currentDate={currentDate}
               isYearView={yearView}
               changeView={changeView}
