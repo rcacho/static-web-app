@@ -4,11 +4,15 @@ import MainMenuItems from '@/components/menu/MainMenuItems'
 import AddEventRender from './menuButtons/addEvent/AddEventRender'
 import ChangeCategories from '@/components/menu/menuButtons/changeCategories/ChangeCategories'
 import ChangeDeleteEvent from '@/components/menu/menuButtons/changeEvents/ChangeDeleteEvent'
+import EditEvent from '@/components/menu/menuButtons/changeEvents/EditEvent'
 
 const RightMenu = (props: any) => {
   // menu state to select which menu to show
   // 0 is initial menu
   // 1 is add event
+  // 1.5 is change event
+  // 1.6 is edit event
+  // 2 is change categories
 
   const alertPanelStyle = {
     bgcolor: 'white',
@@ -48,6 +52,11 @@ const RightMenu = (props: any) => {
             <AddEventRender updateState={props.updateState} />
           ) : props.menuState === 1.5 ? (
             <ChangeDeleteEvent
+              clickedDate={props.clickedDate}
+              updateState={props.updateState}
+            />
+          ) : props.menuState === 1.6 ? (
+            <EditEvent
               clickedDate={props.clickedDate}
               updateState={props.updateState}
             />
