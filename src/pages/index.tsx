@@ -1,3 +1,5 @@
+import { ThemeProvider } from '@mui/material'
+import MuiTheme from '@/styles/MuiTheme'
 import Head from 'next/head'
 import * as React from 'react'
 import { useState } from 'react'
@@ -20,8 +22,11 @@ export default function Home(this: any) {
   // to help print things
 
   // helper functions/the like state setter whatevers
-  function changeView() {
+  function changeView(date: Date) {
     setYearView(!yearView)
+    if (yearView) {
+      setDate(new Date(date.getFullYear(), date.getMonth(), 1))
+    }
   }
 
   // following/previous month/year depending on view
@@ -60,7 +65,7 @@ export default function Home(this: any) {
   }
 
   return (
-    <>
+    <ThemeProvider theme={MuiTheme}>
       <Head>
         <></>
       </Head>
@@ -90,11 +95,13 @@ export default function Home(this: any) {
               daysOfWeek={daysOfWeek}
               currentDate={currentDate}
               isYearView={yearView}
+              changeView={changeView}
+              month={0}
             />
           </Stack>
         </Box>
         {/* </Stack> */}
       </main>
-    </>
+    </ThemeProvider>
   )
 }
