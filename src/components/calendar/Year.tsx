@@ -10,21 +10,26 @@ interface YearProps {
 	handleDayClickBar: Function
 }
 
+const months = [
+	'January',
+	'February',
+	'March',
+	'April',
+	'May',
+	'June',
+	'July',
+	'August',
+	'September',
+	'October',
+	'November',
+	'December'
+]
+
 const Year = (props: YearProps) => {
-	const months = [
-		'January',
-		'February',
-		'March',
-		'April',
-		'May',
-		'June',
-		'July',
-		'August',
-		'September',
-		'October',
-		'November',
-		'December'
-	]
+	const handleMonthButtonClick = (monthNumber: number) => {
+		props.changeView(new Date(props.currentDate.getFullYear(), monthNumber, 1))
+		props.handleDayClickBar(0)
+	}
 
 	const renderMonths = () => {
 		const renderedMonths = []
@@ -40,16 +45,7 @@ const Year = (props: YearProps) => {
 
 		return (
 			<Grid xs={4} sm={2} lg={1} border={0}>
-				<Button
-					style={{ color: 'black', fontSize: '80%' }}
-					onClick={(_) => {
-							props.changeView(new Date(props.currentDate.getFullYear(), monthNumber, 1))
-							props.handleDayClickBar(0)
-						}}
-					>
-					{month}
-				</Button>
-
+				<MonthButton month={month} handleClick={handleMonthButtonClick}/>
 				<Month daysOfWeek={daysOfWeek}
 					currentDate={new Date(props.currentDate.getFullYear(), monthNumber, 1)}
 					isMonthView={false}
@@ -71,6 +67,23 @@ const Year = (props: YearProps) => {
       	{renderMonths()}
     </Grid>
   )
+}
+
+interface MBProps {
+	month: string
+	handleClick: any
+}
+
+const MonthButton = ({month, handleClick}: MBProps) => {
+	const monthNumber = months.indexOf(month);
+	return (
+		<Button
+			style={{ color: 'black', fontSize: '80%' }}
+			onClick={() => handleClick(monthNumber)}
+			>
+			{month}
+		</Button>
+	)
 }
 
 export default Year
