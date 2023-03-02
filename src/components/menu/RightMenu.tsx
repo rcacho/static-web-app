@@ -18,7 +18,7 @@ const RightMenu = (props: any) => {
     height: 'calc(100vh - 64px)',
     width: 300,
     boxShadow: '0 0 5px #ccc',
-    overflow: 'hidden',
+    overflow: 'hidden'
   }
 
   const handleClickAway = () => {
@@ -26,38 +26,37 @@ const RightMenu = (props: any) => {
   }
 
   return (
-        <Popper
-          open={Boolean(props.panelAnchor)}
-          anchorEl={props.panelAnchor}
-          sx={{ bgcolor: 'white', zIndex: (theme) => theme.zIndex.drawer + 2 }}
-          modifiers={[
-            {
-              name: "offset",
-              options: {
-                offset: [-114],
-              }
-            }
-          ]}
-        >
-          <ClickAwayListener onClickAway={handleClickAway}>
-            <Stack style={alertPanelStyle}>
-              {/*Render the menu bar items here*/}
-              {
-              props.menuState === 0 ? (
-                <MainMenuItems updateState={props.updateState} />
-              ) : props.menuState === 1 ? (
-                <AddEventRender updateState={props.updateState} />
-              ) : props.menuState === 1.5 ? (
-                <ChangeDeleteEvent
-                  clickedDate={props.clickedDate}
-                  updateState={props.updateState}
-                />
-              ) : props.menuState === 2 ? (
-                <ChangeCategories updateState={props.updateState} />
-              ) : null}
-            </Stack>
-          </ClickAwayListener>
-        </Popper>
+    <Popper
+      open={Boolean(props.panelAnchor)}
+      anchorEl={props.panelAnchor}
+      sx={{ bgcolor: 'white', zIndex: (theme) => theme.zIndex.drawer + 2 }}
+      modifiers={[
+        {
+          name: 'offset',
+          options: {
+            offset: [-114]
+          }
+        }
+      ]}
+    >
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <Stack style={alertPanelStyle}>
+          {/*Render the menu bar items here*/}
+          {props.menuState === 0 ? (
+            <MainMenuItems updateState={props.updateState} />
+          ) : props.menuState === 1 ? (
+            <AddEventRender updateState={props.updateState} />
+          ) : props.menuState === 1.5 ? (
+            <ChangeDeleteEvent
+              clickedDate={props.clickedDate}
+              updateState={props.updateState}
+            />
+          ) : props.menuState === 2 ? (
+            <ChangeCategories updateState={props.updateState} />
+          ) : null}
+        </Stack>
+      </ClickAwayListener>
+    </Popper>
   )
 }
 

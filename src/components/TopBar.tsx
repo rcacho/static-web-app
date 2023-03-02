@@ -33,20 +33,36 @@ function TopBar(this: any, props: any) {
   function getFollowing() {
     props.yearView
       ? props.setDate(
-          new Date(props.currentDate.getFullYear() + 1, props.currentDate.getMonth(), 1)
+          new Date(
+            props.currentDate.getFullYear() + 1,
+            props.currentDate.getMonth(),
+            1
+          )
         )
       : props.setDate(
-          new Date(props.currentDate.getFullYear(), props.currentDate.getMonth() + 1, 1)
+          new Date(
+            props.currentDate.getFullYear(),
+            props.currentDate.getMonth() + 1,
+            1
+          )
         )
   }
 
   function getPrevious() {
     props.yearView
       ? props.setDate(
-          new Date(props.currentDate.getFullYear() - 1, props.currentDate.getMonth(), 1)
+          new Date(
+            props.currentDate.getFullYear() - 1,
+            props.currentDate.getMonth(),
+            1
+          )
         )
       : props.setDate(
-          new Date(props.currentDate.getFullYear(), props.currentDate.getMonth() - 1, 1)
+          new Date(
+            props.currentDate.getFullYear(),
+            props.currentDate.getMonth() - 1,
+            1
+          )
         )
   }
 
