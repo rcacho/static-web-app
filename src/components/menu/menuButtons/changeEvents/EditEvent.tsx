@@ -4,6 +4,7 @@ import {
   ListItemText,
   ListItemButton,
   ThemeProvider,
+  TextField,
   Button,
   Typography,
   Box
@@ -17,10 +18,8 @@ import { FixedSizeList, ListChildComponentProps } from 'react-window'
 const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 
 // @ts-ignore
-const ChangeDeleteEvent = (props: any) => {
+const EditEvent = (props: any) => {
   const [selected, setSelected] = useState(null)
-
-  // format date
 
   // render list for the scroll function
   function renderList(props: ListChildComponentProps) {
@@ -38,7 +37,7 @@ const ChangeDeleteEvent = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`Event ${EventList[index]}`} />
+          <ListItemText primary={`Item ${EventList[index]}`} />
         </ListItemButton>
       </ListItem>
     )
@@ -54,7 +53,7 @@ const ChangeDeleteEvent = (props: any) => {
         <ListItem>
           <ListItemText
             sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Change / Delete Event"
+            secondary="Edit Event"
           />
           <Box
             sx={{
@@ -75,10 +74,7 @@ const ChangeDeleteEvent = (props: any) => {
           </Box>
         </ListItem>
         <ListItem>
-          <ListItemText primary={`Selected date: ${props.clickedDate}`} />
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Please select event:" />
+          <ListItemText primary="Please select category:" />
         </ListItem>
         <FixedSizeList
           height={200}
@@ -89,33 +85,45 @@ const ChangeDeleteEvent = (props: any) => {
         >
           {renderList}
         </FixedSizeList>
+
+        <ListItem>
+          <ListItemText primary="Please enter date:" />
+        </ListItem>
+        <ListItem sx={{ pl: 5, pt: 0 }}>
+          <TextField
+            id="standard-basic"
+            variant="standard"
+            label="Event Date"
+            type="date"
+            sx={{ width: 220, color: '#898989' }}
+            InputLabelProps={{
+              shrink: true
+            }}
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Event description:" />
+        </ListItem>
+        <ListItem sx={{ pl: 5, pt: 0 }}>
+          <TextField
+            multiline={true}
+            maxRows={4}
+            id="standard-basic"
+            label="(Optional)"
+            sx={{ color: '#898989' }}
+            variant="standard"
+          />
+        </ListItem>
       </List>
-      <List className="bottom-buttons-cat" disablePadding={true}>
+      <List className="bottom-buttons" disablePadding={true}>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className="menu-button"
             size="medium"
             variant="contained"
             color="primary"
-            onClick={() => {
-              props.updateState(1)
-            }}
           >
-            Add New Event
-          </Button>
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          {/*TODO: make this grey out unless an event is clicked & pass clicked event to parent*/}
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.updateState(1.6)
-            }}
-          >
-            Edit Event
+            Save Changes
           </Button>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
@@ -124,17 +132,6 @@ const ChangeDeleteEvent = (props: any) => {
             size="medium"
             variant="contained"
             color="primary"
-          >
-            Delete Event
-          </Button>
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={handleBackClick}
           >
             Cancel
           </Button>
@@ -144,4 +141,4 @@ const ChangeDeleteEvent = (props: any) => {
   )
 }
 
-export default ChangeDeleteEvent
+export default EditEvent
