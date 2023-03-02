@@ -1,7 +1,7 @@
 import { ClickAwayListener, Popper, Stack } from '@mui/material'
 import React from 'react'
 import MainMenuItems from '@/components/menu/MainMenuItems'
-import AddEventRender from './menuButtons/addEvent/AddEventRender'
+import AddEventRender from './menuButtons/changeEvents/AddEventRender'
 import ChangeCategories from '@/components/menu/menuButtons/changeCategories/ChangeCategories'
 import ChangeDeleteEvent from '@/components/menu/menuButtons/changeEvents/ChangeDeleteEvent'
 import EditEvent from '@/components/menu/menuButtons/changeEvents/EditEvent'
