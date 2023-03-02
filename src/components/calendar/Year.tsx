@@ -1,6 +1,5 @@
 import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
-import { CalendarProps } from './Calendar'
 import { Button } from '@mui/material'
 import Month from './Month'
 

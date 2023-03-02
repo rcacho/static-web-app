@@ -1,7 +1,5 @@
 import React from 'react'
-import { Typography, Button } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { CalendarProps } from './Calendar'
 import Day from './Day'
 
 const noValue = ''
