@@ -4,9 +4,10 @@ import {
   ListItemText,
   ListItemButton,
   ThemeProvider,
+  TextField,
   Button,
-  Box,
-  Typography
+  Typography,
+  Box
 } from '@mui/material'
 import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
@@ -16,7 +17,8 @@ import { FixedSizeList, ListChildComponentProps } from 'react-window'
 // placeholder for the list of categories
 const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 
-const ChangeCategories = (props: any) => {
+// @ts-ignore
+const EditEvent = (props: any) => {
   const [selected, setSelected] = useState(null)
 
   // render list for the scroll function
@@ -41,19 +43,18 @@ const ChangeCategories = (props: any) => {
     )
   }
 
-  //function to handle Back button
   const handleBackClick = () => {
     props.updateState(0)
   }
 
   return (
     <ThemeProvider theme={MuiTheme}>
-      <List disablePadding={true}>
+      <List>
         <ListItem>
           <ListItemText
             sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Change Categories"
-          />{' '}
+            secondary="Edit Event"
+          />
           <Box
             sx={{
               display: 'flex',
@@ -76,7 +77,7 @@ const ChangeCategories = (props: any) => {
           <ListItemText primary="Please select category:" />
         </ListItem>
         <FixedSizeList
-          height={350}
+          height={200}
           width={360}
           itemSize={38}
           itemCount={EventList.length}
@@ -84,42 +85,51 @@ const ChangeCategories = (props: any) => {
         >
           {renderList}
         </FixedSizeList>
+
+        <ListItem>
+          <ListItemText primary="Please enter date:" />
+        </ListItem>
+        <ListItem sx={{ pl: 5, pt: 0 }}>
+          <TextField
+            id="standard-basic"
+            variant="standard"
+            label="Event Date"
+            type="date"
+            sx={{ width: 220, color: '#898989' }}
+            InputLabelProps={{
+              shrink: true
+            }}
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Event description:" />
+        </ListItem>
+        <ListItem sx={{ pl: 5, pt: 0 }}>
+          <TextField
+            multiline={true}
+            maxRows={4}
+            id="standard-basic"
+            label="(Optional)"
+            sx={{ color: '#898989' }}
+            variant="standard"
+          />
+        </ListItem>
       </List>
-      <List className="bottom-buttons-cat" disablePadding={true}>
+      <List className="bottom-buttons" disablePadding={true}>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className="menu-button"
-            size="small"
+            size="medium"
             variant="contained"
             color="primary"
           >
-            Add New Category
+            Save Changes
           </Button>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className="menu-button"
-            size="small"
-            variant="contained"
-            color="primary"
-          >
-            Edit Category
-          </Button>
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="small"
-            variant="contained"
-            color="primary"
-          >
-            Delete Category
-          </Button>
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="small"
+            size="medium"
             variant="contained"
             color="primary"
           >
@@ -131,4 +141,4 @@ const ChangeCategories = (props: any) => {
   )
 }
 
-export default ChangeCategories
+export default EditEvent
