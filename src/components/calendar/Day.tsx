@@ -27,18 +27,20 @@ const Day = (props: DayProps) => {
   }
 
   const renderDate = () => {
-    return props.day == 0
-			? <></> 
-			: <Button
-					onClick={() => props.handleDayClick(props.day)}
-					size={isYearView ? 'small' : 'large'}
-					style={{
-						fontSize: isYearView ? '85%' : '28px',
-						color: '#4D4D4D'
-					}}
-				>
-					{props.day.toString()}
-				</Button>
+    return props.day == 0 ? (
+      <></>
+    ) : (
+      <Button
+        onClick={() => props.handleDayClick(props.day)}
+        size={isYearView ? 'small' : 'large'}
+        style={{
+          fontSize: isYearView ? '85%' : '28px',
+          color: '#4D4D4D'
+        }}
+      >
+        {props.day.toString()}
+      </Button>
+    )
   }
 
   return (
