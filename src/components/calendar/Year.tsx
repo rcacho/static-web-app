@@ -2,14 +2,9 @@ import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
 import { Button } from '@mui/material'
 import Month from './Month'
+import { useCalendarContext } from '@/store/CalendarContext'
 
-interface YearProps {
-  currentDate: Date
-  changeView: (date: Date) => void
-  handleDayClickBar: Function
-}
-
-const months = [
+export const months = [
   'January',
   'February',
   'March',
@@ -24,34 +19,32 @@ const months = [
   'December'
 ]
 
-const Year = (props: YearProps) => {
+const Year = () => {
+	const {currentDate, changeView, toggleBarOnDateClick} = useCalendarContext();
+
   const handleMonthButtonClick = (monthNumber: number) => {
-    props.changeView(new Date(props.currentDate.getFullYear(), monthNumber, 1))
-    props.handleDayClickBar(0)
+    changeView(new Date(currentDate.getFullYear(), monthNumber, 1));
+    toggleBarOnDateClick(0);
   }
 
   const renderMonths = () => {
-    const renderedMonths = []
+    const renderedMonths = [];
     for (const month of months) {
-      renderedMonths.push(renderMonth(month))
+      renderedMonths.push(renderMonth(month));
     }
-    return renderedMonths
+    return renderedMonths;
   }
 
   const renderMonth = (month: string) => {
-    const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
-    const monthNumber = months.indexOf(month)
+    const monthNumber = months.indexOf(month);
 
     return (
       <Grid xs={4} sm={2} lg={1} border={0}>
         <MonthButton month={month} handleClick={handleMonthButtonClick} />
         <Month
-          daysOfWeek={daysOfWeek}
           currentDate={
-            new Date(props.currentDate.getFullYear(), monthNumber, 1)
+            new Date(currentDate.getFullYear(), monthNumber, 1)
           }
-          isMonthView={false}
-          handleDayClickBar={props.handleDayClickBar}
         />
       </Grid>
     )
@@ -73,8 +66,8 @@ const Year = (props: YearProps) => {
 }
 
 interface MBProps {
-  month: string
-  handleClick: any
+  month: string;
+  handleClick: any;
 }
 
 const MonthButton = ({ month, handleClick }: MBProps) => {
@@ -89,4 +82,4 @@ const MonthButton = ({ month, handleClick }: MBProps) => {
   )
 }
 
-export default Year
+export default Year;

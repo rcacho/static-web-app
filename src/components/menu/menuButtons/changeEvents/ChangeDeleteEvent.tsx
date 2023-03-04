@@ -12,12 +12,14 @@ import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
+import { useCalendarContext } from '@/store/CalendarContext'
 
 // placeholder for the list of categories
 const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
+  const {selectedDate} = useCalendarContext();
   const [selected, setSelected] = useState(null)
 
   // format date
@@ -75,7 +77,7 @@ const ChangeDeleteEvent = (props: any) => {
           </Box>
         </ListItem>
         <ListItem>
-          <ListItemText primary={`Selected date: ${props.clickedDate}`} />
+          <ListItemText primary={`Selected date: ${selectedDate}`} />
         </ListItem>
         <ListItem>
           <ListItemText primary="Please select event:" />

@@ -2,8 +2,11 @@ import React, { useEffect, useRef, useState } from 'react'
 import MenuIcon from '@mui/icons-material/Menu'
 import RightMenu from './RightMenu'
 import { Backdrop } from '@mui/material'
+import { useCalendarContext } from '@/store/CalendarContext'
 
-const RightMenuButton = (props: any) => {
+const RightMenuButton = () => {
+  const {dayClickCount} = useCalendarContext();
+
   const [panelAnchor, setPanelAnchor] = useState<null | HTMLElement | any>(null)
   const [menuState, setMenuState] = useState(0)
   const [backDrop, setBackDrop] = useState(false)
@@ -20,8 +23,8 @@ const RightMenuButton = (props: any) => {
   }
 
   useEffect(() => {
-    if (props.dayClickBar > 0) handleClick(true)
-  }, [props.dayClickBar])
+    if (dayClickCount > 0) handleClick(true)
+  }, [dayClickCount])
 
   return (
     <div>
@@ -31,7 +34,6 @@ const RightMenuButton = (props: any) => {
         onClickAway={() => handleClick(false)}
         updateState={updateState}
         menuState={menuState}
-        clickedDate={props.clickedDate}
       />
       <Backdrop
         sx={{
