@@ -27,7 +27,7 @@ const Calendar = (props: CalendarProps) => {
       color="black"
       flex={1}
       sx={{ height: 'calc(100vh - 64px)' }}
-      border={1}
+      border={0}
     >
       {renderCalendar()}
     </Box>

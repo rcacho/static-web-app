@@ -106,7 +106,10 @@ function TopBar(this: any, props: any) {
               <Button
                 size="small"
                 color="info"
-                onClick={() => getPrevious()}
+                onClick={() => {
+                  getPrevious()
+                  props.handleDayClickBar(0)
+                }}
                 style={{ fontSize: '32px', color: 'black' }}
               >
                 &lt;
@@ -121,7 +124,10 @@ function TopBar(this: any, props: any) {
               <Button
                 size="small"
                 color="info"
-                onClick={() => getFollowing()}
+                onClick={() => {
+                  getFollowing()
+                  props.handleDayClickBar(0)
+                }}
                 style={{ fontSize: '32px', color: 'black' }}
               >
                 &gt;

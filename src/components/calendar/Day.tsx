@@ -37,8 +37,8 @@ const Day = (props: DayProps) => {
           onClick={() => props.handleDayClick(props.day)}
           size={props.isMonthView ? 'large' : 'small'}
           style={{
-            fontSize: props.isMonthView ? '28px' : '100%',
-            color: 'black'
+            fontSize: props.isMonthView ? '28px' : '85%',
+            color: '#4D4D4D'
           }}
         >
           {props.day.toString()}
