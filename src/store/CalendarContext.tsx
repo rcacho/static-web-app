@@ -16,29 +16,29 @@ interface CalendarStoreValue {
 }
 
 export const useCalendarContext = () => {
-  const calendarContext = React.useContext(CalendarContext)
+  const calendarContext = React.useContext(CalendarContext);
   if (calendarContext === undefined) {
     throw new Error('useCalendarContext must be called inside a CalendarStore')
   }
-  return calendarContext
+  return calendarContext;
 }
 
 const CalendarStore = ({ children }: any) => {
-  const [currentDate, setDate] = useState(new Date())
-  const [yearView, setYearView] = useState(false)
-  const [dayClickCount, setDayClickCount] = useState(0)
-  const [selectedDate, setSelectedDate] = useState<undefined | Date>(undefined)
+  const [currentDate, setDate] = useState(new Date());
+  const [yearView, setYearView] = useState(false);
+  const [dayClickCount, setDayClickCount] = useState(0);
+  const [selectedDate, setSelectedDate] = useState<undefined | Date>(undefined);
 
   const changeView = (date?: Date) => {
-    setYearView(!yearView)
+    setYearView(!yearView);
     if (yearView && date !== undefined) {
-      setDate(new Date(date.getFullYear(), date.getMonth(), 1))
+      setDate(new Date(date.getFullYear(), date.getMonth(), 1));
     }
   }
 
   const toggleBarOnDateClick = (num: number, date?: any) => {
-    num === 0 ? setDayClickCount(0) : setDayClickCount(dayClickCount + 1)
-    setSelectedDate(date)
+    num === 0 ? setDayClickCount(0) : setDayClickCount(dayClickCount + 1);
+    setSelectedDate(date);
   }
 
   const calendarStoreValues: CalendarStoreValue = {
