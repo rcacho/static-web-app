@@ -23,7 +23,7 @@ export default function Home(this: any) {
             display="flex"
             flexDirection="column"
           >
-            <TopBar />
+            <TopBar/>
             <Stack
               direction="row"
               className="mainS"
@@ -32,8 +32,8 @@ export default function Home(this: any) {
               spacing={0.1}
               alignItems="stretch"
             >
-              <Legend />
-              <Calendar />
+              <Legend/>
+              <Calendar/>
             </Stack>
           </Box>
         </CalendarStore>

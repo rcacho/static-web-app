@@ -58,4 +58,4 @@ const CalendarStore = ({ children }: any) => {
   )
 }
 
-export default CalendarStore
+export default CalendarStore;
