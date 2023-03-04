@@ -39,7 +39,7 @@ const Year = (props: YearProps) => {
   }
 
   const renderMonth = (month: string) => {
-    const daysOfWeek = ['Su', 'M', 'T', 'W', 'Th', 'F', 'S']
+    const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
     const monthNumber = months.indexOf(month)
 
     return (
