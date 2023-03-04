@@ -17,6 +17,7 @@ const TopBar = () => {
   return (
     <AppBar position="sticky">
       <StyledTopBar>
+        <MiniAELogo/>
         <Stack
           direction="row"
           sx={{
@@ -46,6 +47,26 @@ const TopBar = () => {
   )
 }
 
+const MiniAELogo = () => {
+  return (
+    <Stack
+      sx={{
+        display: { xs: 'block', sm: 'none' }
+      }}
+    >
+      <Stack
+        direction="row"
+        spacing={1}
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Image src="/img/logo.png" alt="logo" width="30" height="24" />
+        <Typography variant="h6">Calendar</Typography>
+      </Stack>
+    </Stack>
+  )
+}
+
 const AELogo = () => {
   return (
     <>
@@ -55,5 +76,4 @@ const AELogo = () => {
   )
 }
 
-
-export default TopBar
+export default TopBar;
