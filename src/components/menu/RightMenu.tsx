@@ -51,13 +51,9 @@ const RightMenu = (props: any) => {
           ) : props.menuState === 1 ? (
             <AddEventRender updateState={props.updateState} />
           ) : props.menuState === 1.5 ? (
-            <ChangeDeleteEvent
-              updateState={props.updateState}
-            />
+            <ChangeDeleteEvent updateState={props.updateState} />
           ) : props.menuState === 1.6 ? (
-            <EditEvent
-              updateState={props.updateState}
-            />
+            <EditEvent updateState={props.updateState} />
           ) : props.menuState === 2 ? (
             <ChangeCategories updateState={props.updateState} />
           ) : null}

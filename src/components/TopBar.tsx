@@ -17,7 +17,7 @@ const TopBar = () => {
   return (
     <AppBar position="sticky">
       <StyledTopBar>
-        <MiniAELogo/>
+        <MiniAELogo />
         <Stack
           direction="row"
           sx={{
@@ -31,8 +31,8 @@ const TopBar = () => {
             spacing={2}
             alignItems="center"
           >
-            <AELogo/>
-            <CalendarNavigator/>
+            <AELogo />
+            <CalendarNavigator />
           </Stack>
         </Stack>
 
@@ -40,7 +40,7 @@ const TopBar = () => {
           <Badge variant="dot" badgeContent={2} color="error">
             <NotificationsIcon color="action" />
           </Badge>
-          <RightMenuButton/>
+          <RightMenuButton />
         </Stack>
       </StyledTopBar>
     </AppBar>
@@ -76,4 +76,4 @@ const AELogo = () => {
   )
 }
 
-export default TopBar;
+export default TopBar

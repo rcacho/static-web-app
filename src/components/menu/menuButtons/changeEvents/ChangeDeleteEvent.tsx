@@ -19,7 +19,7 @@ const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
-  const {selectedDate} = useCalendarContext();
+  const { selectedDate } = useCalendarContext()
   const [selected, setSelected] = useState(null)
 
   // format date

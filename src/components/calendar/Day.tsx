@@ -1,53 +1,48 @@
 import React from 'react'
 import { Typography, Button } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
-import { useCalendarContext } from '@/store/CalendarContext';
+import { useCalendarContext } from '@/store/CalendarContext'
 
-export const noValue = '';
+export const noValue = ''
 
 interface DayProps {
-  index: any;
-  day: Number;
-  dayOfWeek: String;
-  handleDayClick: any;
+  key: any
+  day: Number
+  dayOfWeek: String
+  handleDayClick: any
 }
 
 const Day = (props: DayProps) => {
-	const {isYearView} = useCalendarContext();
+  const { isYearView } = useCalendarContext()
 
   const renderDayOfWeek = () => {
     if (props.dayOfWeek != noValue) {
       return (
         <>
           {props.dayOfWeek}
-          <br/>
+          <br />
         </>
       )
     }
   }
 
   const renderDate = () => {
-    if (props.day == 0) {
-      return '';
-    } else {
-      return (
-        <Button
-          onClick={() => props.handleDayClick(props.day)}
-          size={isYearView ? 'small' : 'large'}
-          style={{
-            fontSize: isYearView ? '85%' : '28px',
-            color: '#4D4D4D'
-          }}
-        >
-          {props.day.toString()}
-        </Button>
-      )
-    }
+    return props.day == 0
+			? <></> 
+			: <Button
+					onClick={() => props.handleDayClick(props.day)}
+					size={isYearView ? 'small' : 'large'}
+					style={{
+						fontSize: isYearView ? '85%' : '28px',
+						color: '#4D4D4D'
+					}}
+				>
+					{props.day.toString()}
+				</Button>
   }
 
   return (
     <Grid
-      key={props.index}
       sx={{ height: 'auto' }}
       xs={1}
       borderRight={isYearView ? 0 : 1}
@@ -64,4 +59,4 @@ const Day = (props: DayProps) => {
   )
 }
 
-export default Day;
+export default Day

@@ -20,31 +20,29 @@ export const months = [
 ]
 
 const Year = () => {
-	const {currentDate, changeView, toggleBarOnDateClick} = useCalendarContext();
+  const { currentDate, changeView, toggleBarOnDateClick } = useCalendarContext()
 
   const handleMonthButtonClick = (monthNumber: number) => {
-    changeView(new Date(currentDate.getFullYear(), monthNumber, 1));
-    toggleBarOnDateClick(0);
+    changeView(new Date(currentDate.getFullYear(), monthNumber, 1))
+    toggleBarOnDateClick(0)
   }
 
   const renderMonths = () => {
-    const renderedMonths = [];
+    const renderedMonths = []
     for (const month of months) {
-      renderedMonths.push(renderMonth(month));
+      renderedMonths.push(renderMonth(month))
     }
-    return renderedMonths;
+    return renderedMonths
   }
 
   const renderMonth = (month: string) => {
-    const monthNumber = months.indexOf(month);
+    const monthNumber = months.indexOf(month)
 
     return (
       <Grid xs={4} sm={2} lg={1} border={0}>
         <MonthButton month={month} handleClick={handleMonthButtonClick} />
         <Month
-          currentDate={
-            new Date(currentDate.getFullYear(), monthNumber, 1)
-          }
+          currentDate={new Date(currentDate.getFullYear(), monthNumber, 1)}
         />
       </Grid>
     )
@@ -66,8 +64,8 @@ const Year = () => {
 }
 
 interface MBProps {
-  month: string;
-  handleClick: any;
+  month: string
+  handleClick: any
 }
 
 const MonthButton = ({ month, handleClick }: MBProps) => {
@@ -82,4 +80,4 @@ const MonthButton = ({ month, handleClick }: MBProps) => {
   )
 }
 
-export default Year;
+export default Year

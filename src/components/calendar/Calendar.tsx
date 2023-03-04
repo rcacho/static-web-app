@@ -5,12 +5,10 @@ import Year from './Year'
 import { useCalendarContext } from '@/store/CalendarContext'
 
 const Calendar = () => {
-	const {isYearView, currentDate} = useCalendarContext();
+  const { isYearView, currentDate } = useCalendarContext()
 
   const renderCalendar = () => {
-    return isYearView 
-		? <Year/>
-		: <Month currentDate={currentDate}/>
+    return isYearView ? <Year /> : <Month currentDate={currentDate} />
   }
 
   return (

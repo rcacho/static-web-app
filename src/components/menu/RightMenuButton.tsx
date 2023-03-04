@@ -5,7 +5,7 @@ import { Backdrop } from '@mui/material'
 import { useCalendarContext } from '@/store/CalendarContext'
 
 const RightMenuButton = () => {
-  const {dayClickCount} = useCalendarContext();
+  const { dayClickCount } = useCalendarContext()
 
   const [panelAnchor, setPanelAnchor] = useState<null | HTMLElement | any>(null)
   const [menuState, setMenuState] = useState(0)
