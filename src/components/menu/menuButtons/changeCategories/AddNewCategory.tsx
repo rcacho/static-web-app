@@ -13,6 +13,8 @@ import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
+import ColourPicker from '@/components/menu/menuButtons/changeCategories/ColourPicker'
+//import { SketchPicker } from 'react-color'
 
 // placeholder for the list of categories
 const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
@@ -74,47 +76,28 @@ const AddNewCategory = (props: any) => {
           </Box>
         </ListItem>
         <ListItem>
-          <ListItemText primary="Please select category:" />
-        </ListItem>
-        <FixedSizeList
-          height={200}
-          width={360}
-          itemSize={38}
-          itemCount={EventList.length}
-          overscanCount={5}
-        >
-          {renderList}
-        </FixedSizeList>
-
-        <ListItem>
-          <ListItemText primary="Please enter date:" />
-        </ListItem>
-        <ListItem sx={{ pl: 5, pt: 0 }}>
-          <TextField
-            id="standard-basic"
-            variant="standard"
-            label="Event Date"
-            type="date"
-            sx={{ width: 220, color: '#898989' }}
-            InputLabelProps={{
-              shrink: true
-            }}
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Event description:" />
+          <ListItemText primary="Please enter category name:" />
         </ListItem>
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             multiline={true}
             maxRows={4}
             id="standard-basic"
-            label="(Max 200 chars.)"
+            label="(Max 50 chars.)"
             sx={{ color: '#898989' }}
             variant="standard"
-            inputProps={{ maxLength: 200 }}
+            inputProps={{ maxLength: 50 }}
           />
         </ListItem>
+        <ListItem>
+          <ListItemText primary="Please select category symbol:" />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Please select category symbol colour:" />
+        </ListItem>
+        <Box marginLeft={5}>
+          <ColourPicker />
+        </Box>
       </List>
       <List className="bottom-buttons" disablePadding={true}>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
