@@ -1,12 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box } from '@mui/material/'
-import { List, ListItem, ListItemText, Typography } from '@mui/material'
-import Buttons from '@/components/menu/Buttons'
-import GroupRemoveIcon from '@mui/icons-material/GroupRemove'
-import GroupAddIcon from '@mui/icons-material/GroupAdd'
+import {
+  Button,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  Typography
+} from '@mui/material'
+// @ts-ignore
+import { FixedSizeList, ListChildComponentProps } from 'react-window'
 
 const RemoveAdmin = (props: any) => {
-  const fakeAdminList = [
+  const [selected, setSelected] = useState(null)
+  const FakeAdminList = [
     'aa',
     'bb',
     'cc',
@@ -23,44 +30,91 @@ const RemoveAdmin = (props: any) => {
     props.updateState(3)
   }
 
+  function renderList(props: ListChildComponentProps) {
+    const { index, style } = props
+
+    const handleSelect = () => {
+      setSelected(index)
+    }
+    return (
+      <ListItem
+        style={style}
+        key={index}
+        component="div"
+        disablePadding
+        onClick={handleSelect}
+      >
+        <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
+          <ListItemText primary={`Admin ${FakeAdminList[index]}`} />
+        </ListItemButton>
+      </ListItem>
+    )
+  }
+
   return (
-    <List>
-      <ListItem>
-        <ListItemText
-          sx={{ color: '#898989', textDecoration: 'underline' }}
-          secondary="Remove Admin"
-        />
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            color: '#898989',
-            textDecoration: 'underline',
-            fontFamily: 'Roboto'
-          }}
+    <>
+      <List>
+        <ListItem>
+          <ListItemText
+            sx={{ color: '#898989', textDecoration: 'underline' }}
+            secondary="Remove Admin"
+          />
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              color: '#898989',
+              textDecoration: 'underline',
+              fontFamily: 'Roboto'
+            }}
+          >
+            <Typography
+              onClick={handleBackClick}
+              variant="body2"
+              color="#898989"
+            >
+              Back
+            </Typography>
+          </Box>
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Please select admin to remove:" />
+        </ListItem>
+
+        <FixedSizeList
+          height={200}
+          width={360}
+          itemSize={38}
+          itemCount={FakeAdminList.length}
+          overscanCount={5}
         >
-          <Typography onClick={handleBackClick} variant="body2" color="#898989">
-            Back
-          </Typography>
-        </Box>
-      </ListItem>
-      <ListItem disablePadding>
-        <Buttons
-          icon={GroupAddIcon}
-          parentProp={props}
-          state={1}
-          text={'Add Admin'}
-        />
-      </ListItem>
-      <ListItem disablePadding>
-        <Buttons
-          icon={GroupRemoveIcon}
-          parentProp={props}
-          text={'Remove Admin'}
-          state={3}
-        />
-      </ListItem>
-    </List>
+          {renderList}
+        </FixedSizeList>
+      </List>
+      <List className="bottom-buttons" disablePadding={true}>
+        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+          <Button
+            className="menu-button"
+            size="medium"
+            variant="contained"
+            color="primary"
+          >
+            Remove Admin
+          </Button>
+        </ListItem>
+        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+          <Button
+            className="menu-button"
+            size="medium"
+            variant="contained"
+            color="primary"
+            onClick={handleBackClick}
+          >
+            Cancel
+          </Button>
+        </ListItem>
+      </List>
+    </>
   )
 }
 
