@@ -122,6 +122,7 @@ const ChangeCategories = (props: any) => {
             size="small"
             variant="contained"
             color="primary"
+            onClick={handleBackClick}
           >
             Cancel
           </Button>

@@ -11,7 +11,7 @@ import Export from '@mui/icons-material/IosShare'
 import AddIcon from '@mui/icons-material/Add'
 import AdminIcon from '@mui/icons-material/SupervisorAccount'
 import ModeIcon from '@mui/icons-material/Mode'
-import React from 'react'
+import React, { useState } from 'react'
 import Buttons from '@/components/menu/Buttons'
 
 const MainMenuItems = (props: any) => {
@@ -38,6 +38,7 @@ const MainMenuItems = (props: any) => {
           icon={AdminIcon}
           parentProp={props}
           text={'Add / Remove Admin'}
+          state={3}
         />
       </ListItem>
       <ListItem disablePadding>
