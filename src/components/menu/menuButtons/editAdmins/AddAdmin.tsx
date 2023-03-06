@@ -1,59 +1,27 @@
+import React from 'react'
+import { Box } from '@mui/material/'
 import {
+  Button,
   List,
   ListItem,
   ListItemText,
-  ListItemButton,
-  ThemeProvider,
   TextField,
-  Button,
-  Typography,
-  Box
+  Typography
 } from '@mui/material'
-import React, { useState } from 'react'
-import MuiTheme from '@/styles/MuiTheme'
-// @ts-ignore
-import { FixedSizeList, ListChildComponentProps } from 'react-window'
 
-// placeholder for the list of categories
-const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
-
-// @ts-ignore
-const EditEvent = (props: any) => {
-  const [selected, setSelected] = useState(null)
-
-  // render list for the scroll function
-  function renderList(props: ListChildComponentProps) {
-    const { index, style } = props
-
-    const handleSelect = () => {
-      setSelected(index)
-    }
-    return (
-      <ListItem
-        style={style}
-        key={index}
-        component="div"
-        disablePadding
-        onClick={handleSelect}
-      >
-        <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`Item ${EventList[index]}`} />
-        </ListItemButton>
-      </ListItem>
-    )
-  }
-
+const AddAdmin = (props: any) => {
+  //function to handle Back button
   const handleBackClick = () => {
-    props.updateState(0)
+    props.updateState(3)
   }
 
   return (
-    <ThemeProvider theme={MuiTheme}>
+    <>
       <List>
         <ListItem>
           <ListItemText
             sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Edit Event"
+            secondary="Add Admin"
           />
           <Box
             sx={{
@@ -74,45 +42,48 @@ const EditEvent = (props: any) => {
           </Box>
         </ListItem>
         <ListItem>
-          <ListItemText primary="Please select category:" />
-        </ListItem>
-        <FixedSizeList
-          height={200}
-          width={360}
-          itemSize={38}
-          itemCount={EventList.length}
-          overscanCount={5}
-        >
-          {renderList}
-        </FixedSizeList>
-
-        <ListItem>
-          <ListItemText primary="Please enter date:" />
+          <ListItemText primary="Please enter first name:" />
         </ListItem>
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
-            id="standard-basic"
-            variant="standard"
-            label="Event Date"
-            type="date"
-            sx={{ width: 220, color: '#898989' }}
-            InputLabelProps={{
-              shrink: true
-            }}
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Event description:" />
-        </ListItem>
-        <ListItem sx={{ pl: 5, pt: 0 }}>
-          <TextField
+            required
             multiline={true}
             maxRows={4}
             id="standard-basic"
-            label="(Max 200 chars.)"
+            label="(Required)"
             sx={{ color: '#898989' }}
             variant="standard"
-            inputProps={{ maxLength: 200 }}
+            inputProps={{ maxLength: 20 }}
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Please enter last name:" />
+        </ListItem>
+        <ListItem sx={{ pl: 5, pt: 0 }}>
+          <TextField
+            required
+            multiline={true}
+            maxRows={4}
+            id="standard-basic"
+            label="(Required)"
+            sx={{ color: '#898989' }}
+            variant="standard"
+            inputProps={{ maxLength: 20 }}
+          />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Please enter email:" />
+        </ListItem>
+        <ListItem sx={{ pl: 5, pt: 0 }}>
+          <TextField
+            required
+            multiline={true}
+            maxRows={4}
+            id="standard-basic"
+            label="(Required)"
+            sx={{ color: '#898989' }}
+            variant="standard"
+            inputProps={{ maxLength: 100 }}
           />
         </ListItem>
       </List>
@@ -124,7 +95,7 @@ const EditEvent = (props: any) => {
             variant="contained"
             color="primary"
           >
-            Save Changes
+            Add Admin
           </Button>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
@@ -139,8 +110,8 @@ const EditEvent = (props: any) => {
           </Button>
         </ListItem>
       </List>
-    </ThemeProvider>
+    </>
   )
 }
 
-export default EditEvent
+export default AddAdmin

@@ -5,10 +5,22 @@ import Buttons from '@/components/menu/Buttons'
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 
-const AddRemoveMain = (props: any) => {
+const RemoveAdmin = (props: any) => {
+  const fakeAdminList = [
+    'aa',
+    'bb',
+    'cc',
+    'dd',
+    'ee',
+    'ff',
+    'gg',
+    'hh',
+    'ii',
+    'jj'
+  ]
   //function to handle Back button
   const handleBackClick = () => {
-    props.updateState(0)
+    props.updateState(3)
   }
 
   return (
@@ -16,7 +28,7 @@ const AddRemoveMain = (props: any) => {
       <ListItem>
         <ListItemText
           sx={{ color: '#898989', textDecoration: 'underline' }}
-          secondary="Add / Remove Admin"
+          secondary="Remove Admin"
         />
         <Box
           sx={{
@@ -36,7 +48,7 @@ const AddRemoveMain = (props: any) => {
         <Buttons
           icon={GroupAddIcon}
           parentProp={props}
-          state={3.1}
+          state={1}
           text={'Add Admin'}
         />
       </ListItem>
@@ -45,11 +57,11 @@ const AddRemoveMain = (props: any) => {
           icon={GroupRemoveIcon}
           parentProp={props}
           text={'Remove Admin'}
-          state={3.2}
+          state={3}
         />
       </ListItem>
     </List>
   )
 }
 
-export default AddRemoveMain
+export default RemoveAdmin
