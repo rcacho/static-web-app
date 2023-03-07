@@ -1,8 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { User } from '@/interfaces/User'
 import { UserDAO } from '@/utils/dao/UserDAO'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
-import { NotificationDAO } from '@/utils/dao/NotificationDAO'
 
 export default async function handler(
   req: NextApiRequest,
@@ -12,7 +10,6 @@ export default async function handler(
   const id = query.id as string
   const db: DatabaseConnector = new DatabaseConnector()
   const userDAO: UserDAO = new UserDAO(db)
-  const notificationDAO: NotificationDAO = new NotificationDAO(db)
 
   switch (method) {
     case 'PUT':

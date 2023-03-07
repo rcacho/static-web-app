@@ -1,5 +1,4 @@
 import { Notification } from '@/interfaces/Notification'
-import { User } from '@/interfaces/User'
 import { DatabaseConnector } from '../DatabaseConnector'
 
 export class NotificationDAO {
