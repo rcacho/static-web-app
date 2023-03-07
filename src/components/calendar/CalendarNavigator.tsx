@@ -55,7 +55,7 @@ const DecrementDateButton = () => {
     <Button>
       <ChevronLeftIcon
         onClick={handleClick}
-        style={{ fontSize: '32px', color: 'black' }}
+        style={{ fontSize: '32px', color: '#4D4D4D' }}
       ></ChevronLeftIcon>
     </Button>
   )
@@ -84,7 +84,7 @@ const IncrementDateButton = () => {
     <Button>
       <ChevronRightIcon
         onClick={handleClick}
-        style={{ fontSize: '32px', color: 'black' }}
+        style={{ fontSize: '32px', color: '#4D4D4D' }}
       ></ChevronRightIcon>
     </Button>
   )
