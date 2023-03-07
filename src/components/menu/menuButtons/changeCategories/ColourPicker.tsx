@@ -1,18 +1,36 @@
 import React, { useState } from 'react'
 import { Box, Grid } from '@mui/material/'
-import { Button, ListItem, ListItemButton, ListItemText } from '@mui/material'
+import {
+  Button,
+  ListItem,
+  ListItemButton,
+  ListItemText,
+  ToggleButton
+} from '@mui/material'
 
 const ColourPicker = () => {
-  const [selected, setSelected] = useState(null)
+  const [selected, setSelected] = useState(0)
 
-  function renderColours(colour: any) {
+  function renderColours(colour: any, id: Number) {
     const handleSelect = (index: any) => {
       setSelected(index)
     }
+    const checkSelect = () => {
+      if (id === selected) {
+        return true
+      } else {
+        return false
+      }
+    }
+
     return (
       <Grid item xs={2} height={35} padding={1.5}>
-        <Button
-          variant="contained"
+        <ToggleButton
+          value="check"
+          selected={checkSelect()}
+          onChange={() => {
+            handleSelect(id)
+          }}
           sx={{
             backgroundColor: colour,
             height: 20,
@@ -21,7 +39,7 @@ const ColourPicker = () => {
             padding: 0,
             borderRadius: 0
           }}
-        ></Button>
+        ></ToggleButton>
       </Grid>
     )
   }
@@ -34,21 +52,21 @@ const ColourPicker = () => {
       sx={{ width: 220, height: 120, border: '1px solid grey' }}
     >
       <Grid container spacing={3} paddingLeft={2.5} paddingTop={1.5}>
-        {renderColours('#832A0E')}
-        {renderColours('#B45252')}
-        {renderColours('red')}
-        {renderColours('#B45252')}
-        {renderColours('#FAFF00')}
-        {renderColours('#05FD00')}
-        {renderColours('#599273')}
-        {renderColours('#00FFF0')}
-        {renderColours('#04D2FF')}
-        {renderColours('#2678F3')}
-        {renderColours('#5D64A6')}
-        {renderColours('#9104FF')}
-        {renderColours('#FF00B8')}
-        {renderColours('#8A8A8A')}
-        {renderColours('black')}
+        {renderColours('#832A0E', 1)}
+        {renderColours('#B45252', 2)}
+        {renderColours('red', 3)}
+        {renderColours('#B45252', 4)}
+        {renderColours('#FAFF00', 5)}
+        {renderColours('#05FD00', 6)}
+        {renderColours('#599273', 7)}
+        {renderColours('#00FFF0', 8)}
+        {renderColours('#04D2FF', 9)}
+        {renderColours('#2678F3', 10)}
+        {renderColours('#5D64A6', 11)}
+        {renderColours('#9104FF', 12)}
+        {renderColours('#FF00B8', 13)}
+        {renderColours('#8A8A8A', 14)}
+        {renderColours('black', 15)}
       </Grid>
     </Box>
   )
