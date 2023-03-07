@@ -1,53 +1,46 @@
 import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
-import Day from './Day'
+import Day, { noValue } from './Day'
+import { useCalendarContext } from '@/store/CalendarContext'
 
-const noValue = ''
+const daysOfWeek = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT']
+const daysOfWeekMini = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
-interface MonthProps {
-  daysOfWeek: string[]
-  currentDate: Date
-  isMonthView: boolean
-  handleDayClickBar: Function
+const formatDate = (date: Date, day: any) => {
+  let mm = date.getMonth() + 1
+  let finalDate = ''
+  const yyyy = date.getFullYear()
+
+  if (mm < 10) {
+    finalDate += '0' + mm
+  } else {
+    finalDate += mm
+  }
+
+  if (day < 10) {
+    finalDate += '-' + '0' + day
+  } else {
+    finalDate += '-' + day
+  }
+
+  finalDate += '-' + yyyy
+  return finalDate.toString()
 }
 
-const Month = (props: MonthProps) => {
+const Month = ({ currentDate }: any) => {
+  const { toggleBarOnDateClick, isYearView } = useCalendarContext()
+
   const numBoxes = 42
   const firstDayOffset =
-    new Date(
-      props.currentDate.getFullYear(),
-      props.currentDate.getMonth(),
-      1
-    ).getDay() - 1
+    new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() - 1
   const numDaysInMonth = new Date(
-    props.currentDate.getFullYear(),
-    props.currentDate.getMonth() + 1,
+    currentDate.getFullYear(),
+    currentDate.getMonth() + 1,
     0
   ).getDate()
 
   const handleDayClick = (day: any) => {
-    props.handleDayClickBar(1, formatDate(props.currentDate, day))
-  }
-
-  const formatDate = (date: Date, day: any) => {
-    let mm = date.getMonth() + 1 //January is 0!
-    let finalDate = ''
-    const yyyy = date.getFullYear()
-
-    if (mm < 10) {
-      finalDate += '0' + mm
-    } else {
-      finalDate += mm
-    }
-
-    if (day < 10) {
-      finalDate += '-' + '0' + day
-    } else {
-      finalDate += '-' + day
-    }
-
-    finalDate += '-' + yyyy
-    return finalDate.toString()
+    toggleBarOnDateClick(1, formatDate(currentDate, day))
   }
 
   const renderDays = () => {
@@ -61,15 +54,16 @@ const Month = (props: MonthProps) => {
       if (day <= 0 || day > numDaysInMonth) {
         day = 0
       }
+
       if (shouldRenderfirstDaysOfWeek(i)) {
-        dayOfWeek = props.daysOfWeek[i]
+        dayOfWeek = isYearView ? daysOfWeekMini[i] : daysOfWeek[i]
       }
+
       days.push(
         <Day
           key={i}
           day={day}
           dayOfWeek={dayOfWeek}
-          isMonthView={props.isMonthView}
           handleDayClick={handleDayClick}
         />
       )
@@ -82,7 +76,7 @@ const Month = (props: MonthProps) => {
       container
       columns={7}
       spacing={0}
-      border={props.isMonthView ? 1 : 0}
+      border={isYearView ? 0 : 1}
       textAlign="center"
       alignItems="stretch"
       sx={{ height: '100%' }}
