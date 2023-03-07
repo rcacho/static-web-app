@@ -53,7 +53,7 @@ const AddAdmin = (props: any) => {
             label="(Required)"
             sx={{ color: '#898989' }}
             variant="standard"
-            inputProps={{ maxLength: 20 }}
+            inputProps={{ maxLength: 50 }}
           />
         </ListItem>
         <ListItem>
@@ -68,7 +68,7 @@ const AddAdmin = (props: any) => {
             label="(Required)"
             sx={{ color: '#898989' }}
             variant="standard"
-            inputProps={{ maxLength: 20 }}
+            inputProps={{ maxLength: 50 }}
           />
         </ListItem>
         <ListItem>

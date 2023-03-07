@@ -2,49 +2,21 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemButton,
   ThemeProvider,
   TextField,
   Button,
   Typography,
   Box
 } from '@mui/material'
-import React, { useState } from 'react'
+import React from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import ColourPicker from '@/components/menu/menuButtons/changeCategories/ColourPicker'
-//import { SketchPicker } from 'react-color'
-
-// placeholder for the list of categories
-const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
+import SymbolPicker from '@/components/menu/menuButtons/changeCategories/SymbolPicker'
 
 // @ts-ignore
 const AddNewCategory = (props: any) => {
-  const [selected, setSelected] = useState(null)
-
-  // render list for the scroll function
-  function renderList(props: ListChildComponentProps) {
-    const { index, style } = props
-
-    const handleSelect = () => {
-      setSelected(index)
-    }
-    return (
-      <ListItem
-        style={style}
-        key={index}
-        component="div"
-        disablePadding
-        onClick={handleSelect}
-      >
-        <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`Item ${EventList[index]}`} />
-        </ListItemButton>
-      </ListItem>
-    )
-  }
-
   const handleBackClick = () => {
     props.updateState(2)
   }
@@ -92,6 +64,9 @@ const AddNewCategory = (props: any) => {
         <ListItem>
           <ListItemText primary="Please select category symbol:" />
         </ListItem>
+        <Box marginLeft={5}>
+          <SymbolPicker />
+        </Box>
         <ListItem>
           <ListItemText primary="Please select category symbol colour:" />
         </ListItem>

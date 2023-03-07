@@ -1,12 +1,6 @@
 import React, { useState } from 'react'
 import { Box, Grid } from '@mui/material/'
-import {
-  Button,
-  ListItem,
-  ListItemButton,
-  ListItemText,
-  ToggleButton
-} from '@mui/material'
+import { ToggleButton } from '@mui/material'
 
 const ColourPicker = () => {
   const [selected, setSelected] = useState(0)
@@ -16,11 +10,7 @@ const ColourPicker = () => {
       setSelected(index)
     }
     const checkSelect = () => {
-      if (id === selected) {
-        return true
-      } else {
-        return false
-      }
+      return id === selected
     }
 
     return (
