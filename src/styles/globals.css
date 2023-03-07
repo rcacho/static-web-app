@@ -56,3 +56,6 @@ body {
 .colour-button {
   width: 10px;
 }
+.MuiButton-contained {
+  border-radius: 0px !important;
+}

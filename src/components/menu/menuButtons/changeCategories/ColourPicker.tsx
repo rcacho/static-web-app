@@ -11,16 +11,17 @@ const ColourPicker = () => {
     }
     return (
       <Grid item xs={2} height={35} padding={1.5}>
-        <Box
-          onClick={handleSelect}
+        <Button
+          variant="contained"
           sx={{
             backgroundColor: colour,
             height: 20,
             minWidth: 28,
             marginTop: 0,
-            padding: 0
+            padding: 0,
+            borderRadius: 0
           }}
-        ></Box>
+        ></Button>
       </Grid>
     )
   }

@@ -23,8 +23,8 @@ const CalendarNavigator = () => {
       <Typography variant="h6">
         <Stack direction="row" alignItems="center">
           <DecrementDateButton />
-          {getDateString()}
           <IncrementDateButton />
+          {getDateString()}
         </Stack>
       </Typography>
       {renderYearViewButton()}
@@ -109,7 +109,12 @@ const ToggleYearViewButton = () => {
           fontFamily: 'Roboto'
         }}
       >
-        <Typography variant="body2">Year View</Typography>
+        <Typography
+          // textTransform="capitalize"
+          variant="body2"
+        >
+          Year View
+        </Typography>
       </Box>
     </Button>
   )
