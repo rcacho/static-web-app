@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Box,
   Button,
   Checkbox,
   List,
@@ -16,8 +17,11 @@ const CategoryList = () => {
     'AE Business Meeting',
     'Holiday',
     'Quarter End',
-    'Casual Day'
+    'Casual Day',
+    'AE Business Meeting'
   ]
+
+  // const examples = selectedEvents
 
   const [selected, setSelected] = React.useState<string[]>([])
   const isAllSelected =
@@ -53,60 +57,65 @@ const CategoryList = () => {
   }
 
   return (
-    <List
-      dense
-      sx={{ width: '100%', maxWidth: 360, bgcolor: 'background.paper' }}
-    >
-      {examples.map((item) => {
-        const labelId = `checkbox-list-secondary-label-${item}`
-        return (
-          <ListItem
-            secondaryAction={
-              <Checkbox
-                value={item}
-                edge="end"
-                onChange={handleChange}
-                checked={selected.includes(item)}
-                inputProps={{ 'aria-labelledby': labelId }}
-              />
-            }
-            disablePadding
-          >
-            <ListItemButton>
-              <ListItemAvatar>
-                <Avatar alt={`AE`} src={`placeholder`} />
-              </ListItemAvatar>
-              <ListItemText id={labelId} primary={`${item}`} />
-            </ListItemButton>
-          </ListItem>
-        )
-      })}
-      <Button
-        // value={'all'}
-        onClick={handleAll}
-        sx={[
-          { width: '90%', color: 'black', bgcolor: '#eeeeee', m: 1 },
-          { '&:hover': { bgcolor: '#cccccc' } }
-        ]}
+    <Box height="calc(100vh - 64px)">
+      <List
+        dense
+        style={{ maxHeight: '60vh', overflow: 'auto' }}
+        sx={{ bgcolor: 'background.paper' }}
       >
-        Select All
-      </Button>
-      <Button
-        // value={'none'}
-        onClick={handleNone}
-        sx={[
-          {
-            width: '90%',
-            color: 'black',
-            bgcolor: '#eeeeee',
-            m: 1
-          },
-          { '&:hover': { bgcolor: '#cccccc' } }
-        ]}
-      >
-        Select None
-      </Button>
-    </List>
+        {examples.map((item) => {
+          const labelId = `checkbox-list-secondary-label-${item}`
+          return (
+            <ListItem
+              secondaryAction={
+                <Checkbox
+                  value={item}
+                  edge="end"
+                  onChange={handleChange}
+                  checked={selected.includes(item)}
+                  inputProps={{ 'aria-labelledby': labelId }}
+                />
+              }
+              disablePadding
+            >
+              <ListItemButton>
+                <ListItemAvatar>
+                  <Avatar alt={`AE`} src={`placeholder`} />
+                </ListItemAvatar>
+                <ListItemText id={labelId} primary={`${item}`} />
+              </ListItemButton>
+            </ListItem>
+          )
+        })}
+      </List>
+      <Box height="20%">
+        <Button
+          // value={'all'}
+          onClick={handleAll}
+          sx={[
+            { width: '90%', color: 'black', bgcolor: '#eeeeee', m: 1, mt: 2 },
+            { '&:hover': { bgcolor: '#cccccc' } }
+          ]}
+        >
+          Select All
+        </Button>
+        <Button
+          // value={'none'}
+          onClick={handleNone}
+          sx={[
+            {
+              width: '90%',
+              color: 'black',
+              bgcolor: '#eeeeee',
+              m: 1
+            },
+            { '&:hover': { bgcolor: '#cccccc' } }
+          ]}
+        >
+          Select None
+        </Button>
+      </Box>
+    </Box>
   )
 }
 
