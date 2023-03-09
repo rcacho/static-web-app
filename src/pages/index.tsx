@@ -8,7 +8,48 @@ import Legend from '@/components/Legend'
 import Calendar from '@/components/calendar/Calendar'
 import CalendarStore from '@/store/CalendarContext'
 
+const examples: string[] = [
+  'AE Business Meeting',
+  'Holiday',
+  'Quarter End',
+  'Casual Day',
+  'Pool party',
+  'hot dog eating contest',
+  'hot dog eating contest',
+  'hot dog eating contest',
+  'hot dog eating contest',
+  'hot dog eating contest',
+  'hot dog eating contest',
+  'hot dog eating contest',
+  'hot dog eating contest',
+  'hot dog eating contest',
+  'hot dog eating contest'
+]
+
 export default function Home(this: any) {
+  const [selected, setSelected] = React.useState<string[]>([])
+  // const isAllSelected =
+  //   examples.length > 0 && selected.length === examples.length
+
+  // const handleChange = (event: { target: { value: any } }) => {
+  //   const value = event.target.value
+  //   const s: string = value
+  //   const list = [...selected]
+  //   const index = list.indexOf(s)
+  //   index === -1 ? list.push(value) : list.splice(index, 1)
+  //   setSelected(list)
+  // }
+
+  // const handleAll = () => {
+  //   setSelected(examples)
+  //   return
+  // }
+
+  // const handleNone = () => {
+  //   setSelected([])
+  //   return
+  // }
+
   return (
     <ThemeProvider theme={MuiTheme}>
       <Head>

@@ -5,13 +5,9 @@ import CategoryList from './legendComponents/CategoryList'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 
-let testCategories: string[] = []
-testCategories[0] = 'Team Building Event'
-testCategories[0] = 'Holiday'
-testCategories[0] = 'Dinner'
-
 const Legend = () => {
   const [show, toggleShow] = React.useState(true)
+
   return (
     <Box
       display="flex"

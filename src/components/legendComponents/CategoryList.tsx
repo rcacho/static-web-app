@@ -1,3 +1,4 @@
+import { useCalendarContext } from '@/store/CalendarContext'
 import {
   Avatar,
   Box,
@@ -13,57 +14,47 @@ import { width } from '@mui/system'
 import React from 'react'
 
 const CategoryList = () => {
-  const examples: string[] = [
-    'AE Business Meeting',
-    'Holiday',
-    'Quarter End',
-    'Casual Day',
-    'AE Business Meeting'
-  ]
-
-  // const examples = selectedEvents
-
-  const [selected, setSelected] = React.useState<string[]>([])
-  const isAllSelected =
-    examples.length > 0 && selected.length === examples.length
-
-  const handleChange = (event: { target: { value: any } }) => {
-    const value = event.target.value
-    console.log(`hello ${value}`)
-    if (value === 'all') {
-      setSelected(examples)
-      return
-    }
-    if (value === 'none') {
-      console.log('in all')
-      setSelected([])
-      return
-    }
-    const s: string = value
-    const list = [...selected]
-    const index = list.indexOf(s)
-    index === -1 ? list.push(value) : list.splice(index, 1)
-    setSelected(list)
-  }
-
-  const handleAll = () => {
-    setSelected(examples)
-    return
-  }
-
-  const handleNone = () => {
-    setSelected([])
-    return
-  }
-
+  const { events, selected, handleAll, handleNone, handleChange } =
+    useCalendarContext()
   return (
     <Box height="calc(100vh - 64px)">
+      <Button
+        onClick={handleAll}
+        sx={[
+          {
+            width: '40%',
+            color: 'black',
+            bgcolor: '#eeeeee',
+            m: 1,
+            fontSize: '12px'
+          },
+          { '&:hover': { bgcolor: '#cccccc' } }
+        ]}
+      >
+        Select All
+      </Button>
+      <Button
+        onClick={handleNone}
+        sx={[
+          {
+            width: '40%',
+            color: 'black',
+            bgcolor: '#eeeeee',
+            m: 1,
+            fontSize: '12px'
+          },
+          { '&:hover': { bgcolor: '#cccccc' } }
+        ]}
+      >
+        Select None
+      </Button>
+
       <List
         dense
-        style={{ maxHeight: '60vh', overflow: 'auto' }}
+        style={{ overflow: 'auto', height: 'calc(100vh - 64px - 60px' }}
         sx={{ bgcolor: 'background.paper' }}
       >
-        {examples.map((item) => {
+        {events.map((item: any) => {
           const labelId = `checkbox-list-secondary-label-${item}`
           return (
             <ListItem
@@ -88,33 +79,6 @@ const CategoryList = () => {
           )
         })}
       </List>
-      <Box height="20%">
-        <Button
-          // value={'all'}
-          onClick={handleAll}
-          sx={[
-            { width: '90%', color: 'black', bgcolor: '#eeeeee', m: 1, mt: 2 },
-            { '&:hover': { bgcolor: '#cccccc' } }
-          ]}
-        >
-          Select All
-        </Button>
-        <Button
-          // value={'none'}
-          onClick={handleNone}
-          sx={[
-            {
-              width: '90%',
-              color: 'black',
-              bgcolor: '#eeeeee',
-              m: 1
-            },
-            { '&:hover': { bgcolor: '#cccccc' } }
-          ]}
-        >
-          Select None
-        </Button>
-      </Box>
     </Box>
   )
 }
