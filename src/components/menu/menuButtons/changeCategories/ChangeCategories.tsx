@@ -92,6 +92,9 @@ const ChangeCategories = (props: any) => {
             size="small"
             variant="contained"
             color="primary"
+            onClick={() => {
+              props.updateState(2.1)
+            }}
           >
             Add New Category
           </Button>
@@ -102,6 +105,9 @@ const ChangeCategories = (props: any) => {
             size="small"
             variant="contained"
             color="primary"
+            onClick={() => {
+              props.updateState(2.2)
+            }}
           >
             Edit Category
           </Button>
@@ -122,6 +128,7 @@ const ChangeCategories = (props: any) => {
             size="small"
             variant="contained"
             color="primary"
+            onClick={handleBackClick}
           >
             Cancel
           </Button>

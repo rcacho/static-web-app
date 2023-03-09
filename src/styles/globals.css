@@ -52,3 +52,10 @@ body {
   width: 100%;
   height: 26%;
 }
+
+.colour-button {
+  width: 10px;
+}
+.MuiButton-contained {
+  border-radius: 0px !important;
+}
