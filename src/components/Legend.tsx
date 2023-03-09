@@ -1,6 +1,5 @@
 import React from 'react'
-import { Box, Button, Container, Stack } from '@mui/material/'
-import { width } from '@mui/system'
+import { Box, Button, Stack } from '@mui/material/'
 import CategoryList from './legendComponents/CategoryList'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
