@@ -39,7 +39,7 @@ const Year = () => {
     const monthNumber = months.indexOf(month)
 
     return (
-      <Grid xs={4} sm={2} lg={1} border={0}>
+      <Grid xs={4} sm={2} lg={1} border={0} sx={{ p: 3 }}>
         <MonthButton month={month} handleClick={handleMonthButtonClick} />
         <Month
           currentDate={new Date(currentDate.getFullYear(), monthNumber, 1)}
@@ -52,10 +52,9 @@ const Year = () => {
     <Grid
       container
       columns={4}
-      spacing={0}
+      spacing={-5}
       border={0}
       alignItems="stretch"
-      display="flex"
       sx={{ height: '100%' }}
     >
       {renderMonths()}
