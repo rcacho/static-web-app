@@ -3,15 +3,19 @@ import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
 
 const Buttons = (props: any) => {
   const handleClick = () => {
-    props.parentProp.updateState(props.state)
+    if (props.state >= 0) {
+      props.parentProp.updateState(props.state)
+    }
+  }
+
+  const renderIcon = () => {
+    return !props.mini ? <props.icon /> : <></>
   }
 
   return (
     <>
       <ListItemButton onClick={handleClick}>
-        <ListItemIcon>
-          <props.icon />
-        </ListItemIcon>
+        <ListItemIcon>{renderIcon()}</ListItemIcon>
         <ListItemText primary={props.text} />
       </ListItemButton>
     </>

@@ -5,6 +5,11 @@ import AddEventRender from './menuButtons/changeEvents/AddEventRender'
 import ChangeCategories from '@/components/menu/menuButtons/changeCategories/ChangeCategories'
 import ChangeDeleteEvent from '@/components/menu/menuButtons/changeEvents/ChangeDeleteEvent'
 import EditEvent from '@/components/menu/menuButtons/changeEvents/EditEvent'
+import AddRemoveMain from '@/components/menu/menuButtons/editAdmins/AddRemoveMain'
+import AddAdmin from '@/components/menu/menuButtons/editAdmins/AddAdmin'
+import RemoveAdmin from '@/components/menu/menuButtons/editAdmins/RemoveAdmin'
+import AddNewCategory from '@/components/menu/menuButtons/changeCategories/AddNewCategory'
+import EditCategory from '@/components/menu/menuButtons/changeCategories/EditCategory'
 
 const RightMenu = (props: any) => {
   // menu state to select which menu to show
@@ -56,6 +61,16 @@ const RightMenu = (props: any) => {
             <EditEvent updateState={props.updateState} />
           ) : props.menuState === 2 ? (
             <ChangeCategories updateState={props.updateState} />
+          ) : props.menuState === 2.1 ? (
+            <AddNewCategory updateState={props.updateState} />
+          ) : props.menuState === 2.2 ? (
+            <EditCategory updateState={props.updateState} />
+          ) : props.menuState === 3 ? (
+            <AddRemoveMain updateState={props.updateState} />
+          ) : props.menuState === 3.1 ? (
+            <AddAdmin updateState={props.updateState} />
+          ) : props.menuState === 3.2 ? (
+            <RemoveAdmin updateState={props.updateState} />
           ) : null}
         </Stack>
       </ClickAwayListener>

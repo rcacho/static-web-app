@@ -1,7 +1,9 @@
-import { Button, Stack, Typography } from '@mui/material'
+import { Box, Button, Stack, Typography } from '@mui/material'
 import React from 'react'
 import { useCalendarContext } from '@/store/CalendarContext'
 import { months } from './Year'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 
 const CalendarNavigator = () => {
   const { isYearView, currentDate } = useCalendarContext()
@@ -21,8 +23,8 @@ const CalendarNavigator = () => {
       <Typography variant="h6">
         <Stack direction="row" alignItems="center">
           <DecrementDateButton />
-          {getDateString()}
           <IncrementDateButton />
+          {getDateString()}
         </Stack>
       </Typography>
       {renderYearViewButton()}
@@ -50,13 +52,11 @@ const DecrementDateButton = () => {
   }
 
   return (
-    <Button
-      size="small"
-      color="info"
-      onClick={handleClick}
-      style={{ fontSize: '32px', color: 'black' }}
-    >
-      &lt;
+    <Button>
+      <ChevronLeftIcon
+        onClick={handleClick}
+        style={{ fontSize: '32px', color: '#4D4D4D' }}
+      ></ChevronLeftIcon>
     </Button>
   )
 }
@@ -81,13 +81,11 @@ const IncrementDateButton = () => {
   }
 
   return (
-    <Button
-      size="small"
-      color="info"
-      onClick={handleClick}
-      style={{ fontSize: '32px', color: 'black' }}
-    >
-      &gt;
+    <Button>
+      <ChevronRightIcon
+        onClick={handleClick}
+        style={{ fontSize: '32px', color: '#4D4D4D' }}
+      ></ChevronRightIcon>
     </Button>
   )
 }
@@ -101,8 +99,23 @@ const ToggleYearViewButton = () => {
   }
 
   return (
-    <Button onClick={handleClick} style={{ fontSize: '24px', color: 'black' }}>
-      Year View
+    <Button onClick={handleClick}>
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          color: '#898989',
+          textDecoration: 'underline',
+          fontFamily: 'Roboto'
+        }}
+      >
+        <Typography
+          // textTransform="capitalize"
+          variant="body2"
+        >
+          Year View
+        </Typography>
+      </Box>
     </Button>
   )
 }
