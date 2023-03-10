@@ -28,19 +28,45 @@ const formatDate = (date: Date, day: any) => {
   return finalDate.toString()
 }
 
+// this only works if january's first working day is monday
+const calculateWorkingHours = (firstDay: number, lastDay: number) => {
+  let val: number = 0
+  if (firstDay < 3 && lastDay != 1) {
+    val = 200
+  } else {
+    val = 160
+  }
+  return val
+}
+
 const Month = ({ currentDate }: any) => {
   const { toggleBarOnDateClick, isYearView } = useCalendarContext()
 
   // 42 -> 49 to include working hours at the bottom of calendar
   // small chance this number will increase by 7 (6 possible weeks + 1 for the last empty week) to include working week on the side???
   const numBoxes = 49
-  const firstDayOffset =
-    new Date(currentDate.getFullYear(), currentDate.getMonth(), 1).getDay() - 1
+
+  // for working hours in a month
+  const firstDay = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    1
+  ).getDay()
+
+  const firstDayOffset = firstDay - 1
+
   const numDaysInMonth = new Date(
     currentDate.getFullYear(),
     currentDate.getMonth() + 1,
     0
   ).getDate()
+
+  // also for working hours in a month
+  const lastDay = new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth(),
+    numDaysInMonth
+  ).getDay()
 
   const handleDayClick = (day: any) => {
     toggleBarOnDateClick(1, formatDate(currentDate, day))
@@ -63,7 +89,7 @@ const Month = ({ currentDate }: any) => {
       }
 
       days.push(
-        i != 48 ? (
+        i != 47 ? (
           <Day
             key={i}
             day={day}
@@ -81,7 +107,9 @@ const Month = ({ currentDate }: any) => {
             alignItems="top"
           >
             <Typography variant={'body1'} color="blue">
-              200
+              {currentDate.getMonth() == 11
+                ? 160
+                : calculateWorkingHours(firstDay, lastDay)}
             </Typography>
           </Grid>
         )
