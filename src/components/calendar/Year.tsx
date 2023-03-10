@@ -2,14 +2,9 @@ import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
 import { Button } from '@mui/material'
 import Month from './Month'
+import { useCalendarContext } from '@/store/CalendarContext'
 
-interface YearProps {
-  currentDate: Date
-  changeView: (date: Date) => void
-  handleDayClickBar: Function
-}
-
-const months = [
+export const months = [
   'January',
   'February',
   'March',
@@ -24,10 +19,12 @@ const months = [
   'December'
 ]
 
-const Year = (props: YearProps) => {
+const Year = () => {
+  const { currentDate, changeView, toggleBarOnDateClick } = useCalendarContext()
+
   const handleMonthButtonClick = (monthNumber: number) => {
-    props.changeView(new Date(props.currentDate.getFullYear(), monthNumber, 1))
-    props.handleDayClickBar(0)
+    changeView(new Date(currentDate.getFullYear(), monthNumber, 1))
+    toggleBarOnDateClick(0)
   }
 
   const renderMonths = () => {
@@ -39,19 +36,13 @@ const Year = (props: YearProps) => {
   }
 
   const renderMonth = (month: string) => {
-    const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
     const monthNumber = months.indexOf(month)
 
     return (
-      <Grid xs={4} sm={2} lg={1} border={0}>
+      <Grid xs={4} sm={2} lg={1} border={0} sx={{ p: 3 }}>
         <MonthButton month={month} handleClick={handleMonthButtonClick} />
         <Month
-          daysOfWeek={daysOfWeek}
-          currentDate={
-            new Date(props.currentDate.getFullYear(), monthNumber, 1)
-          }
-          isMonthView={false}
-          handleDayClickBar={props.handleDayClickBar}
+          currentDate={new Date(currentDate.getFullYear(), monthNumber, 1)}
         />
       </Grid>
     )
@@ -61,10 +52,9 @@ const Year = (props: YearProps) => {
     <Grid
       container
       columns={4}
-      spacing={0}
+      spacing={-5}
       border={0}
       alignItems="stretch"
-      display="flex"
       sx={{ height: '100%' }}
     >
       {renderMonths()}

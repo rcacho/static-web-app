@@ -109,9 +109,10 @@ const AddEventRender = (props: any) => {
             multiline={true}
             maxRows={4}
             id="standard-basic"
-            label="(Optional)"
+            label="(Max 200 chars.)"
             sx={{ color: '#898989' }}
             variant="standard"
+            inputProps={{ maxLength: 200 }}
           />
         </ListItem>
       </List>
@@ -132,6 +133,7 @@ const AddEventRender = (props: any) => {
             size="medium"
             variant="contained"
             color="primary"
+            onClick={handleBackClick}
           >
             Cancel
           </Button>

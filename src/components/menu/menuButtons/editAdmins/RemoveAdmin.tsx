@@ -1,27 +1,35 @@
+import React, { useState } from 'react'
+import { Box } from '@mui/material/'
 import {
+  Button,
   List,
   ListItem,
-  ListItemText,
   ListItemButton,
-  ThemeProvider,
-  TextField,
-  Button,
-  Typography,
-  Box
+  ListItemText,
+  Typography
 } from '@mui/material'
-import React, { useState } from 'react'
-import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 
-// placeholder for the list of categories
-const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
-
-// @ts-ignore
-const EditEvent = (props: any) => {
+const RemoveAdmin = (props: any) => {
   const [selected, setSelected] = useState(null)
+  const FakeAdminList = [
+    'aa',
+    'bb',
+    'cc',
+    'dd',
+    'ee',
+    'ff',
+    'gg',
+    'hh',
+    'ii',
+    'jj'
+  ]
+  //function to handle Back button
+  const handleBackClick = () => {
+    props.updateState(3)
+  }
 
-  // render list for the scroll function
   function renderList(props: ListChildComponentProps) {
     const { index, style } = props
 
@@ -37,23 +45,19 @@ const EditEvent = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`Item ${EventList[index]}`} />
+          <ListItemText primary={`Admin ${FakeAdminList[index]}`} />
         </ListItemButton>
       </ListItem>
     )
   }
 
-  const handleBackClick = () => {
-    props.updateState(0)
-  }
-
   return (
-    <ThemeProvider theme={MuiTheme}>
+    <>
       <List>
         <ListItem>
           <ListItemText
             sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Edit Event"
+            secondary="Remove Admin"
           />
           <Box
             sx={{
@@ -74,47 +78,18 @@ const EditEvent = (props: any) => {
           </Box>
         </ListItem>
         <ListItem>
-          <ListItemText primary="Please select category:" />
+          <ListItemText primary="Please select admin to remove:" />
         </ListItem>
+
         <FixedSizeList
           height={200}
           width={360}
           itemSize={38}
-          itemCount={EventList.length}
+          itemCount={FakeAdminList.length}
           overscanCount={5}
         >
           {renderList}
         </FixedSizeList>
-
-        <ListItem>
-          <ListItemText primary="Please enter date:" />
-        </ListItem>
-        <ListItem sx={{ pl: 5, pt: 0 }}>
-          <TextField
-            id="standard-basic"
-            variant="standard"
-            label="Event Date"
-            type="date"
-            sx={{ width: 220, color: '#898989' }}
-            InputLabelProps={{
-              shrink: true
-            }}
-          />
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Event description:" />
-        </ListItem>
-        <ListItem sx={{ pl: 5, pt: 0 }}>
-          <TextField
-            multiline={true}
-            maxRows={4}
-            id="standard-basic"
-            label="(Max 200 chars.)"
-            sx={{ color: '#898989' }}
-            variant="standard"
-            inputProps={{ maxLength: 200 }}
-          />
-        </ListItem>
       </List>
       <List className="bottom-buttons" disablePadding={true}>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
@@ -124,7 +99,7 @@ const EditEvent = (props: any) => {
             variant="contained"
             color="primary"
           >
-            Save Changes
+            Remove Admin
           </Button>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
@@ -139,8 +114,8 @@ const EditEvent = (props: any) => {
           </Button>
         </ListItem>
       </List>
-    </ThemeProvider>
+    </>
   )
 }
 
-export default EditEvent
+export default RemoveAdmin

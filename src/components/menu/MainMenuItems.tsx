@@ -38,6 +38,7 @@ const MainMenuItems = (props: any) => {
           icon={AdminIcon}
           parentProp={props}
           text={'Add / Remove Admin'}
+          state={3}
         />
       </ListItem>
       <ListItem disablePadding>
