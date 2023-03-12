@@ -5,19 +5,24 @@ import {
   ListItemButton,
   ThemeProvider,
   Button,
-  Box,
-  Typography
+  Typography,
+  Box
 } from '@mui/material'
 import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
+import { useCalendarContext } from '@/store/CalendarContext'
 
 // placeholder for the list of categories
 const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 
-const ChangeCategories = (props: any) => {
+// @ts-ignore
+const ChangeDeleteEvent = (props: any) => {
+  const { selectedDate } = useCalendarContext()
   const [selected, setSelected] = useState(null)
+
+  // format date
 
   // render list for the scroll function
   function renderList(props: ListChildComponentProps) {
@@ -35,25 +40,24 @@ const ChangeCategories = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`Item ${EventList[index]}`} />
+          <ListItemText primary={`Event ${EventList[index]}`} />
         </ListItemButton>
       </ListItem>
     )
   }
 
-  //function to handle Back button
   const handleBackClick = () => {
     props.updateState(0)
   }
 
   return (
     <ThemeProvider theme={MuiTheme}>
-      <List disablePadding={true}>
+      <List>
         <ListItem>
           <ListItemText
             sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Change Categories"
-          />{' '}
+            secondary="Change / Delete Event"
+          />
           <Box
             sx={{
               display: 'flex',
@@ -73,10 +77,13 @@ const ChangeCategories = (props: any) => {
           </Box>
         </ListItem>
         <ListItem>
-          <ListItemText primary="Please select category:" />
+          <ListItemText primary={`Selected date: ${selectedDate}`} />
+        </ListItem>
+        <ListItem>
+          <ListItemText primary="Please select event:" />
         </ListItem>
         <FixedSizeList
-          height={350}
+          height={200}
           width={360}
           itemSize={38}
           itemCount={EventList.length}
@@ -89,43 +96,44 @@ const ChangeCategories = (props: any) => {
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className="menu-button"
-            size="small"
+            size="medium"
             variant="contained"
             color="primary"
             onClick={() => {
-              props.updateState(2.1)
+              props.updateState(1)
             }}
           >
-            Add New Category
+            Add New Event
           </Button>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+          {/*TODO: make this grey out unless an event is clicked & pass clicked event to parent*/}
           <Button
             className="menu-button"
-            size="small"
+            size="medium"
             variant="contained"
             color="primary"
             onClick={() => {
-              props.updateState(2.2)
+              props.updateState(1.6)
             }}
           >
-            Edit Category
+            Edit Event
           </Button>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className="menu-button"
-            size="small"
+            size="medium"
             variant="contained"
             color="primary"
           >
-            Delete Category
+            Delete Event
           </Button>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className="menu-button"
-            size="small"
+            size="medium"
             variant="contained"
             color="primary"
             onClick={handleBackClick}
@@ -138,4 +146,4 @@ const ChangeCategories = (props: any) => {
   )
 }
 
-export default ChangeCategories
+export default ChangeDeleteEvent
