@@ -34,8 +34,10 @@ const Day = (props: DayProps) => {
         onClick={() => props.handleDayClick(props.day)}
         size={isYearView ? 'small' : 'large'}
         style={{
-          fontSize: isYearView ? '85%' : '28px',
-          color: '#4D4D4D'
+          fontSize: isYearView ? '100%' : '24px',
+          color: '#4D4D4D',
+          maxWidth: isYearView ? '30px' : '60px',
+          minWidth: isYearView ? '30px' : '60px'
         }}
       >
         {props.day.toString()}
@@ -53,7 +55,10 @@ const Day = (props: DayProps) => {
       justifyContent="center"
       alignItems="top"
     >
-      <Typography variant={isYearView ? 'body1' : 'h6'}>
+      <Typography
+        fontSize={isYearView ? '80%' : '24px'}
+        variant={isYearView ? 'body1' : 'h6'}
+      >
         {renderDayOfWeek()}
         {renderDate()}
       </Typography>
