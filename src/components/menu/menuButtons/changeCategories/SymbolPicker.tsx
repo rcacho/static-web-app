@@ -1,16 +1,35 @@
 import React, { useState } from 'react'
 import { Box, Grid } from '@mui/material/'
-import { ToggleButton } from '@mui/material'
+import { ToggleButton, Typography } from '@mui/material'
 import CircleIcon from '@mui/icons-material/Circle'
 import SquareIcon from '@mui/icons-material/Square'
 import StarIcon from '@mui/icons-material/Star'
 import ReportProblemIcon from '@mui/icons-material/ReportProblem'
 import PaidIcon from '@mui/icons-material/Paid'
-import ReportIcon from '@mui/icons-material/Report'
 import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye'
+import HexagonIcon from '@mui/icons-material/Hexagon'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import FilterDramaIcon from '@mui/icons-material/FilterDrama'
+import InvertColorsIcon from '@mui/icons-material/InvertColors'
 
 const SymbolPicker = () => {
   const [selected, setSelected] = useState(0)
+
+  const CustomSymbol = (props: any) => {
+    return (
+      <Typography
+        fontSize="small"
+        sx={{
+          backgroundColor: props.id === selected ? 'black' : 'gray',
+          color: props.id === selected ? 'lightgray' : 'white',
+          minWidth: '15px'
+        }}
+      >
+        {props.symbol}
+      </Typography>
+    )
+  }
 
   function renderSymbols(symbol: any, id: Number) {
     const handleSelect = (index: any) => {
@@ -59,16 +78,16 @@ const SymbolPicker = () => {
           4
         )}
         {renderSymbols(<PaidIcon fontSize="small"></PaidIcon>, 5)}
-        {renderSymbols(<ReportIcon fontSize="small"></ReportIcon>, 6)}
+        {renderSymbols(<HexagonIcon fontSize="small"></HexagonIcon>, 6)}
         {renderSymbols(<PanoramaFishEyeIcon></PanoramaFishEyeIcon>, 7)}
-        {renderSymbols(<CircleIcon></CircleIcon>, 8)}
-        {renderSymbols(<CircleIcon></CircleIcon>, 9)}
-        {renderSymbols(<CircleIcon></CircleIcon>, 10)}
-        {renderSymbols(<CircleIcon></CircleIcon>, 11)}
-        {renderSymbols(<CircleIcon></CircleIcon>, 12)}
-        {renderSymbols(<CircleIcon></CircleIcon>, 13)}
-        {renderSymbols(<CircleIcon></CircleIcon>, 14)}
-        {renderSymbols(<CircleIcon></CircleIcon>, 15)}
+        {renderSymbols(<CustomSymbol symbol="AGM" id={8} />, 8)}
+        {renderSymbols(<CustomSymbol symbol="U" id={9} />, 9)}
+        {renderSymbols(<CustomSymbol symbol="8" id={10} />, 10)}
+        {renderSymbols(<CustomSymbol symbol="!" id={11} />, 11)}
+        {renderSymbols(<ArrowDownwardIcon></ArrowDownwardIcon>, 12)}
+        {renderSymbols(<ArrowUpwardIcon></ArrowUpwardIcon>, 13)}
+        {renderSymbols(<FilterDramaIcon></FilterDramaIcon>, 14)}
+        {renderSymbols(<InvertColorsIcon></InvertColorsIcon>, 15)}
       </Grid>
     </Box>
   )
