@@ -57,5 +57,20 @@ body {
   width: 10px;
 }
 .MuiButton-contained {
-  border-radius: 0px !important;
+  border-radius: 0 !important;
+}
+
+.yearParent {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.yearParent div {
+  grid-row-start: 1;
+  grid-column-start: 1;
+
+}
+.symbols {
+  height: 20px;
+  max-height: 20px;
+  min-height: 20px;
 }

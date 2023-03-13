@@ -3,6 +3,7 @@ import { Typography, Button } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useCalendarContext } from '@/store/CalendarContext'
 import CircleIcon from '@mui/icons-material/Circle'
+import AddIcon from '@mui/icons-material/Add'
 
 export const noValue = ''
 
@@ -13,47 +14,106 @@ interface DayProps {
   handleDayClick: any
 }
 
+const icons = { CircleIcon }
+interface IconItems {
+  icon: keyof typeof icons
+  color: string
+  event: string
+}
+
 const Day = (props: DayProps) => {
-  const IconList = [
-    <CircleIcon fontSize="small" style={{ fill: '#0072ea' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: 'red' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: 'purple' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: '#0072ea' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: '#81ea00' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: '#ea6900' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: '#ea00cb' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: 'black' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: '#00ea37' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: '#ea9800' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: '#81ea00' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: '#ea6900' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: '#ea00cb' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: 'black' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: '#00ea37' }}></CircleIcon>,
-    <CircleIcon fontSize="small" style={{ fill: '#ea9800' }}></CircleIcon>
+  let IconList: IconItems[] = [
+    { icon: 'CircleIcon', color: '#0072ea', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#a8ea00', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#ea00e6', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#ea7d00', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#0013ea', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#ea2300', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#00ea5e', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#5e00ea', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#ea6200', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#ea6900', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#3b00ea', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#ea008c', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#eaa800', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#eae600', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#00ea42', event: 'ev1' },
+    { icon: 'CircleIcon', color: 'black', event: 'ev1' }
   ]
   const { isYearView } = useCalendarContext()
 
-  function ReturnGrid() {
-    if (IconList.length < 12) {
+  function ReturnMonthGrid() {
+    if (IconList.length < 13) {
       return (
-        <Grid container>
-          {IconList.map((icon, index) => (
-            <Grid key={index} xs={2}>
-              {icon}
-            </Grid>
-          ))}
+        <>
+          {IconList.map(({ icon, color }, index) => {
+            const Icon = icons[icon]
+            return (
+              <Grid key={index} xs={2}>
+                <Icon
+                  sx={{ color: color, minHeight: '20px', maxHeight: '20px' }}
+                />
+              </Grid>
+            )
+          })}
+        </>
+      )
+    } else {
+      return (
+        <>
+          {IconList.slice(0, 11).map(({ icon, color }, index) => {
+            const Icon = icons[icon]
+            return (
+              <Grid key={index} xs={2}>
+                <Icon
+                  sx={{ color: color, minHeight: '17px', maxHeight: '17px' }}
+                />
+              </Grid>
+            )
+          })}
+          <Grid xs={2}>+{IconList.length - 11}</Grid>
+        </>
+      )
+    }
+  }
+
+  function ReturnYearGrid() {
+    if (IconList.length < 10) {
+      return (
+        <Grid container minHeight="0" maxHeight="0">
+          {IconList.map(({ icon, color }, index) => {
+            const Icon = icons[icon]
+            return (
+              <Grid key={index} xs={4}>
+                <Icon
+                  sx={{ color: color, minHeight: '8px', maxHeight: '8px' }}
+                />
+              </Grid>
+            )
+          })}
         </Grid>
       )
     } else {
       return (
-        <Grid container>
-          {IconList.slice(0, 11).map((icon, index) => (
-            <Grid key={index} xs={2}>
-              {icon}
-            </Grid>
-          ))}
-          <Grid xs={2}>+{IconList.length - 11}</Grid>
+        <Grid container minHeight="0" maxHeight="0" m="0" p="0">
+          {IconList.slice(0, 8).map(({ icon, color }, index) => {
+            const Icon = icons[icon]
+            return (
+              <Grid key={index} xs={4} minHeight="8px" maxHeight="8px">
+                <Icon
+                  sx={{
+                    color: color,
+                    minHeight: '8px',
+                    maxHeight: '8px',
+                    left: '0'
+                  }}
+                />
+              </Grid>
+            )
+          })}
+          <Grid xs={2} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+            <AddIcon sx={{ minHeight: '12px', maxHeight: '12px' }}></AddIcon>
+          </Grid>
         </Grid>
       )
     }
@@ -75,18 +135,25 @@ const Day = (props: DayProps) => {
       return <></>
     } else if (isYearView) {
       return (
-        <Button
-          onClick={() => props.handleDayClick(props.day)}
-          size={isYearView ? 'small' : 'large'}
-          style={{
-            fontSize: isYearView ? '100%' : '24px',
-            color: '#4D4D4D',
-            maxWidth: isYearView ? '30px' : '60px',
-            minWidth: isYearView ? '30px' : '60px'
-          }}
-        >
-          {props.day.toString()}
-        </Button>
+        <div className="yearParent">
+          <div className="symbols">
+            <ReturnYearGrid></ReturnYearGrid>
+          </div>
+          <div className="days">
+            <Button
+              onClick={() => props.handleDayClick(props.day)}
+              size={isYearView ? 'small' : 'large'}
+              style={{
+                fontSize: isYearView ? '100%' : '24px',
+                color: '#4D4D4D',
+                maxWidth: isYearView ? '30px' : '60px',
+                minWidth: isYearView ? '30px' : '60px'
+              }}
+            >
+              {props.day.toString()}
+            </Button>
+          </div>
+        </div>
       )
     } else {
       return (
@@ -106,7 +173,9 @@ const Day = (props: DayProps) => {
                 {props.day.toString()}
               </Button>
             </Grid>
-            <ReturnGrid></ReturnGrid>
+            <Grid container paddingRight="5px" paddingLeft="5px">
+              <ReturnMonthGrid></ReturnMonthGrid>
+            </Grid>
           </Grid>
         </>
       )
