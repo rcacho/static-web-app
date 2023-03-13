@@ -31,7 +31,7 @@ export const b2cPolicies = {
 // Config object to be passed to Msal on creation
 export const msalConfig = {
   auth: {
-    clientId: process.env.AZURE_AD_B2C_CLIENT_ID,
+    clientId: process.env.AZURE_AD_B2C_CLIENT_ID || '',
     authority: b2cPolicies.authorities.signUpSignIn.authority,
     knownAuthorities: [b2cPolicies.authorityDomain],
     redirectUri: '/',
