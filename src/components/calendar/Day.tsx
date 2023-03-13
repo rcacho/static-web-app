@@ -24,20 +24,20 @@ interface IconItems {
 const Day = (props: DayProps) => {
   let IconList: IconItems[] = [
     { icon: 'CircleIcon', color: '#0072ea', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#a8ea00', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea00e6', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea7d00', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#0013ea', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea2300', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#00ea5e', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#5e00ea', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea6900', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#3b00ea', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea008c', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#eaa800', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#eae600', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#00ea42', event: 'ev1' },
-    { icon: 'CircleIcon', color: 'black', event: 'ev1' }
+    { icon: 'CircleIcon', color: '#a8ea00', event: 'ev1' }
+    // { icon: 'CircleIcon', color: '#ea00e6', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#ea7d00', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#0013ea', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#ea2300', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#00ea5e', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#5e00ea', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#ea6900', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#3b00ea', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#ea008c', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#eaa800', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#eae600', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#00ea42', event: 'ev1' },
+    // { icon: 'CircleIcon', color: 'black', event: 'ev1' }
   ]
   const { isYearView } = useCalendarContext()
 
@@ -79,7 +79,13 @@ const Day = (props: DayProps) => {
   function ReturnYearGrid() {
     if (IconList.length < 5) {
       return (
-        <Grid container minHeight="0" maxHeight="0">
+        <Grid
+          container
+          minHeight="0"
+          maxHeight="0"
+          maxWidth="33px"
+          minWidth="33px"
+        >
           {IconList.map(({ icon, color }, index) => {
             const Icon = icons[icon]
             return (
@@ -94,7 +100,13 @@ const Day = (props: DayProps) => {
       )
     } else if (IconList.length < 10) {
       return (
-        <Grid container minHeight="0" maxHeight="0">
+        <Grid
+          container
+          minHeight="0"
+          maxHeight="0"
+          maxWidth="33px"
+          minWidth="33px"
+        >
           {IconList.slice(0, 4).map(({ icon, color }, index) => {
             const Icon = icons[icon]
             return (
