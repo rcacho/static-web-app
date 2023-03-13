@@ -8,7 +8,11 @@ const Calendar = () => {
   const { isYearView, currentDate } = useCalendarContext()
 
   const renderCalendar = () => {
-    return isYearView ? <Year /> : <Month currentDate={currentDate} />
+    return isYearView ? (
+      <Year />
+    ) : (
+      <Month currentDate={currentDate} yearView={isYearView} />
+    )
   }
 
   return (

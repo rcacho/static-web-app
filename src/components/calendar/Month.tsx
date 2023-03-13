@@ -39,37 +39,50 @@ const calculateWorkingHours = (firstDay: number, lastDay: number) => {
   return val
 }
 
-const Month = ({ currentDate }: any) => {
+const Month = (props: any) => {
   const { toggleBarOnDateClick, isYearView } = useCalendarContext()
 
   // 42 -> 49 to include working hours at the bottom of calendar
   // small chance this number will increase by 7 (6 possible weeks + 1 for the last empty week) to include working week on the side???
-  const numBoxes = 49
+  let numBoxes = 49
 
   // for working hours in a month
   const firstDay = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
+    props.currentDate.getFullYear(),
+    props.currentDate.getMonth(),
     1
   ).getDay()
 
   const firstDayOffset = firstDay - 1
 
   const numDaysInMonth = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth() + 1,
+    props.currentDate.getFullYear(),
+    props.currentDate.getMonth() + 1,
     0
   ).getDate()
 
   // also for working hours in a month
   const lastDay = new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth(),
+    props.currentDate.getFullYear(),
+    props.currentDate.getMonth(),
     numDaysInMonth
   ).getDay()
 
   const handleDayClick = (day: any) => {
-    toggleBarOnDateClick(1, formatDate(currentDate, day))
+    toggleBarOnDateClick(1, formatDate(props.currentDate, day))
+  }
+
+  // i do not know why when we switch from month view to year view
+  // the props.yearView is undefined
+  // but i only spent like 2 minutes trying to find out why lol
+  if (props.yearView != undefined && !props.yearView) {
+    // if the first day of the month is friday or saturday
+    // show the extra row
+    if (firstDay >= 5 && numDaysInMonth > 30) {
+      numBoxes = 42
+    } else {
+      numBoxes = 35
+    }
   }
 
   const renderDays = () => {
@@ -111,7 +124,7 @@ const Month = ({ currentDate }: any) => {
               color="blue"
               fontSize={isYearView ? '75%' : '100%'}
             >
-              {currentDate.getMonth() == 11
+              {props.currentDate.getMonth() == 11
                 ? 160
                 : calculateWorkingHours(firstDay, lastDay)}
             </Typography>

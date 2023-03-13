@@ -142,6 +142,7 @@ const Day = (props: DayProps) => {
 
   const renderDate = () => {
     if (props.day === 0) {
+      // for aligning the work hours lol
       return (
         <Button
           disabled
