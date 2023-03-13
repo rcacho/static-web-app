@@ -5,20 +5,21 @@ import {
   ListItemIcon,
   ListItemText
 } from '@mui/material'
-import LogoutIcon from '@mui/icons-material/Logout'
+
 import PrintIcon from '@mui/icons-material/Print'
 import Export from '@mui/icons-material/IosShare'
 import AddIcon from '@mui/icons-material/Add'
 import AdminIcon from '@mui/icons-material/SupervisorAccount'
 import ModeIcon from '@mui/icons-material/Mode'
 import React from 'react'
-import Buttons from '@/components/menu/Buttons'
+import StateMenuButton from './StateMenuButton'
+import LogInOutButton from './LogInOutButton'
 
 const MainMenuItems = (props: any) => {
   return (
     <List>
       <ListItem disablePadding>
-        <Buttons
+        <StateMenuButton
           icon={AddIcon}
           parentProp={props}
           state={1}
@@ -26,7 +27,7 @@ const MainMenuItems = (props: any) => {
         />
       </ListItem>
       <ListItem disablePadding>
-        <Buttons
+        <StateMenuButton
           icon={ModeIcon}
           parentProp={props}
           state={2}
@@ -34,7 +35,7 @@ const MainMenuItems = (props: any) => {
         />
       </ListItem>
       <ListItem disablePadding>
-        <Buttons
+        <StateMenuButton
           icon={AdminIcon}
           parentProp={props}
           text={'Add / Remove Admin'}
@@ -58,12 +59,7 @@ const MainMenuItems = (props: any) => {
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
-        <ListItemButton>
-          <ListItemIcon>
-            <LogoutIcon />
-          </ListItemIcon>
-          <ListItemText primary="Logout" />
-        </ListItemButton>
+        <LogInOutButton />
       </ListItem>
     </List>
   )
