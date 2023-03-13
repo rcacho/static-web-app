@@ -130,7 +130,13 @@ const Day = (props: DayProps) => {
       )
     } else {
       return (
-        <Grid container minHeight="0" maxHeight="0">
+        <Grid
+          container
+          minHeight="0"
+          maxHeight="0"
+          maxWidth="33px"
+          minWidth="33px"
+        >
           {IconList.slice(0, 4).map(({ icon, color }, index) => {
             const Icon = icons[icon]
             return (
