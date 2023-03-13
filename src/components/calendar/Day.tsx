@@ -31,7 +31,6 @@ const Day = (props: DayProps) => {
     { icon: 'CircleIcon', color: '#ea2300', event: 'ev1' },
     { icon: 'CircleIcon', color: '#00ea5e', event: 'ev1' },
     { icon: 'CircleIcon', color: '#5e00ea', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea6200', event: 'ev1' },
     { icon: 'CircleIcon', color: '#ea6900', event: 'ev1' },
     { icon: 'CircleIcon', color: '#3b00ea', event: 'ev1' },
     { icon: 'CircleIcon', color: '#ea008c', event: 'ev1' },
@@ -78,7 +77,7 @@ const Day = (props: DayProps) => {
   }
 
   function ReturnYearGrid() {
-    if (IconList.length < 10) {
+    if (IconList.length < 5) {
       return (
         <Grid container minHeight="0" maxHeight="0">
           {IconList.map(({ icon, color }, index) => {
@@ -93,10 +92,10 @@ const Day = (props: DayProps) => {
           })}
         </Grid>
       )
-    } else {
+    } else if (IconList.length < 10) {
       return (
-        <Grid container minHeight="0" maxHeight="0" m="0" p="0">
-          {IconList.slice(0, 8).map(({ icon, color }, index) => {
+        <Grid container minHeight="0" maxHeight="0">
+          {IconList.slice(0, 4).map(({ icon, color }, index) => {
             const Icon = icons[icon]
             return (
               <Grid key={index} xs={4} minHeight="8px" maxHeight="8px">
@@ -104,13 +103,64 @@ const Day = (props: DayProps) => {
                   sx={{
                     color: color,
                     minHeight: '8px',
-                    maxHeight: '8px',
-                    left: '0'
+                    maxHeight: '8px'
                   }}
                 />
               </Grid>
             )
           })}
+          <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}></Grid>
+          {IconList.slice(4, IconList.length - 1).map(
+            ({ icon, color }, index) => {
+              const Icon = icons[icon]
+              return (
+                <Grid key={index} xs={4} minHeight="8px" maxHeight="8px">
+                  <Icon
+                    sx={{
+                      color: color,
+                      minHeight: '8px',
+                      maxHeight: '8px'
+                    }}
+                  />
+                </Grid>
+              )
+            }
+          )}
+        </Grid>
+      )
+    } else {
+      return (
+        <Grid container minHeight="0" maxHeight="0">
+          {IconList.slice(0, 4).map(({ icon, color }, index) => {
+            const Icon = icons[icon]
+            return (
+              <Grid key={index} xs={4} minHeight="8px" maxHeight="8px">
+                <Icon
+                  sx={{
+                    color: color,
+                    minHeight: '8px',
+                    maxHeight: '8px'
+                  }}
+                />
+              </Grid>
+            )
+          })}
+          <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}></Grid>
+          {IconList.slice(4, 7).map(({ icon, color }, index) => {
+            const Icon = icons[icon]
+            return (
+              <Grid key={index} xs={4} minHeight="8px" maxHeight="8px">
+                <Icon
+                  sx={{
+                    color: color,
+                    minHeight: '8px',
+                    maxHeight: '8px'
+                  }}
+                />
+              </Grid>
+            )
+          })}
+
           <Grid xs={2} sx={{ minHeight: '8px', maxHeight: '8px' }}>
             <AddIcon sx={{ minHeight: '12px', maxHeight: '12px' }}></AddIcon>
           </Grid>
