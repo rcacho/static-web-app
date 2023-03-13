@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box } from '@mui/material/'
 import {
   Button,
@@ -10,9 +10,42 @@ import {
 } from '@mui/material'
 
 const AddAdmin = (props: any) => {
+  const [name, setName] = useState('')
+  const [lastName, setLastName] = useState('')
+  const [email, setEmail] = useState('')
   //function to handle Back button
   const handleBackClick = () => {
     props.updateState(3)
+    setName('')
+    setEmail('')
+    setLastName('')
+  }
+
+  function AddButton() {
+    if (name === '' || lastName === '' || email === '') {
+      return (
+        <Button
+          className="menu-button"
+          size="medium"
+          variant="contained"
+          color="primary"
+          disabled
+        >
+          Add Admin
+        </Button>
+      )
+    } else {
+      return (
+        <Button
+          className="menu-button"
+          size="medium"
+          variant="contained"
+          color="primary"
+        >
+          Add Admin
+        </Button>
+      )
+    }
   }
 
   return (
@@ -53,7 +86,8 @@ const AddAdmin = (props: any) => {
             label="(Required)"
             sx={{ color: '#898989' }}
             variant="standard"
-            inputProps={{ maxLength: 50 }}
+            inputProps={{ maxLength: 50, inputMode: 'text' }}
+            onChange={(newVal) => setName(newVal.target.value)}
           />
         </ListItem>
         <ListItem>
@@ -68,7 +102,8 @@ const AddAdmin = (props: any) => {
             label="(Required)"
             sx={{ color: '#898989' }}
             variant="standard"
-            inputProps={{ maxLength: 50 }}
+            inputProps={{ maxLength: 50, inputMode: 'text' }}
+            onChange={(newVal) => setLastName(newVal.target.value)}
           />
         </ListItem>
         <ListItem>
@@ -83,20 +118,14 @@ const AddAdmin = (props: any) => {
             label="(Required)"
             sx={{ color: '#898989' }}
             variant="standard"
-            inputProps={{ maxLength: 100 }}
+            inputProps={{ maxLength: 100, inputMode: 'email' }}
+            onChange={(newVal) => setEmail(newVal.target.value)}
           />
         </ListItem>
       </List>
       <List className="bottom-buttons" disablePadding={true}>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-          >
-            Add Admin
-          </Button>
+          <AddButton />
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button

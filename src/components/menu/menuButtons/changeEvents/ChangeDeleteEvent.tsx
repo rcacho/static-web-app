@@ -13,6 +13,7 @@ import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { useCalendarContext } from '@/store/CalendarContext'
+import DeleteEventPopUp from '@/components/menu/menuButtons/changeEvents/DeleteEventPopUp'
 
 // placeholder for the list of categories
 const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
@@ -23,6 +24,36 @@ const ChangeDeleteEvent = (props: any) => {
   const [selected, setSelected] = useState(null)
 
   // format date
+
+  function EditEvent() {
+    if (selected === null) {
+      return (
+        <Button
+          className="menu-button"
+          size="medium"
+          variant="contained"
+          color="primary"
+          disabled
+        >
+          Edit Event
+        </Button>
+      )
+    } else {
+      return (
+        <Button
+          className="menu-button"
+          size="medium"
+          variant="contained"
+          color="primary"
+          onClick={() => {
+            props.updateState(1.6)
+          }}
+        >
+          Edit Event
+        </Button>
+      )
+    }
+  }
 
   // render list for the scroll function
   function renderList(props: ListChildComponentProps) {
@@ -107,28 +138,10 @@ const ChangeDeleteEvent = (props: any) => {
           </Button>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          {/*TODO: make this grey out unless an event is clicked & pass clicked event to parent*/}
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.updateState(1.6)
-            }}
-          >
-            Edit Event
-          </Button>
+          <EditEvent></EditEvent>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-          >
-            Delete Event
-          </Button>
+          <DeleteEventPopUp selected={selected}>Delete Event</DeleteEventPopUp>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
