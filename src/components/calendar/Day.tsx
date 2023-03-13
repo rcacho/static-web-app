@@ -50,7 +50,7 @@ const Day = (props: DayProps) => {
             return (
               <Grid key={index} xs={2}>
                 <Icon
-                  sx={{ color: color, minHeight: '20px', maxHeight: '20px' }}
+                  sx={{ color: color, minHeight: '17px', maxHeight: '17px' }}
                 />
               </Grid>
             )
@@ -241,7 +241,7 @@ const Day = (props: DayProps) => {
                 {props.day.toString()}
               </Button>
             </Grid>
-            <Grid container paddingRight="5px" paddingLeft="5px">
+            <Grid container xs={12} paddingRight="5px" paddingLeft="5px">
               <ReturnMonthGrid></ReturnMonthGrid>
             </Grid>
           </Grid>
