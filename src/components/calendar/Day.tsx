@@ -200,7 +200,21 @@ const Day = (props: DayProps) => {
 
   const renderDate = () => {
     if (props.day === 0) {
-      return <></>
+      return (
+        <Button
+          disabled
+          size={isYearView ? 'small' : 'large'}
+          style={{
+            opacity: 0,
+            fontSize: isYearView ? '100%' : '24px',
+            color: '#4D4D4D',
+            maxWidth: isYearView ? '30px' : '60px',
+            minWidth: isYearView ? '30px' : '60px'
+          }}
+        >
+          1
+        </Button>
+      )
     } else if (isYearView) {
       return (
         <div className="yearParent">
