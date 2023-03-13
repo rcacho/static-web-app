@@ -39,7 +39,13 @@ const Year = () => {
     const monthNumber = months.indexOf(month)
 
     return (
-      <Grid xs={4} sm={2} lg={1} border={0} sx={{ p: 3 }}>
+      <Grid
+        xs={4}
+        sm={2}
+        lg={1}
+        border={0}
+        sx={{ p: 3, paddingTop: 0, paddingBottom: 0 }}
+      >
         <MonthButton month={month} handleClick={handleMonthButtonClick} />
         <Month
           currentDate={new Date(currentDate.getFullYear(), monthNumber, 1)}
@@ -54,6 +60,8 @@ const Year = () => {
       columns={4}
       spacing={-5}
       border={0}
+      marginTop={0.5}
+      marginBottom={0}
       alignItems="stretch"
       sx={{ height: '100%' }}
     >
@@ -71,7 +79,7 @@ const MonthButton = ({ month, handleClick }: MBProps) => {
   const monthNumber = months.indexOf(month)
   return (
     <Button
-      style={{ color: 'black', fontSize: '80%' }}
+      style={{ color: 'black', fontSize: '75%' }}
       onClick={() => handleClick(monthNumber)}
     >
       {month}

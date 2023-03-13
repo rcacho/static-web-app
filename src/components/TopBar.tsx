@@ -22,7 +22,7 @@ const TopBar = () => {
           direction="row"
           sx={{
             zIndex: (theme) => theme.zIndex.drawer + 2,
-            display: { xs: 'none', sm: 'block' }
+            display: { xs: 'block', sm: 'block' }
           }}
         >
           <Stack
@@ -51,7 +51,7 @@ const MiniAELogo = () => {
   return (
     <Stack
       sx={{
-        display: { xs: 'block', sm: 'none' }
+        display: { xs: 'none', sm: 'none' }
       }}
     >
       <Stack
