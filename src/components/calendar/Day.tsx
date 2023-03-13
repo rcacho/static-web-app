@@ -28,7 +28,20 @@ const Day = (props: DayProps) => {
 
   const renderDate = () => {
     return props.day == 0 ? (
-      <></>
+      // for spacing lol
+      <Button
+        disabled
+        size={isYearView ? 'small' : 'large'}
+        style={{
+          opacity: 0,
+          fontSize: isYearView ? '100%' : '24px',
+          color: '#4D4D4D',
+          maxWidth: isYearView ? '30px' : '60px',
+          minWidth: isYearView ? '30px' : '60px'
+        }}
+      >
+        1
+      </Button>
     ) : (
       <Button
         onClick={() => props.handleDayClick(props.day)}
