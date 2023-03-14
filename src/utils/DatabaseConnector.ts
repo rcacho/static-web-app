@@ -2,10 +2,10 @@ const sql = require('mssql')
 
 export class DatabaseConnector {
   configs = {
-    user: 'CloudSA2a696802',
-    password: 'O62Fsn%*l7t7',
-    server: 'calendar-server-db-dev.database.windows.net',
-    database: 'calendar-db-dev',
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    server: process.env.DB_SERVER,
+    database: process.env.DB_NAME,
     authentication: {
       type: 'default'
     },
