@@ -26,18 +26,18 @@ const Day = (props: DayProps) => {
     { icon: 'CircleIcon', color: '#0072ea', event: 'ev1' },
     { icon: 'CircleIcon', color: '#a8ea00', event: 'ev1' },
     { icon: 'CircleIcon', color: '#ea00e6', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea7d00', event: 'ev1' }
-    // { icon: 'CircleIcon', color: '#0013ea', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#ea2300', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#00ea5e', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#5e00ea', event: 'ev1' }
-    // { icon: 'CircleIcon', color: '#ea6900', event: 'ev1' }
-    // { icon: 'CircleIcon', color: '#3b00ea', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#ea008c', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#eaa800', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#eae600', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#00ea42', event: 'ev1' },
-    // { icon: 'CircleIcon', color: 'black', event: 'ev1' }
+    { icon: 'CircleIcon', color: '#ea7d00', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#0013ea', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#ea2300', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#00ea5e', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#5e00ea', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#ea6900', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#3b00ea', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#ea008c', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#eaa800', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#eae600', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#00ea42', event: 'ev1' },
+    { icon: 'CircleIcon', color: 'black', event: 'ev1' }
   ]
   const { isYearView } = useCalendarContext()
 
@@ -62,7 +62,20 @@ const Day = (props: DayProps) => {
             return (
               <Grid key={index} xs={2}>
                 <Icon
-                  sx={{ color: color, minHeight: '17px', maxHeight: '17px' }}
+                  sx={{
+                    color: color,
+                    minHeight: '17px',
+                    maxHeight: '17px',
+                    display: { xs: 'none', sm: 'block' }
+                  }}
+                />
+                <Icon
+                  sx={{
+                    color: color,
+                    minHeight: '8px',
+                    maxHeight: '8px',
+                    display: { xs: 'block', sm: 'none' }
+                  }}
                 />
               </Grid>
             )
@@ -75,14 +88,49 @@ const Day = (props: DayProps) => {
           {IconList.slice(0, 11).map(({ icon, color }, index) => {
             const Icon = icons[icon]
             return (
-              <Grid key={index} xs={2}>
-                <Icon
-                  sx={{ color: color, minHeight: '17px', maxHeight: '17px' }}
-                />
-              </Grid>
+              <>
+                <Grid
+                  sx={{ display: { xs: 'none', sm: 'block' } }}
+                  key={index}
+                  xs={2}
+                >
+                  <Icon
+                    sx={{
+                      color: color,
+                      minHeight: '17px',
+                      maxHeight: '17px'
+                    }}
+                  />
+                </Grid>
+                <Grid
+                  sx={{ display: { xs: 'block', sm: 'none' } }}
+                  key={index}
+                  xs={3}
+                >
+                  <Icon
+                    sx={{
+                      color: color,
+                      minHeight: '8px',
+                      maxHeight: '8px'
+                    }}
+                  />
+                </Grid>
+              </>
             )
           })}
-          <Grid xs={2}>+{IconList.length - 11}</Grid>
+          <Grid
+            fontSize={'small'}
+            sx={{
+              height: '100%',
+              display: { xs: 'block', sm: 'none' }
+            }}
+            xs={3}
+          >
+            +{IconList.length - 11}
+          </Grid>
+          <Grid sx={{ display: { xs: 'none', sm: 'block' } }} xs={2}>
+            +{IconList.length - 11}
+          </Grid>
         </>
       )
     }

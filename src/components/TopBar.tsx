@@ -1,6 +1,6 @@
 import { AppBar, Typography, styled } from '@mui/material'
 import NotificationsIcon from '@mui/icons-material/Notifications'
-import { Stack, Toolbar, Badge } from '@mui/material/'
+import { Stack, Toolbar, Badge, Button } from '@mui/material/'
 import Image from 'next/image'
 import RightMenuButton from './menu/RightMenuButton'
 import React from 'react'
@@ -15,8 +15,8 @@ const TopBar = () => {
   })
 
   return (
-    <AppBar position="sticky">
-      <StyledTopBar>
+    <AppBar position="sticky" sx={{ minHeight: '64px' }}>
+      <StyledTopBar sx={{ minHeight: '64px' }}>
         <MiniAELogo />
         <Stack
           direction="row"
@@ -37,9 +37,11 @@ const TopBar = () => {
         </Stack>
 
         <Stack direction="row" spacing={4}>
-          <Badge variant="dot" badgeContent={2} color="error">
-            <NotificationsIcon color="action" />
-          </Badge>
+          <Button sx={{ minWidth: '30px', maxWidth: '30px' }}>
+            <Badge variant="dot" badgeContent={2} color="error">
+              <NotificationsIcon color="action" />
+            </Badge>
+          </Button>
           <RightMenuButton />
         </Stack>
       </StyledTopBar>
@@ -61,7 +63,9 @@ const MiniAELogo = () => {
         justifyContent="space-between"
       >
         <Image src="/img/logo.png" alt="logo" width="30" height="24" />
-        <Typography variant="h6">Calendar</Typography>
+        <Typography sx={{ display: { xs: 'none', sm: 'block' } }} variant="h6">
+          Calendar
+        </Typography>
       </Stack>
     </Stack>
   )
@@ -71,7 +75,9 @@ const AELogo = () => {
   return (
     <>
       <Image src="/img/logo.png" alt="logo" width="60" height="48" />
-      <Typography variant="h6">Calendar</Typography>
+      <Typography sx={{ display: { xs: 'none', sm: 'block' } }} variant="h6">
+        Calendar
+      </Typography>
     </>
   )
 }
