@@ -44,7 +44,12 @@ const Year = () => {
         sm={2}
         lg={1}
         border={0}
-        sx={{ p: 3, paddingTop: 0, paddingBottom: 0 }}
+        sx={{
+          p: 3,
+          paddingTop: 0,
+          paddingBottom: 0,
+          minWidth: '280px'
+        }}
       >
         <MonthButton month={month} handleClick={handleMonthButtonClick} />
         <Month
