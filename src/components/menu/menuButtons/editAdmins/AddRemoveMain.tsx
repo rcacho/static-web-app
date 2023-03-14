@@ -1,9 +1,9 @@
 import React from 'react'
 import { Box } from '@mui/material/'
 import { List, ListItem, ListItemText, Typography } from '@mui/material'
-import Buttons from '@/components/menu/Buttons'
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
+import StateMenuButton from '../../StateMenuButton'
 
 const AddRemoveMain = (props: any) => {
   //function to handle Back button
@@ -33,7 +33,7 @@ const AddRemoveMain = (props: any) => {
         </Box>
       </ListItem>
       <ListItem disablePadding>
-        <Buttons
+        <StateMenuButton
           icon={GroupAddIcon}
           parentProp={props}
           state={3.1}
@@ -41,7 +41,7 @@ const AddRemoveMain = (props: any) => {
         />
       </ListItem>
       <ListItem disablePadding>
-        <Buttons
+        <StateMenuButton
           icon={GroupRemoveIcon}
           parentProp={props}
           text={'Remove Admin'}
