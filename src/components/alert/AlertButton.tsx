@@ -2,7 +2,7 @@ import { Avatar, Badge, ClickAwayListener, Popper, Stack, Typography } from "@mu
 import React, { useEffect, useState } from "react";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import CloseIcon from '@mui/icons-material/Close';
-import { APIInterface } from "@/utils/APIInterface";
+import { APIManager } from "@/utils/APIManager";
 
 type Alert = {
     name: String,
@@ -50,7 +50,7 @@ const AlertPanel = (props: any) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const instance = await APIInterface.getInstance();
+            const instance = await APIManager.getInstance();
             const data = await instance.getCategory();
         }
         fetchData()

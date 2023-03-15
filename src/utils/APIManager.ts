@@ -6,14 +6,14 @@ const apiPaths = {
     notifications: "/api/notification/[id]",
 }
 
-export class APIInterface {
-    static instance: APIInterface;
+export class APIManager {
+    static instance: APIManager;
     currSession: Session | null;
     sessionId: number | null;
 
     public static async getInstance() {
         if (this.instance == undefined) {
-            this.instance = new APIInterface(await getSession())
+            this.instance = new APIManager(await getSession())
         }
         return this.instance;
     }
