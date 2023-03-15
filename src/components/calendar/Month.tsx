@@ -114,7 +114,7 @@ const Month = (props: any) => {
   return (
     <Grid
       container
-      columns={20}
+      columns={40}
       spacing={0}
       border={isYearView ? 0 : 1}
       maxWidth={isYearView ? 350 : '100%'}
@@ -122,7 +122,7 @@ const Month = (props: any) => {
       alignItems="stretch"
       sx={{ height: '100%', minWidth: 250 }}
     >
-      <Grid xs={19} height={'100%'}>
+      <Grid xs={39} height={'100%'}>
         <Grid container columns={7} height={'100%'}>
           {renderDays()}
         </Grid>
@@ -144,62 +144,99 @@ const Month = (props: any) => {
 
 const WorkWeekIndex = (props: any) => {
   return (
-    <Grid xs={1} height={'auto'}>
-      <Button
-        disabled
-        size={props.isYearView ? 'small' : 'large'}
-        style={{
-          color: 'blue',
-          opacity: 1,
-          fontSize: props.isYearView ? '100%' : '24px',
-          maxWidth: props.isYearView ? '30px' : '60px',
-          minWidth: props.isYearView ? '30px' : '60px'
-        }}
+    <Grid
+      sx={{ height: 'auto' }}
+      xs={1}
+      display="flex"
+      justifyContent="center"
+      alignItems="top"
+    >
+      <Typography
+        fontSize={props.isYearView ? '80%' : '24px'}
+        variant={props.isYearView ? 'body1' : 'h6'}
       >
-        {props.index}
-      </Button>
+        <Button
+          disabled
+          size={props.isYearView ? 'small' : 'large'}
+          style={{
+            color: 'blue',
+            opacity: 1,
+            fontSize: props.isYearView ? '100%' : '24px',
+            maxWidth: props.isYearView ? '30px' : '60px',
+            minWidth: props.isYearView ? '30px' : '60px'
+          }}
+        >
+          {props.index}
+        </Button>
+      </Typography>
     </Grid>
   )
 }
 
 const WorkingHours = (props: any) => {
   return (
-    <Grid xs={1}>
-      <Button
-        disabled
-        size={props.isYearView ? 'small' : 'large'}
-        style={{
-          height: 'auto',
-          color: 'blue',
-          opacity: 1,
-          fontSize: props.isYearView ? '100%' : '24px',
-          maxWidth: props.isYearView ? '30px' : '60px',
-          minWidth: props.isYearView ? '30px' : '60px'
-        }}
+    <>
+      <Grid
+        sx={{ height: 'auto' }}
+        xs={1}
+        display="flex"
+        justifyContent="center"
+        alignItems="top"
       >
-        {props.currentDate.getMonth() == 11
-          ? 160
-          : calculateWorkingHours(props.firstDay, props.lastDay)}
-      </Button>
-    </Grid>
+        <Typography
+          fontSize={props.isYearView ? '80%' : '24px'}
+          variant={props.isYearView ? 'body1' : 'h6'}
+        >
+          <Button
+            disabled
+            size={props.isYearView ? 'small' : 'large'}
+            style={{
+              height: 'auto',
+              color: 'blue',
+              opacity: 1,
+              fontSize: props.isYearView ? '100%' : '24px',
+              maxWidth: props.isYearView ? '30px' : '60px',
+              minWidth: props.isYearView ? '30px' : '60px'
+            }}
+          >
+            {props.currentDate.getMonth() == 11
+              ? 160
+              : calculateWorkingHours(props.firstDay, props.lastDay)}
+          </Button>
+        </Typography>
+      </Grid>
+    </>
   )
 }
 
 const EmptyIndex = (props: any) => {
   return (
-    <Button
-      disabled
-      size={props.isYearView ? 'small' : 'large'}
-      style={{
-        opacity: 0,
-        fontSize: props.isYearView ? '100%' : '24px',
-        color: '#4D4D4D',
-        maxWidth: props.isYearView ? '30px' : '60px',
-        minWidth: props.isYearView ? '30px' : '60px'
-      }}
+    <Grid
+      sx={{ height: 'auto' }}
+      xs={1}
+      display="flex"
+      justifyContent="center"
+      alignItems="top"
     >
-      1
-    </Button>
+      <Typography
+        fontSize={props.isYearView ? '80%' : '24px'}
+        variant={props.isYearView ? 'body1' : 'h6'}
+      >
+        <Button
+          disabled
+          size={props.isYearView ? 'small' : 'large'}
+          style={{
+            opacity: 0,
+            fontSize: props.isYearView ? '100%' : '24px',
+            color: '#4D4D4D',
+            maxWidth: props.isYearView ? '30px' : '60px',
+            minWidth: props.isYearView ? '30px' : '60px'
+          }}
+        >
+          1
+        </Button>
+      </Typography>
+    </Grid>
   )
 }
 
@@ -211,7 +248,11 @@ const HoursAndWeeks = (props: any) => {
     for (let i = 0; i < 6; i++) {
       if (i < maxWeek) {
         weekNums.push(
-          <WorkWeekIndex isYearView={props.isYearView} index={week + i} />
+          <WorkWeekIndex
+            isYearView={props.isYearView}
+            index={week + i}
+            first={i}
+          />
         )
       } else {
         weekNums.push(<EmptyIndex isYearView={props.isYearView} />)
@@ -225,7 +266,7 @@ const HoursAndWeeks = (props: any) => {
     const weekNums = []
     let maxWeek = props.numWeeksOfMonth[props.currentDate.getMonth()]
     let week = props.startingWeekIndex[props.currentDate.getMonth()]
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 5; i++) {
       if (i < maxWeek) {
         weekNums.push(
           <WorkWeekIndex isYearView={props.isYearView} index={week + i} />
@@ -250,22 +291,15 @@ const HoursAndWeeks = (props: any) => {
           justifyContent="center"
           alignItems="top"
         >
-          <Typography
-            fontSize={props.isYearView ? '80%' : '24px'}
-            variant={props.isYearView ? 'body1' : 'h6'}
-          >
-            &nbsp;
-            <br />
-            {props.isYearView
-              ? RenderWeekNums()
-              : RenderSpecificWeeksForMonth()}
-            <WorkingHours
-              isYearView={props.isYearView}
-              firstDay={props.firstDay}
-              lastDay={props.lastDay}
-              currentDate={props.currentDate}
-            />
-          </Typography>
+          &nbsp;
+          <br />
+          {props.isYearView ? RenderWeekNums() : RenderSpecificWeeksForMonth()}
+          <WorkingHours
+            isYearView={props.isYearView}
+            firstDay={props.firstDay}
+            lastDay={props.lastDay}
+            currentDate={props.currentDate}
+          />
         </Grid>
       </Grid>
     </>
