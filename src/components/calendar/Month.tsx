@@ -4,7 +4,7 @@ import Day, { noValue } from './Day'
 import { useCalendarContext } from '@/store/CalendarContext'
 import { Typography } from '@mui/material'
 
-const daysOfWeek = ['SUN', 'MON', 'TUES', 'WED', 'THUR', 'FRI', 'SAT']
+const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 const daysOfWeekMini = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
 
 const formatDate = (date: Date, day: any) => {
@@ -30,7 +30,7 @@ const formatDate = (date: Date, day: any) => {
 
 // this only works if january's first working day is monday
 const calculateWorkingHours = (firstDay: number, lastDay: number) => {
-  let val: number = 0
+  let val: number
   if (firstDay < 3 && lastDay != 1) {
     val = 200
   } else {
@@ -76,7 +76,7 @@ const Month = ({ currentDate }: any) => {
     const shouldRenderfirstDaysOfWeek = (i: number) => i < 7
     const days = []
 
-    for (var i = 0; i < numBoxes; i++) {
+    for (let i = 0; i < numBoxes; i++) {
       let day = i - firstDayOffset
       let dayOfWeek = noValue
 
@@ -106,7 +106,11 @@ const Month = ({ currentDate }: any) => {
             justifyContent="center"
             alignItems="top"
           >
-            <Typography variant={'body1'} color="blue">
+            <Typography
+              variant={'body2'}
+              color="blue"
+              fontSize={isYearView ? '75%' : '100%'}
+            >
               {currentDate.getMonth() == 11
                 ? 160
                 : calculateWorkingHours(firstDay, lastDay)}
@@ -124,9 +128,10 @@ const Month = ({ currentDate }: any) => {
       columns={7}
       spacing={0}
       border={isYearView ? 0 : 1}
+      maxWidth={isYearView ? 350 : '100%'}
       textAlign="center"
-      alignItems="stetch"
-      sx={{ height: '100%' }}
+      alignItems="stretch"
+      sx={{ height: '100%', minWidth: 250 }}
     >
       {renderDays()}
     </Grid>

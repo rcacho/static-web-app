@@ -10,6 +10,7 @@ import {
 } from '@mui/material'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
+import RemovePopUp from '@/components/menu/menuButtons/editAdmins/RemovePopUp'
 
 const RemoveAdmin = (props: any) => {
   const [selected, setSelected] = useState(null)
@@ -28,6 +29,7 @@ const RemoveAdmin = (props: any) => {
   //function to handle Back button
   const handleBackClick = () => {
     props.updateState(3)
+    setSelected(null)
   }
 
   function renderList(props: ListChildComponentProps) {
@@ -93,14 +95,7 @@ const RemoveAdmin = (props: any) => {
       </List>
       <List className="bottom-buttons" disablePadding={true}>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-          >
-            Remove Admin
-          </Button>
+          <RemovePopUp selected={selected} />
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
