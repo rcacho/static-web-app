@@ -13,7 +13,6 @@ type Alert = {
 
 const defaultColour = 'rgb(137,137,137)';
 const fontColour = 'rgb(90,90,90)'
-const apiPath = "/api/notification/[id]" // @TODO: Placeholder
 
 const AlertButton = () => {
     const [hasAlerts, setHasAlerts] = useState<boolean>(false);
@@ -49,13 +48,12 @@ const AlertPanel = (props: any) => {
     }
 
     useEffect(() => {
-        const fetchData = async () => {
-            const instance = await APIManager.getInstance();
-            const data = await instance.getCategory();
-            console.log(data)
-        }
-        fetchData()
-            .catch(console.error);
+        APIManager.getInstance()
+            .then(instance => instance.getCategory())
+            .then(data => {
+                console.log(data)
+                // do something with this data
+            })
         
         setAlerts([
             { name: "Expense Cutoff", date: new Date("2023-10-13"), admin: "Steve", action: "added" },

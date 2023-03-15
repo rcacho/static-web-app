@@ -34,7 +34,7 @@ export class APIManager {
         return await this.fetch(apiPaths.category + `/${categoryId}`, "DELETE")
     }
 
-    private async fetch(url: string, method: string, data?: any) {
+    private fetch(url: string, method: string, data?: any) {
         var options;
         if (data) {
             options = {
@@ -47,8 +47,8 @@ export class APIManager {
         } else {
             options = {method: method}
         }
-        const results = await fetch(url, options)
-        return results.json();
+        return fetch(url, options)
+            .then(res => res.json());
     }
 
     private constructor(session: Session | null) {
