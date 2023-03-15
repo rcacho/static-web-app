@@ -1,6 +1,6 @@
 import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
-import { Button } from '@mui/material'
+import { Button, Stack } from '@mui/material'
 import Month from './Month'
 import { useCalendarContext } from '@/store/CalendarContext'
 
@@ -46,10 +46,12 @@ const Year = () => {
         border={0}
         sx={{ p: 3, paddingTop: 0, paddingBottom: 0 }}
       >
-        <MonthButton month={month} handleClick={handleMonthButtonClick} />
-        <Month
-          currentDate={new Date(currentDate.getFullYear(), monthNumber, 1)}
-        />
+        <Stack>
+          <MonthButton month={month} handleClick={handleMonthButtonClick} />
+          <Month
+            currentDate={new Date(currentDate.getFullYear(), monthNumber, 1)}
+          />
+        </Stack>
       </Grid>
     )
   }
