@@ -52,6 +52,7 @@ const AlertPanel = (props: any) => {
         const fetchData = async () => {
             const instance = await APIManager.getInstance();
             const data = await instance.getCategory();
+            console.log(data)
         }
         fetchData()
             .catch(console.error);

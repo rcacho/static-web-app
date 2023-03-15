@@ -19,15 +19,19 @@ export class APIManager {
     }
 
     public async getCategory() {
-        return await this.fetch(apiPaths.category, "GET");
+        return await this.fetch(apiPaths.category, "GET")
     }
 
-    public async updateCategory(data: any) {
-        return await this.fetch(apiPaths.category + `/${this.sessionId}`, "PUT", data)
+    public async addCategory(data: any) {
+        return await this.fetch(apiPaths.category, "POST", data)
     }
 
-    public async deleteCategory() {
-        return await this.fetch(apiPaths.category + `/${this.sessionId}`, "DELETE")
+    public async updateCategory(categoryId: number, data: any) {
+        return await this.fetch(apiPaths.category + `/${categoryId}`, "PUT", data)
+    }
+
+    public async deleteCategory(categoryId: number) {
+        return await this.fetch(apiPaths.category + `/${categoryId}`, "DELETE")
     }
 
     private async fetch(url: string, method: string, data?: any) {
