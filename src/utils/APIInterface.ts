@@ -31,18 +31,19 @@ export class APIInterface {
     }
 
     private async fetch(url: string, method: string, data?: any) {
-        var results;
+        var options;
         if (data) {
-            results = await fetch(url, {
+            options = {
                 method: method, 
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify(data)
-            })
+            }
         } else {
-            results = await fetch(url, {method: method})
+            options = {method: method}
         }
+        const results = await fetch(url, options)
         return results.json();
     }
 
