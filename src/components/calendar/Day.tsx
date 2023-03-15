@@ -24,14 +24,14 @@ interface IconItems {
 const Day = (props: DayProps) => {
   let IconList: IconItems[] = [
     { icon: 'CircleIcon', color: '#0072ea', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#a8ea00', event: 'ev1' }
-    // { icon: 'CircleIcon', color: '#ea00e6', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#ea7d00', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#a8ea00', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#ea00e6', event: 'ev1' },
+    { icon: 'CircleIcon', color: '#ea7d00', event: 'ev1' }
     // { icon: 'CircleIcon', color: '#0013ea', event: 'ev1' },
     // { icon: 'CircleIcon', color: '#ea2300', event: 'ev1' },
     // { icon: 'CircleIcon', color: '#00ea5e', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#5e00ea', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#ea6900', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#5e00ea', event: 'ev1' }
+    // { icon: 'CircleIcon', color: '#ea6900', event: 'ev1' }
     // { icon: 'CircleIcon', color: '#3b00ea', event: 'ev1' },
     // { icon: 'CircleIcon', color: '#ea008c', event: 'ev1' },
     // { icon: 'CircleIcon', color: '#eaa800', event: 'ev1' },
@@ -40,6 +40,18 @@ const Day = (props: DayProps) => {
     // { icon: 'CircleIcon', color: 'black', event: 'ev1' }
   ]
   const { isYearView } = useCalendarContext()
+
+  const CheckKey = (index: number) => {
+    if (index === 7 && IconList.length > 8) {
+      return <AddIcon sx={{ minHeight: '9px', maxHeight: '9px' }}></AddIcon>
+    } else if (IconList.length > index) {
+      let Icon = icons[IconList[index].icon]
+      let color = IconList[index].color
+      return <Icon sx={{ color: color, minHeight: '8px', maxHeight: '8px' }} />
+    } else {
+      return ' '
+    }
+  }
 
   function ReturnMonthGrid() {
     if (IconList.length < 13) {
@@ -77,114 +89,44 @@ const Day = (props: DayProps) => {
   }
 
   function ReturnYearGrid() {
-    if (IconList.length < 5) {
-      return (
-        <Grid
-          container
-          minHeight="0"
-          maxHeight="0"
-          maxWidth="33px"
-          minWidth="33px"
-        >
-          {IconList.map(({ icon, color }, index) => {
-            const Icon = icons[icon]
-            return (
-              <Grid key={index} xs={4}>
-                <Icon
-                  sx={{ color: color, minHeight: '8px', maxHeight: '8px' }}
-                />
-              </Grid>
-            )
-          })}
+    return (
+      <Grid
+        container
+        minHeight="0"
+        maxHeight="0"
+        maxWidth="33px"
+        minWidth="33px"
+      >
+        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+          {CheckKey(5)}
         </Grid>
-      )
-    } else if (IconList.length < 10) {
-      return (
-        <Grid
-          container
-          minHeight="0"
-          maxHeight="0"
-          maxWidth="33px"
-          minWidth="33px"
-        >
-          {IconList.slice(0, 4).map(({ icon, color }, index) => {
-            const Icon = icons[icon]
-            return (
-              <Grid key={index} xs={4} minHeight="8px" maxHeight="8px">
-                <Icon
-                  sx={{
-                    color: color,
-                    minHeight: '8px',
-                    maxHeight: '8px'
-                  }}
-                />
-              </Grid>
-            )
-          })}
-          <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}></Grid>
-          {IconList.slice(4, IconList.length - 1).map(
-            ({ icon, color }, index) => {
-              const Icon = icons[icon]
-              return (
-                <Grid key={index} xs={4} minHeight="8px" maxHeight="8px">
-                  <Icon
-                    sx={{
-                      color: color,
-                      minHeight: '8px',
-                      maxHeight: '8px'
-                    }}
-                  />
-                </Grid>
-              )
-            }
-          )}
-        </Grid>
-      )
-    } else {
-      return (
-        <Grid
-          container
-          minHeight="0"
-          maxHeight="0"
-          maxWidth="33px"
-          minWidth="33px"
-        >
-          {IconList.slice(0, 4).map(({ icon, color }, index) => {
-            const Icon = icons[icon]
-            return (
-              <Grid key={index} xs={4} minHeight="8px" maxHeight="8px">
-                <Icon
-                  sx={{
-                    color: color,
-                    minHeight: '8px',
-                    maxHeight: '8px'
-                  }}
-                />
-              </Grid>
-            )
-          })}
-          <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}></Grid>
-          {IconList.slice(4, 7).map(({ icon, color }, index) => {
-            const Icon = icons[icon]
-            return (
-              <Grid key={index} xs={4} minHeight="8px" maxHeight="8px">
-                <Icon
-                  sx={{
-                    color: color,
-                    minHeight: '8px',
-                    maxHeight: '8px'
-                  }}
-                />
-              </Grid>
-            )
-          })}
 
-          <Grid xs={2} sx={{ minHeight: '8px', maxHeight: '8px' }}>
-            <AddIcon sx={{ minHeight: '12px', maxHeight: '12px' }}></AddIcon>
-          </Grid>
+        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+          {CheckKey(6)}
         </Grid>
-      )
-    }
+        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+          {CheckKey(7)}
+        </Grid>
+        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+          {CheckKey(3)}
+        </Grid>
+        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+          {' '}
+        </Grid>
+        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+          {CheckKey(4)}
+        </Grid>
+        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+          {CheckKey(0)}
+        </Grid>
+        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+          {CheckKey(1)}
+        </Grid>
+        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+          {CheckKey(2)}
+        </Grid>
+      </Grid>
+    )
   }
 
   const renderDayOfWeek = () => {
