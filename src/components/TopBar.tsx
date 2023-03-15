@@ -3,7 +3,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import { Stack, Toolbar, Badge } from '@mui/material/'
 import Image from 'next/image'
 import RightMenuButton from './menu/RightMenuButton'
-import AlertArea from './alert/AlertArea'
+import AlertButton from './alert/AlertButton'
 import React from 'react'
 import CalendarNavigator from './calendar/CalendarNavigator'
 
@@ -38,7 +38,7 @@ const TopBar = () => {
         </Stack>
 
         <Stack direction="row" spacing={4}>
-          <AlertArea/>
+          <AlertButton/>
           <RightMenuButton />
         </Stack>
       </StyledTopBar>

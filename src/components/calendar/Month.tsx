@@ -98,6 +98,7 @@ const Month = ({ currentDate }: any) => {
           />
         ) : (
           <Grid
+            key={Math.random()}
             sx={{ height: 'auto' }}
             xs={1}
             borderRight={isYearView ? 0 : 1}
