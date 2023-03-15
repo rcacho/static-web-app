@@ -4,6 +4,7 @@ import Stack from '@mui/material/Stack'
 import Day, { noValue } from './Day'
 import { useCalendarContext } from '@/store/CalendarContext'
 import { Typography, Button } from '@mui/material'
+import { blue } from '@mui/material/colors'
 
 const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 const daysOfWeekMini = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
@@ -115,32 +116,108 @@ const Month = (props: any) => {
     <Grid
       container
       columns={10}
-      sx={{ height: '100%', minWidth: 250 }}
-      maxWidth={isYearView ? 'auto' : '100%'}
+      spacing={0}
       border={isYearView ? 0 : 1}
+      maxWidth={isYearView ? 350 : '100%'}
       textAlign="center"
       alignItems="stretch"
+      sx={{ height: '100%', minWidth: 250 }}
     >
-      <Grid xs={9}>
-        <Grid container columns={7} spacing={0}>
+      <Grid xs={9} height={'100%'} display="flex">
+        <Grid container columns={7}>
           {renderDays()}
         </Grid>
       </Grid>
 
-      <WorkingHours
+      <HoursAndWeeks
         isYearView={isYearView}
         firstDay={firstDay}
         lastDay={lastDay}
         currentDate={props.currentDate}
+        weekNum={props.weekNum}
+        numWeeks={props.numWeeks}
       />
     </Grid>
   )
 }
 
+const WorkWeekIndex = (props: any) => {
+  return (
+    <Button
+      disabled
+      size={props.isYearView ? 'small' : 'large'}
+      style={{
+        color: 'blue',
+        opacity: 1,
+        fontSize: props.isYearView ? '100%' : '24px',
+        maxWidth: props.isYearView ? '30px' : '60px',
+        minWidth: props.isYearView ? '30px' : '60px'
+      }}
+    >
+      {props.index}
+    </Button>
+  )
+}
+
 const WorkingHours = (props: any) => {
   return (
+    <Button
+      disabled
+      size={props.isYearView ? 'small' : 'large'}
+      style={{
+        color: 'blue',
+        opacity: 1,
+        fontSize: props.isYearView ? '100%' : '24px',
+        maxWidth: props.isYearView ? '30px' : '60px',
+        minWidth: props.isYearView ? '30px' : '60px'
+      }}
+    >
+      {props.currentDate.getMonth() == 11
+        ? 160
+        : calculateWorkingHours(props.firstDay, props.lastDay)}
+    </Button>
+  )
+}
+
+const EmptyIndex = (props: any) => {
+  return (
+    <Button
+      disabled
+      size={props.isYearView ? 'small' : 'large'}
+      style={{
+        opacity: 0,
+        fontSize: props.isYearView ? '100%' : '24px',
+        color: '#4D4D4D',
+        maxWidth: props.isYearView ? '30px' : '60px',
+        minWidth: props.isYearView ? '30px' : '60px'
+      }}
+    >
+      1
+    </Button>
+  )
+}
+
+const HoursAndWeeks = (props: any) => {
+  const RenderWeekNums = () => {
+    const weekNums = []
+    let maxWeek = props.numWeeks
+    let week = props.weekNum
+    for (let i = 0; i < 6; i++) {
+      if (i < maxWeek) {
+        weekNums.push(
+          <WorkWeekIndex isYearView={props.isYearView} index={week + i} />
+        )
+      } else {
+        weekNums.push(<EmptyIndex isYearView={props.isYearView} />)
+      }
+    }
+
+    return weekNums
+  }
+
+  return (
     <>
-      <Grid xs={1} width={'10%'} height={'auto'}>
+      <Grid xs={1} height={'100%'}>
         <Typography
           fontSize={props.isYearView ? '80%' : '24px'}
           variant={props.isYearView ? 'body1' : 'h6'}
@@ -152,99 +229,13 @@ const WorkingHours = (props: any) => {
           >
             &nbsp;
             <br />
-            <Button
-              disabled
-              size={props.isYearView ? 'small' : 'large'}
-              style={{
-                color: 'blue',
-                opacity: 1,
-                fontSize: props.isYearView ? '100%' : '24px',
-                maxWidth: props.isYearView ? '30px' : '60px',
-                minWidth: props.isYearView ? '30px' : '60px'
-              }}
-            >
-              0
-            </Button>
-            <Button
-              disabled
-              size={props.isYearView ? 'small' : 'large'}
-              style={{
-                color: 'blue',
-                opacity: 1,
-                fontSize: props.isYearView ? '100%' : '24px',
-                maxWidth: props.isYearView ? '30px' : '60px',
-                minWidth: props.isYearView ? '30px' : '60px'
-              }}
-            >
-              0
-            </Button>
-            <Button
-              disabled
-              size={props.isYearView ? 'small' : 'large'}
-              style={{
-                color: 'blue',
-                opacity: 1,
-                fontSize: props.isYearView ? '100%' : '24px',
-                maxWidth: props.isYearView ? '30px' : '60px',
-                minWidth: props.isYearView ? '30px' : '60px'
-              }}
-            >
-              0
-            </Button>
-            <Button
-              disabled
-              size={props.isYearView ? 'small' : 'large'}
-              style={{
-                color: 'blue',
-                opacity: 1,
-                fontSize: props.isYearView ? '100%' : '24px',
-                maxWidth: props.isYearView ? '30px' : '60px',
-                minWidth: props.isYearView ? '30px' : '60px'
-              }}
-            >
-              0
-            </Button>
-            <Button
-              disabled
-              size={props.isYearView ? 'small' : 'large'}
-              style={{
-                color: 'blue',
-                opacity: 1,
-                fontSize: props.isYearView ? '100%' : '24px',
-                maxWidth: props.isYearView ? '30px' : '60px',
-                minWidth: props.isYearView ? '30px' : '60px'
-              }}
-            >
-              0
-            </Button>
-            <Button
-              disabled
-              size={props.isYearView ? 'small' : 'large'}
-              style={{
-                color: 'blue',
-                opacity: 1,
-                fontSize: props.isYearView ? '100%' : '24px',
-                maxWidth: props.isYearView ? '30px' : '60px',
-                minWidth: props.isYearView ? '30px' : '60px'
-              }}
-            >
-              0
-            </Button>
-            <Button
-              disabled
-              size={props.isYearView ? 'small' : 'large'}
-              style={{
-                color: 'blue',
-                opacity: 1,
-                fontSize: props.isYearView ? '100%' : '24px',
-                maxWidth: props.isYearView ? '30px' : '60px',
-                minWidth: props.isYearView ? '30px' : '60px'
-              }}
-            >
-              {props.currentDate.getMonth() == 11
-                ? 160
-                : calculateWorkingHours(props.firstDay, props.lastDay)}
-            </Button>
+            {RenderWeekNums()}
+            <WorkingHours
+              isYearView={props.isYearView}
+              firstDay={props.firstDay}
+              lastDay={props.lastDay}
+              currentDate={props.currentDate}
+            />
           </Stack>
         </Typography>
       </Grid>
