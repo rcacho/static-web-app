@@ -1,10 +1,8 @@
 import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
-import Stack from '@mui/material/Stack'
 import Day, { noValue } from './Day'
 import { useCalendarContext } from '@/store/CalendarContext'
 import { Typography, Button } from '@mui/material'
-import { blue, purple } from '@mui/material/colors'
 
 const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 const daysOfWeekMini = ['S', 'M', 'T', 'W', 'T', 'F', 'S']
