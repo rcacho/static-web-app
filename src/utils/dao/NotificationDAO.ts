@@ -4,6 +4,8 @@ import { DatabaseConnector } from '../DatabaseConnector'
 export class NotificationDAO {
   db: DatabaseConnector
 
+  added = false;
+
   constructor(db: DatabaseConnector) {
     this.db = db
   }
@@ -11,6 +13,7 @@ export class NotificationDAO {
   async addNotification(notification: Notification) {
     const query = `INSERT INTO dbo.notification (event_id, admin_id, time_added, update_type)
                    VALUES (${notification.event_id}, '${notification.admin_id}', GETUTCDATE(), ${notification.update_type})`
+    this.added = true;
     await this.db.ConnectAndQuery(query)
   }
 
