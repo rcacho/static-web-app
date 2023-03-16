@@ -13,6 +13,8 @@
     "check-all": "yarn check-ts && yarn check-console && yarn check-prettier"
   },
   "dependencies": {
+    "@azure/msal-browser": "^2.34.0",
+    "@azure/msal-react": "^1.5.4",
     "@emotion/react": "^11.10.6",
     "@emotion/styled": "^11.10.6",
     "@mui/icons-material": "^5.11.9",
@@ -25,7 +27,6 @@
     "mssql": "^9.1.1",
     "mui": "^0.0.1",
     "next": "13.1.6",
-    "next-auth": "^4.19.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-window": "^1.8.8",

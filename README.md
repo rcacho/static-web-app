@@ -2,6 +2,12 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ## Getting Started
 
+Setting up your local environment:
+
+You will want to create a local env file called `.env.local` to configure your environment.
+
+See `sample.env` to see the configuration options available.
+
 First, run the development server:
 
 ```bash

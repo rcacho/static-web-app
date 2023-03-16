@@ -36,6 +36,8 @@ interface CalendarStoreValue {
   handleChange: (event: { target: { value: any } }) => void
   handleNone: () => void
   handleAll: () => void
+  weekNum: number
+  incWeekNum: () => void
 }
 
 export const useCalendarContext = () => {
@@ -52,6 +54,11 @@ const CalendarStore = ({ children }: any) => {
   const [dayClickCount, setDayClickCount] = useState(0)
   const [selectedDate, setSelectedDate] = useState<undefined | Date>(undefined)
   const [selected, setSelected] = React.useState<string[]>([])
+  const [weekNum, setWeekNum] = useState(1)
+
+  const incWeekNum = () => {
+    setWeekNum(weekNum + 1)
+  }
 
   const handleChange = (event: { target: { value: any } }) => {
     const value = event.target.value
@@ -96,7 +103,9 @@ const CalendarStore = ({ children }: any) => {
     events: examples,
     handleChange: handleChange,
     handleNone: handleNone,
-    handleAll: handleAll
+    handleAll: handleAll,
+    weekNum: weekNum,
+    incWeekNum: incWeekNum
   }
 
   return (

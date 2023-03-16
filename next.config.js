@@ -15,6 +15,7 @@ module.exports = {
     DB_PASSWORD:process.env.DB_PASSWORD,
     DB_SERVER:process.env.DB_SERVER,
     DB_NAME:process.env.DB_NAME,
+
   },
   reactStrictMode: true
 }
