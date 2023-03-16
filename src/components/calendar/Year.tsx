@@ -55,7 +55,9 @@ const Year = () => {
         sx={{ p: 3, paddingTop: 0, paddingBottom: 0 }}
       >
         <Stack>
-          <MonthButton month={month} handleClick={handleMonthButtonClick} />
+          <Grid>
+            <MonthButton month={month} handleClick={handleMonthButtonClick} />
+          </Grid>
           <Month
             currentDate={new Date(currentDate.getFullYear(), monthNumber, 1)}
             weekNum={week}
