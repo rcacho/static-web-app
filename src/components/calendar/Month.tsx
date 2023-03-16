@@ -112,7 +112,7 @@ const Month = (props: any) => {
   return (
     <Grid
       container
-      columns={40}
+      columns={80}
       spacing={0}
       border={isYearView ? 0 : 1}
       maxWidth={isYearView ? 350 : '100%'}
@@ -120,22 +120,23 @@ const Month = (props: any) => {
       alignItems="stretch"
       sx={{ height: '100%', minWidth: 250 }}
     >
-      <Grid xs={39} height={'100%'}>
+      <Grid xs={72} sm={76} md={77} height={'100%'}>
         <Grid container columns={7} height={'100%'}>
           {renderDays()}
         </Grid>
       </Grid>
-
-      <HoursAndWeeks
-        isYearView={isYearView}
-        firstDay={firstDay}
-        lastDay={lastDay}
-        currentDate={props.currentDate}
-        weekNum={props.weekNum}
-        numWeeks={props.numWeeks}
-        startingWeekIndex={startingWeekIndex}
-        numWeeksOfMonth={numWeeksOfMonth}
-      />
+      <Grid xs={8} sm={3} height={'100%'}>
+        <HoursAndWeeks
+          isYearView={isYearView}
+          firstDay={firstDay}
+          lastDay={lastDay}
+          currentDate={props.currentDate}
+          weekNum={props.weekNum}
+          numWeeks={props.numWeeks}
+          startingWeekIndex={startingWeekIndex}
+          numWeeksOfMonth={numWeeksOfMonth}
+        />
+      </Grid>
     </Grid>
   )
 }
@@ -150,7 +151,7 @@ const WorkWeekIndex = (props: any) => {
       alignItems="top"
     >
       <Typography
-        fontSize={props.isYearView ? '80%' : '24px'}
+        fontSize={props.isYearView ? '80%' : '20px'}
         variant={props.isYearView ? 'body1' : 'h6'}
       >
         <Button
@@ -159,7 +160,7 @@ const WorkWeekIndex = (props: any) => {
           style={{
             color: 'blue',
             opacity: 1,
-            fontSize: props.isYearView ? '100%' : '24px',
+            fontSize: props.isYearView ? '100%' : '20px',
             maxWidth: props.isYearView ? '30px' : '60px',
             minWidth: props.isYearView ? '30px' : '60px'
           }}
@@ -182,7 +183,7 @@ const WorkingHours = (props: any) => {
         alignItems="top"
       >
         <Typography
-          fontSize={props.isYearView ? '80%' : '24px'}
+          fontSize={props.isYearView ? '80%' : '20px'}
           variant={props.isYearView ? 'body1' : 'h6'}
         >
           <Button
@@ -192,7 +193,7 @@ const WorkingHours = (props: any) => {
               height: 'auto',
               color: 'blue',
               opacity: 1,
-              fontSize: props.isYearView ? '100%' : '24px',
+              fontSize: props.isYearView ? '100%' : '20px',
               maxWidth: props.isYearView ? '30px' : '60px',
               minWidth: props.isYearView ? '30px' : '60px'
             }}
@@ -279,12 +280,13 @@ const HoursAndWeeks = (props: any) => {
 
   return (
     <>
-      <Grid xs={1} height={'100%'}>
+      <Grid xs={10} height={'100%'}>
         <Grid
           container
           columns={1}
           sx={{ height: '100%' }}
-          xs={1}
+          xs={10}
+          sm={10}
           display="flex"
           justifyContent="center"
           alignItems="top"
