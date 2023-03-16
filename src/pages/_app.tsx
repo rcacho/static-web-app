@@ -1,13 +1,15 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { SessionProvider } from 'next-auth/react'
+import { PublicClientApplication } from '@azure/msal-browser'
+import { MsalProvider } from '@azure/msal-react'
+import { msalConfig } from '@/authConfig'
+
+export const msalInstance = new PublicClientApplication(msalConfig)
 
 export default function App({ Component, pageProps }: AppProps) {
-  const { session } = pageProps
-
   return (
-    <SessionProvider session={session} baseUrl={process.env.NEXTAUTH_URL}>
+    <MsalProvider instance={msalInstance}>
       <Component {...pageProps} />
-    </SessionProvider>
+    </MsalProvider>
   )
 }
