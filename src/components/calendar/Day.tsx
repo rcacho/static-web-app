@@ -27,17 +27,17 @@ const Day = (props: DayProps) => {
     { icon: 'CircleIcon', color: '#a8ea00', event: 'ev1' },
     { icon: 'CircleIcon', color: '#ea00e6', event: 'ev1' },
     { icon: 'CircleIcon', color: '#ea7d00', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#0013ea', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea2300', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#00ea5e', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#5e00ea', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea6900', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#3b00ea', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea008c', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#eaa800', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#eae600', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#00ea42', event: 'ev1' },
-    { icon: 'CircleIcon', color: 'black', event: 'ev1' }
+    { icon: 'CircleIcon', color: '#0013ea', event: 'ev1' }
+    // { icon: 'CircleIcon', color: '#ea2300', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#00ea5e', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#5e00ea', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#ea6900', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#3b00ea', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#ea008c', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#eaa800', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#eae600', event: 'ev1' },
+    // { icon: 'CircleIcon', color: '#00ea42', event: 'ev1' },
+    // { icon: 'CircleIcon', color: 'black', event: 'ev1' }
   ]
   const { isYearView } = useCalendarContext()
 
@@ -53,87 +53,110 @@ const Day = (props: DayProps) => {
     }
   }
 
-  function ReturnMonthGrid() {
-    if (IconList.length < 13) {
+  const CheckSMKey = (index: number) => {
+    if (index === 8 && IconList.length > 8) {
+      return <AddIcon sx={{ minHeight: '9px', maxHeight: '9px' }}></AddIcon>
+    } else if (IconList.length > index) {
+      let Icon = icons[IconList[index].icon]
+      let color = IconList[index].color
+      return <Icon sx={{ color: color, minHeight: '8px', maxHeight: '8px' }} />
+    } else {
+      return ' '
+    }
+  }
+
+  const CheckMDKey = (index: number) => {
+    if (index === 11 && IconList.length > 11) {
+      return <AddIcon sx={{ minHeight: '15px', maxHeight: '15px' }}></AddIcon>
+    } else if (IconList.length > index) {
+      let Icon = icons[IconList[index].icon]
+      let color = IconList[index].color
       return (
-        <>
-          {IconList.map(({ icon, color }, index) => {
-            const Icon = icons[icon]
-            return (
-              <Grid key={index} xs={2}>
-                <Icon
-                  sx={{
-                    color: color,
-                    minHeight: '17px',
-                    maxHeight: '17px',
-                    display: { xs: 'none', sm: 'block' }
-                  }}
-                />
-                <Icon
-                  sx={{
-                    color: color,
-                    minHeight: '8px',
-                    maxHeight: '8px',
-                    display: { xs: 'block', sm: 'none' }
-                  }}
-                />
-              </Grid>
-            )
-          })}
-        </>
+        <Icon sx={{ color: color, minHeight: '15px', maxHeight: '15px' }} />
       )
     } else {
-      return (
-        <>
-          {IconList.slice(0, 11).map(({ icon, color }, index) => {
-            const Icon = icons[icon]
-            return (
-              <>
-                <Grid
-                  sx={{ display: { xs: 'none', sm: 'block' } }}
-                  key={index}
-                  xs={2}
-                >
-                  <Icon
-                    sx={{
-                      color: color,
-                      minHeight: '17px',
-                      maxHeight: '17px'
-                    }}
-                  />
-                </Grid>
-                <Grid
-                  sx={{ display: { xs: 'block', sm: 'none' } }}
-                  key={index}
-                  xs={3}
-                >
-                  <Icon
-                    sx={{
-                      color: color,
-                      minHeight: '8px',
-                      maxHeight: '8px'
-                    }}
-                  />
-                </Grid>
-              </>
-            )
-          })}
-          <Grid
-            fontSize={'small'}
-            sx={{
-              height: '100%',
-              display: { xs: 'block', sm: 'none' }
-            }}
-            xs={3}
-          >
-            +{IconList.length - 11}
-          </Grid>
-          <Grid sx={{ display: { xs: 'none', sm: 'block' } }} xs={2}>
-            +{IconList.length - 11}
-          </Grid>
-        </>
-      )
+      return ' '
     }
+  }
+
+  function ReturnMonthGrid() {
+    return (
+      <>
+        <Grid container width="auto" sx={{ display: { md: 'none' } }}>
+          <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+            {CheckSMKey(0)}
+          </Grid>
+
+          <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+            {CheckSMKey(1)}
+          </Grid>
+          <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+            {CheckSMKey(2)}
+          </Grid>
+          <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+            {CheckSMKey(3)}
+          </Grid>
+          <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+            {CheckSMKey(3)}
+          </Grid>
+          <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+            {CheckSMKey(5)}
+          </Grid>
+          <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+            {CheckSMKey(6)}
+          </Grid>
+          <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+            {CheckSMKey(7)}
+          </Grid>
+          <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+            {CheckSMKey(8)}
+          </Grid>
+        </Grid>
+        <Grid
+          container
+          width="auto"
+          sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }}
+        >
+          <Grid xs={2} sx={{ minHeight: '17px', maxHeight: '17px' }}>
+            {CheckMDKey(0)}
+          </Grid>
+
+          <Grid xs={2} sx={{ minHeight: '17px', maxHeight: '17px' }}>
+            {CheckMDKey(1)}
+          </Grid>
+          <Grid xs={2} sx={{ minHeight: '17px', maxHeight: '17px' }}>
+            {CheckMDKey(2)}
+          </Grid>
+          <Grid xs={2} sx={{ minHeight: '17px', maxHeight: '17px' }}>
+            {CheckMDKey(3)}
+          </Grid>
+          <Grid xs={2} sx={{ minHeight: '17px', maxHeight: '17px' }}>
+            {CheckMDKey(3)}
+          </Grid>
+          <Grid xs={2} sx={{ minHeight: '17px', maxHeight: '17px' }}>
+            {CheckMDKey(5)}
+          </Grid>
+          <Grid xs={2} sx={{ minHeight: '17px', maxHeight: '17px' }}>
+            {CheckMDKey(6)}
+          </Grid>
+          <Grid xs={2} sx={{ minHeight: '17px', maxHeight: '17px' }}>
+            {CheckMDKey(7)}
+          </Grid>
+          <Grid xs={2} sx={{ minHeight: '17px', maxHeight: '17px' }}>
+            {CheckMDKey(8)}
+          </Grid>
+          <Grid xs={2} sx={{ minHeight: '17px', maxHeight: '17px' }}>
+            {CheckMDKey(9)}
+          </Grid>
+          <Grid xs={2} sx={{ minHeight: '17px', maxHeight: '17px' }}>
+            {CheckMDKey(10)}
+          </Grid>
+          <Grid xs={2} sx={{ minHeight: '17px', maxHeight: '17px' }}>
+            {CheckMDKey(11)}
+          </Grid>
+        </Grid>
+      </>
+    )
   }
 
   function ReturnYearGrid() {
@@ -239,7 +262,8 @@ const Day = (props: DayProps) => {
                   fontSize: isYearView ? '100%' : '24px',
                   color: '#4D4D4D',
                   maxWidth: isYearView ? '30px' : '60px',
-                  minWidth: isYearView ? '30px' : '60px'
+                  minWidth: isYearView ? '30px' : '60px',
+                  maxHeight: isYearView ? '100%' : '30px'
                 }}
               >
                 {props.day.toString()}
