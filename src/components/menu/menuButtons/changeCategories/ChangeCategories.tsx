@@ -8,16 +8,32 @@ import {
   Box,
   Typography
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
+import { APIManager } from '@/utils/APIManager'
 
 // placeholder for the list of categories
-const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 
+let EventList: string[] = []
 const ChangeCategories = (props: any) => {
   const [selected, setSelected] = useState(null)
+
+  useEffect(() => {
+    APIManager.getInstance()
+      .then((instance) => instance.getCategory())
+      .then((data) => {
+        EventList = []
+        for (let i = 0; i < data.result.length; i++) {
+          EventList.push(data.result[i].category_name)
+        }
+        console.log(EventList)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [])
 
   // render list for the scroll function
   function renderList(props: ListChildComponentProps) {
@@ -35,7 +51,7 @@ const ChangeCategories = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`Item ${EventList[index]}`} />
+          <ListItemText primary={EventList[index]} />
         </ListItemButton>
       </ListItem>
     )
@@ -128,7 +144,7 @@ const ChangeCategories = (props: any) => {
             size="small"
             variant="contained"
             color="primary"
-            onClick={handleBackClick}
+            onClick={() => props.clickAway(false)}
           >
             Cancel
           </Button>
