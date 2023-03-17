@@ -161,7 +161,7 @@ const AddNewCategory = (props: any) => {
             size="medium"
             variant="contained"
             color="primary"
-            onClick={handleBackClick}
+            onClick={() => props.clickAway()}
           >
             Cancel
           </Button>
