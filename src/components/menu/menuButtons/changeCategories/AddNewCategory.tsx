@@ -8,7 +8,7 @@ import {
   Typography,
   Box
 } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
@@ -17,13 +17,29 @@ import SymbolPicker from '@/components/menu/menuButtons/changeCategories/SymbolP
 import { useAccount, useMsal } from '@azure/msal-react'
 import axios from 'axios'
 import { APIManager } from '@/utils/APIManager'
+import { Category } from '@/interfaces/Category'
 
 // @ts-ignore
 const AddNewCategory = (props: any) => {
+  const [categoryName, setCategoryName] = useState('')
+  const [categorySymbol, setCategorySymbol] = useState(null)
+  const [categoryColour, setCategoryColour] = useState(null)
+
   const { instance, accounts } = useMsal()
   const account = useAccount(accounts[0])
+  const user_id = account?.username
+  const admin_id_1 = 'user'
+
   const handleBackClick = () => {
     props.updateState(2)
+  }
+
+  const updateColour = (colour: any) => {
+    setCategoryColour(colour)
+  }
+
+  const updateSymbol = (symbol: any) => {
+    setCategorySymbol(symbol)
   }
 
   async function addCategory(
@@ -32,15 +48,25 @@ const AddNewCategory = (props: any) => {
     icon: string,
     color: string
   ) {
-    let payload = {
+    let payload: Category = {
+      category_id: null,
       category_name: category_name,
-      admin_id: admin_id,
+      admin_id: admin_id_1,
       icon: icon,
       color: color
     }
-    let res = await axios.post(APIManager, payload)
+    APIManager.getInstance()
+      .then((instance) => instance.addCategory(payload))
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
 
-    console.log(res.data)
+    setCategoryName('')
+    setCategoryColour(null)
+    setCategorySymbol(null)
   }
 
   return (
@@ -80,32 +106,55 @@ const AddNewCategory = (props: any) => {
             label="(Max 50 chars.)"
             sx={{ color: '#898989' }}
             variant="standard"
-            inputProps={{ maxLength: 50 }}
+            inputProps={{ maxLength: 50, inputMode: 'text' }}
+            onChange={(newVal) => setCategoryName(newVal.target.value)}
           />
         </ListItem>
         <ListItem>
           <ListItemText primary="Please select category symbol:" />
         </ListItem>
         <Box marginLeft={5}>
-          <SymbolPicker />
+          <SymbolPicker setSymbol={updateSymbol} />
         </Box>
         <ListItem>
           <ListItemText primary="Please select category symbol colour:" />
         </ListItem>
         <Box marginLeft={5}>
-          <ColourPicker />
+          <ColourPicker setColour={updateColour} />
         </Box>
       </List>
       <List className="bottom-buttons" disablePadding={true}>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-          >
-            Add New Category
-          </Button>
+          {categoryName === '' ||
+          categoryColour === null ||
+          categorySymbol === null ? (
+            <Button
+              disabled
+              className="menu-button"
+              size="medium"
+              variant="contained"
+              color="primary"
+            >
+              Add New Category
+            </Button>
+          ) : (
+            <Button
+              className="menu-button"
+              size="medium"
+              variant="contained"
+              color="primary"
+              onClick={() =>
+                addCategory(
+                  categoryName,
+                  admin_id_1,
+                  categorySymbol,
+                  categoryColour
+                )
+              }
+            >
+              Add New Category
+            </Button>
+          )}
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
