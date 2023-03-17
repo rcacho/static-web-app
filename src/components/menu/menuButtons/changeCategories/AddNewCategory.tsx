@@ -22,8 +22,8 @@ import { Category } from '@/interfaces/Category'
 // @ts-ignore
 const AddNewCategory = (props: any) => {
   const [categoryName, setCategoryName] = useState('')
-  const [categorySymbol, setCategorySymbol] = useState(null)
-  const [categoryColour, setCategoryColour] = useState(null)
+  const [categorySymbol, setCategorySymbol] = useState('')
+  const [categoryColour, setCategoryColour] = useState('')
 
   const { instance, accounts } = useMsal()
   const account = useAccount(accounts[0])
@@ -40,6 +40,12 @@ const AddNewCategory = (props: any) => {
 
   const updateSymbol = (symbol: any) => {
     setCategorySymbol(symbol)
+  }
+
+  const handleAddCategory = () => {
+    addCategory(categoryName, admin_id_1, categorySymbol, categoryColour).then(
+      props.clickAway()
+    )
   }
 
   async function addCategory(
@@ -65,8 +71,8 @@ const AddNewCategory = (props: any) => {
       })
 
     setCategoryName('')
-    setCategoryColour(null)
-    setCategorySymbol(null)
+    setCategoryColour('')
+    setCategorySymbol('')
   }
 
   return (
@@ -143,14 +149,7 @@ const AddNewCategory = (props: any) => {
               size="medium"
               variant="contained"
               color="primary"
-              onClick={() =>
-                addCategory(
-                  categoryName,
-                  admin_id_1,
-                  categorySymbol,
-                  categoryColour
-                )
-              }
+              onClick={handleAddCategory}
             >
               Add New Category
             </Button>

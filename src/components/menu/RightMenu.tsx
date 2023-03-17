@@ -62,7 +62,10 @@ const RightMenu = (props: any) => {
           ) : props.menuState === 2 ? (
             <ChangeCategories updateState={props.updateState} />
           ) : props.menuState === 2.1 ? (
-            <AddNewCategory updateState={props.updateState} />
+            <AddNewCategory
+              updateState={props.updateState}
+              clickAway={handleClickAway}
+            />
           ) : props.menuState === 2.2 ? (
             <EditCategory updateState={props.updateState} />
           ) : props.menuState === 3 ? (
