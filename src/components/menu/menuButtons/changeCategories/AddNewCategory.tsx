@@ -18,6 +18,7 @@ import { useAccount, useMsal } from '@azure/msal-react'
 import axios from 'axios'
 import { APIManager } from '@/utils/APIManager'
 import { Category } from '@/interfaces/Category'
+import { msalInstance } from '@/pages/_app'
 
 // @ts-ignore
 const AddNewCategory = (props: any) => {

@@ -19,6 +19,7 @@ import { APIManager } from '@/utils/APIManager'
 let EventList: string[] = []
 const ChangeCategories = (props: any) => {
   const [selected, setSelected] = useState(null)
+  const [events, setEvents] = useState([''])
 
   useEffect(() => {
     APIManager.getInstance()
@@ -28,6 +29,7 @@ const ChangeCategories = (props: any) => {
         for (let i = 0; i < data.result.length; i++) {
           EventList.push(data.result[i].category_name)
         }
+        setEvents(EventList)
         console.log(EventList)
       })
       .catch((err) => {
@@ -51,7 +53,7 @@ const ChangeCategories = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={EventList[index]} />
+          <ListItemText primary={events[index]} />
         </ListItemButton>
       </ListItem>
     )
@@ -116,27 +118,54 @@ const ChangeCategories = (props: any) => {
           </Button>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="small"
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.updateState(2.2)
-            }}
-          >
-            Edit Category
-          </Button>
+          {selected === null ? (
+            <Button
+              disabled
+              className="menu-button"
+              size="small"
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                props.updateState(2.2)
+              }}
+            >
+              Edit Category
+            </Button>
+          ) : (
+            <Button
+              className="menu-button"
+              size="small"
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                props.updateState(2.2)
+              }}
+            >
+              Edit Category
+            </Button>
+          )}
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="small"
-            variant="contained"
-            color="primary"
-          >
-            Delete Category
-          </Button>
+          {selected === null ? (
+            <Button
+              disabled
+              className="menu-button"
+              size="small"
+              variant="contained"
+              color="primary"
+            >
+              Delete Category
+            </Button>
+          ) : (
+            <Button
+              className="menu-button"
+              size="small"
+              variant="contained"
+              color="primary"
+            >
+              Delete Category
+            </Button>
+          )}
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
