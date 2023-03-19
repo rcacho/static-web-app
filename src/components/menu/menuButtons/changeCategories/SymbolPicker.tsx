@@ -53,7 +53,20 @@ const symbolKeys = [
   'InvertColorsIcon'
 ]
 const SymbolPicker = (props: any) => {
-  const [selected, setSelected] = useState(15)
+  const [selected, setSelected] = useState(propState)
+
+  function propState() {
+    if (props.selectedSymbol !== null) {
+      for (let i = 0; i < symbolKeys.length; i++) {
+        if (props.selectedSymbol === symbolKeys[i]) {
+          return i
+        }
+      }
+      return 15
+    } else {
+      return 15
+    }
+  }
 
   function renderSymbols(id: number) {
     const handleSelect = (index: any) => {

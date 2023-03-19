@@ -21,7 +21,20 @@ const colours = [
 ]
 
 const ColourPicker = (props: any) => {
-  const [selected, setSelected] = useState(15)
+  const [selected, setSelected] = useState(propState())
+
+  function propState() {
+    if (props.selectedColour !== null) {
+      for (let i = 0; i < colours.length; i++) {
+        if (props.selectedColour === colours[i]) {
+          return i
+        }
+      }
+      return 15
+    } else {
+      return 15
+    }
+  }
 
   function renderColours(id: number) {
     const handleSelect = (index: any) => {

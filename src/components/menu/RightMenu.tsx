@@ -1,5 +1,5 @@
 import { ClickAwayListener, Popper, Stack } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import MainMenuItems from '@/components/menu/MainMenuItems'
 import AddEventRender from './menuButtons/changeEvents/AddEventRender'
 import ChangeCategories from '@/components/menu/menuButtons/changeCategories/ChangeCategories'
@@ -19,6 +19,8 @@ const RightMenu = (props: any) => {
   // 1.6 is edit event
   // 2 is change categories
 
+  const [selectedCategory, setSelectedCategory] = useState(null)
+
   const alertPanelStyle = {
     bgcolor: 'white',
     color: 'black',
@@ -32,6 +34,11 @@ const RightMenu = (props: any) => {
 
   const handleClickAway = () => {
     props.onClickAway()
+  }
+
+  function handleCategory(cat: any) {
+    setSelectedCategory(cat)
+    console.log(selectedCategory)
   }
 
   return (
@@ -52,17 +59,30 @@ const RightMenu = (props: any) => {
         <Stack style={alertPanelStyle}>
           {/*Render the menu bar items here*/}
           {props.menuState === 0 ? (
-            <MainMenuItems updateState={props.updateState} />
+            <MainMenuItems
+              updateState={props.updateState}
+              clickAway={handleClickAway}
+            />
           ) : props.menuState === 1 ? (
-            <AddEventRender updateState={props.updateState} />
+            <AddEventRender
+              updateState={props.updateState}
+              clickAway={handleClickAway}
+            />
           ) : props.menuState === 1.5 ? (
-            <ChangeDeleteEvent updateState={props.updateState} />
+            <ChangeDeleteEvent
+              updateState={props.updateState}
+              clickAway={handleClickAway}
+            />
           ) : props.menuState === 1.6 ? (
-            <EditEvent updateState={props.updateState} />
+            <EditEvent
+              updateState={props.updateState}
+              clickAway={handleClickAway}
+            />
           ) : props.menuState === 2 ? (
             <ChangeCategories
               updateState={props.updateState}
               clickAway={handleClickAway}
+              handleCategory={handleCategory}
             />
           ) : props.menuState === 2.1 ? (
             <AddNewCategory
@@ -73,13 +93,23 @@ const RightMenu = (props: any) => {
             <EditCategory
               updateState={props.updateState}
               clickAway={handleClickAway}
+              category={selectedCategory}
             />
           ) : props.menuState === 3 ? (
-            <AddRemoveMain updateState={props.updateState} />
+            <AddRemoveMain
+              updateState={props.updateState}
+              clickAway={handleClickAway}
+            />
           ) : props.menuState === 3.1 ? (
-            <AddAdmin updateState={props.updateState} />
+            <AddAdmin
+              updateState={props.updateState}
+              clickAway={handleClickAway}
+            />
           ) : props.menuState === 3.2 ? (
-            <RemoveAdmin updateState={props.updateState} />
+            <RemoveAdmin
+              updateState={props.updateState}
+              clickAway={handleClickAway}
+            />
           ) : null}
         </Stack>
       </ClickAwayListener>

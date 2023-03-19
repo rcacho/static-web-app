@@ -13,10 +13,12 @@ import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
+import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/DeleteCategoryPopUp'
 
 // placeholder for the list of categories
 
 let EventList: string[] = []
+let CategoryList: any = []
 const ChangeCategories = (props: any) => {
   const [selected, setSelected] = useState(null)
   const [events, setEvents] = useState([''])
@@ -28,21 +30,22 @@ const ChangeCategories = (props: any) => {
         EventList = []
         for (let i = 0; i < data.result.length; i++) {
           EventList.push(data.result[i].category_name)
+          CategoryList.push(data.result[i])
         }
         setEvents(EventList)
-        console.log(EventList)
       })
       .catch((err) => {
         console.log(err)
       })
-  }, [])
+  }, [selected])
 
   // render list for the scroll function
-  function renderList(props: ListChildComponentProps) {
-    const { index, style } = props
+  function renderList(funcProps: ListChildComponentProps) {
+    const { index, style } = funcProps
 
     const handleSelect = () => {
       setSelected(index)
+      props.handleCategory(CategoryList[index])
     }
     return (
       <ListItem
@@ -63,7 +66,6 @@ const ChangeCategories = (props: any) => {
   const handleBackClick = () => {
     props.updateState(0)
   }
-
   return (
     <ThemeProvider theme={MuiTheme}>
       <List disablePadding={true}>
@@ -125,9 +127,6 @@ const ChangeCategories = (props: any) => {
               size="small"
               variant="contained"
               color="primary"
-              onClick={() => {
-                props.updateState(2.2)
-              }}
             >
               Edit Category
             </Button>
@@ -157,14 +156,12 @@ const ChangeCategories = (props: any) => {
               Delete Category
             </Button>
           ) : (
-            <Button
-              className="menu-button"
-              size="small"
-              variant="contained"
-              color="primary"
+            <DeleteCategoryPopUp
+              clickAway={props.clickAway}
+              catID={CategoryList[selected].category_id}
             >
               Delete Category
-            </Button>
+            </DeleteCategoryPopUp>
           )}
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
