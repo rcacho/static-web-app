@@ -53,7 +53,7 @@ const EditCategory = (props: any) => {
     let payload: Category = {
       category_id: props.category.category_id,
       category_name: category_name,
-      admin_id: admin_id_1,
+      admin_id: admin_id,
       icon: icon,
       color: color
     }

@@ -14,15 +14,16 @@ import MuiTheme from '@/styles/MuiTheme'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/DeleteCategoryPopUp'
+import { Category } from '@/interfaces/Category'
 
 // placeholder for the list of categories
 
 let EventList: string[] = []
-let CategoryList: any = []
+let CategoryList: Category[] = []
 const ChangeCategories = (props: any) => {
   const [selected, setSelected] = useState(null)
   const [events, setEvents] = useState([''])
-  const [catList, setCatList] = useState([{}])
+  const [catList, setCatList] = useState(CategoryList)
 
   useEffect(() => {
     APIManager.getInstance()

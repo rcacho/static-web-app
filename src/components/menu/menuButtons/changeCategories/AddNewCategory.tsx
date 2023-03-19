@@ -14,11 +14,8 @@ import MuiTheme from '@/styles/MuiTheme'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import ColourPicker from '@/components/menu/menuButtons/changeCategories/ColourPicker'
 import SymbolPicker from '@/components/menu/menuButtons/changeCategories/SymbolPicker'
-import { useAccount, useMsal } from '@azure/msal-react'
-import axios from 'axios'
 import { APIManager } from '@/utils/APIManager'
 import { Category } from '@/interfaces/Category'
-import { msalInstance } from '@/pages/_app'
 
 // @ts-ignore
 const AddNewCategory = (props: any) => {
@@ -26,9 +23,6 @@ const AddNewCategory = (props: any) => {
   const [categorySymbol, setCategorySymbol] = useState('')
   const [categoryColour, setCategoryColour] = useState('')
 
-  const { instance, accounts } = useMsal()
-  const account = useAccount(accounts[0])
-  const user_id = account?.username
   const admin_id_1 = 'user'
 
   const handleBackClick = () => {
