@@ -22,22 +22,29 @@ let CategoryList: any = []
 const ChangeCategories = (props: any) => {
   const [selected, setSelected] = useState(null)
   const [events, setEvents] = useState([''])
+  const [catList, setCatList] = useState([{}])
 
   useEffect(() => {
     APIManager.getInstance()
       .then((instance) => instance.getCategory())
       .then((data) => {
         EventList = []
+        CategoryList = []
         for (let i = 0; i < data.result.length; i++) {
           EventList.push(data.result[i].category_name)
           CategoryList.push(data.result[i])
         }
         setEvents(EventList)
+        setCatList(CategoryList)
       })
       .catch((err) => {
         console.log(err)
       })
   }, [selected])
+
+  function handleSelected() {
+    setSelected(null)
+  }
 
   // render list for the scroll function
   function renderList(funcProps: ListChildComponentProps) {
@@ -45,7 +52,7 @@ const ChangeCategories = (props: any) => {
 
     const handleSelect = () => {
       setSelected(index)
-      props.handleCategory(CategoryList[index])
+      props.handleCategory(catList[index])
     }
     return (
       <ListItem
@@ -158,7 +165,8 @@ const ChangeCategories = (props: any) => {
           ) : (
             <DeleteCategoryPopUp
               clickAway={props.clickAway}
-              catID={CategoryList[selected].category_id}
+              catID={catList[selected].category_id}
+              setSelected={handleSelected}
             >
               Delete Category
             </DeleteCategoryPopUp>

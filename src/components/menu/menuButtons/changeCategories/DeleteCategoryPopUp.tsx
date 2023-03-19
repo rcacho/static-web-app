@@ -9,6 +9,7 @@ import { APIManager } from '@/utils/APIManager'
 
 const DeleteCategoryPopUp = (props: any) => {
   const [open, setOpen] = useState(false)
+  let admin_id = 'user'
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -22,11 +23,14 @@ const DeleteCategoryPopUp = (props: any) => {
   const handleDelete = () => {
     setOpen(false)
     deleteCategory(props.catID).then(props.clickAway())
+    props.setSelected()
   }
 
   async function deleteCategory(categoryID: number) {
     APIManager.getInstance()
-      .then((instance) => instance.deleteCategory(categoryID))
+      .then((instance) =>
+        instance.deleteCategory(categoryID, { admin_id: admin_id })
+      )
       .then((data) => {
         console.log(data)
       })

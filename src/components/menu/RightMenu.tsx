@@ -38,7 +38,6 @@ const RightMenu = (props: any) => {
 
   function handleCategory(cat: any) {
     setSelectedCategory(cat)
-    console.log(selectedCategory)
   }
 
   return (

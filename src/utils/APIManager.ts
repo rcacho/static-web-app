@@ -31,8 +31,12 @@ export class APIManager {
     return await this.fetch(apiPaths.category + `/${categoryId}`, 'PUT', data)
   }
 
-  public async deleteCategory(categoryId: number) {
-    return await this.fetch(apiPaths.category + `/${categoryId}`, 'DELETE')
+  public async deleteCategory(categoryId: number, data: any) {
+    return await this.fetch(
+      apiPaths.category + `/${categoryId}`,
+      'DELETE',
+      data
+    )
   }
 
   public async getEvent() {
