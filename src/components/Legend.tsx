@@ -1,11 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Button, Stack } from '@mui/material/'
 import CategoryList from './legendComponents/CategoryList'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
+import { APIManager } from '@/utils/APIManager'
+import { Category } from '@/interfaces/Category'
+import { useCalendarContext } from '@/store/CalendarContext'
 
 const Legend = () => {
+  const { selected, setCategories, handleAll, handleNone, handleChange } =
+    useCalendarContext()
   const [show, toggleShow] = React.useState(true)
+
+  useEffect(() => {
+    const getData = async () => {
+      const instance = await APIManager.getInstance()
+      const data = await instance.getCategory()
+
+      const cat: Category[] = data.result
+      console.log(cat)
+      setCategories(cat)
+      // console.log(categories)
+    }
+    getData().catch((err) => {
+      console.log(err)
+    })
+  }, [])
 
   return (
     <Box
@@ -13,7 +33,7 @@ const Legend = () => {
       bgcolor="white"
       color="black"
       textAlign={'center'}
-      sx={{ height: 'calc(100vh - 64px)' }}
+      sx={{ height: '100%' }}
     >
       <Stack direction="row" spacing={0}>
         {show && <CategoryList></CategoryList>}
@@ -22,7 +42,7 @@ const Legend = () => {
           onClick={() => toggleShow(!show)}
           style={{
             minWidth: '30px',
-            minHeight: 'calc(100vh - 64px)',
+            // minHeight: 'calc(100vh - 64px)',
             borderRadius: 0
           }}
           sx={{
