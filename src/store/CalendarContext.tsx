@@ -21,6 +21,8 @@ interface CalendarStoreValue {
   handleChange: (category: { target: { value: any } }) => void
   handleNone: () => void
   handleAll: () => void
+  weekNum: number
+  incWeekNum: () => void
 }
 
 export const useCalendarContext = () => {
@@ -38,6 +40,11 @@ const CalendarStore = ({ children }: any) => {
   const [selectedDate, setSelectedDate] = useState<undefined | Date>(undefined)
   const [selected, setSelected] = React.useState<Category[]>([])
   const [categories, setCategories] = React.useState<Category[]>([])
+  const [weekNum, setWeekNum] = useState(1)
+
+  const incWeekNum = () => {
+    setWeekNum(weekNum + 1)
+  }
 
   const handleChange = (category: { target: { value: any } }) => {
     const value = category.target.value
@@ -92,6 +99,8 @@ const CalendarStore = ({ children }: any) => {
     handleChange: handleChange,
     handleNone: handleNone,
     handleAll: handleAll,
+    weekNum: weekNum,
+    incWeekNum: incWeekNum,
     setCategories: setCategories
   }
 
