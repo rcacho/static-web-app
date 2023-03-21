@@ -29,6 +29,11 @@ jobs:
           app_build_command: 'npm run build'
           api_build_command: 'rm -rf ./node_modules/@next/swc-* && rm -rf ./.next/cache'
           ###### End of Repository/Build Configurations ######
+        env:
+          AZURE_AD_B2C_CLIENT_ID: 7c1b0032-e293-499d-b192-7401f907ebee
+          AZURE_AD_B2C_TENANT_NAME: t3am319
+          AZURE_AD_B2C_PRIMARY_USER_FLOW: B2C_1_SISOPolicy
+          AZURE_AD_B2C_PROFILE_EDIT: B2C_1_ProfileEditPolicy
 
   close_pull_request_job:
     if: github.event_name == 'pull_request' && github.event.action == 'closed'
