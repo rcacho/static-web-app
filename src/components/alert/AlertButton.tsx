@@ -88,12 +88,11 @@ const AlertPanel = (props: any) => {
 
     // @TODO: wait until token verification is done in the backend before parsing the response
     // As of right now, the response fails here. I've set some placeholder data below for testing purposes.
-    /*
     APIManager.getInstance()
       .then((instance) => instance.getNotification(accountId))
       .then((data) => {
         console.log(data)
-      }) */
+      })
   }, [])
 
   const renderAlerts = () => {
