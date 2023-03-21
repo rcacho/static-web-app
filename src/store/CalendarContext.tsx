@@ -52,7 +52,7 @@ export const useCalendarContext = () => {
 }
 
 function getAccountID(): number {
-  const { instance, accounts } = useMsal()
+  const { accounts } = useMsal()
   const account = useAccount(accounts[0])
   return parseInt(account?.idTokenClaims?.oid ?? '0')
 }
@@ -67,10 +67,9 @@ const CalendarStore = ({ children }: any) => {
   const accountId = getAccountID()
 
   useEffect(() => {
-    APIManager.getInstance()
-      .then(instance => 
-        instance.setUserLastLogin(accountId)
-      )
+    APIManager.getInstance().then((instance) =>
+      instance.setUserLastLogin(accountId)
+    )
   }, [])
 
   const incWeekNum = () => {
@@ -123,7 +122,7 @@ const CalendarStore = ({ children }: any) => {
     handleAll: handleAll,
     weekNum: weekNum,
     incWeekNum: incWeekNum,
-    accountId: accountId,
+    accountId: accountId
   }
 
   return (

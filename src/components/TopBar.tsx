@@ -1,6 +1,5 @@
 import { AppBar, Typography, styled } from '@mui/material'
-import NotificationsIcon from '@mui/icons-material/Notifications'
-import { Stack, Toolbar, Badge } from '@mui/material/'
+import { Stack, Toolbar } from '@mui/material/'
 import Image from 'next/image'
 import RightMenuButton from './menu/RightMenuButton'
 import AlertButton from './alert/AlertButton'
@@ -38,7 +37,7 @@ const TopBar = () => {
         </Stack>
 
         <Stack direction="row" spacing={4}>
-          <AlertButton/>
+          <AlertButton />
           <RightMenuButton />
         </Stack>
       </StyledTopBar>
