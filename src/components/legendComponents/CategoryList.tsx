@@ -1,7 +1,6 @@
 import { Category } from '@/interfaces/Category'
 import { useCalendarContext } from '@/store/CalendarContext'
 import {
-  Avatar,
   Box,
   Button,
   Checkbox,
@@ -26,7 +25,6 @@ import CloudOutlinedIcon from '@mui/icons-material/CloudOutlined'
 
 import React, { useEffect } from 'react'
 
-import axios from 'axios'
 import { APIManager } from '@/utils/APIManager'
 
 const CategoryList = () => {
@@ -54,54 +52,17 @@ const CategoryList = () => {
     CloudOutlinedIcon
   }
 
-  // useEffect(() => {
-  //   APIManager.getInstance()
-  //     .then((instance: any) => instance.getCategory())
-  //     .then((data) => {
-  //       let records = JSON.parse(data)
-  //       let categories: Category[] = records.recordset
-  //       console.log(categories)
-  //     })
-  //     .catch((err) => {
-  //       // console.log(err)
-  //     })
-  // }, [])
-
-  // const getCategories = () => {
-  //   APIManager.getInstance()
-  //     .then((instance: any) => instance.getCategory())
-  //     .then((data) => {
-  //       categories = data
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
-  // }
-
-  // useEffect(() => {
-  //   APIManager.getInstance()
-  //     .then((instance: any) => instance.getCategory())
-  //     .then((data) => {
-  //       categories = data
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
-  // })
-  // const [categories, setCategories] = React.useState<Category[]>([])
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const instance = await APIManager.getInstance()
-  //     const data = await instance.getCategory()
-  //     const cat: Category[] = data.result
-  //     console.log(cat)
-  //     setCategories(cat)
-  //     // console.log(categories)
-  //   }
-  //   getData().catch((err) => {
-  //     console.log(err)
-  //   })
-  // }, [])
+  useEffect(() => {
+    const getData = async () => {
+      const instance = await APIManager.getInstance()
+      const data = await instance.getCategory()
+      const cat: Category[] = data.result
+      setCategories(cat)
+    }
+    getData().catch((err) => {
+      console.log(err)
+    })
+  }, [])
 
   return (
     <Box>
@@ -143,7 +104,15 @@ const CategoryList = () => {
       >
         {categories.map((item: Category) => {
           const labelId = `checkbox-list-secondary-label-${item.category_name}`
-          const Icon = icons[item.icon]
+          let Icon = icons[item.icon]
+          if (Icon == undefined) {
+            Icon = icons['CircleOutlinedIcon']
+          }
+          // try {
+          //   Icon = icons[item.icon]
+          // } catch {
+          //   Icon = icons['CircleOutlinedIcon']
+          // }
           return (
             <ListItem
               secondaryAction={

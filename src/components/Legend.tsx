@@ -8,8 +8,7 @@ import { Category } from '@/interfaces/Category'
 import { useCalendarContext } from '@/store/CalendarContext'
 
 const Legend = () => {
-  const { selected, setCategories, handleAll, handleNone, handleChange } =
-    useCalendarContext()
+  const { setCategories } = useCalendarContext()
   const [show, toggleShow] = React.useState(true)
 
   useEffect(() => {
@@ -42,7 +41,7 @@ const Legend = () => {
           onClick={() => toggleShow(!show)}
           style={{
             minWidth: '30px',
-            // minHeight: 'calc(100vh - 64px)',
+            minHeight: 'calc(100vh - 64px)',
             borderRadius: 0
           }}
           sx={{
