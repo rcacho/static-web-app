@@ -16,6 +16,7 @@ import ColourPicker from '@/components/menu/menuButtons/changeCategories/ColourP
 import SymbolPicker from '@/components/menu/menuButtons/changeCategories/SymbolPicker'
 import { Category } from '@/interfaces/Category'
 import { APIManager } from '@/utils/APIManager'
+import { icons } from '@/store/Icons'
 
 // @ts-ignore
 const EditCategory = (props: any) => {
@@ -47,7 +48,7 @@ const EditCategory = (props: any) => {
   async function updateCategory(
     category_name: string,
     admin_id: string,
-    icon: string,
+    icon: keyof typeof icons,
     color: string
   ) {
     let payload: Category = {

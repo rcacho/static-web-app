@@ -6,7 +6,9 @@ import {
   TextField,
   Button,
   Typography,
-  Box
+  Box,
+  Icon,
+  IconPropsSizeOverrides
 } from '@mui/material'
 import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
@@ -16,11 +18,13 @@ import ColourPicker from '@/components/menu/menuButtons/changeCategories/ColourP
 import SymbolPicker from '@/components/menu/menuButtons/changeCategories/SymbolPicker'
 import { APIManager } from '@/utils/APIManager'
 import { Category } from '@/interfaces/Category'
+import { icons } from '@/store/Icons'
 
 // @ts-ignore
 const AddNewCategory = (props: any) => {
   const [categoryName, setCategoryName] = useState('')
-  const [categorySymbol, setCategorySymbol] = useState('')
+  const [categorySymbol, setCategorySymbol] =
+    useState<keyof typeof icons>('CircleIcon')
   const [categoryColour, setCategoryColour] = useState('')
 
   const admin_id_1 = 'user'
@@ -46,7 +50,7 @@ const AddNewCategory = (props: any) => {
   async function addCategory(
     category_name: string,
     admin_id: string,
-    icon: string,
+    icon: keyof typeof icons,
     color: string
   ) {
     let payload: Category = {
@@ -67,7 +71,7 @@ const AddNewCategory = (props: any) => {
 
     setCategoryName('')
     setCategoryColour('')
-    setCategorySymbol('')
+    setCategorySymbol('CircleIcon')
   }
 
   return (
