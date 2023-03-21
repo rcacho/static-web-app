@@ -15,13 +15,13 @@ export class NotificationDAO {
   }
 
   async getNotifications(uid: string) {
-    const query = `SELECT dbo.event.event_id, dbo.event.event_date, dbo.event.admin_id, dbo.notification.time_added, dbo.category.category_id, dbo.category.category_name, dbo.calendar_user.first_name, dbo.calendar_user.last_name
+    const query = `SELECT dbo.event.event_id, dbo.event.event_description, dbo.event.event_date, dbo.event.admin_id, dbo.notification.time_added, dbo.category.category_id, dbo.category.category_name, dbo.calendar_user.first_name, dbo.calendar_user.last_name, dbo.notification.notification_type, dbo.notification.update_type
     FROM dbo.notification
     INNER JOIN dbo.event ON dbo.event.event_id = dbo.notification.event_id
     INNER JOIN dbo.calendar_user ON dbo.calendar_user.user_id = dbo.event.admin_id
     INNER JOIN dbo.category ON dbo.event.category_id = dbo.category.category_id
     WHERE dbo.notification.time_added >= (
-        SELECT last_login
+        SELECT notification_check
         FROM dbo.calendar_user
         WHERE user_id = '${uid}'
     )`

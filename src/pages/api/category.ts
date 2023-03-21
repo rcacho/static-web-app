@@ -21,8 +21,12 @@ export default async function handler(
   }
   switch (method) {
     case 'GET':
-      const recordset = await dao.getCategory()
-      res.status(200).json({ result: recordset })
+      try {
+        const recordset = await dao.getCategory()
+        res.status(200).json({ result: recordset })
+      } catch (err: any) {
+        res.status(400).json({ error: err.msg })
+      }
       break
     case 'POST':
       let adminStatus = await userDAO.isAdmin(category.admin_id)
@@ -30,8 +34,12 @@ export default async function handler(
         res.status(401).json({ result: 'User not permitted to make changes' })
         return
       }
-      await dao.addCategory(category)
-      res.status(200).json({ result: 'Successfully added new category' })
+      try {
+        await dao.addCategory(category)
+        res.status(200).json({ result: 'Successfully added new category' })
+      } catch (err: any) {
+        res.status(400).json({ error: err.msg })
+      }
       break
     default:
       res.setHeader('Allow', ['GET', 'POST'])

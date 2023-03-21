@@ -1,5 +1,6 @@
 import { DatabaseConnector } from '../DatabaseConnector'
 import { User } from '@/interfaces/User'
+import { DatabaseError } from '@/exceptions/DatabaseError'
 
 export class UserDAO {
   db: DatabaseConnector
@@ -9,9 +10,13 @@ export class UserDAO {
   }
 
   async addUser(user: User) {
-    const query = `INSERT INTO dbo.calendar_user (user_id, first_name, last_name, is_admin, last_login)
+    const query = `INSERT INTO dbo.calendar_user (user_id, first_name, last_name, is_admin, notification_check)
                        VALUES ('${user.user_id}', '${user.first_name}', '${user.last_name}', ${user.is_admin}, GETUTCDATE())`
-    await this.db.ConnectAndQuery(query)
+    try {
+      await this.db.ConnectAndQuery(query)
+    } catch (err: any) {
+      throw new DatabaseError(err.msg)
+    }
   }
 
   async getUser(user: User) {
@@ -41,9 +46,9 @@ export class UserDAO {
     return resultset.recordset[0].is_admin
   }
 
-  async login(uid: string) {
+  async check_notifications(uid: string) {
     const query = `UPDATE dbo.calendar_user
-                   SET last_login = GETUTCDATE() 
+                   SET notification_check = GETUTCDATE() 
                    WHERE user_id = '${uid}'`
     await this.db.ConnectAndQuery(query)
   }
