@@ -98,35 +98,14 @@ const Month = (props: any) => {
       }
 
       days.push(
-        i != 47 ? (
-          <Day
-            key={i}
-            day={day}
-            dayOfWeek={dayOfWeek}
-            handleDayClick={handleDayClick}
-          />
-        ) : (
-          <Grid
-            key={Math.random()}
-            sx={{ height: 'auto' }}
-            xs={1}
-            borderRight={isYearView ? 0 : 1}
-            borderBottom={isYearView ? 0 : 1}
-            display="flex"
-            justifyContent="center"
-            alignItems="top"
-          >
-            <Typography
-              variant={'body2'}
-              color="blue"
-              fontSize={isYearView ? '75%' : '100%'}
-            >
-              {props.currentDate.getMonth() == 11
-                ? 160
-                : calculateWorkingHours(firstDay, lastDay)}
-            </Typography>
-          </Grid>
-        )
+        <Day
+          key={i}
+          day={day}
+          month={props.month}
+          year={props.year}
+          dayOfWeek={dayOfWeek}
+          handleDayClick={handleDayClick}
+        />
       )
     }
     return days
