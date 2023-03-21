@@ -6,9 +6,7 @@ import {
   TextField,
   Button,
   Typography,
-  Box,
-  Icon,
-  IconPropsSizeOverrides
+  Box
 } from '@mui/material'
 import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
