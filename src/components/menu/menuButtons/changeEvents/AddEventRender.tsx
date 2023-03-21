@@ -13,6 +13,8 @@ import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
+import { APIManager } from '@/utils/APIManager'
+import { Event } from '@/interfaces/Event'
 
 // placeholder for the list of categories
 const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
@@ -20,6 +22,40 @@ const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 // @ts-ignore
 const AddEventRender = (props: any) => {
   const [selected, setSelected] = useState(null)
+  const [eventDate, setEventDate] = useState(new Date(2022, 1, 1))
+  //const [eventDescription, setEventDescription] = useState('')
+  const adminID = 'user'
+
+  const handleAddEvent = () => {
+    if (selected !== null) {
+      addEvent(eventDate, 'yes', adminID, selected).then(props.clickAway())
+    }
+  }
+  async function addEvent(
+    event_date: Date,
+    event_description: string,
+    admin_id: string,
+    category_id: number
+  ) {
+    let payload: Event = {
+      event_id: null,
+      event_date: event_date,
+      event_description: event_description,
+      admin_id: admin_id,
+      category_id: category_id
+    }
+    APIManager.getInstance()
+      .then((instance) => instance.addEvent(payload))
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    setEventDate(new Date(2022, 0, 1))
+    // setEventDescription('')
+  }
 
   // render list for the scroll function
   function renderList(props: ListChildComponentProps) {
@@ -99,6 +135,9 @@ const AddEventRender = (props: any) => {
             InputLabelProps={{
               shrink: true
             }}
+            // onChange={(newVal) => {
+            //   setEventDate(new Date(newVal.target.value))
+            // }}
           />
         </ListItem>
         <ListItem>
@@ -113,6 +152,7 @@ const AddEventRender = (props: any) => {
             sx={{ color: '#898989' }}
             variant="standard"
             inputProps={{ maxLength: 200 }}
+            // onChange={(newVal) => setEventDescription(newVal.target.value)}
           />
         </ListItem>
       </List>
@@ -123,6 +163,7 @@ const AddEventRender = (props: any) => {
             size="medium"
             variant="contained"
             color="primary"
+            onClick={handleAddEvent}
           >
             Add Event
           </Button>

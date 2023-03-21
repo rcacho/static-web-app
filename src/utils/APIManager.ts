@@ -3,7 +3,8 @@ import { getSession } from 'next-auth/react'
 
 const apiPaths = {
   category: '/api/category',
-  notifications: '/api/notification/[id]'
+  notifications: '/api/notification/[id]',
+  events: '/api/event'
 }
 
 export class APIManager {
@@ -30,8 +31,20 @@ export class APIManager {
     return await this.fetch(apiPaths.category + `/${categoryId}`, 'PUT', data)
   }
 
-  public async deleteCategory(categoryId: number) {
-    return await this.fetch(apiPaths.category + `/${categoryId}`, 'DELETE')
+  public async deleteCategory(categoryId: number, data: any) {
+    return await this.fetch(
+      apiPaths.category + `/${categoryId}`,
+      'DELETE',
+      data
+    )
+  }
+
+  public async getEvent() {
+    return await this.fetch(apiPaths.events, 'GET')
+  }
+
+  public async addEvent(data: any) {
+    return await this.fetch(apiPaths.events, 'POST', data)
   }
 
   private fetch(url: string, method: string, data?: any) {

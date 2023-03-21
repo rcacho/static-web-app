@@ -101,6 +101,8 @@ const Month = (props: any) => {
         <Day
           key={i}
           day={day}
+          month={props.month}
+          year={props.year}
           dayOfWeek={dayOfWeek}
           handleDayClick={handleDayClick}
         />

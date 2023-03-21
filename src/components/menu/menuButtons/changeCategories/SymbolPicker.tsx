@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Box, Grid } from '@mui/material/'
-import { ToggleButton, Typography } from '@mui/material'
+import { ToggleButton } from '@mui/material'
 import CircleIcon from '@mui/icons-material/Circle'
 import SquareIcon from '@mui/icons-material/Square'
 import StarIcon from '@mui/icons-material/Star'
@@ -12,32 +12,72 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
 import FilterDramaIcon from '@mui/icons-material/FilterDrama'
 import InvertColorsIcon from '@mui/icons-material/InvertColors'
+import CropSquareIcon from '@mui/icons-material/CropSquare'
+import CloseIcon from '@mui/icons-material/Close'
+import SpaIcon from '@mui/icons-material/Spa'
+import FavoriteIcon from '@mui/icons-material/Favorite'
 
-const SymbolPicker = () => {
-  const [selected, setSelected] = useState(0)
+const symbols = [
+  CircleIcon,
+  SquareIcon,
+  StarIcon,
+  ReportProblemIcon,
+  PaidIcon,
+  HexagonIcon,
+  PanoramaFishEyeIcon,
+  CropSquareIcon,
+  CloseIcon,
+  SpaIcon,
+  FavoriteIcon,
+  ArrowDownwardIcon,
+  ArrowUpwardIcon,
+  FilterDramaIcon,
+  InvertColorsIcon
+]
 
-  const CustomSymbol = (props: any) => {
-    return (
-      <Typography
-        fontSize="small"
-        sx={{
-          backgroundColor: props.id === selected ? 'black' : 'gray',
-          color: props.id === selected ? 'lightgray' : 'white',
-          minWidth: '15px'
-        }}
-      >
-        {props.symbol}
-      </Typography>
-    )
+const symbolKeys = [
+  'CircleIcon',
+  'SquareIcon',
+  'StarIcon',
+  'ReportProblemIcon',
+  'PaidIcon',
+  'HexagonIcon',
+  'PanoramaFishEyeIcon',
+  'CropSquareIcon',
+  'CloseIcon',
+  'SpaIcon',
+  'FavoriteIcon',
+  'ArrowDownwardIcon',
+  'ArrowUpwardIcon',
+  'FilterDramaIcon',
+  'InvertColorsIcon'
+]
+const SymbolPicker = (props: any) => {
+  const [selected, setSelected] = useState(propState)
+
+  function propState() {
+    if (props.selectedSymbol !== null) {
+      for (let i = 0; i < symbolKeys.length; i++) {
+        if (props.selectedSymbol === symbolKeys[i]) {
+          return i
+        }
+      }
+      return 15
+    } else {
+      return 15
+    }
   }
 
-  function renderSymbols(symbol: any, id: Number) {
+  function renderSymbols(id: number) {
     const handleSelect = (index: any) => {
       setSelected(index)
+      props.setSymbol(symbolKeys[id])
     }
     const checkSelect = () => {
       return id === selected
     }
+
+    let Icon = symbols[id]
 
     return (
       <Grid item xs={2} height={35} padding={1.5}>
@@ -56,7 +96,7 @@ const SymbolPicker = () => {
             borderRadius: 0
           }}
         >
-          {symbol}
+          <Icon />
         </ToggleButton>
       </Grid>
     )
@@ -70,24 +110,21 @@ const SymbolPicker = () => {
       sx={{ width: 220, height: 120, border: '1px solid grey' }}
     >
       <Grid container spacing={3} paddingLeft={2.5} paddingTop={1.5}>
-        {renderSymbols(<CircleIcon fontSize="small"></CircleIcon>, 1)}
-        {renderSymbols(<SquareIcon fontSize="small"></SquareIcon>, 2)}
-        {renderSymbols(<StarIcon fontSize="small"></StarIcon>, 3)}
-        {renderSymbols(
-          <ReportProblemIcon fontSize="small"></ReportProblemIcon>,
-          4
-        )}
-        {renderSymbols(<PaidIcon fontSize="small"></PaidIcon>, 5)}
-        {renderSymbols(<HexagonIcon fontSize="small"></HexagonIcon>, 6)}
-        {renderSymbols(<PanoramaFishEyeIcon></PanoramaFishEyeIcon>, 7)}
-        {renderSymbols(<CustomSymbol symbol="AGM" id={8} />, 8)}
-        {renderSymbols(<CustomSymbol symbol="U" id={9} />, 9)}
-        {renderSymbols(<CustomSymbol symbol="8" id={10} />, 10)}
-        {renderSymbols(<CustomSymbol symbol="!" id={11} />, 11)}
-        {renderSymbols(<ArrowDownwardIcon></ArrowDownwardIcon>, 12)}
-        {renderSymbols(<ArrowUpwardIcon></ArrowUpwardIcon>, 13)}
-        {renderSymbols(<FilterDramaIcon></FilterDramaIcon>, 14)}
-        {renderSymbols(<InvertColorsIcon></InvertColorsIcon>, 15)}
+        {renderSymbols(0)}
+        {renderSymbols(1)}
+        {renderSymbols(2)}
+        {renderSymbols(3)}
+        {renderSymbols(4)}
+        {renderSymbols(5)}
+        {renderSymbols(6)}
+        {renderSymbols(7)}
+        {renderSymbols(8)}
+        {renderSymbols(9)}
+        {renderSymbols(10)}
+        {renderSymbols(11)}
+        {renderSymbols(12)}
+        {renderSymbols(13)}
+        {renderSymbols(14)}
       </Grid>
     </Box>
   )

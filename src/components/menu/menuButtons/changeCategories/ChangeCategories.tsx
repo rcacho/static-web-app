@@ -8,23 +8,52 @@ import {
   Box,
   Typography
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
+import { APIManager } from '@/utils/APIManager'
+import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/DeleteCategoryPopUp'
+import { Category } from '@/interfaces/Category'
 
 // placeholder for the list of categories
-const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 
+let EventList: string[] = []
+let CategoryList: Category[] = []
 const ChangeCategories = (props: any) => {
   const [selected, setSelected] = useState(null)
+  const [events, setEvents] = useState([''])
+  const [catList, setCatList] = useState(CategoryList)
+
+  useEffect(() => {
+    APIManager.getInstance()
+      .then((instance) => instance.getCategory())
+      .then((data) => {
+        EventList = []
+        CategoryList = []
+        for (let i = 0; i < data.result.length; i++) {
+          EventList.push(data.result[i].category_name)
+          CategoryList.push(data.result[i])
+        }
+        setEvents(EventList)
+        setCatList(CategoryList)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }, [selected])
+
+  function handleSelected() {
+    setSelected(null)
+  }
 
   // render list for the scroll function
-  function renderList(props: ListChildComponentProps) {
-    const { index, style } = props
+  function renderList(funcProps: ListChildComponentProps) {
+    const { index, style } = funcProps
 
     const handleSelect = () => {
       setSelected(index)
+      props.handleCategory(catList[index])
     }
     return (
       <ListItem
@@ -35,7 +64,7 @@ const ChangeCategories = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`Item ${EventList[index]}`} />
+          <ListItemText primary={events[index]} />
         </ListItemButton>
       </ListItem>
     )
@@ -45,7 +74,6 @@ const ChangeCategories = (props: any) => {
   const handleBackClick = () => {
     props.updateState(0)
   }
-
   return (
     <ThemeProvider theme={MuiTheme}>
       <List disablePadding={true}>
@@ -100,17 +128,50 @@ const ChangeCategories = (props: any) => {
           </Button>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="small"
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.updateState(2.2)
-            }}
-          >
-            Edit Category
-          </Button>
+          {selected === null ? (
+            <Button
+              disabled
+              className="menu-button"
+              size="small"
+              variant="contained"
+              color="primary"
+            >
+              Edit Category
+            </Button>
+          ) : (
+            <Button
+              className="menu-button"
+              size="small"
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                props.updateState(2.2)
+              }}
+            >
+              Edit Category
+            </Button>
+          )}
+        </ListItem>
+        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+          {selected === null ? (
+            <Button
+              disabled
+              className="menu-button"
+              size="small"
+              variant="contained"
+              color="primary"
+            >
+              Delete Category
+            </Button>
+          ) : (
+            <DeleteCategoryPopUp
+              clickAway={props.clickAway}
+              catID={catList[selected].category_id}
+              setSelected={handleSelected}
+            >
+              Delete Category
+            </DeleteCategoryPopUp>
+          )}
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
@@ -118,17 +179,7 @@ const ChangeCategories = (props: any) => {
             size="small"
             variant="contained"
             color="primary"
-          >
-            Delete Category
-          </Button>
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="small"
-            variant="contained"
-            color="primary"
-            onClick={handleBackClick}
+            onClick={() => props.clickAway(false)}
           >
             Cancel
           </Button>
