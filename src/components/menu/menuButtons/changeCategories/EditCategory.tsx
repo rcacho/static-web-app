@@ -8,17 +8,65 @@ import {
   Typography,
   Box
 } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import ColourPicker from '@/components/menu/menuButtons/changeCategories/ColourPicker'
 import SymbolPicker from '@/components/menu/menuButtons/changeCategories/SymbolPicker'
+import { Category } from '@/interfaces/Category'
+import { APIManager } from '@/utils/APIManager'
 
 // @ts-ignore
-const AddNewCategory = (props: any) => {
+const EditCategory = (props: any) => {
+  const [categoryName, setCategoryName] = useState(props.category.category_name)
+  const [categorySymbol, setCategorySymbol] = useState(props.category.icon)
+  const [categoryColour, setCategoryColour] = useState(props.category.color)
+  const admin_id_1 = 'user'
   const handleBackClick = () => {
     props.updateState(2)
+  }
+
+  const updateColour = (colour: any) => {
+    setCategoryColour(colour)
+  }
+
+  const updateSymbol = (symbol: any) => {
+    setCategorySymbol(symbol)
+  }
+
+  const handleSave = () => {
+    updateCategory(
+      categoryName,
+      admin_id_1,
+      categorySymbol,
+      categoryColour
+    ).then(props.clickAway())
+  }
+
+  async function updateCategory(
+    category_name: string,
+    admin_id: string,
+    icon: string,
+    color: string
+  ) {
+    let payload: Category = {
+      category_id: props.category.category_id,
+      category_name: category_name,
+      admin_id: admin_id,
+      icon: icon,
+      color: color
+    }
+    APIManager.getInstance()
+      .then((instance) =>
+        instance.updateCategory(props.category.category_id, payload)
+      )
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   return (
@@ -55,23 +103,30 @@ const AddNewCategory = (props: any) => {
             multiline={true}
             maxRows={4}
             id="standard-basic"
-            label="(Max 50 chars.)"
+            label={props.category.category_name}
             sx={{ color: '#898989' }}
             variant="standard"
             inputProps={{ maxLength: 50 }}
+            onChange={(newVal) => setCategoryName(newVal.target.value)}
           />
         </ListItem>
         <ListItem>
           <ListItemText primary="Please select category symbol:" />
         </ListItem>
         <Box marginLeft={5}>
-          <SymbolPicker />
+          <SymbolPicker
+            selectedSymbol={props.category.icon}
+            setSymbol={updateSymbol}
+          />
         </Box>
         <ListItem>
           <ListItemText primary="Please select category symbol colour:" />
         </ListItem>
         <Box marginLeft={5}>
-          <ColourPicker />
+          <ColourPicker
+            selectedColour={props.category.color}
+            setColour={updateColour}
+          />
         </Box>
       </List>
       <List className="bottom-buttons" disablePadding={true}>
@@ -81,6 +136,7 @@ const AddNewCategory = (props: any) => {
             size="medium"
             variant="contained"
             color="primary"
+            onClick={handleSave}
           >
             Save Changes
           </Button>
@@ -91,7 +147,9 @@ const AddNewCategory = (props: any) => {
             size="medium"
             variant="contained"
             color="primary"
-            onClick={handleBackClick}
+            onClick={() => {
+              props.clickAway()
+            }}
           >
             Cancel
           </Button>
@@ -101,4 +159,4 @@ const AddNewCategory = (props: any) => {
   )
 }
 
-export default AddNewCategory
+export default EditCategory

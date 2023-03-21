@@ -2,12 +2,44 @@ import React, { useState } from 'react'
 import { Box, Grid } from '@mui/material/'
 import { ToggleButton } from '@mui/material'
 
-const ColourPicker = () => {
-  const [selected, setSelected] = useState(0)
+const colours = [
+  '#832A0E',
+  '#B45252',
+  'red',
+  '#ea6900',
+  '#FAFF00',
+  '#05FD00',
+  '#599273',
+  '#00FFF0',
+  '#04D2FF',
+  '#2678F3',
+  '#5D64A6',
+  '#9104FF',
+  '#FF00B8',
+  '#8A8A8A',
+  'black'
+]
 
-  function renderColours(colour: any, id: Number) {
+const ColourPicker = (props: any) => {
+  const [selected, setSelected] = useState(propState())
+
+  function propState() {
+    if (props.selectedColour !== null) {
+      for (let i = 0; i < colours.length; i++) {
+        if (props.selectedColour === colours[i]) {
+          return i
+        }
+      }
+      return 15
+    } else {
+      return 15
+    }
+  }
+
+  function renderColours(id: number) {
     const handleSelect = (index: any) => {
       setSelected(index)
+      props.setColour(colours[id])
     }
     const checkSelect = () => {
       return id === selected
@@ -22,7 +54,7 @@ const ColourPicker = () => {
             handleSelect(id)
           }}
           sx={{
-            backgroundColor: colour,
+            backgroundColor: colours[id],
             height: 20,
             minWidth: 28,
             marginTop: 0,
@@ -42,21 +74,21 @@ const ColourPicker = () => {
       sx={{ width: 220, height: 120, border: '1px solid grey' }}
     >
       <Grid container spacing={3} paddingLeft={2.5} paddingTop={1.5}>
-        {renderColours('#832A0E', 1)}
-        {renderColours('#B45252', 2)}
-        {renderColours('red', 3)}
-        {renderColours('#B45252', 4)}
-        {renderColours('#FAFF00', 5)}
-        {renderColours('#05FD00', 6)}
-        {renderColours('#599273', 7)}
-        {renderColours('#00FFF0', 8)}
-        {renderColours('#04D2FF', 9)}
-        {renderColours('#2678F3', 10)}
-        {renderColours('#5D64A6', 11)}
-        {renderColours('#9104FF', 12)}
-        {renderColours('#FF00B8', 13)}
-        {renderColours('#8A8A8A', 14)}
-        {renderColours('black', 15)}
+        {renderColours(0)}
+        {renderColours(1)}
+        {renderColours(2)}
+        {renderColours(3)}
+        {renderColours(4)}
+        {renderColours(5)}
+        {renderColours(6)}
+        {renderColours(7)}
+        {renderColours(8)}
+        {renderColours(9)}
+        {renderColours(10)}
+        {renderColours(11)}
+        {renderColours(12)}
+        {renderColours(13)}
+        {renderColours(14)}
       </Grid>
     </Box>
   )

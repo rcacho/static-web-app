@@ -60,8 +60,10 @@ const Year = () => {
           </Grid>
           <Month
             currentDate={new Date(currentDate.getFullYear(), monthNumber, 1)}
+            month={monthNumber}
             weekNum={week}
             numWeeks={numWeeks}
+            year={currentDate.getFullYear()}
           />
         </Stack>
       </Grid>

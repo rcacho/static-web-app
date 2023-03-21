@@ -12,6 +12,8 @@ interface DayProps {
   day: Number
   dayOfWeek: String
   handleDayClick: any
+  month: number
+  year: number
 }
 
 const icons = { CircleIcon }
@@ -21,7 +23,12 @@ interface IconItems {
   event: string
 }
 
+//let EventList: [] = []
+
 const Day = (props: DayProps) => {
+  // const [dayEvents, setDayEvents] = useState([''])
+  // const [categories, setCategories] = useState([''])
+
   let IconList: IconItems[] = [
     { icon: 'CircleIcon', color: '#0072ea', event: 'ev1' },
     { icon: 'CircleIcon', color: '#a8ea00', event: 'ev1' },
@@ -40,6 +47,43 @@ const Day = (props: DayProps) => {
     // { icon: 'CircleIcon', color: 'black', event: 'ev1' }
   ]
   const { isYearView } = useCalendarContext()
+
+  // useEffect(() => {
+  //   APIManager.getInstance()
+  //       .then((instance) => instance.getCategory())
+  //       .then((data) => {
+  //         EventList = []
+  //         for (let i = 0; i < data.result.length; i++) {
+  //           EventList.push(data.result[i])
+  //         }
+  //         setCategories(EventList)
+  //       })
+  //       .catch((err) => {
+  //         console.log(err)
+  //       })
+  // }, [])
+  //
+  // useEffect(() => {
+  //   APIManager.getInstance()
+  //     .then((instance) => instance.getEvent())
+  //     .then((data) => {
+  //       EventList = []
+  //       for (let i = 0; i < data.result.length; i++) {
+  //         if (
+  //           data.result[i].event_date.day === props.day &&
+  //           data.result[i].event_date.month === props.month &&
+  //           data.result[i].event_date.year === props.year
+  //         )
+  //
+  //           item: IconItems = {icon: , color: ,event: data.result[i].category_id}
+  //           EventList.push(data.result[i].category_id)
+  //       }
+  //       setDayEvents(EventList)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }, [])
 
   const CheckKey = (index: number) => {
     if (index === 7 && IconList.length > 8) {
