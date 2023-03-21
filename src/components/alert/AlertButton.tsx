@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import CloseIcon from '@mui/icons-material/Close';
 import { APIManager } from "@/utils/APIManager";
+import { useCalendarContext } from "@/store/CalendarContext";
 
 type Alert = {
     name: String,
@@ -36,6 +37,7 @@ const AlertButton = () => {
 }
 
 const AlertPanel = (props: any) => {
+    const { accountId } = useCalendarContext()
     const [alerts, setAlerts] = useState<Alert[]>([]);
     const alertPanelStyle = {
         bgcolor: "white",
@@ -48,19 +50,21 @@ const AlertPanel = (props: any) => {
     }
 
     useEffect(() => {
-        APIManager.getInstance()
-            .then(instance => instance.getCategory())
-            .then(data => {
-                console.log(data)
-                // do something with this data
-            })
-        
         setAlerts([
             { name: "Expense Cutoff", date: new Date("2023-10-13"), admin: "Steve", action: "added" },
             { name: "Annual General Meeting", date: new Date("2023-05-13"), admin: "Shawn", action: "added" },
             { name: "Office Closed", date: new Date("2023-12-23"), admin: "Nash", action: "added" },
             { name: "Jerry's Birthday Party", date: new Date("2023-07-21"), admin: "Shawn", action: "deleted" },
         ])
+
+        props.setHasAlerts(true)
+        
+        // @TODO: wait until token verification is done in the backend before parsing the response
+        // As of right now, the response fails here. I've set some placeholder data below for testing purposes.
+        APIManager.getInstance()
+            .then(instance => instance.getNotification(accountId))
+            .then(data => {
+            })
     }, [])
 
     const renderAlerts = () => {

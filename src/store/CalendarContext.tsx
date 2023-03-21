@@ -1,5 +1,7 @@
+import { APIManager } from '@/utils/APIManager'
+import { useAccount, useMsal } from '@azure/msal-react'
 import * as React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const examples: string[] = [
   'AE Business Meeting',
@@ -38,6 +40,7 @@ interface CalendarStoreValue {
   handleAll: () => void
   weekNum: number
   incWeekNum: () => void
+  accountId: number
 }
 
 export const useCalendarContext = () => {
@@ -48,6 +51,12 @@ export const useCalendarContext = () => {
   return calendarContext
 }
 
+function getAccountID(): number {
+  const { instance, accounts } = useMsal()
+  const account = useAccount(accounts[0])
+  return parseInt(account?.idTokenClaims?.oid ?? '0')
+}
+
 const CalendarStore = ({ children }: any) => {
   const [currentDate, setDate] = useState(new Date())
   const [yearView, setYearView] = useState(false)
@@ -55,6 +64,14 @@ const CalendarStore = ({ children }: any) => {
   const [selectedDate, setSelectedDate] = useState<undefined | Date>(undefined)
   const [selected, setSelected] = React.useState<string[]>([])
   const [weekNum, setWeekNum] = useState(1)
+  const accountId = getAccountID()
+
+  useEffect(() => {
+    APIManager.getInstance()
+      .then(instance => 
+        instance.setUserLastLogin(accountId)
+      )
+  }, [])
 
   const incWeekNum = () => {
     setWeekNum(weekNum + 1)
@@ -105,7 +122,8 @@ const CalendarStore = ({ children }: any) => {
     handleNone: handleNone,
     handleAll: handleAll,
     weekNum: weekNum,
-    incWeekNum: incWeekNum
+    incWeekNum: incWeekNum,
+    accountId: accountId,
   }
 
   return (
