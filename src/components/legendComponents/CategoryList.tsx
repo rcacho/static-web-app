@@ -104,6 +104,7 @@ const CategoryList = () => {
           // }
           return (
             <ListItem
+              key={Math.random()}
               secondaryAction={
                 <Checkbox
                   value={item.category_name}

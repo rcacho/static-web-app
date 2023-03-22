@@ -1,50 +1,71 @@
-import { Session } from 'next-auth'
-import { getSession } from 'next-auth/react'
-
 const apiPaths = {
-  category: '/api/category',
-  notifications: '/api/notification/[id]',
-  events: '/api/event'
+  category: (categoryId?: number) => `/api/category/${categoryId ?? ''}`,
+  events: (eventId?: number) => `/api/event/${eventId ?? ''}`,
+  notifications: (userId: number) => `/api/notification/${userId}`,
+  user: (userId?: number) => `/api/user/${userId ?? ''}`,
+  userLogin: (userId: number) => `/api/user/login/${userId}`
 }
 
 export class APIManager {
   static instance: APIManager
-  currSession: Session | null
-  sessionId: number | null
 
   public static async getInstance() {
     if (this.instance == undefined) {
-      this.instance = new APIManager(await getSession())
+      this.instance = new APIManager()
     }
     return this.instance
   }
 
   public async getCategory() {
-    return await this.fetch(apiPaths.category, 'GET')
+    return await this.fetch(apiPaths.category(), 'GET')
   }
 
   public async addCategory(data: any) {
-    return await this.fetch(apiPaths.category, 'POST', data)
+    return await this.fetch(apiPaths.category(), 'POST', data)
   }
 
   public async updateCategory(categoryId: number, data: any) {
-    return await this.fetch(apiPaths.category + `/${categoryId}`, 'PUT', data)
+    return await this.fetch(apiPaths.category(categoryId), 'PUT', data)
   }
 
   public async deleteCategory(categoryId: number, data: any) {
-    return await this.fetch(
-      apiPaths.category + `/${categoryId}`,
-      'DELETE',
-      data
-    )
+    return await this.fetch(apiPaths.category(categoryId), 'DELETE', data)
   }
 
   public async getEvent() {
-    return await this.fetch(apiPaths.events, 'GET')
+    return await this.fetch(apiPaths.events(), 'GET')
   }
 
   public async addEvent(data: any) {
-    return await this.fetch(apiPaths.events, 'POST', data)
+    return await this.fetch(apiPaths.events(), 'POST', data)
+  }
+
+  public async editEvent(eventId: number, data: any) {
+    return await this.fetch(apiPaths.events(eventId), 'PUT', data)
+  }
+
+  public async deleteEvent(eventId: number) {
+    return await this.fetch(apiPaths.events(eventId), 'DELETE')
+  }
+
+  public async getNotification(userId: number) {
+    return await this.fetch(apiPaths.notifications(userId), 'GET')
+  }
+
+  public async addUser(data: any) {
+    return await this.fetch(apiPaths.user(), 'POST', data)
+  }
+
+  public async getUser(userId: number) {
+    return await this.fetch(apiPaths.user(userId), 'GET')
+  }
+
+  public async editUser(userId: number, data: any) {
+    return await this.fetch(apiPaths.user(userId), 'PUT', data)
+  }
+
+  public async setUserLastLogin(userId: number) {
+    return await this.fetch(apiPaths.userLogin(userId), 'PUT')
   }
 
   private fetch(url: string, method: string, data?: any) {
@@ -63,8 +84,5 @@ export class APIManager {
     return fetch(url, options).then((res) => res.json())
   }
 
-  private constructor(session: Session | null) {
-    this.currSession = session
-    this.sessionId = 0 // @TODO: Implement this after login sessions are merged.
-  }
+  private constructor() {}
 }
