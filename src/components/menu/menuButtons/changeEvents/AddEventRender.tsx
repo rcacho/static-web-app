@@ -27,8 +27,6 @@ const AddEventRender = (props: any) => {
   const [eventDate, setEventDate] = useState(new Date(2022, 1, 1))
   const adminID = 'user' // this will be changed to whatever user is logged in?
   const [selected, setSelected] = useState(null)
-  const [events, setEvents] = useState([''])
-  const [catList, setCatList] = useState(CategoryList)
   const [description, setEventDescription] = useState('')
   const { categories } = useCalendarContext()
 
@@ -39,8 +37,6 @@ const AddEventRender = (props: any) => {
       EventList.push(categories[i].category_name)
       catIDs.push(categories[i].category_id)
     }
-    setEvents(EventList)
-    setCatList(categories)
   }, [selected])
 
   const handleAddEvent = () => {

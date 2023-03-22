@@ -24,16 +24,12 @@ let EventList: string[] = []
 const ChangeDeleteEvent = (props: any) => {
   const { selectedDate } = useCalendarContext()
   const [selected, setSelected] = useState(null)
-  const [events, setEvents] = useState([''])
   const { categories } = useCalendarContext()
-  const [catList, setCatList] = useState(CategoryList)
 
   useEffect(() => {
     for (let i = 0; i < categories.length; i++) {
       EventList.push(categories[i].category_name)
     }
-    setEvents(EventList)
-    setCatList(categories)
   }, [selected])
 
   // format date
