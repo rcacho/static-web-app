@@ -58,6 +58,7 @@ const CategoryList = () => {
           const labelId = `checkbox-list-secondary-label-${item}`
           return (
             <ListItem
+              key={Math.random()}
               secondaryAction={
                 <Checkbox
                   value={item}

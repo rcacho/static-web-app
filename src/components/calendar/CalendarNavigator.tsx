@@ -14,10 +14,6 @@ const CalendarNavigator = () => {
       : months[currentDate.getMonth()] + ' ' + currentDate.getFullYear()
   }
 
-  const renderYearViewButton = () => {
-    return !isYearView ? <ToggleYearViewButton /> : <></>
-  }
-
   return (
     <>
       <Typography variant="h6">
@@ -27,7 +23,7 @@ const CalendarNavigator = () => {
           {getDateString()}
         </Stack>
       </Typography>
-      {renderYearViewButton()}
+      {!isYearView ? <ToggleYearViewButton /> : <></>}
     </>
   )
 }
