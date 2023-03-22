@@ -81,6 +81,7 @@ const Day = (props: DayProps) => {
   const { isYearView, currentDate } = useCalendarContext()
   const [calYear, setCalYear] = useState(currentDate.getFullYear())
 
+
   useEffect(() => {
     setCalYear(currentDate.getFullYear())
   }, [])

@@ -9,25 +9,41 @@ import {
   Typography,
   Box
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
+import { useCalendarContext } from '@/store/CalendarContext'
 
 // placeholder for the list of categories
-const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
-
+let EventList: string[] = []
+let catIDs: any[] = []
 // @ts-ignore
 const AddEventRender = (props: any) => {
-  const [selected, setSelected] = useState(null)
   const [eventDate, setEventDate] = useState(new Date(2022, 1, 1))
-  const adminID = 'user'
+
+  const adminID = 'user' // this will be changed to whatever user is logged in?
+  const [selected, setSelected] = useState(null)
+  const [description, setEventDescription] = useState('')
+  const [events, setEvents] = useState([''])
+  const { categories } = useCalendarContext()
+
+  useEffect(() => {
+    EventList = []
+    for (let i = 0; i < categories.length; i++) {
+      EventList.push(categories[i].category_name)
+      catIDs.push(categories[i].category_id)
+    }
+    setEvents(EventList)
+  }, [selected])
 
   const handleAddEvent = () => {
     if (selected !== null) {
-      addEvent(eventDate, 'yes', adminID, selected).then(props.clickAway())
+      addEvent(eventDate, description, adminID, catIDs[selected]).then(
+        props.clickAway()
+      )
     }
   }
   async function addEvent(
@@ -52,8 +68,7 @@ const AddEventRender = (props: any) => {
         console.log(err)
       })
 
-    setEventDate(new Date(2022, 0, 1))
-    // setEventDescription('')
+    setEventDate(event_date)
   }
 
   // render list for the scroll function
@@ -72,7 +87,7 @@ const AddEventRender = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`Item ${EventList[index]}`} />
+          <ListItemText primary={`${events[index]}`} />
         </ListItemButton>
       </ListItem>
     )
@@ -134,9 +149,9 @@ const AddEventRender = (props: any) => {
             InputLabelProps={{
               shrink: true
             }}
-            // onChange={(newVal) => {
-            //   setEventDate(new Date(newVal.target.value))
-            // }}
+            onChange={(newVal) => {
+              setEventDate(new Date(newVal.target.value))
+            }}
           />
         </ListItem>
         <ListItem>
@@ -151,7 +166,7 @@ const AddEventRender = (props: any) => {
             sx={{ color: '#898989' }}
             variant="standard"
             inputProps={{ maxLength: 200 }}
-            // onChange={(newVal) => setEventDescription(newVal.target.value)}
+            onChange={(newVal) => setEventDescription(newVal.target.value)}
           />
         </ListItem>
       </List>
