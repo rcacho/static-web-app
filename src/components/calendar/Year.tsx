@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
 import { Button, Stack } from '@mui/material'
 import Month from './Month'
@@ -19,7 +19,7 @@ export const months = [
   'December'
 ]
 
-const Year = () => {
+const Year = (props: any) => {
   const { currentDate, changeView, toggleBarOnDateClick } = useCalendarContext()
 
   const handleMonthButtonClick = (monthNumber: number) => {
@@ -66,9 +66,11 @@ const Year = () => {
           </Grid>
           <Month
             currentDate={new Date(currentDate.getFullYear(), monthNumber, 1)}
-            month={monthNumber}
+            month={monthNumber + 1}
             weekNum={week}
             numWeeks={numWeeks}
+            eventList={props.eventList}
+            categoryList={props.categoryList}
             year={currentDate.getFullYear()}
           />
         </Stack>
