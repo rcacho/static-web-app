@@ -12,9 +12,9 @@ import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
-import { APIManager } from '@/utils/APIManager'
 import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/DeleteCategoryPopUp'
 import { Category } from '@/interfaces/Category'
+import { useCalendarContext } from '@/store/CalendarContext'
 
 // placeholder for the list of categories
 
@@ -24,23 +24,14 @@ const ChangeCategories = (props: any) => {
   const [selected, setSelected] = useState(null)
   const [events, setEvents] = useState([''])
   const [catList, setCatList] = useState(CategoryList)
+  const { categories } = useCalendarContext()
 
   useEffect(() => {
-    APIManager.getInstance()
-      .then((instance) => instance.getCategory())
-      .then((data) => {
-        EventList = []
-        CategoryList = []
-        for (let i = 0; i < data.result.length; i++) {
-          EventList.push(data.result[i].category_name)
-          CategoryList.push(data.result[i])
-        }
-        setEvents(EventList)
-        setCatList(CategoryList)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    for (let i = 0; i < categories.length; i++) {
+      EventList.push(categories[i].category_name)
+    }
+    setEvents(EventList)
+    setCatList(categories)
   }, [selected])
 
   function handleSelected() {
