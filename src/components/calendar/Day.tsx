@@ -29,23 +29,7 @@ const Day = (props: DayProps) => {
   // const [dayEvents, setDayEvents] = useState([''])
   // const [categories, setCategories] = useState([''])
 
-  let IconList: IconItems[] = [
-    { icon: 'CircleIcon', color: '#0072ea', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#a8ea00', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea00e6', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea7d00', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#0013ea', event: 'ev1' }
-    // { icon: 'CircleIcon', color: '#ea2300', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#00ea5e', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#5e00ea', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#ea6900', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#3b00ea', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#ea008c', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#eaa800', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#eae600', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#00ea42', event: 'ev1' },
-    // { icon: 'CircleIcon', color: 'black', event: 'ev1' }
-  ]
+  let IconList: IconItems[] = []
   const { isYearView } = useCalendarContext()
 
   // useEffect(() => {
