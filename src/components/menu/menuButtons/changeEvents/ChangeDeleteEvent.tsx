@@ -8,7 +8,7 @@ import {
   Typography,
   Box
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
@@ -16,12 +16,19 @@ import { useCalendarContext } from '@/store/CalendarContext'
 import DeleteEventPopUp from '@/components/menu/menuButtons/changeEvents/DeleteEventPopUp'
 
 // placeholder for the list of categories
-const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
+let EventList: string[] = []
 
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
   const { selectedDate } = useCalendarContext()
   const [selected, setSelected] = useState(null)
+  const { categories } = useCalendarContext()
+
+  useEffect(() => {
+    for (let i = 0; i < categories.length; i++) {
+      EventList.push(categories[i].category_name)
+    }
+  }, [selected])
 
   // format date
 
@@ -71,7 +78,7 @@ const ChangeDeleteEvent = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`Event ${EventList[index]}`} />
+          <ListItemText primary={`${EventList[index]}`} />
         </ListItemButton>
       </ListItem>
     )
