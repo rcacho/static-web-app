@@ -1,9 +1,23 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Typography, Button } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useCalendarContext } from '@/store/CalendarContext'
 import CircleIcon from '@mui/icons-material/Circle'
 import AddIcon from '@mui/icons-material/Add'
+import SquareIcon from '@mui/icons-material/Square'
+import StarIcon from '@mui/icons-material/Star'
+import ReportProblemIcon from '@mui/icons-material/ReportProblem'
+import PaidIcon from '@mui/icons-material/Paid'
+import HexagonIcon from '@mui/icons-material/Hexagon'
+import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye'
+import CropSquareIcon from '@mui/icons-material/CropSquare'
+import CloseIcon from '@mui/icons-material/Close'
+import SpaIcon from '@mui/icons-material/Spa'
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
+import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
+import FilterDramaIcon from '@mui/icons-material/FilterDrama'
+import InvertColorsIcon from '@mui/icons-material/InvertColors'
 
 export const noValue = ''
 
@@ -12,85 +26,100 @@ interface DayProps {
   day: Number
   dayOfWeek: String
   handleDayClick: any
-  month: number
+  month: any
   year: number
+  categoryList: any
+  eventList: any
 }
 
-const icons = { CircleIcon }
+const icons = {
+  CircleIcon,
+  SquareIcon,
+  StarIcon,
+  ReportProblemIcon,
+  PaidIcon,
+  HexagonIcon,
+  PanoramaFishEyeIcon,
+  CropSquareIcon,
+  CloseIcon,
+  SpaIcon,
+  FavoriteIcon,
+  ArrowDownwardIcon,
+  ArrowUpwardIcon,
+  FilterDramaIcon,
+  InvertColorsIcon
+  //CircleOutLinedItem
+}
+
+const iconKeys = [
+  'CircleIcon',
+  'SquareIcon',
+  'StarIcon',
+  'ReportProblemIcon',
+  'PaidIcon',
+  'HexagonIcon',
+  'PanoramaFishEyeIcon',
+  'CropSquareIcon',
+  'CloseIcon',
+  'SpaIcon',
+  'FavoriteIcon',
+  'ArrowDownwardIcon',
+  'ArrowUpwardIcon',
+  'FilterDramaIcon',
+  'InvertColorsIcon',
+  'CircleOutlinedIcon'
+]
 interface IconItems {
   icon: keyof typeof icons
   color: string
   event: string
 }
 
-//let EventList: [] = []
+let IconList: IconItems[] = []
 
 const Day = (props: DayProps) => {
-  // const [dayEvents, setDayEvents] = useState([''])
-  // const [categories, setCategories] = useState([''])
+  const [iconSet, setIconSet] = useState(IconList)
+  const { isYearView, currentDate } = useCalendarContext()
 
-  let IconList: IconItems[] = [
-    { icon: 'CircleIcon', color: '#0072ea', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#a8ea00', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea00e6', event: 'ev1' },
-    { icon: 'CircleIcon', color: '#ea7d00', event: 'ev1' }
-    // { icon: 'CircleIcon', color: '#0013ea', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#ea2300', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#00ea5e', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#5e00ea', event: 'ev1' }
-    // { icon: 'CircleIcon', color: '#ea6900', event: 'ev1' }
-    // { icon: 'CircleIcon', color: '#3b00ea', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#ea008c', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#eaa800', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#eae600', event: 'ev1' },
-    // { icon: 'CircleIcon', color: '#00ea42', event: 'ev1' },
-    // { icon: 'CircleIcon', color: 'black', event: 'ev1' }
-  ]
-  const { isYearView } = useCalendarContext()
+  useEffect(() => {
+    if (props.eventList.length > 0 && props.categoryList.length > 0) {
+      IconList = []
+      for (let j = 0; j < props.eventList.length; j++) {
+        let date = props.eventList[j].event_date
+        let day = Number(date.slice(8, 10))
+        let eventMonth = Number(date.slice(5, 7))
+        let year = Number(date.slice(0, 4))
+        if (
+          day === props.day &&
+          eventMonth === props.month &&
+          year === props.year
+        ) {
+          for (let i = 0; i < props.categoryList.length; i++) {
+            if (
+              props.eventList[j].category_id ===
+              props.categoryList[i].category_id
+            ) {
+              let item: IconItems = {
+                icon: 'CircleIcon',
+                color: props.categoryList[i].color,
+                event: props.categoryList[i].category_name
+              }
+              IconList.push(item)
+            }
+          }
+        }
+      }
 
-  // useEffect(() => {
-  //   APIManager.getInstance()
-  //       .then((instance) => instance.getCategory())
-  //       .then((data) => {
-  //         EventList = []
-  //         for (let i = 0; i < data.result.length; i++) {
-  //           EventList.push(data.result[i])
-  //         }
-  //         setCategories(EventList)
-  //       })
-  //       .catch((err) => {
-  //         console.log(err)
-  //       })
-  // }, [])
-  //
-  // useEffect(() => {
-  //   APIManager.getInstance()
-  //     .then((instance) => instance.getEvent())
-  //     .then((data) => {
-  //       EventList = []
-  //       for (let i = 0; i < data.result.length; i++) {
-  //         if (
-  //           data.result[i].event_date.day === props.day &&
-  //           data.result[i].event_date.month === props.month &&
-  //           data.result[i].event_date.year === props.year
-  //         )
-  //
-  //           item: IconItems = {icon: , color: ,event: data.result[i].category_id}
-  //           EventList.push(data.result[i].category_id)
-  //       }
-  //       setDayEvents(EventList)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
-  // }, [])
+      setIconSet(IconList)
+    }
+  }, [props.eventList, props.categoryList])
 
   const CheckKey = (index: number) => {
-    if (index === 7 && IconList.length > 8) {
+    if (index === 7 && iconSet.length > 8) {
       return <AddIcon sx={{ minHeight: '9px', maxHeight: '9px' }}></AddIcon>
-    } else if (IconList.length > index) {
-      let Icon = icons[IconList[index].icon]
-      let color = IconList[index].color
+    } else if (iconSet.length > index) {
+      let Icon = icons[iconSet[index].icon]
+      let color = iconSet[index].color
       return <Icon sx={{ color: color, minHeight: '8px', maxHeight: '8px' }} />
     } else {
       return ' '
@@ -98,10 +127,10 @@ const Day = (props: DayProps) => {
   }
 
   function ReturnMonthGrid() {
-    if (IconList.length < 13) {
+    if (iconSet.length < 13) {
       return (
         <>
-          {IconList.map(({ icon, color }, index) => {
+          {iconSet.map(({ icon, color }, index) => {
             const Icon = icons[icon]
             return (
               <Grid key={index} xs={2}>
@@ -116,7 +145,7 @@ const Day = (props: DayProps) => {
     } else {
       return (
         <>
-          {IconList.slice(0, 11).map(({ icon, color }, index) => {
+          {iconSet.slice(0, 11).map(({ icon, color }, index) => {
             const Icon = icons[icon]
             return (
               <Grid key={index} xs={2}>
@@ -126,7 +155,7 @@ const Day = (props: DayProps) => {
               </Grid>
             )
           })}
-          <Grid xs={2}>+{IconList.length - 11}</Grid>
+          <Grid xs={2}>+{iconSet.length - 11}</Grid>
         </>
       )
     }

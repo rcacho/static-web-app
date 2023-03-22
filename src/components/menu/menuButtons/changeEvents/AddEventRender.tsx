@@ -23,7 +23,6 @@ const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
 const AddEventRender = (props: any) => {
   const [selected, setSelected] = useState(null)
   const [eventDate, setEventDate] = useState(new Date(2022, 1, 1))
-  //const [eventDescription, setEventDescription] = useState('')
   const adminID = 'user'
 
   const handleAddEvent = () => {
@@ -40,9 +39,9 @@ const AddEventRender = (props: any) => {
     let payload: Event = {
       event_id: null,
       event_date: event_date,
+      category_id: category_id,
       event_description: event_description,
-      admin_id: admin_id,
-      category_id: category_id
+      admin_id: admin_id
     }
     APIManager.getInstance()
       .then((instance) => instance.addEvent(payload))

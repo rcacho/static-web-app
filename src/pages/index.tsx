@@ -10,6 +10,7 @@ import CalendarStore from '@/store/CalendarContext'
 import { loginRequest } from '@/authConfig'
 import { useMsalAuthentication } from '@azure/msal-react'
 import { InteractionType } from '@azure/msal-browser'
+import { useState } from 'react'
 
 export default function Home(this: any) {
   useMsalAuthentication(InteractionType.Redirect, loginRequest)
