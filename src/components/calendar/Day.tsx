@@ -92,7 +92,7 @@ const Day = (props: DayProps) => {
         if (
           day === props.day &&
           eventMonth === props.month &&
-          year === props.year
+          year === currentDate.getFullYear()
         ) {
           for (let i = 0; i < props.categoryList.length; i++) {
             if (
