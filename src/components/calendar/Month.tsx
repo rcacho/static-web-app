@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
 import Day, { noValue } from './Day'
-import calendarContext, { useCalendarContext } from '@/store/CalendarContext'
+import { useCalendarContext } from '@/store/CalendarContext'
 import { Typography, Button } from '@mui/material'
 
 const daysOfWeek = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
