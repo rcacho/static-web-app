@@ -50,24 +50,24 @@ const icons = {
   InvertColorsIcon
 }
 
-const iconKeys = [
-  'CircleIcon',
-  'SquareIcon',
-  'StarIcon',
-  'ReportProblemIcon',
-  'PaidIcon',
-  'HexagonIcon',
-  'PanoramaFishEyeIcon',
-  'CropSquareIcon',
-  'CloseIcon',
-  'SpaIcon',
-  'FavoriteIcon',
-  'ArrowDownwardIcon',
-  'ArrowUpwardIcon',
-  'FilterDramaIcon',
-  'InvertColorsIcon',
-  'CircleOutlinedIcon'
-]
+// const iconKeys = [
+//   'CircleIcon',
+//   'SquareIcon',
+//   'StarIcon',
+//   'ReportProblemIcon',
+//   'PaidIcon',
+//   'HexagonIcon',
+//   'PanoramaFishEyeIcon',
+//   'CropSquareIcon',
+//   'CloseIcon',
+//   'SpaIcon',
+//   'FavoriteIcon',
+//   'ArrowDownwardIcon',
+//   'ArrowUpwardIcon',
+//   'FilterDramaIcon',
+//   'InvertColorsIcon',
+//   'CircleOutlinedIcon'
+// ]
 interface IconItems {
   icon: keyof typeof icons
   color: string
@@ -80,7 +80,6 @@ const Day = (props: DayProps) => {
   const [iconSet, setIconSet] = useState(IconList)
   const { isYearView, currentDate } = useCalendarContext()
   const [calYear, setCalYear] = useState(currentDate.getFullYear())
-
 
   useEffect(() => {
     setCalYear(currentDate.getFullYear())
@@ -303,5 +302,4 @@ const Day = (props: DayProps) => {
     </Grid>
   )
 }
-
 export default Day
