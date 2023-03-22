@@ -16,7 +16,7 @@ export default async function handler(
     first_name: body.first_name,
     last_name: body.last_name,
     is_admin: body.is_admin,
-    last_login: body.last_login
+    notification_check: body.notification_check
   }
   const admin_id = body.admin_id
 

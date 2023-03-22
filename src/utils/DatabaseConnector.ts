@@ -1,3 +1,5 @@
+import { DatabaseError } from '@/exceptions/DatabaseError'
+
 const sql = require('mssql')
 
 export class DatabaseConnector {
@@ -17,12 +19,11 @@ export class DatabaseConnector {
   async ConnectAndQuery(query: String) {
     try {
       const poolConnection = await sql.connect(this.configs)
-      console.log('Connection created')
       const resultSet = await poolConnection.request().query(query)
-      console.log(resultSet)
       return resultSet
     } catch (err: any) {
-      console.error(err.stack)
+      console.log(err.stack)
+      throw new DatabaseError(err.stack)
     }
   }
 }
