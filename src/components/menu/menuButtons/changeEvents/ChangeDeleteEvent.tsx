@@ -14,10 +14,8 @@ import MuiTheme from '@/styles/MuiTheme'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { useCalendarContext } from '@/store/CalendarContext'
 import DeleteEventPopUp from '@/components/menu/menuButtons/changeEvents/DeleteEventPopUp'
-import { Category } from '@/interfaces/Category'
 
 // placeholder for the list of categories
-let CategoryList: Category[] = []
 let EventList: string[] = []
 
 // @ts-ignore

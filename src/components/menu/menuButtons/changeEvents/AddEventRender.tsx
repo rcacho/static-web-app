@@ -15,12 +15,10 @@ import MuiTheme from '@/styles/MuiTheme'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
-import { Category } from '@/interfaces/Category'
 import { useCalendarContext } from '@/store/CalendarContext'
 
 // placeholder for the list of categories
 let EventList: string[] = []
-let CategoryList: Category[] = []
 let catIDs: any[] = []
 // @ts-ignore
 const AddEventRender = (props: any) => {
@@ -32,7 +30,6 @@ const AddEventRender = (props: any) => {
 
   useEffect(() => {
     EventList = []
-    CategoryList = []
     for (let i = 0; i < categories.length; i++) {
       EventList.push(categories[i].category_name)
       catIDs.push(categories[i].category_id)
