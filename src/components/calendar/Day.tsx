@@ -80,6 +80,11 @@ let IconList: IconItems[] = []
 const Day = (props: DayProps) => {
   const [iconSet, setIconSet] = useState(IconList)
   const { isYearView, currentDate } = useCalendarContext()
+  const [calYear, setCalYear] = useState(currentDate.getFullYear())
+
+  useEffect(() => {
+    setCalYear(currentDate.getFullYear())
+  }, [])
 
   useEffect(() => {
     if (props.eventList.length > 0 && props.categoryList.length > 0) {
@@ -92,7 +97,7 @@ const Day = (props: DayProps) => {
         if (
           day === props.day &&
           eventMonth === props.month &&
-          year === currentDate.getFullYear()
+          year === calYear
         ) {
           for (let i = 0; i < props.categoryList.length; i++) {
             if (
@@ -227,9 +232,7 @@ const Day = (props: DayProps) => {
             maxWidth: isYearView ? '30px' : '60px',
             minWidth: isYearView ? '30px' : '60px'
           }}
-        >
-          1
-        </Button>
+        ></Button>
       )
     } else if (isYearView) {
       return (

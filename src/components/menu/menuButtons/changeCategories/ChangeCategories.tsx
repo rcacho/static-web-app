@@ -27,6 +27,8 @@ const ChangeCategories = (props: any) => {
   const { categories } = useCalendarContext()
 
   useEffect(() => {
+    EventList = []
+    CategoryList = []
     for (let i = 0; i < categories.length; i++) {
       EventList.push(categories[i].category_name)
     }
