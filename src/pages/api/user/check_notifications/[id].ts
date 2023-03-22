@@ -13,7 +13,7 @@ export default async function handler(
 
   switch (method) {
     case 'PUT':
-      await userDAO.login(id)
+      await userDAO.check_notifications(id)
       res.status(200).json({ result: `Successfully logged in for user ${id}` })
       break
     default:

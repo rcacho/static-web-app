@@ -1,6 +1,6 @@
 import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
-import { Button } from '@mui/material'
+import { Button, Stack } from '@mui/material'
 import Month from './Month'
 import { useCalendarContext } from '@/store/CalendarContext'
 
@@ -29,13 +29,21 @@ const Year = () => {
 
   const renderMonths = () => {
     const renderedMonths = []
+    let week = 1
     for (const month of months) {
-      renderedMonths.push(renderMonth(month))
+      let theMonth = new Date(
+        currentDate.getFullYear(),
+        months.indexOf(month),
+        1
+      )
+      let numWeeks = theMonth.getDay() >= 5 || theMonth.getMonth() == 11 ? 5 : 4
+      renderedMonths.push(renderMonth(month, week, numWeeks))
+      week += numWeeks
     }
     return renderedMonths
   }
 
-  const renderMonth = (month: string) => {
+  const renderMonth = (month: string, week: number, numWeeks: number) => {
     const monthNumber = months.indexOf(month)
 
     return (
@@ -52,10 +60,18 @@ const Year = () => {
           minWidth: '280px'
         }}
       >
-        <MonthButton month={month} handleClick={handleMonthButtonClick} />
-        <Month
-          currentDate={new Date(currentDate.getFullYear(), monthNumber, 1)}
-        />
+        <Stack>
+          <Grid>
+            <MonthButton month={month} handleClick={handleMonthButtonClick} />
+          </Grid>
+          <Month
+            currentDate={new Date(currentDate.getFullYear(), monthNumber, 1)}
+            month={monthNumber}
+            weekNum={week}
+            numWeeks={numWeeks}
+            year={currentDate.getFullYear()}
+          />
+        </Stack>
       </Grid>
       //</ThemeProvider>
     )

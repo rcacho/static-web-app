@@ -1,8 +1,8 @@
 import { AppBar, Typography, styled } from '@mui/material'
-import NotificationsIcon from '@mui/icons-material/Notifications'
-import { Stack, Toolbar, Badge, Button } from '@mui/material/'
+import { Stack, Toolbar, Button } from '@mui/material/'
 import Image from 'next/image'
 import RightMenuButton from './menu/RightMenuButton'
+import AlertButton from './alert/AlertButton'
 import React from 'react'
 import CalendarNavigator from './calendar/CalendarNavigator'
 
@@ -38,9 +38,7 @@ const TopBar = () => {
 
         <Stack direction="row" spacing={4}>
           <Button sx={{ minWidth: '30px', maxWidth: '30px' }}>
-            <Badge variant="dot" badgeContent={2} color="error">
-              <NotificationsIcon color="action" />
-            </Badge>
+            <AlertButton/>
           </Button>
           <RightMenuButton />
         </Stack>

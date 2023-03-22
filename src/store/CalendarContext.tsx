@@ -1,23 +1,8 @@
+import { APIManager } from '@/utils/APIManager'
+import { useAccount, useMsal } from '@azure/msal-react'
 import * as React from 'react'
-import { useState } from 'react'
-
-const examples: string[] = [
-  'AE Business Meeting',
-  'Holiday',
-  'Quarter End',
-  'Casual Day',
-  'Pool party',
-  'hot dog eating contest',
-  'hot dog eating contest',
-  'hot dog eating contest',
-  'hot dog eating contest',
-  'hot dog eating contest',
-  'hot dog eating contest',
-  'hot dog eating contest',
-  'hot dog eating contest',
-  'hot dog eating contest',
-  'hot dog eating contest'
-]
+import { useEffect, useState } from 'react'
+import { Category } from '@/interfaces/Category'
 
 const CalendarContext = React.createContext<CalendarStoreValue | undefined>(
   undefined
@@ -31,11 +16,15 @@ interface CalendarStoreValue {
   dayClickCount: number
   selectedDate: undefined | Date
   toggleBarOnDateClick: (num: number, date?: any) => void
-  selected: string[]
-  events: string[]
-  handleChange: (event: { target: { value: any } }) => void
+  selected: Category[]
+  categories: Category[]
+  setCategories: React.Dispatch<React.SetStateAction<Category[]>>
+  handleChange: (category: { target: { value: any } }) => void
   handleNone: () => void
   handleAll: () => void
+  weekNum: number
+  incWeekNum: () => void
+  accountId: number
 }
 
 export const useCalendarContext = () => {
@@ -46,24 +35,51 @@ export const useCalendarContext = () => {
   return calendarContext
 }
 
+function getAccountID(): number {
+  const { accounts } = useMsal()
+  const account = useAccount(accounts[0])
+  return parseInt(account?.idTokenClaims?.oid ?? '0')
+}
+
 const CalendarStore = ({ children }: any) => {
   const [currentDate, setDate] = useState(new Date())
   const [yearView, setYearView] = useState(false)
   const [dayClickCount, setDayClickCount] = useState(0)
   const [selectedDate, setSelectedDate] = useState<undefined | Date>(undefined)
-  const [selected, setSelected] = React.useState<string[]>([])
+  const [selected, setSelected] = React.useState<Category[]>([])
+  const [categories, setCategories] = React.useState<Category[]>([])
+  const [weekNum, setWeekNum] = useState(1)
+  const accountId = getAccountID()
 
-  const handleChange = (event: { target: { value: any } }) => {
-    const value = event.target.value
-    const s: string = value
+  useEffect(() => {
+    APIManager.getInstance().then((instance) =>
+      instance.setUserLastLogin(accountId)
+    )
+  }, [])
+
+  const incWeekNum = () => {
+    setWeekNum(weekNum + 1)
+  }
+
+  const handleChange = (category: { target: { value: any } }) => {
+    const s: string = category.target.value
     const list = [...selected]
-    const index = list.indexOf(s)
-    index === -1 ? list.push(value) : list.splice(index, 1)
+    const index = list
+      .map(function (e: Category) {
+        return e.category_name
+      })
+      .indexOf(s)
+    const indexAdd = categories
+      .map(function (e: Category) {
+        return e.category_name
+      })
+      .indexOf(s)
+    index === -1 ? list.push(categories[indexAdd]) : list.splice(index, 1)
     setSelected(list)
   }
 
   const handleAll = () => {
-    setSelected(examples)
+    setSelected(categories)
     return
   }
 
@@ -93,10 +109,14 @@ const CalendarStore = ({ children }: any) => {
     selectedDate: selectedDate,
     toggleBarOnDateClick: toggleBarOnDateClick,
     selected: selected,
-    events: examples,
+    categories: categories,
     handleChange: handleChange,
     handleNone: handleNone,
-    handleAll: handleAll
+    handleAll: handleAll,
+    weekNum: weekNum,
+    incWeekNum: incWeekNum,
+    setCategories: setCategories,
+    accountId: accountId
   }
 
   return (
