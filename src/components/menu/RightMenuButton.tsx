@@ -30,7 +30,11 @@ const RightMenuButton = () => {
   }
 
   useEffect(() => {
-    if (dayClickCount > 0) handleClose()
+    if (dayClickCount > 0) {
+      setPanelAnchor(ref.current)
+      updateState(1.5)
+      setBackDrop(true)
+    }
   }, [dayClickCount])
 
   return (
