@@ -26,6 +26,7 @@ const AddEventRender = (props: any) => {
   const adminID = 'user' // this will be changed to whatever user is logged in?
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
+  const [events, setEvents] = useState([''])
   const { categories } = useCalendarContext()
 
   useEffect(() => {
@@ -34,6 +35,7 @@ const AddEventRender = (props: any) => {
       EventList.push(categories[i].category_name)
       catIDs.push(categories[i].category_id)
     }
+    setEvents(EventList)
   }, [selected])
 
   const handleAddEvent = () => {
@@ -84,7 +86,7 @@ const AddEventRender = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`${EventList[index]}`} />
+          <ListItemText primary={`${events[index]}`} />
         </ListItemButton>
       </ListItem>
     )
