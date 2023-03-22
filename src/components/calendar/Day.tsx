@@ -48,7 +48,6 @@ const icons = {
   ArrowUpwardIcon,
   FilterDramaIcon,
   InvertColorsIcon
-  //CircleOutLinedItem
 }
 
 const iconKeys = [
