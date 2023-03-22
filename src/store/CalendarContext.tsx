@@ -2,6 +2,7 @@ import { APIManager } from '@/utils/APIManager'
 import { useAccount, useMsal } from '@azure/msal-react'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
+import { Category } from '@/interfaces/Category'
 
 const CalendarContext = React.createContext<CalendarStoreValue | undefined>(
   undefined
@@ -61,8 +62,7 @@ const CalendarStore = ({ children }: any) => {
   }
 
   const handleChange = (category: { target: { value: any } }) => {
-    const value = category.target.value
-    const s: string = value
+    const s: string = category.target.value
     const list = [...selected]
     const index = list
       .map(function (e: Category) {
@@ -115,7 +115,7 @@ const CalendarStore = ({ children }: any) => {
     handleAll: handleAll,
     weekNum: weekNum,
     incWeekNum: incWeekNum,
-    setCategories: setCategories
+    setCategories: setCategories,
     accountId: accountId
   }
 
