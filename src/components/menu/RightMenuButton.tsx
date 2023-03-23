@@ -39,7 +39,7 @@ const RightMenuButton = () => {
 
   return (
     <div>
-      <Button sx={{ minWidth: '30px', maxWidth: '30px' }}>
+      <Button sx={{ minWidth: '45px', maxWidth: '45px' }}>
         <MenuIcon onClick={handleOpen} color="action" ref={ref} />
       </Button>
       <RightMenu

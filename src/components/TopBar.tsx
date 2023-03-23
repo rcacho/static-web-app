@@ -37,7 +37,7 @@ const TopBar = () => {
         </Stack>
 
         <Stack direction="row" spacing={4}>
-          <Button sx={{ minWidth: '35px', maxWidth: '35px' }}>
+          <Button sx={{ minWidth: '45px', maxWidth: '45px' }}>
             <AlertButton />
           </Button>
           <RightMenuButton />
