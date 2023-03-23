@@ -35,4 +35,5 @@ export class EventDAO {
     await this.db.ConnectAndQuery(query)
     return
   }
+  
 }
