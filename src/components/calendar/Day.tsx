@@ -13,7 +13,6 @@ interface DayProps {
   dayOfWeek: String
   handleDayClick: any
   month: any
-  year: number
   categoryList: any
   eventList: any
 }
@@ -28,13 +27,7 @@ let IconList: IconItems[] = []
 
 const Day = (props: DayProps) => {
   const [iconSet, setIconSet] = useState(IconList)
-  const { isYearView, currentDate, toggleBarOnDateClick, changeView } =
-    useCalendarContext()
-  const [calYear, setCalYear] = useState(currentDate.getFullYear())
-
-  useEffect(() => {
-    setCalYear(currentDate.getFullYear())
-  }, [currentDate, toggleBarOnDateClick, changeView])
+  const { isYearView, currentDate } = useCalendarContext()
 
   useEffect(() => {
     if (props.eventList.length > 0 && props.categoryList.length > 0) {
@@ -47,7 +40,7 @@ const Day = (props: DayProps) => {
         if (
           day === props.day &&
           eventMonth === props.month &&
-          year === calYear
+          year === currentDate.getFullYear()
         ) {
           for (let i = 0; i < props.categoryList.length; i++) {
             if (
@@ -67,13 +60,7 @@ const Day = (props: DayProps) => {
 
       setIconSet(IconList)
     }
-  }, [
-    props.eventList,
-    props.categoryList,
-    currentDate,
-    toggleBarOnDateClick,
-    changeView
-  ])
+  }, [currentDate, props.eventList, props.categoryList])
 
   const CheckKey = (index: number) => {
     if (index === 7 && iconSet.length > 8) {

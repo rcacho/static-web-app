@@ -10,15 +10,9 @@ import { Category } from '@/interfaces/Category'
 let EventList: Event[] = []
 let CategoryList: Category[] = []
 const Calendar = () => {
-  const { isYearView, currentDate, toggleBarOnDateClick } = useCalendarContext()
+  const { isYearView, currentDate } = useCalendarContext()
   const [eventList, setEventList] = useState(EventList)
   const [categories, setCategories] = useState(CategoryList)
-
-  const [month, setMonth] = useState(currentDate.getMonth())
-
-  useEffect(() => {
-    setMonth(currentDate.getMonth() + 1)
-  }, [toggleBarOnDateClick])
 
   useEffect(() => {
     APIManager.getInstance()
@@ -60,7 +54,7 @@ const Calendar = () => {
         currentDate={currentDate}
         yearView={isYearView}
         eventList={eventList}
-        month={month}
+        month={currentDate.getMonth() + 1}
         categoryList={categories}
         year={currentDate.getFullYear()}
       />

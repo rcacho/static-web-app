@@ -26,21 +26,6 @@ const CategoryList = () => {
     handleChange
   } = useCalendarContext()
 
-  // const icons = {
-  //   CircleOutlinedIcon,
-  //   CloseIcon,
-  //   HexagonOutlinedIcon,
-  //   SquareOutlinedIcon,
-  //   KeyboardArrowUpOutlinedIcon,
-  //   StarBorderOutlinedIcon,
-  //   SquareIcon,
-  //   GroupsIcon,
-  //   HorizontalRuleIcon,
-  //   CodeIcon,
-  //   CropIcon,
-  //   CloudOutlinedIcon
-  // }
-
   useEffect(() => {
     const getData = async () => {
       const instance = await APIManager.getInstance()
