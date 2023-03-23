@@ -4,42 +4,17 @@ import Month from './Month'
 import Year from './Year'
 import { useCalendarContext } from '@/store/CalendarContext'
 import { APIManager } from '@/utils/APIManager'
-import { Event } from '@/interfaces/Event'
-import { Category } from '@/interfaces/Category'
 
-let EventList: Event[] = []
-let CategoryList: Category[] = []
+//let CatMap = new Map<String, Category>()
 const Calendar = () => {
-  const { isYearView, currentDate } = useCalendarContext()
-  const [eventList, setEventList] = useState(EventList)
-  const [categories, setCategories] = useState(CategoryList)
-
-  useEffect(() => {
-    APIManager.getInstance()
-      .then((instance) => instance.getCategory())
-      .then((data) => {
-        CategoryList = []
-        for (let i = 0; i < data.result.length; i++) {
-          CategoryList.push(data.result[i])
-        }
-        console.log(data)
-        setCategories(CategoryList)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }, [])
+  const { isYearView, currentDate, categories } = useCalendarContext()
+  const [eventList, setEventList] = useState([])
 
   useEffect(() => {
     APIManager.getInstance()
       .then((instance) => instance.getEvent())
       .then((data) => {
-        console.log(data)
-        EventList = []
-        for (let i = 0; i < data.result.length; i++) {
-          EventList.push(data.result[i])
-        }
-        setEventList(EventList)
+        setEventList(data.result)
       })
       .catch((err) => {
         console.log(err)

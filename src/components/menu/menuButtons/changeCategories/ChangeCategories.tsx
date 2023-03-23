@@ -8,33 +8,18 @@ import {
   Box,
   Typography
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/DeleteCategoryPopUp'
-import { Category } from '@/interfaces/Category'
 import { useCalendarContext } from '@/store/CalendarContext'
 
 // placeholder for the list of categories
 
-let EventList: string[] = []
-let CategoryList: Category[] = []
 const ChangeCategories = (props: any) => {
   const [selected, setSelected] = useState(null)
-  const [events, setEvents] = useState([''])
-  const [catList, setCatList] = useState(CategoryList)
   const { categories } = useCalendarContext()
-
-  useEffect(() => {
-    EventList = []
-    CategoryList = []
-    for (let i = 0; i < categories.length; i++) {
-      EventList.push(categories[i].category_name)
-    }
-    setEvents(EventList)
-    setCatList(categories)
-  }, [selected])
 
   function handleSelected() {
     setSelected(null)
@@ -46,7 +31,7 @@ const ChangeCategories = (props: any) => {
 
     const handleSelect = () => {
       setSelected(index)
-      props.handleCategory(catList[index])
+      props.handleCategory(categories[index])
     }
     return (
       <ListItem
@@ -57,7 +42,7 @@ const ChangeCategories = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={events[index]} />
+          <ListItemText primary={categories[index].category_name} />
         </ListItemButton>
       </ListItem>
     )
@@ -100,7 +85,7 @@ const ChangeCategories = (props: any) => {
           height={350}
           width={360}
           itemSize={38}
-          itemCount={EventList.length}
+          itemCount={categories.length}
           overscanCount={5}
         >
           {renderList}
@@ -159,7 +144,7 @@ const ChangeCategories = (props: any) => {
           ) : (
             <DeleteCategoryPopUp
               clickAway={props.clickAway}
-              catID={catList[selected].category_id}
+              catID={categories[selected].category_id}
               setSelected={handleSelected}
             >
               Delete Category
