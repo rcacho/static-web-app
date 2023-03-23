@@ -237,6 +237,7 @@ const Day = (props: DayProps) => {
       display="flex"
       justifyContent="center"
       alignItems="top"
+      onClick={() => props.handleDayClick(props.day)}
     >
       <Typography
         fontSize={isYearView ? '80%' : '24px'}

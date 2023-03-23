@@ -118,7 +118,7 @@ const ChangeDeleteEvent = (props: any) => {
           <ListItemText primary={`Selected date: ${selectedDate}`} />
         </ListItem>
         <ListItem>
-          <ListItemText primary="Please select event:" />
+          <ListItemText primary="Please select category:" />
         </ListItem>
         <FixedSizeList
           height={200}
