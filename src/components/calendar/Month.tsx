@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Grid from '@mui/material/Unstable_Grid2'
 import Day, { noValue } from './Day'
 import { useCalendarContext } from '@/store/CalendarContext'
@@ -40,14 +40,7 @@ const calculateWorkingHours = (firstDay: number, lastDay: number) => {
 }
 
 const Month = (props: any) => {
-  const { toggleBarOnDateClick, isYearView, currentDate } = useCalendarContext()
-
-  const [monthS, setMonth] = useState(currentDate.getMonth())
-
-  useEffect(() => {
-    setMonth(currentDate.getMonth() + 1)
-    console.log('monthS', monthS)
-  }, [toggleBarOnDateClick])
+  const { toggleBarOnDateClick, isYearView } = useCalendarContext()
 
   const startingWeekIndex = []
   const numWeeksOfMonth = []

@@ -18,7 +18,6 @@ const Calendar = () => {
 
   useEffect(() => {
     setMonth(currentDate.getMonth() + 1)
-    console.log('month', month)
   }, [toggleBarOnDateClick])
 
   useEffect(() => {
