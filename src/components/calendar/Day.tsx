@@ -2,22 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { Typography, Button } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useCalendarContext } from '@/store/CalendarContext'
-import CircleIcon from '@mui/icons-material/Circle'
 import AddIcon from '@mui/icons-material/Add'
-import SquareIcon from '@mui/icons-material/Square'
-import StarIcon from '@mui/icons-material/Star'
-import ReportProblemIcon from '@mui/icons-material/ReportProblem'
-import PaidIcon from '@mui/icons-material/Paid'
-import HexagonIcon from '@mui/icons-material/Hexagon'
-import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye'
-import CropSquareIcon from '@mui/icons-material/CropSquare'
-import CloseIcon from '@mui/icons-material/Close'
-import SpaIcon from '@mui/icons-material/Spa'
-import FavoriteIcon from '@mui/icons-material/Favorite'
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
-import FilterDramaIcon from '@mui/icons-material/FilterDrama'
-import InvertColorsIcon from '@mui/icons-material/InvertColors'
+import { icons } from '@/store/Icons'
 
 export const noValue = ''
 
@@ -32,42 +18,6 @@ interface DayProps {
   eventList: any
 }
 
-const icons = {
-  CircleIcon,
-  SquareIcon,
-  StarIcon,
-  ReportProblemIcon,
-  PaidIcon,
-  HexagonIcon,
-  PanoramaFishEyeIcon,
-  CropSquareIcon,
-  CloseIcon,
-  SpaIcon,
-  FavoriteIcon,
-  ArrowDownwardIcon,
-  ArrowUpwardIcon,
-  FilterDramaIcon,
-  InvertColorsIcon
-}
-
-// const iconKeys = [
-//   'CircleIcon',
-//   'SquareIcon',
-//   'StarIcon',
-//   'ReportProblemIcon',
-//   'PaidIcon',
-//   'HexagonIcon',
-//   'PanoramaFishEyeIcon',
-//   'CropSquareIcon',
-//   'CloseIcon',
-//   'SpaIcon',
-//   'FavoriteIcon',
-//   'ArrowDownwardIcon',
-//   'ArrowUpwardIcon',
-//   'FilterDramaIcon',
-//   'InvertColorsIcon',
-//   'CircleOutlinedIcon'
-// ]
 interface IconItems {
   icon: keyof typeof icons
   color: string
@@ -78,12 +28,13 @@ let IconList: IconItems[] = []
 
 const Day = (props: DayProps) => {
   const [iconSet, setIconSet] = useState(IconList)
-  const { isYearView, currentDate } = useCalendarContext()
+  const { isYearView, currentDate, toggleBarOnDateClick, changeView } =
+    useCalendarContext()
   const [calYear, setCalYear] = useState(currentDate.getFullYear())
 
   useEffect(() => {
     setCalYear(currentDate.getFullYear())
-  }, [])
+  }, [currentDate, toggleBarOnDateClick, changeView])
 
   useEffect(() => {
     if (props.eventList.length > 0 && props.categoryList.length > 0) {
@@ -104,7 +55,7 @@ const Day = (props: DayProps) => {
               props.categoryList[i].category_id
             ) {
               let item: IconItems = {
-                icon: 'CircleIcon',
+                icon: props.categoryList[i].icon,
                 color: props.categoryList[i].color,
                 event: props.categoryList[i].category_name
               }
@@ -116,15 +67,23 @@ const Day = (props: DayProps) => {
 
       setIconSet(IconList)
     }
-  }, [props.eventList, props.categoryList])
+  }, [
+    props.eventList,
+    props.categoryList,
+    currentDate,
+    toggleBarOnDateClick,
+    changeView
+  ])
 
   const CheckKey = (index: number) => {
     if (index === 7 && iconSet.length > 8) {
-      return <AddIcon sx={{ minHeight: '9px', maxHeight: '9px' }}></AddIcon>
+      return <AddIcon sx={{ minHeight: '12px', maxHeight: '12px' }}></AddIcon>
     } else if (iconSet.length > index) {
       let Icon = icons[iconSet[index].icon]
       let color = iconSet[index].color
-      return <Icon sx={{ color: color, minHeight: '8px', maxHeight: '8px' }} />
+      return (
+        <Icon sx={{ color: color, minHeight: '10px', maxHeight: '10px' }} />
+      )
     } else {
       return ' '
     }

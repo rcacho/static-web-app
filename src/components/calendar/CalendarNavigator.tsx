@@ -45,6 +45,7 @@ const DecrementDateButton = () => {
   const handleClick = () => {
     decrementDate()
     toggleBarOnDateClick(0)
+    console.log('current date is ', currentDate)
   }
 
   return (
@@ -74,6 +75,7 @@ const IncrementDateButton = () => {
   const handleClick = () => {
     incrementDate()
     toggleBarOnDateClick(0)
+    console.log('current date is ', currentDate)
   }
 
   return (
