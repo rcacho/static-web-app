@@ -30,16 +30,24 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   switch (method) {
     case 'PUT':
-      await dao.updateCategory(category)
-      res
-        .status(200)
-        .json({ result: `Successfully update row with event_id = ${id}` })
+      try {
+        await dao.updateCategory(category)
+        res
+          .status(200)
+          .json({ result: `Successfully update row with event_id = ${id}` })
+      } catch (err: any) {
+        res.status(400).json({ error: err.msg })
+      }
       break
     case 'DELETE':
-      await dao.deleteCategory(category)
-      res
-        .status(200)
-        .json({ result: `Successfully deleted row with category_id = ${id}` })
+      try {
+        await dao.deleteCategory(category)
+        res
+          .status(200)
+          .json({ result: `Successfully deleted row with category_id = ${id}` })
+      } catch (err: any) {
+        res.status(400).json({ error: err.msg })
+      }
       break
     default:
       res.setHeader('Allow', ['PUT', 'DELETE'])

@@ -47,12 +47,18 @@ const Year = () => {
     const monthNumber = months.indexOf(month)
 
     return (
+      //<ThemeProvider theme={MuiTheme}>
       <Grid
-        xs={4}
-        sm={2}
-        lg={1}
+        sm={12}
+        md={6}
+        lg={3}
         border={0}
-        sx={{ p: 3, paddingTop: 0, paddingBottom: 0 }}
+        sx={{
+          p: 3,
+          paddingTop: 0,
+          paddingBottom: 0,
+          minWidth: '280px'
+        }}
       >
         <Stack>
           <Grid>
@@ -60,18 +66,21 @@ const Year = () => {
           </Grid>
           <Month
             currentDate={new Date(currentDate.getFullYear(), monthNumber, 1)}
+            month={monthNumber}
             weekNum={week}
             numWeeks={numWeeks}
+            year={currentDate.getFullYear()}
           />
         </Stack>
       </Grid>
+      //</ThemeProvider>
     )
   }
 
   return (
     <Grid
       container
-      columns={4}
+      columns={12}
       spacing={-5}
       border={0}
       marginTop={0.5}

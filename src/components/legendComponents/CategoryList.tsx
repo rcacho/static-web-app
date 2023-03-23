@@ -1,23 +1,60 @@
+import { Category } from '@/interfaces/Category'
 import { useCalendarContext } from '@/store/CalendarContext'
 import {
-  Avatar,
   Box,
   Button,
   Checkbox,
   List,
   ListItem,
-  ListItemAvatar,
   ListItemButton,
+  ListItemIcon,
   ListItemText
 } from '@mui/material'
 
-import React from 'react'
+import React, { useEffect } from 'react'
+
+import { APIManager } from '@/utils/APIManager'
+import { icons } from '@/store/Icons'
 
 const CategoryList = () => {
-  const { events, selected, handleAll, handleNone, handleChange } =
-    useCalendarContext()
+  const {
+    selected,
+    categories,
+    setCategories,
+    handleAll,
+    handleNone,
+    handleChange
+  } = useCalendarContext()
+
+  // const icons = {
+  //   CircleOutlinedIcon,
+  //   CloseIcon,
+  //   HexagonOutlinedIcon,
+  //   SquareOutlinedIcon,
+  //   KeyboardArrowUpOutlinedIcon,
+  //   StarBorderOutlinedIcon,
+  //   SquareIcon,
+  //   GroupsIcon,
+  //   HorizontalRuleIcon,
+  //   CodeIcon,
+  //   CropIcon,
+  //   CloudOutlinedIcon
+  // }
+
+  useEffect(() => {
+    const getData = async () => {
+      const instance = await APIManager.getInstance()
+      const data = await instance.getCategory()
+      const cat: Category[] = data.result
+      setCategories(cat)
+    }
+    getData().catch((err) => {
+      console.log(err)
+    })
+  }, [])
+
   return (
-    <Box height="calc(100vh - 64px)">
+    <Box>
       <Button
         onClick={handleAll}
         sx={[
@@ -51,16 +88,26 @@ const CategoryList = () => {
 
       <List
         dense
-        style={{ overflow: 'auto', height: 'calc(100vh - 64px - 60px' }}
+        style={{ overflow: 'auto' }}
         sx={{ bgcolor: 'background.paper' }}
       >
-        {events.map((item: any) => {
-          const labelId = `checkbox-list-secondary-label-${item}`
+        {categories.map((item: Category) => {
+          const labelId = `checkbox-list-secondary-label-${item.category_name}`
+          let Icon = icons[item.icon]
+          if (Icon == undefined) {
+            Icon = icons['CircleOutlinedIcon']
+          }
+          // try {
+          //   Icon = icons[item.icon]
+          // } catch {
+          //   Icon = icons['CircleOutlinedIcon']
+          // }
           return (
             <ListItem
+              key={Math.random()}
               secondaryAction={
                 <Checkbox
-                  value={item}
+                  value={item.category_name}
                   edge="end"
                   onChange={handleChange}
                   checked={selected.includes(item)}
@@ -70,10 +117,11 @@ const CategoryList = () => {
               disablePadding
             >
               <ListItemButton>
-                <ListItemAvatar>
-                  <Avatar alt={`AE`} src={`placeholder`} />
-                </ListItemAvatar>
-                <ListItemText id={labelId} primary={`${item}`} />
+                <ListItemIcon>
+                  {/* <Avatar alt={`AE`} src={`placeholder`} /> */}
+                  <Icon sx={{ color: item.color }} />
+                </ListItemIcon>
+                <ListItemText id={labelId} primary={`${item.category_name}`} />
               </ListItemButton>
             </ListItem>
           )

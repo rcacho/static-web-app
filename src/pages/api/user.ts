@@ -13,13 +13,17 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     first_name: body.first_name,
     last_name: body.last_name,
     is_admin: body.is_admin,
-    last_login: body.last_login
+    notification_check: body.notification_check
   }
 
   switch (method) {
     case 'POST':
-      await dao.addUser(user)
-      res.status(200).json({ result: 'Successfully added user' })
+      try {
+        await dao.addUser(user)
+        res.status(200).json({ result: 'Successfully added user' })
+      } catch (err: any) {
+        res.status(400).json({ error: err.msg })
+      }
       break
     default:
       res.setHeader('Allow', ['POST'])

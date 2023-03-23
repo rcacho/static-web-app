@@ -9,17 +9,66 @@ import {
   Typography,
   Box
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
+import { APIManager } from '@/utils/APIManager'
+import { Event } from '@/interfaces/Event'
+import { useCalendarContext } from '@/store/CalendarContext'
 
 // placeholder for the list of categories
-const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
-
+let EventList: string[] = []
+let catIDs: any[] = []
 // @ts-ignore
 const AddEventRender = (props: any) => {
+  const [eventDate, setEventDate] = useState(new Date(2022, 1, 1))
+  const adminID = 'user' // this will be changed to whatever user is logged in?
   const [selected, setSelected] = useState(null)
+  const [description, setEventDescription] = useState('')
+  const [events, setEvents] = useState([''])
+  const { categories } = useCalendarContext()
+
+  useEffect(() => {
+    EventList = []
+    for (let i = 0; i < categories.length; i++) {
+      EventList.push(categories[i].category_name)
+      catIDs.push(categories[i].category_id)
+    }
+    setEvents(EventList)
+  }, [selected])
+
+  const handleAddEvent = () => {
+    if (selected !== null) {
+      addEvent(eventDate, description, adminID, catIDs[selected]).then(
+        props.clickAway()
+      )
+    }
+  }
+  async function addEvent(
+    event_date: Date,
+    event_description: string,
+    admin_id: string,
+    category_id: number
+  ) {
+    let payload: Event = {
+      event_id: null,
+      event_date: event_date,
+      event_description: event_description,
+      admin_id: admin_id,
+      category_id: category_id
+    }
+    APIManager.getInstance()
+      .then((instance) => instance.addEvent(payload))
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    setEventDate(event_date)
+  }
 
   // render list for the scroll function
   function renderList(props: ListChildComponentProps) {
@@ -37,7 +86,7 @@ const AddEventRender = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`Item ${EventList[index]}`} />
+          <ListItemText primary={`${events[index]}`} />
         </ListItemButton>
       </ListItem>
     )
@@ -99,6 +148,9 @@ const AddEventRender = (props: any) => {
             InputLabelProps={{
               shrink: true
             }}
+            onChange={(newVal) => {
+              setEventDate(new Date(newVal.target.value))
+            }}
           />
         </ListItem>
         <ListItem>
@@ -113,6 +165,7 @@ const AddEventRender = (props: any) => {
             sx={{ color: '#898989' }}
             variant="standard"
             inputProps={{ maxLength: 200 }}
+            onChange={(newVal) => setEventDescription(newVal.target.value)}
           />
         </ListItem>
       </List>
@@ -123,6 +176,7 @@ const AddEventRender = (props: any) => {
             size="medium"
             variant="contained"
             color="primary"
+            onClick={handleAddEvent}
           >
             Add Event
           </Button>
