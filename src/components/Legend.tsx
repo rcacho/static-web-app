@@ -6,9 +6,10 @@ import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { APIManager } from '@/utils/APIManager'
 import { Category } from '@/interfaces/Category'
 import { useCalendarContext } from '@/store/CalendarContext'
+import { Event } from '@/interfaces/Event'
 
 const Legend = () => {
-  const { setCategories } = useCalendarContext()
+  const { setCategories, setEvents } = useCalendarContext()
   const [show, toggleShow] = React.useState(true)
 
   useEffect(() => {
@@ -23,6 +24,14 @@ const Legend = () => {
     }
     getData().catch((err) => {
       console.log(err)
+    })
+
+    APIManager.getInstance().then((instance) => {
+      instance.getEvent().then((data) => {
+        const eventResult: Event[] = data.result
+        console.log(eventResult)
+        setEvents(eventResult)
+      })
     })
   }, [])
 

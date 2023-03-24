@@ -14,19 +14,35 @@ import MuiTheme from '@/styles/MuiTheme'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { useCalendarContext } from '@/store/CalendarContext'
 import DeleteEventPopUp from '@/components/menu/menuButtons/changeEvents/DeleteEventPopUp'
+import { Event } from '@/interfaces/Event'
 
 // placeholder for the list of categories
-let EventList: string[] = []
+let EventList: Event[] = []
 
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
-  const { selectedDate } = useCalendarContext()
+  const { selectedDate, categories, events } = useCalendarContext()
   const [selected, setSelected] = useState(null)
-  const { categories } = useCalendarContext()
 
   useEffect(() => {
-    for (let i = 0; i < categories.length; i++) {
-      EventList.push(categories[i].category_name)
+    EventList = []
+    for (let i = 0; i < events.length; i++) {
+      if (selectedDate) {
+        const date = new Date(selectedDate)
+        const eventDate = events[i].event_date.toString().substring(0, 10)
+        const eventYear = +eventDate.substring(0, 4)
+        const eventMonth = +eventDate.substring(5, 7)
+        const eventDay = +eventDate.substring(8, 10)
+
+        if (
+          eventYear == date.getFullYear() &&
+          eventMonth == date.getMonth() &&
+          eventDay == date.getDate()
+        ) {
+          console.log('woohoo')
+          EventList.push(events[i])
+        }
+      }
     }
   }, [selected])
 
@@ -78,7 +94,7 @@ const ChangeDeleteEvent = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`${EventList[index]}`} />
+          <ListItemText primary={`${EventList[index].category_id}`} />
         </ListItemButton>
       </ListItem>
     )

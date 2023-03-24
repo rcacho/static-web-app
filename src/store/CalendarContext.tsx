@@ -3,6 +3,7 @@ import { useAccount, useMsal } from '@azure/msal-react'
 import * as React from 'react'
 import { useEffect, useState } from 'react'
 import { Category } from '@/interfaces/Category'
+import { Event } from '@/interfaces/Event'
 
 const CalendarContext = React.createContext<CalendarStoreValue | undefined>(
   undefined
@@ -25,6 +26,8 @@ interface CalendarStoreValue {
   weekNum: number
   incWeekNum: () => void
   accountId: number
+  events: Event[]
+  setEvents: React.Dispatch<React.SetStateAction<Event[]>>
 }
 
 export const useCalendarContext = () => {
@@ -48,6 +51,7 @@ const CalendarStore = ({ children }: any) => {
   const [selectedDate, setSelectedDate] = useState<undefined | Date>(undefined)
   const [selected, setSelected] = React.useState<Category[]>([])
   const [categories, setCategories] = React.useState<Category[]>([])
+  const [events, setEvents] = React.useState<Event[]>([])
   const [weekNum, setWeekNum] = useState(1)
   const accountId = getAccountID()
 
@@ -116,7 +120,9 @@ const CalendarStore = ({ children }: any) => {
     weekNum: weekNum,
     incWeekNum: incWeekNum,
     setCategories: setCategories,
-    accountId: accountId
+    accountId: accountId,
+    events: events,
+    setEvents: setEvents
   }
 
   return (
