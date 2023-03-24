@@ -86,7 +86,20 @@ const Day = (props: DayProps) => {
             return (
               <Grid key={index} xs={2}>
                 <Icon
-                  sx={{ color: color, minHeight: '17px', maxHeight: '17px' }}
+                  sx={{
+                    color: color,
+                    minHeight: '10x',
+                    maxHeight: '10px',
+                    display: { xs: 'block', sm: 'none' }
+                  }}
+                />
+                <Icon
+                  sx={{
+                    color: color,
+                    minHeight: '17px',
+                    maxHeight: '17px',
+                    display: { xs: 'none', sm: 'block' }
+                  }}
                 />
               </Grid>
             )
