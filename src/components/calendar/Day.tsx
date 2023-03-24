@@ -4,6 +4,7 @@ import Grid from '@mui/material/Unstable_Grid2'
 import { useCalendarContext } from '@/store/CalendarContext'
 import AddIcon from '@mui/icons-material/Add'
 import { icons } from '@/store/Icons'
+import { Box } from '@mui/material/'
 
 export const noValue = ''
 
@@ -155,10 +156,21 @@ const Day = (props: DayProps) => {
   const renderDayOfWeek = () => {
     if (props.dayOfWeek != noValue) {
       return (
-        <>
+        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
           {props.dayOfWeek}
           <br />
-        </>
+        </Box>
+      )
+    }
+  }
+
+  const renderSmallDayOfWeek = () => {
+    if (props.dayOfWeek != noValue) {
+      return (
+        <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+          {props.dayOfWeek.substring(0, 1)}
+          <br />
+        </Box>
       )
     }
   }
@@ -244,6 +256,7 @@ const Day = (props: DayProps) => {
         variant={isYearView ? 'body1' : 'h6'}
       >
         {renderDayOfWeek()}
+        {renderSmallDayOfWeek()}
         {renderDate()}
       </Typography>
     </Grid>
