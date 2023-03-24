@@ -36,7 +36,7 @@ const TopBar = () => {
           </Stack>
         </Stack>
 
-        <Stack direction="row" spacing={4}>
+        <Stack direction="row" spacing={1}>
           <Button sx={{ minWidth: '45px', maxWidth: '45px' }}>
             <AlertButton />
           </Button>
@@ -51,7 +51,7 @@ const MiniAELogo = () => {
   return (
     <Stack
       sx={{
-        display: { xs: 'none', sm: 'none' }
+        display: { xs: 'block', sm: 'none' }
       }}
     >
       <Stack
@@ -60,10 +60,7 @@ const MiniAELogo = () => {
         alignItems="center"
         justifyContent="space-between"
       >
-        <Image src="/img/logo.png" alt="logo" width="30" height="24" />
-        <Typography sx={{ display: { xs: 'none', sm: 'block' } }} variant="h6">
-          Calendar
-        </Typography>
+        <Image src="/img/logo.png" alt="logo" width="45" height="36" />
       </Stack>
     </Stack>
   )
@@ -72,10 +69,12 @@ const MiniAELogo = () => {
 const AELogo = () => {
   return (
     <>
-      <Image src="/img/logo.png" alt="logo" width="60" height="48" />
-      <Typography sx={{ display: { xs: 'none', sm: 'block' } }} variant="h6">
-        Calendar
-      </Typography>
+      <Stack sx={{ display: { xs: 'none', sm: 'block' } }}>
+        <Image src="/img/logo.png" alt="logo" width="60" height="48" />
+      </Stack>
+      <Stack sx={{ display: { xs: 'none', sm: 'block' } }}>
+        <Typography variant="h6">Calendar</Typography>
+      </Stack>
     </>
   )
 }
