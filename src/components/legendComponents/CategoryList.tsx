@@ -70,13 +70,12 @@ const CategoryList = () => {
       >
         Select None
       </Button>
-
       <List
         dense
         style={{ overflow: 'auto' }}
         sx={{
           bgcolor: 'background.paper',
-          height: 'calc(100vh - 144px)',
+          height: 'calc(100vh - 150px)',
           overflowY: 'scroll'
         }}
       >
@@ -115,7 +114,15 @@ const CategoryList = () => {
             </ListItem>
           )
         })}
-      </List>
+      </List>{' '}
+      <Button
+        className="menu-button"
+        size="medium"
+        variant="contained"
+        color="primary"
+      >
+        Apply Changes
+      </Button>
     </Box>
   )
 }
