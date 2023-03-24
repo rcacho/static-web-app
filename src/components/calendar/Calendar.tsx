@@ -41,7 +41,7 @@ const Calendar = () => {
       bgcolor="white"
       color="black"
       flex={1}
-      sx={{ height: 'calc(100vh - 64px)' }}
+      sx={{ height: 'calc(100vh - 74px)', overflowY: 'scroll' }}
       border={0}
     >
       {renderCalendar()}

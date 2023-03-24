@@ -74,7 +74,11 @@ const CategoryList = () => {
       <List
         dense
         style={{ overflow: 'auto' }}
-        sx={{ bgcolor: 'background.paper' }}
+        sx={{
+          bgcolor: 'background.paper',
+          height: 'calc(100vh - 144px)',
+          overflowY: 'scroll'
+        }}
       >
         {categories.map((item: Category) => {
           const labelId = `checkbox-list-secondary-label-${item.category_name}`
