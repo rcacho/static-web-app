@@ -26,21 +26,6 @@ const CategoryList = () => {
     handleChange
   } = useCalendarContext()
 
-  // const icons = {
-  //   CircleOutlinedIcon,
-  //   CloseIcon,
-  //   HexagonOutlinedIcon,
-  //   SquareOutlinedIcon,
-  //   KeyboardArrowUpOutlinedIcon,
-  //   StarBorderOutlinedIcon,
-  //   SquareIcon,
-  //   GroupsIcon,
-  //   HorizontalRuleIcon,
-  //   CodeIcon,
-  //   CropIcon,
-  //   CloudOutlinedIcon
-  // }
-
   useEffect(() => {
     const getData = async () => {
       const instance = await APIManager.getInstance()
@@ -85,11 +70,14 @@ const CategoryList = () => {
       >
         Select None
       </Button>
-
       <List
         dense
         style={{ overflow: 'auto' }}
-        sx={{ bgcolor: 'background.paper' }}
+        sx={{
+          bgcolor: 'background.paper',
+          height: 'calc(100vh - 150px)',
+          overflowY: 'scroll'
+        }}
       >
         {categories.map((item: Category) => {
           const labelId = `checkbox-list-secondary-label-${item.category_name}`
@@ -126,7 +114,15 @@ const CategoryList = () => {
             </ListItem>
           )
         })}
-      </List>
+      </List>{' '}
+      <Button
+        className="menu-button"
+        size="medium"
+        variant="contained"
+        color="primary"
+      >
+        Apply Changes
+      </Button>
     </Box>
   )
 }

@@ -134,7 +134,7 @@ const ChangeDeleteEvent = (props: any) => {
           <ListItemText primary={`Selected date: ${selectedDate}`} />
         </ListItem>
         <ListItem>
-          <ListItemText primary="Please select event:" />
+          <ListItemText primary="Please select category:" />
         </ListItem>
         <FixedSizeList
           height={200}
@@ -146,7 +146,17 @@ const ChangeDeleteEvent = (props: any) => {
           {renderList}
         </FixedSizeList>
       </List>
-      <List className="bottom-buttons-cat" disablePadding={true}>
+      <List
+        className="bottom-buttons-cat"
+        disablePadding={true}
+        sx={{
+          position: 'absolute',
+          margin: 'auto',
+          bottom: '0',
+          width: '100%',
+          height: '26%'
+        }}
+      >
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className="menu-button"

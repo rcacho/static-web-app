@@ -130,7 +130,17 @@ const EditCategory = (props: any) => {
           />
         </Box>
       </List>
-      <List className="bottom-buttons" disablePadding={true}>
+      <List
+        className="bottom-buttons"
+        disablePadding={true}
+        sx={{
+          position: 'absolute',
+          margin: 'auto',
+          bottom: '0',
+          width: '100%',
+          height: '13%'
+        }}
+      >
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className="menu-button"
