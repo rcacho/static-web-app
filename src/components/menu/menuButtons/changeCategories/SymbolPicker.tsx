@@ -10,12 +10,12 @@ import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye'
 import HexagonIcon from '@mui/icons-material/Hexagon'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
-import FilterDramaIcon from '@mui/icons-material/FilterDrama'
 import InvertColorsIcon from '@mui/icons-material/InvertColors'
 import CropSquareIcon from '@mui/icons-material/CropSquare'
 import CloseIcon from '@mui/icons-material/Close'
 import SpaIcon from '@mui/icons-material/Spa'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import CloudIcon from '@mui/icons-material/Cloud'
 
 const symbols = [
   CircleIcon,
@@ -31,7 +31,7 @@ const symbols = [
   FavoriteIcon,
   ArrowDownwardIcon,
   ArrowUpwardIcon,
-  FilterDramaIcon,
+  CloudIcon,
   InvertColorsIcon
 ]
 
@@ -49,7 +49,7 @@ const symbolKeys = [
   'FavoriteIcon',
   'ArrowDownwardIcon',
   'ArrowUpwardIcon',
-  'FilterDramaIcon',
+  'CloudIcon',
   'InvertColorsIcon'
 ]
 const SymbolPicker = (props: any) => {

@@ -23,6 +23,7 @@ let catIDs: any[] = []
 // @ts-ignore
 const AddEventRender = (props: any) => {
   const [eventDate, setEventDate] = useState(new Date(2022, 1, 1))
+
   const adminID = 'user' // this will be changed to whatever user is logged in?
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
@@ -54,9 +55,9 @@ const AddEventRender = (props: any) => {
     let payload: Event = {
       event_id: null,
       event_date: event_date,
+      category_id: category_id,
       event_description: event_description,
-      admin_id: admin_id,
-      category_id: category_id
+      admin_id: admin_id
     }
     APIManager.getInstance()
       .then((instance) => instance.addEvent(payload))
@@ -169,7 +170,17 @@ const AddEventRender = (props: any) => {
           />
         </ListItem>
       </List>
-      <List className="bottom-buttons" disablePadding={true}>
+      <List
+        className="bottom-buttons"
+        disablePadding={true}
+        sx={{
+          position: 'absolute',
+          margin: 'auto',
+          bottom: '0',
+          width: '100%',
+          height: '13%'
+        }}
+      >
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className="menu-button"

@@ -27,13 +27,7 @@ const Legend = () => {
   }, [])
 
   return (
-    <Box
-      display="flex"
-      bgcolor="white"
-      color="black"
-      textAlign={'center'}
-      sx={{ height: '100%' }}
-    >
+    <Box display="flex" bgcolor="white" color="black" textAlign={'center'}>
       <Stack direction="row" spacing={0}>
         {show && <CategoryList></CategoryList>}
 

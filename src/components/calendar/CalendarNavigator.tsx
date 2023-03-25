@@ -14,16 +14,44 @@ const CalendarNavigator = () => {
       : months[currentDate.getMonth()] + ' ' + currentDate.getFullYear()
   }
 
+  const getSmallDateString = () => {
+    return isYearView
+      ? currentDate.getFullYear()
+      : months[currentDate.getMonth()].substring(0, 3) +
+          ' ' +
+          currentDate.getFullYear()
+  }
+
   return (
     <>
-      <Typography variant="h6">
+      <Typography
+        variant="h6"
+        fontSize={15}
+        sx={{ display: { xs: 'block', sm: 'none' } }}
+      >
+        <Stack direction="row" alignItems="center">
+          <DecrementDateButton />
+          <IncrementDateButton />
+          <Stack direction="column" alignItems="center">
+            {getSmallDateString()}
+            {!isYearView ? <ToggleYearViewButton /> : <></>}
+          </Stack>
+        </Stack>
+      </Typography>
+      <Typography variant="h6" sx={{ display: { xs: 'none', sm: 'block' } }}>
         <Stack direction="row" alignItems="center">
           <DecrementDateButton />
           <IncrementDateButton />
           {getDateString()}
         </Stack>
-      </Typography>
-      {!isYearView ? <ToggleYearViewButton /> : <></>}
+      </Typography>{' '}
+      <Stack
+        direction="row"
+        alignItems="center"
+        sx={{ display: { xs: 'none', sm: 'block' } }}
+      >
+        {!isYearView ? <ToggleYearViewButton /> : <></>}
+      </Stack>
     </>
   )
 }
@@ -98,7 +126,7 @@ const ToggleYearViewButton = () => {
     <Button onClick={handleClick}>
       <Box
         sx={{
-          display: 'flex',
+          display: { xs: 'none', sm: 'block' },
           justifyContent: 'flex-end',
           color: '#898989',
           textDecoration: 'underline',
@@ -108,6 +136,24 @@ const ToggleYearViewButton = () => {
         <Typography
           // textTransform="capitalize"
           variant="body2"
+        >
+          Year View
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          display: { xs: 'block', sm: 'none' },
+          justifyContent: 'flex-end',
+          color: '#898989',
+          textDecoration: 'underline',
+          fontFamily: 'Roboto'
+        }}
+      >
+        <Typography
+          // textTransform="capitalize"
+          variant="body2"
+          fontSize={'10px'}
+          width="60px"
         >
           Year View
         </Typography>
