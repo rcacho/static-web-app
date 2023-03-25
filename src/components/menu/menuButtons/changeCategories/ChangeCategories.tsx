@@ -99,7 +99,7 @@ const ChangeCategories = (props: any) => {
           margin: 'auto',
           bottom: '0',
           width: '100%',
-          height: '13%'
+          height: '26%'
         }}
       >
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
