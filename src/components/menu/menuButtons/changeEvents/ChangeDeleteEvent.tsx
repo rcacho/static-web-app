@@ -17,32 +17,37 @@ import DeleteEventPopUp from '@/components/menu/menuButtons/changeEvents/DeleteE
 import { Event } from '@/interfaces/Event'
 
 // placeholder for the list of categories
-let EventList: Event[] = []
+let EventList: string[] = []
 
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
-  const { selectedDate, categories, events } = useCalendarContext()
+  const { selectedDate, categories, events, catMap, currentDate } =
+    useCalendarContext()
   const [selected, setSelected] = useState(null)
+  const [size, setSize] = useState(0)
 
   useEffect(() => {
     EventList = []
     for (let i = 0; i < events.length; i++) {
       if (selectedDate) {
-        const date = new Date(selectedDate)
-        const eventDate = events[i].event_date.toString().substring(0, 10)
-        const eventYear = +eventDate.substring(0, 4)
-        const eventMonth = +eventDate.substring(5, 7)
-        const eventDay = +eventDate.substring(8, 10)
-
-        if (
-          eventYear == date.getFullYear() &&
-          eventMonth == date.getMonth() &&
-          eventDay == date.getDate()
-        ) {
-          console.log('woohoo')
-          EventList.push(events[i])
+        let testDate = new Date(
+          +selectedDate.substring(6, 10),
+          +selectedDate.substring(0, 2),
+          +selectedDate.substring(3, 5)
+        )
+        let eDate = new Date(
+          events[i].event_date.substring(0, 4),
+          events[i].event_date.substring(5, 7),
+          events[i].event_date.substring(8, 10)
+        )
+        if (+eDate === +testDate) {
+          if (catMap.get(events[i].category_id) !== undefined) {
+            EventList.push(catMap.get(events[i].category_id))
+          }
         }
       }
+
+      setSize(EventList.length)
     }
   }, [selected])
 
@@ -81,7 +86,7 @@ const ChangeDeleteEvent = (props: any) => {
   // render list for the scroll function
   function renderList(props: ListChildComponentProps) {
     const { index, style } = props
-
+    console.log(index)
     const handleSelect = () => {
       setSelected(index)
     }
@@ -94,7 +99,7 @@ const ChangeDeleteEvent = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`${EventList[index].category_id}`} />
+          <ListItemText primary={`${EventList[index]}`} />
         </ListItemButton>
       </ListItem>
     )
@@ -140,7 +145,7 @@ const ChangeDeleteEvent = (props: any) => {
           height={200}
           width={360}
           itemSize={38}
-          itemCount={EventList.length}
+          itemCount={size}
           overscanCount={5}
         >
           {renderList}
