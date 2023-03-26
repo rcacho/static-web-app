@@ -9,17 +9,33 @@ import {
   Typography,
   Box
 } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
+import { useCalendarContext } from '@/store/CalendarContext'
+import { APIManager } from '@/utils/APIManager'
 
 // placeholder for the list of categories
-const EventList = ['aa', 'bb', 'cc', 'dd', 'ee', 'ff', 'gg', 'hh', 'ii', 'jj']
+let EventList: string[] = []
+let catIDs: any[] = []
 
 // @ts-ignore
 const EditEvent = (props: any) => {
   const [selected, setSelected] = useState(null)
+  const { categories } = useCalendarContext()
+  const [events, setEvents] = useState([''])
+  const [size, setSize] = useState(0)
+
+  useEffect(() => {
+    EventList = []
+    for (let i = 0; i < categories.length; i++) {
+      EventList.push(categories[i].category_name)
+      catIDs.push(categories[i].category_id)
+    }
+    setEvents(EventList)
+    setSize(EventList.length)
+  }, [selected])
 
   // render list for the scroll function
   function renderList(props: ListChildComponentProps) {
@@ -37,7 +53,7 @@ const EditEvent = (props: any) => {
         onClick={handleSelect}
       >
         <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`Item ${EventList[index]}`} />
+          <ListItemText primary={`${events[index]}`} />
         </ListItemButton>
       </ListItem>
     )
@@ -45,6 +61,12 @@ const EditEvent = (props: any) => {
 
   const handleBackClick = () => {
     props.updateState(0)
+  }
+
+  const handleOnClick = () => {
+    APIManager.getInstance().then((instance) => {
+      let data
+    })
   }
 
   return (
@@ -80,16 +102,16 @@ const EditEvent = (props: any) => {
           height={200}
           width={360}
           itemSize={38}
-          itemCount={EventList.length}
+          itemCount={size}
           overscanCount={5}
         >
           {renderList}
         </FixedSizeList>
 
-        <ListItem>
+        {/* <ListItem>
           <ListItemText primary="Please enter date:" />
-        </ListItem>
-        <ListItem sx={{ pl: 5, pt: 0 }}>
+        </ListItem> */}
+        {/* <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             id="standard-basic"
             variant="standard"
@@ -100,7 +122,7 @@ const EditEvent = (props: any) => {
               shrink: true
             }}
           />
-        </ListItem>
+        </ListItem> */}
         <ListItem>
           <ListItemText primary="Event description:" />
         </ListItem>
@@ -133,6 +155,7 @@ const EditEvent = (props: any) => {
             size="medium"
             variant="contained"
             color="primary"
+            onClick={handleOnClick}
           >
             Save Changes
           </Button>

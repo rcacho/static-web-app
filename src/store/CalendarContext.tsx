@@ -30,6 +30,8 @@ interface CalendarStoreValue {
   setEvents: React.Dispatch<React.SetStateAction<Event[]>>
   catMap: Map<number, string>
   updateCatMap: (category: Category[]) => void
+  selectedEvent: number
+  setSelectedEvent: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const useCalendarContext = () => {
@@ -59,6 +61,7 @@ const CalendarStore = ({ children }: any) => {
   const [weekNum, setWeekNum] = useState(1)
   const accountId = getAccountID()
   const [catMap, setCatMap] = useState(new Map())
+  const [selectedEvent, setSelectedEvent] = useState(0)
 
   useEffect(() => {
     APIManager.getInstance().then((instance) =>
@@ -137,7 +140,9 @@ const CalendarStore = ({ children }: any) => {
     events: events,
     setEvents: setEvents,
     catMap: catMap,
-    updateCatMap: updateCatMap
+    updateCatMap: updateCatMap,
+    selectedEvent: selectedEvent,
+    setSelectedEvent: setSelectedEvent
   }
 
   return (

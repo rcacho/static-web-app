@@ -25,6 +25,8 @@ export default async function handler(
     event_id: id
   }
 
+  console.log(event)
+
   let adminStatus = await userDAO.isAdmin(event.admin_id)
 
   if (!adminStatus) {

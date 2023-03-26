@@ -14,14 +14,13 @@ import MuiTheme from '@/styles/MuiTheme'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { useCalendarContext } from '@/store/CalendarContext'
 import DeleteEventPopUp from '@/components/menu/menuButtons/changeEvents/DeleteEventPopUp'
-import { Event } from '@/interfaces/Event'
 
-// placeholder for the list of categories
-let EventList: string[] = []
+let EventList: (string | undefined)[] = []
+let IdList: (number | null)[] = []
 
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
-  const { selectedDate, categories, events, catMap, currentDate } =
+  const { selectedDate, events, catMap, setSelectedEvent } =
     useCalendarContext()
   const [selected, setSelected] = useState(null)
   const [size, setSize] = useState(0)
@@ -35,6 +34,9 @@ const ChangeDeleteEvent = (props: any) => {
           +selectedDate.substring(0, 2),
           +selectedDate.substring(3, 5)
         )
+        // ok so like program thinks this is a date object
+        // but when console log typeof events[i].event_date, it says string
+        // so like idk
         let eDate = new Date(
           events[i].event_date.substring(0, 4),
           events[i].event_date.substring(5, 7),
@@ -43,10 +45,10 @@ const ChangeDeleteEvent = (props: any) => {
         if (+eDate === +testDate) {
           if (catMap.get(events[i].category_id) !== undefined) {
             EventList.push(catMap.get(events[i].category_id))
+            IdList.push(events[i].event_id)
           }
         }
       }
-
       setSize(EventList.length)
     }
   }, [selected])
@@ -89,6 +91,7 @@ const ChangeDeleteEvent = (props: any) => {
     console.log(index)
     const handleSelect = () => {
       setSelected(index)
+      setSelectedEvent(IdList[index])
     }
     return (
       <ListItem

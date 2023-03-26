@@ -5,16 +5,47 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
+import { APIManager } from '@/utils/APIManager'
+import { useCalendarContext } from '@/store/CalendarContext'
+import { Event } from '@/interfaces/Event'
 
 const DeleteEventPopUp = (props: any) => {
   const [open, setOpen] = React.useState(false)
+  const { selectedEvent } = useCalendarContext()
+  const userid = 'user'
 
   const handleClickOpen = () => {
     setOpen(true)
   }
 
+  const handleCloseDelete = () => {
+    deleteEvent(selectedEvent).then(() => {
+      setOpen(false)
+    })
+  }
+
   const handleClose = () => {
     setOpen(false)
+  }
+
+  async function deleteEvent(id: number) {
+    let payload: Event = {
+      event_id: null,
+      event_date: new Date(),
+      category_id: 69,
+      event_description: null,
+      admin_id: userid
+    }
+    APIManager.getInstance()
+      .then((instance) => {
+        instance.deleteEvent(id, payload)
+      })
+      .then((data) => {
+        console.log(`lets goo? ${data}`)
+      })
+      .catch((err) => {
+        console.log(`DeletePopUp error: ${err}`)
+      })
   }
 
   function DeleteButton() {
@@ -70,7 +101,7 @@ const DeleteEventPopUp = (props: any) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleCloseDelete} autoFocus>
             Delete
           </Button>
         </DialogActions>
