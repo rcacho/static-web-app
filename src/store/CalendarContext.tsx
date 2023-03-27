@@ -1,7 +1,6 @@
-import { APIManager } from '@/utils/APIManager'
 import { useAccount, useMsal } from '@azure/msal-react'
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Category } from '@/interfaces/Category'
 
 const CalendarContext = React.createContext<CalendarStoreValue | undefined>(
