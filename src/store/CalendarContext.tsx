@@ -17,6 +17,7 @@ interface CalendarStoreValue {
   selectedDate: undefined | Date
   toggleBarOnDateClick: (num: number, date?: any) => void
   selected: Category[]
+  setSelected: React.Dispatch<React.SetStateAction<Category[]>>
   categories: Category[]
   setCategories: React.Dispatch<React.SetStateAction<Category[]>>
   handleChange: (category: { target: { value: any } }) => void
@@ -51,11 +52,11 @@ const CalendarStore = ({ children }: any) => {
   const [weekNum, setWeekNum] = useState(1)
   const accountId = getAccountID()
 
-  useEffect(() => {
-    APIManager.getInstance().then((instance) =>
-      instance.setUserLastLogin(accountId)
-    )
-  }, [])
+  // useEffect(() => {
+  //   APIManager.getInstance().then((instance) =>
+  //     instance.setUserLastLogin(accountId)
+  //   )
+  // }, [])
 
   const incWeekNum = () => {
     setWeekNum(weekNum + 1)
@@ -109,6 +110,7 @@ const CalendarStore = ({ children }: any) => {
     selectedDate: selectedDate,
     toggleBarOnDateClick: toggleBarOnDateClick,
     selected: selected,
+    setSelected: setSelected,
     categories: categories,
     handleChange: handleChange,
     handleNone: handleNone,

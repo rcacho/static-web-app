@@ -10,6 +10,7 @@ import { useCalendarContext } from '@/store/CalendarContext'
 const Legend = () => {
   const { setCategories } = useCalendarContext()
   const [show, toggleShow] = React.useState(true)
+  const [selectedNotSaved, setSelectedNotSaved] = React.useState<Category[]>([])
 
   useEffect(() => {
     const getData = async () => {
@@ -29,12 +30,17 @@ const Legend = () => {
   return (
     <Box display="flex" bgcolor="white" color="black" textAlign={'center'}>
       <Stack direction="row" spacing={0}>
-        {show && <CategoryList></CategoryList>}
+        {show && (
+          <CategoryList
+            selectedNotSaved={selectedNotSaved}
+            setSelectedNotSaved={setSelectedNotSaved}
+          ></CategoryList>
+        )}
 
         <Button
           onClick={() => toggleShow(!show)}
           style={{
-            minWidth: '30px',
+            minWidth: '20px',
             minHeight: 'calc(100vh - 64px)',
             borderRadius: 0
           }}

@@ -11,32 +11,50 @@ import {
   ListItemText
 } from '@mui/material'
 
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import { APIManager } from '@/utils/APIManager'
 import { icons } from '@/store/Icons'
 
-const CategoryList = () => {
-  const {
-    selected,
-    categories,
-    setCategories,
-    handleAll,
-    handleNone,
-    handleChange
-  } = useCalendarContext()
+const CategoryList = ({
+  selectedNotSaved,
+  setSelectedNotSaved
+}: {
+  selectedNotSaved: Category[]
+  setSelectedNotSaved: React.Dispatch<React.SetStateAction<Category[]>>
+}) => {
+  const { categories, setSelected } = useCalendarContext()
 
-  useEffect(() => {
-    const getData = async () => {
-      const instance = await APIManager.getInstance()
-      const data = await instance.getCategory()
-      const cat: Category[] = data.result
-      setCategories(cat)
-    }
-    getData().catch((err) => {
-      console.log(err)
-    })
-  }, [])
+  const handleChange = (category: { target: { value: any } }) => {
+    const s: string = category.target.value
+    const list = [...selectedNotSaved]
+    const index = list
+      .map(function (e: Category) {
+        return e.category_name
+      })
+      .indexOf(s)
+    const indexAdd = categories
+      .map(function (e: Category) {
+        return e.category_name
+      })
+      .indexOf(s)
+    index === -1 ? list.push(categories[indexAdd]) : list.splice(index, 1)
+    setSelectedNotSaved(list)
+  }
+
+  const handleAll = () => {
+    setSelectedNotSaved(categories)
+    return
+  }
+
+  const handleNone = () => {
+    setSelectedNotSaved([])
+    return
+  }
+
+  const applyFilters = () => {
+    setSelected(selectedNotSaved)
+    return
+  }
 
   return (
     <Box>
@@ -46,9 +64,11 @@ const CategoryList = () => {
           {
             width: '40%',
             color: 'black',
-            bgcolor: '#eeeeee',
+            bgcolor: '#ffffff',
             m: 1,
-            fontSize: '12px'
+            p: 0.5,
+            fontSize: '11px',
+            borderRadius: 0
           },
           { '&:hover': { bgcolor: '#cccccc' } }
         ]}
@@ -61,9 +81,11 @@ const CategoryList = () => {
           {
             width: '40%',
             color: 'black',
-            bgcolor: '#eeeeee',
+            bgcolor: '#ffffff',
             m: 1,
-            fontSize: '12px'
+            p: 0.5,
+            fontSize: '11px',
+            borderRadius: 0
           },
           { '&:hover': { bgcolor: '#cccccc' } }
         ]}
@@ -75,7 +97,7 @@ const CategoryList = () => {
         style={{ overflow: 'auto' }}
         sx={{
           bgcolor: 'background.paper',
-          height: 'calc(100vh - 150px)',
+          height: 'calc(100vh - 200px)',
           overflowY: 'scroll'
         }}
       >
@@ -98,7 +120,7 @@ const CategoryList = () => {
                   value={item.category_name}
                   edge="end"
                   onChange={handleChange}
-                  checked={selected.includes(item)}
+                  checked={selectedNotSaved.includes(item)}
                   inputProps={{ 'aria-labelledby': labelId }}
                 />
               }
@@ -106,7 +128,6 @@ const CategoryList = () => {
             >
               <ListItemButton>
                 <ListItemIcon>
-                  {/* <Avatar alt={`AE`} src={`placeholder`} /> */}
                   <Icon sx={{ color: item.color }} />
                 </ListItemIcon>
                 <ListItemText id={labelId} primary={`${item.category_name}`} />
@@ -114,14 +135,23 @@ const CategoryList = () => {
             </ListItem>
           )
         })}
-      </List>{' '}
+      </List>
       <Button
-        className="menu-button"
-        size="medium"
-        variant="contained"
-        color="primary"
+        onClick={applyFilters}
+        sx={[
+          {
+            width: '60%',
+            color: 'black',
+            bgcolor: '#dddddd',
+            m: 3,
+            p: 0.5,
+            fontSize: '13px',
+            borderRadius: 0
+          },
+          { '&:hover': { bgcolor: '#cccccc' } }
+        ]}
       >
-        Apply Changes
+        Apply Filters
       </Button>
     </Box>
   )
