@@ -15,6 +15,7 @@ import MuiTheme from '@/styles/MuiTheme'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { useCalendarContext } from '@/store/CalendarContext'
 import { APIManager } from '@/utils/APIManager'
+import { Event } from '@/interfaces/Event'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -23,9 +24,13 @@ let catIDs: any[] = []
 // @ts-ignore
 const EditEvent = (props: any) => {
   const [selected, setSelected] = useState(null)
-  const { categories } = useCalendarContext()
+  const { categories, selectedEvent } = useCalendarContext()
   const [events, setEvents] = useState([''])
   const [size, setSize] = useState(0)
+
+  const [eventDate, setEventDate] = useState(new Date(1969, 1, 1))
+  const [description, setEventDescription] = useState('')
+  const adminID = 'user' // this will be changed to whatever user is logged in?
 
   useEffect(() => {
     EventList = []
@@ -64,9 +69,36 @@ const EditEvent = (props: any) => {
   }
 
   const handleOnClick = () => {
-    APIManager.getInstance().then((instance) => {
-      let data
-    })
+    if (selected !== null) {
+      editEvent(eventDate, description, adminID, catIDs[selected]).then(
+        props.clickAway()
+      )
+    }
+  }
+
+  async function editEvent(
+    event_date: Date,
+    event_description: string,
+    admin_id: string,
+    category_id: number
+  ) {
+    let payload: Event = {
+      event_id: selectedEvent,
+      event_date: event_date,
+      category_id: category_id,
+      event_description: event_description,
+      admin_id: admin_id
+    }
+    APIManager.getInstance()
+      .then((instance) => instance.editEvent(selectedEvent, payload))
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+
+    setEventDate(event_date)
   }
 
   return (
@@ -108,10 +140,10 @@ const EditEvent = (props: any) => {
           {renderList}
         </FixedSizeList>
 
-        {/* <ListItem>
+        <ListItem>
           <ListItemText primary="Please enter date:" />
-        </ListItem> */}
-        {/* <ListItem sx={{ pl: 5, pt: 0 }}>
+        </ListItem>
+        <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             id="standard-basic"
             variant="standard"
@@ -121,8 +153,11 @@ const EditEvent = (props: any) => {
             InputLabelProps={{
               shrink: true
             }}
+            onChange={(newVal) => {
+              setEventDate(new Date(newVal.target.value))
+            }}
           />
-        </ListItem> */}
+        </ListItem>
         <ListItem>
           <ListItemText primary="Event description:" />
         </ListItem>
@@ -135,6 +170,7 @@ const EditEvent = (props: any) => {
             sx={{ color: '#898989' }}
             variant="standard"
             inputProps={{ maxLength: 200 }}
+            onChange={(newVal) => setEventDescription(newVal.target.value)}
           />
         </ListItem>
       </List>

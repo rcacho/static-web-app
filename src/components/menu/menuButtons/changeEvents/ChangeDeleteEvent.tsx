@@ -88,10 +88,9 @@ const ChangeDeleteEvent = (props: any) => {
   // render list for the scroll function
   function renderList(props: ListChildComponentProps) {
     const { index, style } = props
-    console.log(index)
     const handleSelect = () => {
       setSelected(index)
-      setSelectedEvent(IdList[index])
+      setSelectedEvent(IdList[index] as number)
     }
     return (
       <ListItem

@@ -41,7 +41,7 @@ const DeleteEventPopUp = (props: any) => {
         instance.deleteEvent(id, payload)
       })
       .then((data) => {
-        console.log(`lets goo? ${data}`)
+        console.log(data)
       })
       .catch((err) => {
         console.log(`DeletePopUp error: ${err}`)
