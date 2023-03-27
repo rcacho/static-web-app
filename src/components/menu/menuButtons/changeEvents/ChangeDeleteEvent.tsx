@@ -38,9 +38,9 @@ const ChangeDeleteEvent = (props: any) => {
         // but when console log typeof events[i].event_date, it says string
         // so like idk
         let eDate = new Date(
-          events[i].event_date.substring(0, 4),
-          events[i].event_date.substring(5, 7),
-          events[i].event_date.substring(8, 10)
+          +(events[i].event_date as unknown as string).substring(0, 4),
+          +(events[i].event_date as unknown as string).substring(5, 7),
+          +(events[i].event_date as unknown as string).substring(8, 10)
         )
         if (+eDate === +testDate) {
           if (catMap.get(events[i].category_id) !== undefined) {
