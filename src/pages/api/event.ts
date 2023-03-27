@@ -1,3 +1,4 @@
+import { withAuthMiddleware } from '@/utils/auth/Auth'
 import { EventDAO } from '@/utils/dao/EventDAO'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 import { Event } from '@/interfaces/Event'
@@ -6,10 +7,7 @@ import { UserDAO } from '@/utils/dao/UserDAO'
 import { Notification } from '@/interfaces/Notification'
 import { NotificationDAO } from '@/utils/dao/NotificationDAO'
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { body, method } = req
   const db: DatabaseConnector = new DatabaseConnector()
   const eventDAO: EventDAO = new EventDAO(db)
@@ -57,3 +55,5 @@ export default async function handler(
       res.status(405).end(`Method ${method} Not Allowed`)
   }
 }
+
+export default withAuthMiddleware('authenticate')(handler)
