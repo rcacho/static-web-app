@@ -1,7 +1,6 @@
-import { APIManager } from '@/utils/APIManager'
 import { useAccount, useMsal } from '@azure/msal-react'
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Category } from '@/interfaces/Category'
 import { Event } from '@/interfaces/Event'
 
@@ -62,6 +61,7 @@ const CalendarStore = ({ children }: any) => {
   const accountId = getAccountID()
   const [catMap, setCatMap] = useState(new Map())
   const [selectedEvent, setSelectedEvent] = useState(0)
+
 
   useEffect(() => {
     APIManager.getInstance().then((instance) =>
