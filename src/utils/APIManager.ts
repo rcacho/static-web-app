@@ -5,7 +5,7 @@ const apiPaths = {
   events: (eventId?: number) => `/api/event/${eventId ?? ''}`,
   notifications: (userId: number) => `/api/notification/${userId}`,
   user: (userId?: number) => `/api/user/${userId ?? ''}`,
-  userLogin: (userId: number) => `/api/user/login/${userId}`
+  userLogin: (userId: number) => `/api/user/${userId}`
 }
 
 export class APIManager {
@@ -68,11 +68,13 @@ export class APIManager {
     return await this.fetch(apiPaths.user(userId), 'PUT', data)
   }
 
-  public async setUserLastLogin(userId: number) {
-    return await this.fetch(apiPaths.userLogin(userId), 'PUT')
+  public async setUserLastLogin(userId: number, data: any) {
+    return await this.fetch(apiPaths.userLogin(userId), 'PUT', data)
   }
 
   private async fetch(url: string, method: string, data?: any) {
+    console.log(data)
+
     if (!this.accessToken) {
       const account = msalInstance.getAllAccounts()[0]
       if (!account) {

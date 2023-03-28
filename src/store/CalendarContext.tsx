@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { Category } from '@/interfaces/Category'
 import { Event } from '@/interfaces/Event'
 import { APIManager } from '@/utils/APIManager'
+import { User } from '@/interfaces/User'
 
 const CalendarContext = React.createContext<CalendarStoreValue | undefined>(
   undefined
@@ -65,9 +66,16 @@ const CalendarStore = ({ children }: any) => {
   const [selectedEvent, setSelectedEvent] = useState(0)
 
   useEffect(() => {
-    APIManager.getInstance().then((instance) =>
-      instance.setUserLastLogin(accountId)
-    )
+    APIManager.getInstance().then((instance) => {
+      let data: User = {
+        user_id: accountId.toString(),
+        first_name: 'string',
+        last_name: 'string',
+        is_admin: 1,
+        notification_check: new Date()
+      }
+      instance.setUserLastLogin(accountId, data)
+    })
   }, [])
 
   const updateCatMap = (categories: Category[]) => {

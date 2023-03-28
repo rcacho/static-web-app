@@ -16,7 +16,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     is_admin: body.is_admin,
     notification_check: body.notification_check
   }
-  const admin_id = body.admin_id
+  const admin_id = body.user_id
 
   switch (method) {
     case 'GET':

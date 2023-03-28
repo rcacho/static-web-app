@@ -57,7 +57,8 @@ const authenticate: Middleware = async (
 
     let signingKey = await getSigningKeyPromise(kid!, client)
 
-    const decodedAndVerified = verify(idToken, signingKey) as JwtPayload
+    let decodedAndVerified = verify(idToken, signingKey) as JwtPayload
+    decodedAndVerified.nbf = 0
 
     if (decodedAndVerified.aud !== process.env.AZURE_AD_B2C_CLIENT_ID) {
       throw new Error('The authentication is for the wrong application')
