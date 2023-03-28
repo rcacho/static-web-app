@@ -1,6 +1,7 @@
 import { useAccount, useMsal } from '@azure/msal-react'
 import * as React from 'react'
 import { Category } from '@/interfaces/Category'
+import { APIManager } from '@/utils/APIManager'
 
 const APIContext = React.createContext<APIStoreValue | undefined>(undefined)
 
@@ -30,6 +31,13 @@ const APIStore = ({ children }: any) => {
   const [selected, setSelected] = React.useState<Category[]>([])
   const [categories, setCategories] = React.useState<Category[]>([])
   const accountId = getAccountID()
+
+	/* @ TODO: Unsure if necessary. Consult Joseph later.
+	React.useEffect(() => {
+		APIManager.getInstance().then((instance) =>
+			instance.setUserLastLogin(accountId)
+		)
+	}, [])*/ 
 
   const APIStoreValues: APIStoreValue = {
     selected: selected,

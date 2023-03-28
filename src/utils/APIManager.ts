@@ -48,8 +48,8 @@ export class APIManager {
     return await this.fetch(apiPaths.events(eventId), 'PUT', data)
   }
 
-  public async deleteEvent(eventId: number) {
-    return await this.fetch(apiPaths.events(eventId), 'DELETE')
+  public async deleteEvent(eventId: number, data: any) {
+    return await this.fetch(apiPaths.events(eventId), 'DELETE', data)
   }
 
   public async getNotification(userId: number) {

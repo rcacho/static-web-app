@@ -7,7 +7,11 @@ import { APIManager } from '@/utils/APIManager'
 import { Category } from '@/interfaces/Category'
 import { useAPIContext } from '@/store/APIContext'
 
+import { useCalendarContext } from '@/store/CalendarContext'
+import { Event } from '@/interfaces/Event'
+
 const Legend = () => {
+  const { setEvents, updateCatMap } = useCalendarContext()
   const { setCategories } = useAPIContext()
   const [show, toggleShow] = React.useState(true)
 
@@ -19,10 +23,23 @@ const Legend = () => {
       const cat: Category[] = data.result
       console.log(cat)
       setCategories(cat)
-      // console.log(categories)
+      updateCatMap(cat)
     }
     getData().catch((err) => {
       console.log(err)
+    })
+
+    APIManager.getInstance().then((instance) => {
+      instance
+        .getEvent()
+        .then((data) => {
+          const eventResult: Event[] = data.result
+          console.log(eventResult)
+          setEvents(eventResult)
+        })
+        .catch((err) => {
+          console.log(`legend, getInstance err: ${err}`)
+        })
     })
   }, [])
 

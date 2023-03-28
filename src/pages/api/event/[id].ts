@@ -23,6 +23,8 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     event_id: id
   }
 
+  console.log(event)
+
   let adminStatus = await userDAO.isAdmin(event.admin_id)
 
   if (!adminStatus) {

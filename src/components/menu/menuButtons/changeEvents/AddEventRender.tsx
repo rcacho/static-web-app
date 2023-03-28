@@ -23,7 +23,6 @@ let catIDs: any[] = []
 // @ts-ignore
 const AddEventRender = (props: any) => {
   const [eventDate, setEventDate] = useState(new Date(2022, 1, 1))
-
   const adminID = 'user' // this will be changed to whatever user is logged in?
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')

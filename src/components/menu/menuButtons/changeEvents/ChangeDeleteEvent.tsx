@@ -16,18 +16,41 @@ import DeleteEventPopUp from '@/components/menu/menuButtons/changeEvents/DeleteE
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
 
-// placeholder for the list of categories
-let EventList: string[] = []
+let EventList: (string | undefined)[] = []
+let IdList: (number | null)[] = []
 
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
-  const { selectedDate } = useCalendarContext()
+  const { selectedDate, events, catMap, setSelectedEvent } =
+    useCalendarContext()
   const [selected, setSelected] = useState(null)
-  const { categories } = useAPIContext()
+  const [size, setSize] = useState(0)
 
   useEffect(() => {
-    for (let i = 0; i < categories.length; i++) {
-      EventList.push(categories[i].category_name)
+    EventList = []
+    for (let i = 0; i < events.length; i++) {
+      if (selectedDate) {
+        let testDate = new Date(
+          +selectedDate.substring(6, 10),
+          +selectedDate.substring(0, 2),
+          +selectedDate.substring(3, 5)
+        )
+        // ok so like program thinks this is a date object
+        // but when console log typeof events[i].event_date, it says string
+        // so like idk
+        let eDate = new Date(
+          +(events[i].event_date as unknown as string).substring(0, 4),
+          +(events[i].event_date as unknown as string).substring(5, 7),
+          +(events[i].event_date as unknown as string).substring(8, 10)
+        )
+        if (+eDate === +testDate) {
+          if (catMap.get(events[i].category_id) !== undefined) {
+            EventList.push(catMap.get(events[i].category_id))
+            IdList.push(events[i].event_id)
+          }
+        }
+      }
+      setSize(EventList.length)
     }
   }, [selected])
 
@@ -66,9 +89,9 @@ const ChangeDeleteEvent = (props: any) => {
   // render list for the scroll function
   function renderList(props: ListChildComponentProps) {
     const { index, style } = props
-
     const handleSelect = () => {
       setSelected(index)
+      setSelectedEvent(IdList[index] as number)
     }
     return (
       <ListItem
@@ -125,7 +148,7 @@ const ChangeDeleteEvent = (props: any) => {
           height={200}
           width={360}
           itemSize={38}
-          itemCount={EventList.length}
+          itemCount={size}
           overscanCount={5}
         >
           {renderList}

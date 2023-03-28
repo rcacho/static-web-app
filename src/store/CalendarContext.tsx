@@ -1,5 +1,8 @@
 import * as React from 'react'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { Category } from '@/interfaces/Category'
+import { Event } from '@/interfaces/Event'
+import { APIManager } from '@/utils/APIManager'
 
 const CalendarContext = React.createContext<CalendarStoreValue | undefined>(
   undefined
@@ -11,8 +14,14 @@ interface CalendarStoreValue {
   isYearView: boolean
   changeView: (date?: Date) => void
   dayClickCount: number
-  selectedDate: undefined | Date
+  selectedDate: undefined | string
   toggleBarOnDateClick: (num: number, date?: any) => void
+  events: Event[]
+  setEvents: React.Dispatch<React.SetStateAction<Event[]>>
+  catMap: Map<number, string>
+  updateCatMap: (category: Category[]) => void
+  selectedEvent: number
+  setSelectedEvent: React.Dispatch<React.SetStateAction<number>>
 }
 
 export const useCalendarContext = () => {
@@ -27,7 +36,18 @@ const CalendarStore = ({ children }: any) => {
   const [currentDate, setDate] = useState(new Date())
   const [yearView, setYearView] = useState(false)
   const [dayClickCount, setDayClickCount] = useState(0)
-  const [selectedDate, setSelectedDate] = useState<undefined | Date>(undefined)
+  const [selectedDate, setSelectedDate] = useState<undefined | string>(undefined)
+  const [events, setEvents] = React.useState<Event[]>([])
+  const [catMap, setCatMap] = useState(new Map())
+  const [selectedEvent, setSelectedEvent] = useState(0)
+
+  const updateCatMap = (categories: Category[]) => {
+    let tempMap = new Map()
+    for (let i = 0; i < categories.length; i++) {
+      tempMap.set(categories[i].category_id, categories[i].category_name)
+    }
+    setCatMap(tempMap)
+  }
 
   const changeView = (date?: Date) => {
     setYearView(!yearView)
@@ -48,7 +68,13 @@ const CalendarStore = ({ children }: any) => {
     changeView: changeView,
     dayClickCount: dayClickCount,
     selectedDate: selectedDate,
-    toggleBarOnDateClick: toggleBarOnDateClick
+    toggleBarOnDateClick: toggleBarOnDateClick,
+    events: events,
+    setEvents: setEvents,
+    catMap: catMap,
+    updateCatMap: updateCatMap,
+    selectedEvent: selectedEvent,
+    setSelectedEvent: setSelectedEvent
   }
 
   return (
