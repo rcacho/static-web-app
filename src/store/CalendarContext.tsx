@@ -62,7 +62,6 @@ const CalendarStore = ({ children }: any) => {
   const [catMap, setCatMap] = useState(new Map())
   const [selectedEvent, setSelectedEvent] = useState(0)
 
-
   useEffect(() => {
     APIManager.getInstance().then((instance) =>
       instance.setUserLastLogin(accountId)
