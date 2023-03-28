@@ -81,7 +81,7 @@ export class APIManager {
         )
       }
 
-      console.log(account.idTokenClaims)
+      console.log(account)
       const response = await msalInstance.acquireTokenSilent({
         ...loginRequest,
         account: account
