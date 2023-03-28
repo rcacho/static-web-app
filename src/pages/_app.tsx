@@ -1,15 +1,11 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
-import { PublicClientApplication } from '@azure/msal-browser'
-import { MsalProvider } from '@azure/msal-react'
-import { msalConfig } from '@/authConfig'
-
-export const msalInstance = new PublicClientApplication(msalConfig)
+import { Auth } from '@/components/Auth'
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <MsalProvider instance={msalInstance}>
+    <Auth>
       <Component {...pageProps} />
-    </MsalProvider>
+    </Auth>
   )
 }
