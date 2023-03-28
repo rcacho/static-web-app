@@ -42,7 +42,7 @@ const APIStore = ({ children }: any) => {
   const [catMap, setCatMap] = useState(new Map())
   const [selectedEvent, setSelectedEvent] = useState(0)
 
-	/* @ TODO: Unsure if necessary. Consult Joseph later.
+  /* @ TODO: Unsure if necessary. Consult Joseph later.
 	React.useEffect(() => {
 		APIManager.getInstance().then((instance) =>
 			instance.setUserLastLogin(accountId)
