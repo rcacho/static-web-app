@@ -81,12 +81,11 @@ export class APIManager {
         )
       }
 
-      console.log(account)
       const response = await msalInstance.acquireTokenSilent({
         ...loginRequest,
         account: account
       })
-      this.accessToken = response.accessToken
+      this.accessToken = response.idToken
     }
 
     var options
@@ -100,7 +99,10 @@ export class APIManager {
         body: JSON.stringify(data)
       }
     } else {
-      options = { method: method }
+      options = {
+        headers: { Authorization: `Bearer ${this.accessToken}` },
+        method: method
+      }
     }
     return fetch(url, options).then((res) => {
       if (res.status !== 200) {

@@ -1,3 +1,4 @@
+import { addCORS } from './Cors'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { decode, JwtPayload, verify } from 'jsonwebtoken'
 import { JwksClient } from 'jwks-rsa'
@@ -31,6 +32,7 @@ const authenticate: Middleware = async (
   res: NextApiResponse,
   next: () => Promise<void>
 ) => {
+  req.url
   try {
     if (
       !req.headers.authorization ||
@@ -63,10 +65,15 @@ const authenticate: Middleware = async (
 
     next()
   } catch (err) {
+    console.log(err)
     res.status(401).json({ result: err })
   }
 }
 
-export const withAuthMiddleware = label({
-  authenticate
-})
+export const withAuthMiddleware = label(
+  {
+    addCORS,
+    authenticate
+  },
+  ['addCORS']
+)
