@@ -13,7 +13,6 @@ import {
 
 import React from 'react'
 import { icons } from '@/interfaces/Icons'
-import { APIManager } from '@/utils/APIManager'
 
 const SelectButtonTheme = [
   {
@@ -25,7 +24,6 @@ const SelectButtonTheme = [
   },
   { '&:hover': { bgcolor: '#cccccc' } }
 ]
-
 
 const CategoryList = ({
   selectedNotSaved,
@@ -39,11 +37,6 @@ const CategoryList = ({
   const handleChange = (category: { target: { value: any } }) => {
     const s: string = category.target.value
     const list = [...selectedNotSaved]
-    // const index = list
-    //   .map(function (e: Category) {
-    //     return e.category_name
-    //   })
-    //   .indexOf(s)
     const index = list.findIndex((e: Category) => {
       e.category_name == s
     })
@@ -56,27 +49,16 @@ const CategoryList = ({
     setSelectedNotSaved(list)
   }
 
-  const handleAll = () => {
-    setSelectedNotSaved(categories)
-    return
-  }
-
-  const handleNone = () => {
-    setSelectedNotSaved([])
-    return
-  }
-
-  const applyFilters = () => {
-    setSelected(selectedNotSaved)
-    return
-  }
+  const handleAll = () => setSelectedNotSaved(categories)
+  const handleNone = () => setSelectedNotSaved([])
+  const applyFilters = () => setSelected(selectedNotSaved)
 
   return (
     <Box>
-      <Button onClick={() => setSelected(categories)} sx={SelectButtonTheme}>
+      <Button onClick={handleAll} sx={SelectButtonTheme}>
         Select All
       </Button>
-      <Button onClick={() => setSelected([])} sx={SelectButtonTheme}>
+      <Button onClick={handleNone} sx={SelectButtonTheme}>
         Select None
       </Button>
       <List
