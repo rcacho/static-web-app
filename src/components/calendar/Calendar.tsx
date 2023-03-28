@@ -4,10 +4,12 @@ import Month from './Month'
 import Year from './Year'
 import { useCalendarContext } from '@/store/CalendarContext'
 import { APIManager } from '@/utils/APIManager'
+import { useAPIContext } from '@/store/APIContext'
 
 //let CatMap = new Map<String, Category>()
 const Calendar = () => {
-  const { isYearView, currentDate, categories } = useCalendarContext()
+  const { isYearView, currentDate } = useCalendarContext()
+  const { categories } = useAPIContext()
   const [eventList, setEventList] = useState([])
 
   useEffect(() => {

@@ -5,10 +5,10 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { APIManager } from '@/utils/APIManager'
 import { Category } from '@/interfaces/Category'
-import { useCalendarContext } from '@/store/CalendarContext'
+import { useAPIContext } from '@/store/APIContext'
 
 const Legend = () => {
-  const { setCategories } = useCalendarContext()
+  const { setCategories } = useAPIContext()
   const [show, toggleShow] = React.useState(true)
 
   useEffect(() => {

@@ -15,15 +15,6 @@ interface CalendarStoreValue {
   dayClickCount: number
   selectedDate: undefined | Date
   toggleBarOnDateClick: (num: number, date?: any) => void
-  selected: Category[]
-  categories: Category[]
-  setCategories: React.Dispatch<React.SetStateAction<Category[]>>
-  handleChange: (category: { target: { value: any } }) => void
-  handleNone: () => void
-  handleAll: () => void
-  weekNum: number
-  incWeekNum: () => void
-  accountId: number
 }
 
 export const useCalendarContext = () => {
@@ -34,52 +25,11 @@ export const useCalendarContext = () => {
   return calendarContext
 }
 
-function getAccountID(): number {
-  const { accounts } = useMsal()
-  const account = useAccount(accounts[0])
-  return parseInt(account?.idTokenClaims?.oid ?? '0')
-}
-
 const CalendarStore = ({ children }: any) => {
   const [currentDate, setDate] = useState(new Date())
   const [yearView, setYearView] = useState(false)
   const [dayClickCount, setDayClickCount] = useState(0)
   const [selectedDate, setSelectedDate] = useState<undefined | Date>(undefined)
-  const [selected, setSelected] = React.useState<Category[]>([])
-  const [categories, setCategories] = React.useState<Category[]>([])
-  const [weekNum, setWeekNum] = useState(1)
-  const accountId = getAccountID()
-
-  const incWeekNum = () => {
-    setWeekNum(weekNum + 1)
-  }
-
-  const handleChange = (category: { target: { value: any } }) => {
-    const s: string = category.target.value
-    const list = [...selected]
-    const index = list
-      .map(function (e: Category) {
-        return e.category_name
-      })
-      .indexOf(s)
-    const indexAdd = categories
-      .map(function (e: Category) {
-        return e.category_name
-      })
-      .indexOf(s)
-    index === -1 ? list.push(categories[indexAdd]) : list.splice(index, 1)
-    setSelected(list)
-  }
-
-  const handleAll = () => {
-    setSelected(categories)
-    return
-  }
-
-  const handleNone = () => {
-    setSelected([])
-    return
-  }
 
   const changeView = (date?: Date) => {
     setYearView(!yearView)
@@ -101,15 +51,6 @@ const CalendarStore = ({ children }: any) => {
     dayClickCount: dayClickCount,
     selectedDate: selectedDate,
     toggleBarOnDateClick: toggleBarOnDateClick,
-    selected: selected,
-    categories: categories,
-    handleChange: handleChange,
-    handleNone: handleNone,
-    handleAll: handleAll,
-    weekNum: weekNum,
-    incWeekNum: incWeekNum,
-    setCategories: setCategories,
-    accountId: accountId
   }
 
   return (

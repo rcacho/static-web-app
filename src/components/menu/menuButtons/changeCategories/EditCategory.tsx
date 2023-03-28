@@ -16,7 +16,7 @@ import ColourPicker from '@/components/menu/menuButtons/changeCategories/ColourP
 import SymbolPicker from '@/components/menu/menuButtons/changeCategories/SymbolPicker'
 import { Category } from '@/interfaces/Category'
 import { APIManager } from '@/utils/APIManager'
-import { icons } from '@/store/Icons'
+import { icons } from '@/interfaces/Icons'
 
 // @ts-ignore
 const EditCategory = (props: any) => {

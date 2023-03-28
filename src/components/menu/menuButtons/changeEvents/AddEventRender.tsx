@@ -15,7 +15,7 @@ import MuiTheme from '@/styles/MuiTheme'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
-import { useCalendarContext } from '@/store/CalendarContext'
+import { useAPIContext } from '@/store/APIContext'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -28,7 +28,7 @@ const AddEventRender = (props: any) => {
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
   const [events, setEvents] = useState([''])
-  const { categories } = useCalendarContext()
+  const { categories } = useAPIContext()
 
   useEffect(() => {
     EventList = []

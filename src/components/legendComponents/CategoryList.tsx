@@ -1,5 +1,5 @@
 import { Category } from '@/interfaces/Category'
-import { useCalendarContext } from '@/store/CalendarContext'
+import { useAPIContext } from '@/store/APIContext'
 import {
   Box,
   Button,
@@ -14,17 +14,43 @@ import {
 import React, { useEffect } from 'react'
 
 import { APIManager } from '@/utils/APIManager'
-import { icons } from '@/store/Icons'
+import { icons } from '@/interfaces/Icons'
+
+const SelectButtonTheme = [
+{
+    width: '40%',
+    color: 'black',
+    bgcolor: '#eeeeee',
+    m: 1,
+    fontSize: '12px'
+  },
+  { '&:hover': { bgcolor: '#cccccc' } }
+]
 
 const CategoryList = () => {
   const {
     selected,
     categories,
     setCategories,
-    handleAll,
-    handleNone,
-    handleChange
-  } = useCalendarContext()
+    setSelected,
+  } = useAPIContext()
+
+  const handleChange = (category: { target: { value: any } }) => {
+    const s: string = category.target.value
+    const list = [...selected]
+    const index = list
+      .map(function (e: Category) {
+        return e.category_name
+      })
+      .indexOf(s)
+    const indexAdd = categories
+      .map(function (e: Category) {
+        return e.category_name
+      })
+      .indexOf(s)
+    index === -1 ? list.push(categories[indexAdd]) : list.splice(index, 1)
+    setSelected(list)
+  }
 
   useEffect(() => {
     const getData = async () => {
@@ -41,32 +67,14 @@ const CategoryList = () => {
   return (
     <Box>
       <Button
-        onClick={handleAll}
-        sx={[
-          {
-            width: '40%',
-            color: 'black',
-            bgcolor: '#eeeeee',
-            m: 1,
-            fontSize: '12px'
-          },
-          { '&:hover': { bgcolor: '#cccccc' } }
-        ]}
+        onClick={() => setSelected(categories)}
+        sx={SelectButtonTheme}
       >
         Select All
       </Button>
       <Button
-        onClick={handleNone}
-        sx={[
-          {
-            width: '40%',
-            color: 'black',
-            bgcolor: '#eeeeee',
-            m: 1,
-            fontSize: '12px'
-          },
-          { '&:hover': { bgcolor: '#cccccc' } }
-        ]}
+        onClick={() => setSelected([])}
+        sx={SelectButtonTheme}
       >
         Select None
       </Button>
@@ -85,11 +93,6 @@ const CategoryList = () => {
           if (Icon == undefined) {
             Icon = icons['CircleOutlinedIcon']
           }
-          // try {
-          //   Icon = icons[item.icon]
-          // } catch {
-          //   Icon = icons['CircleOutlinedIcon']
-          // }
           return (
             <ListItem
               key={Math.random()}
