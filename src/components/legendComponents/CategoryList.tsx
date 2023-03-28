@@ -115,6 +115,7 @@ const CategoryList = ({
           // } catch {
           //   Icon = icons['CircleOutlinedIcon']
           // }
+
           return (
             <ListItem
               key={Math.random()}

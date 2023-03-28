@@ -9,9 +9,11 @@ import { useCalendarContext } from '@/store/CalendarContext'
 import { Event } from '@/interfaces/Event'
 
 const Legend = () => {
-  const { setCategories, setEvents, updateCatMap } = useCalendarContext()
+  const { categories, setCategories, setSelected, setEvents, updateCatMap } =
+    useCalendarContext()
   const [show, toggleShow] = React.useState(true)
-  const [selectedNotSaved, setSelectedNotSaved] = React.useState<Category[]>([])
+  const [selectedNotSaved, setSelectedNotSaved] =
+    React.useState<Category[]>(categories)
 
   useEffect(() => {
     const getData = async () => {
@@ -21,6 +23,8 @@ const Legend = () => {
       const cat: Category[] = data.result
       console.log(cat)
       setCategories(cat)
+      setSelected(cat)
+      setSelectedNotSaved(cat)
       updateCatMap(cat)
     }
     getData().catch((err) => {
