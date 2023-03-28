@@ -1,3 +1,5 @@
+import { loginRequest, msalInstance } from '@/authConfig'
+
 const apiPaths = {
   category: (categoryId?: number) => `/api/category/${categoryId ?? ''}`,
   events: (eventId?: number) => `/api/event/${eventId ?? ''}`,
@@ -8,6 +10,8 @@ const apiPaths = {
 
 export class APIManager {
   static instance: APIManager
+
+  accessToken?: string
 
   public static async getInstance() {
     if (this.instance == undefined) {
@@ -68,20 +72,47 @@ export class APIManager {
     return await this.fetch(apiPaths.userLogin(userId), 'PUT')
   }
 
-  private fetch(url: string, method: string, data?: any) {
+  private async fetch(url: string, method: string, data?: any) {
+    if (!this.accessToken) {
+      const account = msalInstance.getAllAccounts()[0]
+      if (!account) {
+        throw Error(
+          `No active account! Please attempt to login before retrying the request`
+        )
+      }
+
+      const response = await msalInstance.acquireTokenSilent({
+        ...loginRequest,
+        account: account
+      })
+      this.accessToken = response.idToken
+    }
+
     var options
     if (data) {
       options = {
         method: method,
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${this.accessToken}`
         },
         body: JSON.stringify(data)
       }
     } else {
-      options = { method: method }
+      options = {
+        headers: { Authorization: `Bearer ${this.accessToken}` },
+        method: method
+      }
     }
-    return fetch(url, options).then((res) => res.json())
+    return fetch(url, options).then((res) => {
+      if (res.status !== 200) {
+        throw new Error(
+          `Request to ${url} failed with status code: ${res.status}`
+        )
+      }
+
+      return res.json()
+    })
   }
 
   private constructor() {}
