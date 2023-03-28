@@ -17,7 +17,7 @@ import { APIManager } from '@/utils/APIManager'
 import { icons } from '@/interfaces/Icons'
 
 const SelectButtonTheme = [
-{
+  {
     width: '40%',
     color: 'black',
     bgcolor: '#eeeeee',
@@ -28,12 +28,7 @@ const SelectButtonTheme = [
 ]
 
 const CategoryList = () => {
-  const {
-    selected,
-    categories,
-    setCategories,
-    setSelected,
-  } = useAPIContext()
+  const { selected, categories, setCategories, setSelected } = useAPIContext()
 
   const handleChange = (category: { target: { value: any } }) => {
     const s: string = category.target.value
@@ -66,16 +61,10 @@ const CategoryList = () => {
 
   return (
     <Box>
-      <Button
-        onClick={() => setSelected(categories)}
-        sx={SelectButtonTheme}
-      >
+      <Button onClick={() => setSelected(categories)} sx={SelectButtonTheme}>
         Select All
       </Button>
-      <Button
-        onClick={() => setSelected([])}
-        sx={SelectButtonTheme}
-      >
+      <Button onClick={() => setSelected([])} sx={SelectButtonTheme}>
         Select None
       </Button>
       <List

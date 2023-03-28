@@ -4,11 +4,9 @@ import CalendarStore from './CalendarContext'
 
 const GlobalStore = ({ children }: any) => {
   return (
-		<CalendarStore>
-			<APIStore>
-				{children}
-			</APIStore>
-		</CalendarStore>
+    <CalendarStore>
+      <APIStore>{children}</APIStore>
+    </CalendarStore>
   )
 }
 

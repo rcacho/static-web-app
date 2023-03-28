@@ -1,7 +1,5 @@
-import { useAccount, useMsal } from '@azure/msal-react'
 import * as React from 'react'
 import { useState } from 'react'
-import { Category } from '@/interfaces/Category'
 
 const CalendarContext = React.createContext<CalendarStoreValue | undefined>(
   undefined
@@ -50,7 +48,7 @@ const CalendarStore = ({ children }: any) => {
     changeView: changeView,
     dayClickCount: dayClickCount,
     selectedDate: selectedDate,
-    toggleBarOnDateClick: toggleBarOnDateClick,
+    toggleBarOnDateClick: toggleBarOnDateClick
   }
 
   return (

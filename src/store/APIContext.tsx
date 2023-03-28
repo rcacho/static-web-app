@@ -1,18 +1,15 @@
 import { useAccount, useMsal } from '@azure/msal-react'
 import * as React from 'react'
-import { useState } from 'react'
 import { Category } from '@/interfaces/Category'
 
-const APIContext = React.createContext<APIStoreValue | undefined>(
-  undefined
-)
+const APIContext = React.createContext<APIStoreValue | undefined>(undefined)
 
 interface APIStoreValue {
   selected: Category[]
   categories: Category[]
-	setCategories: React.Dispatch<React.SetStateAction<Category[]>>,
-	setSelected: React.Dispatch<React.SetStateAction<Category[]>>,
-	accountId: number,
+  setCategories: React.Dispatch<React.SetStateAction<Category[]>>
+  setSelected: React.Dispatch<React.SetStateAction<Category[]>>
+  accountId: number
 }
 
 export const useAPIContext = () => {
@@ -37,15 +34,13 @@ const APIStore = ({ children }: any) => {
   const APIStoreValues: APIStoreValue = {
     selected: selected,
     categories: categories,
-		setSelected: setSelected,
+    setSelected: setSelected,
     setCategories: setCategories,
-    accountId: accountId,
+    accountId: accountId
   }
 
   return (
-    <APIContext.Provider value={APIStoreValues}>
-      {children}
-    </APIContext.Provider>
+    <APIContext.Provider value={APIStoreValues}>{children}</APIContext.Provider>
   )
 }
 
