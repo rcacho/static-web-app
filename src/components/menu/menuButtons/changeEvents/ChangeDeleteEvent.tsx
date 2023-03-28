@@ -21,8 +21,8 @@ let IdList: (number | null)[] = []
 
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
-  const { selectedDate, events, catMap, setSelectedEvent } =
-    useCalendarContext()
+  const { selectedDate } = useCalendarContext()
+  const { events, catMap, setSelectedEvent } = useAPIContext()
   const [selected, setSelected] = useState(null)
   const [size, setSize] = useState(0)
 

@@ -6,13 +6,13 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import { APIManager } from '@/utils/APIManager'
-import { useCalendarContext } from '@/store/CalendarContext'
 import { Event } from '@/interfaces/Event'
+import { useAPIContext } from '@/store/APIContext'
 
 const DeleteEventPopUp = (props: any) => {
   const [open, setOpen] = React.useState(false)
-  const { selectedEvent } = useCalendarContext()
-  const userid = 'user'
+  const { selectedEvent } = useAPIContext()
+  const userid = 'user' // @TODO
 
   const handleClickOpen = () => {
     setOpen(true)
