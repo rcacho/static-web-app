@@ -67,14 +67,7 @@ const CalendarStore = ({ children }: any) => {
 
   useEffect(() => {
     APIManager.getInstance().then((instance) => {
-      let data: User = {
-        user_id: accountId.toString(),
-        first_name: 'string',
-        last_name: 'string',
-        is_admin: 1,
-        notification_check: new Date()
-      }
-      instance.setUserLastLogin(accountId, data)
+      instance.setUserLastLogin(accountId)
     })
   }, [])
 
