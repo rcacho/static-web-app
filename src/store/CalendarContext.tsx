@@ -4,7 +4,6 @@ import { useEffect, useState } from 'react'
 import { Category } from '@/interfaces/Category'
 import { Event } from '@/interfaces/Event'
 import { APIManager } from '@/utils/APIManager'
-import { User } from '@/interfaces/User'
 
 const CalendarContext = React.createContext<CalendarStoreValue | undefined>(
   undefined
