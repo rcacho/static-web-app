@@ -42,6 +42,13 @@ const APIStore = ({ children }: any) => {
   const [catMap, setCatMap] = useState(new Map())
   const [selectedEvent, setSelectedEvent] = useState(0)
 
+	/* @ TODO: Unsure if necessary. Consult Joseph later.
+	React.useEffect(() => {
+		APIManager.getInstance().then((instance) =>
+			instance.setUserLastLogin(accountId)
+		)
+	}, [])*/
+
   const updateCatMap = (categories: Category[]) => {
     let tempMap = new Map()
     for (let i = 0; i < categories.length; i++) {
@@ -49,13 +56,6 @@ const APIStore = ({ children }: any) => {
     }
     setCatMap(tempMap)
   }
-
-  /* @ TODO: Unsure if necessary. Consult Joseph later.
-	React.useEffect(() => {
-		APIManager.getInstance().then((instance) =>
-			instance.setUserLastLogin(accountId)
-		)
-	}, [])*/
 
   const APIStoreValues: APIStoreValue = {
     selected: selected,
