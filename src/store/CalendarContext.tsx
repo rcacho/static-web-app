@@ -1,7 +1,6 @@
-import { APIManager } from '@/utils/APIManager'
 import { useAccount, useMsal } from '@azure/msal-react'
 import * as React from 'react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Category } from '@/interfaces/Category'
 
 const CalendarContext = React.createContext<CalendarStoreValue | undefined>(
@@ -50,12 +49,6 @@ const CalendarStore = ({ children }: any) => {
   const [categories, setCategories] = React.useState<Category[]>([])
   const [weekNum, setWeekNum] = useState(1)
   const accountId = getAccountID()
-
-  useEffect(() => {
-    APIManager.getInstance().then((instance) =>
-      instance.setUserLastLogin(accountId)
-    )
-  }, [])
 
   const incWeekNum = () => {
     setWeekNum(weekNum + 1)
