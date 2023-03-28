@@ -1,4 +1,4 @@
-import { withAuthMiddleware } from '@/utils/auth/Auth'
+import { withAuthMiddleware } from '@/utils/middleware/Auth'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 import { NotificationDAO } from '@/utils/dao/NotificationDAO'

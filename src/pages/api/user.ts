@@ -1,4 +1,4 @@
-import { withAuthMiddleware } from '@/utils/auth/Auth'
+import { withAuthMiddleware } from '@/utils/middleware/Auth'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { User } from '@/interfaces/User'
 import { UserDAO } from '@/utils/dao/UserDAO'

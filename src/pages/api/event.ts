@@ -1,4 +1,4 @@
-import { withAuthMiddleware } from '@/utils/auth/Auth'
+import { withAuthMiddleware } from '@/utils/middleware/Auth'
 import { EventDAO } from '@/utils/dao/EventDAO'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 import { Event } from '@/interfaces/Event'
