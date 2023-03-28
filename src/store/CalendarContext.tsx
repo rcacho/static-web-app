@@ -18,6 +18,7 @@ interface CalendarStoreValue {
   selectedDate: undefined | string
   toggleBarOnDateClick: (num: number, date?: any) => void
   selected: Category[]
+  setSelected: React.Dispatch<React.SetStateAction<Category[]>>
   categories: Category[]
   setCategories: React.Dispatch<React.SetStateAction<Category[]>>
   handleChange: (category: { target: { value: any } }) => void
@@ -129,6 +130,7 @@ const CalendarStore = ({ children }: any) => {
     selectedDate: selectedDate,
     toggleBarOnDateClick: toggleBarOnDateClick,
     selected: selected,
+    setSelected: setSelected,
     categories: categories,
     handleChange: handleChange,
     handleNone: handleNone,

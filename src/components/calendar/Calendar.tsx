@@ -4,22 +4,34 @@ import Month from './Month'
 import Year from './Year'
 import { useCalendarContext } from '@/store/CalendarContext'
 import { APIManager } from '@/utils/APIManager'
+import { Event } from '@/interfaces/Event'
 
 //let CatMap = new Map<String, Category>()
 const Calendar = () => {
-  const { isYearView, currentDate, categories } = useCalendarContext()
-  const [eventList, setEventList] = useState([])
+  const { selected, isYearView, currentDate, categories } = useCalendarContext()
+  const [eventList, setEventList] = useState<Event[]>([])
 
   useEffect(() => {
     APIManager.getInstance()
       .then((instance) => instance.getEvent())
       .then((data) => {
-        setEventList(data.result)
+        let events: Event[] = []
+        let categories: (number | null)[] = []
+        selected.map((category) => {
+          categories.push(category.category_id)
+        })
+        data.result.map((event: Event) => {
+          if (categories.includes(event.category_id)) {
+            events.push(event)
+          }
+        })
+        console.log(events)
+        setEventList(events)
       })
       .catch((err) => {
         console.log(err)
       })
-  }, [])
+  }, [selected])
 
   const renderCalendar = () => {
     return isYearView ? (
