@@ -51,12 +51,6 @@ const CalendarStore = ({ children }: any) => {
   const [weekNum, setWeekNum] = useState(1)
   const accountId = getAccountID()
 
-  // useEffect(() => {
-  //   APIManager.getInstance().then((instance) =>
-  //     instance.setUserLastLogin(accountId)
-  //   )
-  // }, [])
-
   const incWeekNum = () => {
     setWeekNum(weekNum + 1)
   }
