@@ -18,7 +18,7 @@ interface CalendarStoreValue {
 export const useCalendarContext = () => {
   const calendarContext = React.useContext(CalendarContext)
   if (calendarContext === undefined) {
-    throw new Error('useCalendarContext must be called inside a CalendarStore')
+    throw new Error('useCalendarContext must be called inside a GlobalStore')
   }
   return calendarContext
 }

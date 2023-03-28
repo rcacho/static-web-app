@@ -15,7 +15,7 @@ interface APIStoreValue {
 export const useAPIContext = () => {
   const apiContext = React.useContext(APIContext)
   if (apiContext === undefined) {
-    throw new Error('useAPIContext must be called inside a APIStore')
+    throw new Error('useAPIContext must be called inside a GlobalStore')
   }
   return apiContext
 }
