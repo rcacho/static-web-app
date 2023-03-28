@@ -34,6 +34,7 @@ export default async function handler(
     action: 'Continue',
     isAdmin: true,
     is_admin: true,
-    isadmin: true
+    isadmin: true,
+    job_title: 'bob_the_builder'
   })
 }
