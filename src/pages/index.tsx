@@ -6,7 +6,7 @@ import TopBar from '@/components/TopBar'
 import { Box, Stack, Divider } from '@mui/material/'
 import Legend from '@/components/Legend'
 import Calendar from '@/components/calendar/Calendar'
-import CalendarStore from '@/store/CalendarContext'
+import GlobalStore from '@/store/GlobalStore'
 
 export default function Home(this: any) {
   return (
@@ -15,7 +15,7 @@ export default function Home(this: any) {
         <></>
       </Head>
       <main>
-        <CalendarStore>
+        <GlobalStore>
           {/* <Stack direction="column" alignItems="stretch"> */}
           <Box
             sx={{ color: '#fff', zIndex: 2 }}
@@ -36,7 +36,7 @@ export default function Home(this: any) {
               <Calendar />
             </Stack>
           </Box>
-        </CalendarStore>
+        </GlobalStore>
       </main>
     </ThemeProvider>
   )

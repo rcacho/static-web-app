@@ -12,16 +12,17 @@ import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
-import { useCalendarContext } from '@/store/CalendarContext'
 import DeleteEventPopUp from '@/components/menu/menuButtons/changeEvents/DeleteEventPopUp'
+import { useAPIContext } from '@/store/APIContext'
+import { useCalendarContext } from '@/store/CalendarContext'
 
 let EventList: (string | undefined)[] = []
 let IdList: (number | null)[] = []
 
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
-  const { selectedDate, events, catMap, setSelectedEvent } =
-    useCalendarContext()
+  const { selectedDate } = useCalendarContext()
+  const { events, catMap, setSelectedEvent } = useAPIContext()
   const [selected, setSelected] = useState(null)
   const [size, setSize] = useState(0)
 

@@ -13,9 +13,9 @@ import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
-import { useCalendarContext } from '@/store/CalendarContext'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
+import { useAPIContext } from '@/store/APIContext'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -24,7 +24,7 @@ let catIDs: any[] = []
 // @ts-ignore
 const EditEvent = (props: any) => {
   const [selected, setSelected] = useState(null)
-  const { categories, selectedEvent } = useCalendarContext()
+  const { categories, selectedEvent } = useAPIContext()
   const [events, setEvents] = useState([''])
   const [size, setSize] = useState(0)
 

@@ -13,13 +13,13 @@ import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/DeleteCategoryPopUp'
-import { useCalendarContext } from '@/store/CalendarContext'
+import { useAPIContext } from '@/store/APIContext'
 
 // placeholder for the list of categories
 
 const ChangeCategories = (props: any) => {
   const [selected, setSelected] = useState(null)
-  const { categories } = useCalendarContext()
+  const { categories } = useAPIContext()
 
   function handleSelected() {
     setSelected(null)

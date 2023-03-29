@@ -12,7 +12,7 @@ export const addCORS: Middleware = async (
   res: NextApiResponse,
   next: () => Promise<void>
 ) => {
-  cors(req, res, (_result: any) => {
+  cors(req, res, (_: any) => {
     next()
   })
 }

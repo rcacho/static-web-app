@@ -3,7 +3,7 @@ import { Typography, Button } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useCalendarContext } from '@/store/CalendarContext'
 import AddIcon from '@mui/icons-material/Add'
-import { icons } from '@/store/Icons'
+import { icons } from '@/interfaces/Icons'
 import { Box } from '@mui/material/'
 
 export const noValue = ''
