@@ -9,7 +9,6 @@ import MenuButton from '../../MenuButton'
 import Print from '@mui/icons-material/Print'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
-import PDFRender from '@/pages/PDFRender'
 
 const PrintCalPopUp = (props: any) => {
   const [open, setOpen] = React.useState(false)
@@ -28,36 +27,7 @@ const PrintCalPopUp = (props: any) => {
     )
   }
 
-  // const styles = StyleSheet.create({
-  //   page: {
-  //     flexDirection: 'row',
-  //     backgroundColor: '#E4E4E4'
-  //   },
-  //   section: {
-  //     margin: 10,
-  //     padding: 10,
-  //     flexGrow: 1
-  //   }
-  // });
-
-  // const MyDocument = () => (
-  //   <Document>
-  //     <Page size="A4" style={styles.page}>
-  //       <View style={styles.section}>
-  //         <CalendarStore>
-  //           <Calendar />
-  //         </CalendarStore>
-  //       </View>
-  //     </Page>
-  //   </Document>
-  // );
-
   const handlePrint = () => {
-    // const blob = await pdf((
-    //     <MyDocument
-    //     />
-    // )).toBlob();
-    // saveAs(blob, "AEcalTest");
     const input = document.getElementById("PDFRender")
     if (input != null) {
       html2canvas(input, { logging: true, useCORS: true }).then((canvas) => {
