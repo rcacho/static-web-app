@@ -102,9 +102,10 @@ const Month = (props: any) => {
           key={i}
           day={day}
           month={props.month}
-          year={props.year}
           dayOfWeek={dayOfWeek}
           handleDayClick={handleDayClick}
+          categoryList={props.categoryList}
+          eventList={props.eventList}
         />
       )
     }

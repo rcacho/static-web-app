@@ -1,11 +1,9 @@
+import { withAuthMiddleware } from '@/utils/middleware/Auth'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { UserDAO } from '@/utils/dao/UserDAO'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method, query } = req
   const id = query.id as string
   const db: DatabaseConnector = new DatabaseConnector()
@@ -21,3 +19,5 @@ export default async function handler(
       res.status(405).end(`Method ${method} Not Allowed`)
   }
 }
+
+export default withAuthMiddleware('authenticate')(handler)

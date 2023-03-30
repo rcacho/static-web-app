@@ -19,7 +19,7 @@ export const months = [
   'December'
 ]
 
-const Year = () => {
+const Year = (props: any) => {
   const { currentDate, changeView, toggleBarOnDateClick } = useCalendarContext()
 
   const handleMonthButtonClick = (monthNumber: number) => {
@@ -66,9 +66,11 @@ const Year = () => {
           </Grid>
           <Month
             currentDate={new Date(currentDate.getFullYear(), monthNumber, 1)}
-            month={monthNumber}
+            month={monthNumber + 1}
             weekNum={week}
             numWeeks={numWeeks}
+            eventList={props.eventList}
+            categoryList={props.categoryList}
             year={currentDate.getFullYear()}
           />
         </Stack>

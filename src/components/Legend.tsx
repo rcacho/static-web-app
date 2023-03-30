@@ -5,12 +5,13 @@ import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
 import { APIManager } from '@/utils/APIManager'
 import { Category } from '@/interfaces/Category'
-import { useCalendarContext } from '@/store/CalendarContext'
+import { useAPIContext } from '@/store/APIContext'
 import { Event } from '@/interfaces/Event'
 
 const Legend = () => {
-  const { setCategories, setEvents } = useCalendarContext()
+  const { setEvents, updateCatMap, setCategories } = useAPIContext()
   const [show, toggleShow] = React.useState(true)
+  const [selectedNotSaved, setSelectedNotSaved] = React.useState<Category[]>([])
 
   useEffect(() => {
     const getData = async () => {
@@ -20,36 +21,39 @@ const Legend = () => {
       const cat: Category[] = data.result
       console.log(cat)
       setCategories(cat)
-      // console.log(categories)
+      updateCatMap(cat)
     }
     getData().catch((err) => {
       console.log(err)
     })
 
     APIManager.getInstance().then((instance) => {
-      instance.getEvent().then((data) => {
-        const eventResult: Event[] = data.result
-        console.log(eventResult)
-        setEvents(eventResult)
-      })
+      instance
+        .getEvent()
+        .then((data) => {
+          const eventResult: Event[] = data.result
+          setEvents(eventResult)
+        })
+        .catch((err) => {
+          console.log(`legend, getInstance err: ${err}`)
+        })
     })
   }, [])
 
   return (
-    <Box
-      display="flex"
-      bgcolor="white"
-      color="black"
-      textAlign={'center'}
-      sx={{ height: '100%' }}
-    >
+    <Box display="flex" bgcolor="white" color="black" textAlign={'center'}>
       <Stack direction="row" spacing={0}>
-        {show && <CategoryList></CategoryList>}
+        {show && (
+          <CategoryList
+            selectedNotSaved={selectedNotSaved}
+            setSelectedNotSaved={setSelectedNotSaved}
+          ></CategoryList>
+        )}
 
         <Button
           onClick={() => toggleShow(!show)}
           style={{
-            minWidth: '30px',
+            minWidth: '20px',
             minHeight: 'calc(100vh - 64px)',
             borderRadius: 0
           }}
