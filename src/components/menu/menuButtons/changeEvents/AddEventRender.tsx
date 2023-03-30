@@ -27,7 +27,7 @@ const AddEventRender = (props: any) => {
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
   const [events, setEvents] = useState([''])
-  const { categories } = useAPIContext()
+  const { categories, updateEvents } = useAPIContext()
 
   useEffect(() => {
     EventList = []
@@ -40,9 +40,10 @@ const AddEventRender = (props: any) => {
 
   const handleAddEvent = () => {
     if (selected !== null) {
-      addEvent(eventDate, description, adminID, catIDs[selected]).then(
+      addEvent(eventDate, description, adminID, catIDs[selected]).then(() => {
         props.clickAway()
-      )
+        updateEvents()
+      })
     }
   }
   async function addEvent(

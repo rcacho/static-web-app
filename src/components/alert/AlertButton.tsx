@@ -1,4 +1,5 @@
 import {
+  Alert,
   Avatar,
   Badge,
   ClickAwayListener,
@@ -10,7 +11,7 @@ import React, { useEffect, useState } from 'react'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import CloseIcon from '@mui/icons-material/Close'
 import { APIManager } from '@/utils/APIManager'
-import { Alert } from '@/interfaces/Alert'
+import { AlertItem } from '@/interfaces/AlertItem'
 import { useAPIContext } from '@/store/APIContext'
 
 const defaultColour = 'rgb(137,137,137)'
@@ -39,7 +40,7 @@ const AlertButton = () => {
 
 const AlertPanel = (props: any) => {
   const { accountId } = useAPIContext()
-  const [alerts, setAlerts] = useState<Alert[]>([])
+  const [alerts, setAlerts] = useState<AlertItem[]>([])
   const alertPanelStyle = {
     bgcolor: 'white',
     color: 'black',
@@ -51,41 +52,43 @@ const AlertPanel = (props: any) => {
   }
 
   useEffect(() => {
-    setAlerts([
-      {
-        name: 'Expense Cutoff',
-        date: new Date('2023-10-13'),
-        admin: 'Steve',
-        action: 'added'
-      },
-      {
-        name: 'Annual General Meeting',
-        date: new Date('2023-05-13'),
-        admin: 'Shawn',
-        action: 'added'
-      },
-      {
-        name: 'Office Closed',
-        date: new Date('2023-12-23'),
-        admin: 'Nash',
-        action: 'added'
-      },
-      {
-        name: "Jerry's Birthday Party",
-        date: new Date('2023-07-21'),
-        admin: 'Shawn',
-        action: 'deleted'
-      }
-    ])
-
-    props.setHasAlerts(true)
+    //   setAlerts([
+    //     {
+    //       name: 'Expense Cutoff',
+    //       date: new Date('2023-10-13'),
+    //       admin: 'Steve',
+    //       action: 'added'
+    //     },
+    //     {
+    //       name: 'Annual General Meeting',
+    //       date: new Date('2023-05-13'),
+    //       admin: 'Shawn',
+    //       action: 'added'
+    //     },
+    //     {
+    //       name: 'Office Closed',
+    //       date: new Date('2023-12-23'),
+    //       admin: 'Nash',
+    //       action: 'added'
+    //     },
+    //     {
+    //       name: "Jerry's Birthday Party",
+    //       date: new Date('2023-07-21'),
+    //       admin: 'Shawn',
+    //       action: 'deleted'
+    //     }
+    //   ])
 
     // @TODO: wait until token verification is done in the backend before parsing the response
     // As of right now, the response fails here. I've set some placeholder data below for testing purposes.
     APIManager.getInstance()
       .then((instance) => instance.getNotification(accountId))
-      .then((data) => {
-        console.log(data)
+      .then((data) => data.result)
+      .then((res) => {
+        //const alertItems: AlertItem[] = res
+        setAlerts(res)
+        console.log(res)
+        if (res.length > 0) props.setHasAlerts(true)
       })
   }, [])
 
@@ -129,8 +132,14 @@ const AlertPanel = (props: any) => {
 }
 
 const AlertItem = (props: any) => {
-  const { name, date, admin, action } = props.alert
-
+  const { category_name, time_added, admin_id, update_type } = props.alert
+  // @TODO: Parse update type into a string
+  // @TODO: fix this
+  let eDate = new Date(
+    +(time_added as unknown as string).substring(0, 4),
+    +(time_added as unknown as string).substring(5, 7),
+    +(time_added as unknown as string).substring(8, 10)
+  )
   const alertItemStyle = {
     minHeight: '60px',
     borderStyle: 'solid',
@@ -150,11 +159,11 @@ const AlertItem = (props: any) => {
       justifyContent="space-between"
       style={alertItemStyle}
     >
-      <Avatar alt={admin} src={`placeholder`} />
+      <Avatar alt={admin_id} src={`placeholder`} />
       <Typography color={fontColour} style={{ paddingLeft: 10 }}>
-        {`${admin} ${action} `}
-        <strong>{name}</strong>
-        {` on ${date.toDateString().substring(4)}`}
+        {`${admin_id} ${update_type} `}
+        <strong>{category_name}</strong>
+        {` on ${eDate.toDateString().substring(4)}`}
       </Typography>
       <CloseIcon onClick={props.handleClick}></CloseIcon>
     </Stack>

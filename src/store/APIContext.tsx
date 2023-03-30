@@ -3,6 +3,7 @@ import * as React from 'react'
 import { Category } from '@/interfaces/Category'
 import { Event } from '@/interfaces/Event'
 import { useContext, useState } from 'react'
+import { APIManager } from '@/utils/APIManager'
 
 const APIContext = React.createContext<APIStoreValue | undefined>(undefined)
 
@@ -18,6 +19,7 @@ interface APIStoreValue {
   updateCatMap: (category: Category[]) => void
   selectedEvent: number
   setSelectedEvent: React.Dispatch<React.SetStateAction<number>>
+  updateEvents: () => void
 }
 
 export const useAPIContext = () => {
@@ -57,6 +59,19 @@ const APIStore = ({ children }: any) => {
     setCatMap(tempMap)
   }
 
+  function updateEvents() {
+    APIManager.getInstance()
+      .then((instance) => instance.getEvent())
+      .then((data) => {
+        let events: Event[] = []
+        console.log(`hi ${data.result}`)
+        setEvents(data.result)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   const APIStoreValues: APIStoreValue = {
     selected: selected,
     categories: categories,
@@ -68,7 +83,8 @@ const APIStore = ({ children }: any) => {
     catMap: catMap,
     updateCatMap: updateCatMap,
     selectedEvent: selectedEvent,
-    setSelectedEvent: setSelectedEvent
+    setSelectedEvent: setSelectedEvent,
+    updateEvents: updateEvents
   }
 
   return (

@@ -38,6 +38,7 @@ const ChangeDeleteEvent = (props: any) => {
         // ok so like program thinks this is a date object
         // but when console log typeof events[i].event_date, it says string
         // so like idk
+        // @TODO
         let eDate = new Date(
           +(events[i].event_date as unknown as string).substring(0, 4),
           +(events[i].event_date as unknown as string).substring(5, 7),
