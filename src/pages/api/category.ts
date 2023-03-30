@@ -1,15 +1,18 @@
-import { withAuthMiddleware } from '@/utils/middleware/Auth'
+import {
+  isAdmin,
+  RequestLocal,
+  withAuthMiddleware
+} from '@/utils/middleware/Auth'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 import { Category } from '@/interfaces/Category'
 import { CategoryDAO } from '@/utils/dao/CategoryDAO'
-import { UserDAO } from '@/utils/dao/UserDAO'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { body, method } = req
   const db: DatabaseConnector = new DatabaseConnector()
   const dao: CategoryDAO = new CategoryDAO(db)
-  const userDAO: UserDAO = new UserDAO(db)
+
   const category: Category = {
     category_name: body.category_name,
     admin_id: body.admin_id,
@@ -17,6 +20,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     icon: body.icon,
     category_id: null
   }
+
   switch (method) {
     case 'GET':
       try {
@@ -27,7 +31,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
       }
       break
     case 'POST':
-      let adminStatus = await userDAO.isAdmin(category.admin_id)
+      let adminStatus = isAdmin(req)
       if (!adminStatus) {
         res.status(401).json({ result: 'User not permitted to make changes' })
         return
