@@ -9,6 +9,7 @@ import {
   Typography,
   Box
 } from '@mui/material'
+
 import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
@@ -16,6 +17,11 @@ import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -27,7 +33,8 @@ const AddEventRender = (props: any) => {
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
   const [events, setEvents] = useState([''])
-  const { categories } = useAPIContext()
+  const { categories, updateEvents, accountId } = useAPIContext()
+  const [open, setOpen] = React.useState(false)
 
   useEffect(() => {
     EventList = []
@@ -40,9 +47,10 @@ const AddEventRender = (props: any) => {
 
   const handleAddEvent = () => {
     if (selected !== null) {
-      addEvent(eventDate, description, adminID, catIDs[selected]).then(
-        props.clickAway()
-      )
+      addEvent(eventDate, description, adminID, catIDs[selected]).then(() => {
+        updateEvents()
+        setOpen(true)
+      })
     }
   }
   async function addEvent(
@@ -96,8 +104,44 @@ const AddEventRender = (props: any) => {
     props.updateState(0)
   }
 
+  const handleClose = () => {
+    setOpen(false)
+    props.clickAway()
+  }
+
+  function EventAddedPopup() {
+    return (
+      <>
+        <Dialog
+          sx={{
+            '& .MuiDialog-container': {
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '90vh'
+            }
+          }}
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{'Event Added'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Event successfully added
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>OK</Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    )
+  }
+
   return (
     <ThemeProvider theme={MuiTheme}>
+      <EventAddedPopup />
       <List>
         <ListItem>
           <ListItemText
