@@ -14,6 +14,8 @@ import ModeIcon from '@mui/icons-material/Mode'
 import React from 'react'
 import StateMenuButton from './StateMenuButton'
 import LogInOutButton from './LogInOutButton'
+import ExportPopUp from './menuButtons/exportEvents/ExportPopUp'
+import PrintCalPopUp from './menuButtons/printCalendar/PrintCalPopUp'
 
 const MainMenuItems = (props: any) => {
   return (
@@ -43,21 +45,11 @@ const MainMenuItems = (props: any) => {
         />
       </ListItem>
       <ListItem disablePadding>
-      <StateMenuButton
-          icon={AdminIcon}
-          parentProp={props}
-          text={'Export Calendar'}
-          state={4}
-        />
+        <ExportPopUp />
       </ListItem>
       <ListItem disablePadding>
-        <ListItemButton>
-          <ListItemIcon>
-            <PrintIcon />
-          </ListItemIcon>
-          <ListItemText primary="Print Calendar" />
-        </ListItemButton>
-      </ListItem>
+        <PrintCalPopUp />
+      </ListItem> 
       <ListItem disablePadding>
         <LogInOutButton />
       </ListItem>

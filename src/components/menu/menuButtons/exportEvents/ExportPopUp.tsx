@@ -9,15 +9,25 @@ import * as ics from 'ics'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { Category } from '@/interfaces/Category'
+import MenuButton from '@/components/menu/MenuButton'
+import Export from '@mui/icons-material/IosShare'
 
 const ExportPopUp = (props: any) => {
   const [open, setOpen] = React.useState(false)
+
+  const handleClickOpen = () => {
+    setOpen(true)
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
 
   const handleClickIcs = () => {    
     let EventList: Array<Event> = []
     let CategoryList: Array<Category> = []
     let ICSEvents: Array<ics.EventAttributes> = []
-
+  
     APIManager.getInstance()
       .then((instance) => instance.getCategory())
       .then((data) => {
@@ -40,7 +50,7 @@ const ExportPopUp = (props: any) => {
           } else {
             description = event.event_description
           }
-
+  
           CategoryList.forEach((category) => {
             if(event.category_id == category.category_id) {
               let icsEvent:ics.EventAttributes = {
@@ -56,12 +66,12 @@ const ExportPopUp = (props: any) => {
         })
       }).then(() => {
         const filename = 'events.ics'
-
+  
         //TODO: return useful info
         if(ICSEvents.length === 0) return;
         
         const{error, value} = ics.createEvents(ICSEvents)
-
+  
         if(error) {
           //TODO: error handling??
           console.log(error)
@@ -69,7 +79,7 @@ const ExportPopUp = (props: any) => {
         }
         if(value !==undefined) {
           const file = new File([value], filename, { type: 'plain/text' })
-
+  
           const url = URL.createObjectURL(file);
     
           const anchor = document.createElement('a');
@@ -86,36 +96,21 @@ const ExportPopUp = (props: any) => {
       .catch((err) => {
         console.log(err)
       })
-
-  }
-
-  const handleClickOpen = () => {
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-    props.updateState(0)
+  
+      handleClose()
+  
   }
 
   function ExportButton() {
     return (
-        <Button
-        className="menu-button"
-        size="medium"
-        variant="contained"
-        color="primary"
-        onClick={handleClickOpen}
-      >
-        export calendar
-      </Button>
+    <MenuButton handleClick={handleClickOpen} icon={Export} text={'Export Calendar'} />
     )
   }
 
   return (
     <>
-      <ExportButton />
-      <Dialog
+    <ExportButton />
+    <Dialog
         sx={{
           '& .MuiDialog-container': {
             justifyContent: 'center',
@@ -140,7 +135,7 @@ const ExportPopUp = (props: any) => {
             .ics
           </Button>
         </DialogActions>
-      </Dialog>
+      </Dialog> 
     </>
   )
 }

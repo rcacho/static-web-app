@@ -11,6 +11,7 @@ import RemoveAdmin from '@/components/menu/menuButtons/editAdmins/RemoveAdmin'
 import AddNewCategory from '@/components/menu/menuButtons/changeCategories/AddNewCategory'
 import EditCategory from '@/components/menu/menuButtons/changeCategories/EditCategory'
 import ExportPopUp from '@/components/menu/menuButtons/exportEvents/ExportPopUp'
+import PrintCalPopUp from './menuButtons/printCalendar/PrintCalPopUp'
 
 const RightMenu = (props: any) => {
   // menu state to select which menu to show
@@ -107,11 +108,6 @@ const RightMenu = (props: any) => {
             />
           ) : props.menuState === 3.2 ? (
             <RemoveAdmin
-              updateState={props.updateState}
-              clickAway={handleClickAway}
-            />
-          ) : props.menuState === 4 ? (
-            <ExportPopUp
               updateState={props.updateState}
               clickAway={handleClickAway}
             />
