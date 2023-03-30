@@ -3,7 +3,7 @@ import { Typography, Button } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useCalendarContext } from '@/store/CalendarContext'
 import AddIcon from '@mui/icons-material/Add'
-import { icons } from '@/store/Icons'
+import { icons } from '@/interfaces/Icons'
 import { Box } from '@mui/material/'
 
 export const noValue = ''
@@ -31,8 +31,8 @@ const Day = (props: DayProps) => {
   const { isYearView, currentDate } = useCalendarContext()
 
   useEffect(() => {
+    IconList = []
     if (props.eventList.length > 0 && props.categoryList.length > 0) {
-      IconList = []
       for (let j = 0; j < props.eventList.length; j++) {
         let date = props.eventList[j].event_date
         let day = Number(date.slice(8, 10))
@@ -58,9 +58,8 @@ const Day = (props: DayProps) => {
           }
         }
       }
-
-      setIconSet(IconList)
     }
+    setIconSet(IconList)
   }, [currentDate, props.eventList, props.categoryList])
 
   const CheckKey = (index: number) => {
@@ -82,7 +81,10 @@ const Day = (props: DayProps) => {
       return (
         <>
           {iconSet.map(({ icon, color }, index) => {
-            const Icon = icons[icon]
+            let Icon = icons[icon]
+            if (Icon == undefined) {
+              Icon = icons['CircleOutlinedIcon']
+            }
             return (
               <Grid key={index} xs={2}>
                 <Icon

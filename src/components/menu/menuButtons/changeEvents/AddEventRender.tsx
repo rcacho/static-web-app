@@ -15,7 +15,7 @@ import MuiTheme from '@/styles/MuiTheme'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
-import { useCalendarContext } from '@/store/CalendarContext'
+import { useAPIContext } from '@/store/APIContext'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -23,12 +23,11 @@ let catIDs: any[] = []
 // @ts-ignore
 const AddEventRender = (props: any) => {
   const [eventDate, setEventDate] = useState(new Date(2022, 1, 1))
-
-  const adminID = 'user' // this will be changed to whatever user is logged in?
+  const adminID = 'user' // @TODO this will be changed to whatever user is logged in?
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
   const [events, setEvents] = useState([''])
-  const { categories } = useCalendarContext()
+  const { categories } = useAPIContext()
 
   useEffect(() => {
     EventList = []

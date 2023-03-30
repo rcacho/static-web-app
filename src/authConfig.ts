@@ -1,4 +1,5 @@
 import { LogLevel } from '@azure/msal-browser'
+import { PublicClientApplication } from '@azure/msal-browser'
 
 // Browser check variables
 // If you support IE, our recommendation is that you sign-in using Redirect APIs
@@ -76,3 +77,5 @@ export const msalConfig = {
 export const loginRequest = {
   scopes: ['https://t3am319.onmicrosoft.com/t3am319api/read']
 }
+
+export const msalInstance = new PublicClientApplication(msalConfig)

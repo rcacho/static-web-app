@@ -1,5 +1,5 @@
 import { Category } from '@/interfaces/Category'
-import { useCalendarContext } from '@/store/CalendarContext'
+import { useAPIContext } from '@/store/APIContext'
 import {
   Box,
   Button,
@@ -11,63 +11,59 @@ import {
   ListItemText
 } from '@mui/material'
 
-import React, { useEffect } from 'react'
+import React from 'react'
+import { icons } from '@/interfaces/Icons'
 
-import { APIManager } from '@/utils/APIManager'
-import { icons } from '@/store/Icons'
+const SelectButtonTheme = [
+  {
+    width: '40%',
+    color: 'black',
+    bgcolor: '#eeeeee',
+    m: 1,
+    fontSize: '12px'
+  },
+  { '&:hover': { bgcolor: '#cccccc' } }
+]
 
-const CategoryList = () => {
-  const {
-    selected,
-    categories,
-    setCategories,
-    handleAll,
-    handleNone,
-    handleChange
-  } = useCalendarContext()
+const CategoryList = ({
+  selectedNotSaved,
+  setSelectedNotSaved
+}: {
+  selectedNotSaved: Category[]
+  setSelectedNotSaved: React.Dispatch<React.SetStateAction<Category[]>>
+}) => {
+  const { categories, setSelected } = useAPIContext()
 
-  useEffect(() => {
-    const getData = async () => {
-      const instance = await APIManager.getInstance()
-      const data = await instance.getCategory()
-      const cat: Category[] = data.result
-      setCategories(cat)
-    }
-    getData().catch((err) => {
-      console.log(err)
-    })
-  }, [])
+  const handleChange = (category: { target: { value: any } }) => {
+    const s: string = category.target.value
+    const list = [...selectedNotSaved]
+    const index = list
+      .map(function (e: Category) {
+        return e.category_name
+      })
+      .indexOf(s)
+    // const index = list.findIndex((e: Category) => {
+    //   e.category_name == s
+    // })
+    const indexAdd = categories
+      .map(function (e: Category) {
+        return e.category_name
+      })
+      .indexOf(s)
+    index === -1 ? list.push(categories[indexAdd]) : list.splice(index, 1)
+    setSelectedNotSaved(list)
+  }
+
+  const handleAll = () => setSelectedNotSaved(categories)
+  const handleNone = () => setSelectedNotSaved([])
+  const applyFilters = () => setSelected(selectedNotSaved)
 
   return (
     <Box>
-      <Button
-        onClick={handleAll}
-        sx={[
-          {
-            width: '40%',
-            color: 'black',
-            bgcolor: '#eeeeee',
-            m: 1,
-            fontSize: '12px'
-          },
-          { '&:hover': { bgcolor: '#cccccc' } }
-        ]}
-      >
+      <Button onClick={handleAll} sx={SelectButtonTheme}>
         Select All
       </Button>
-      <Button
-        onClick={handleNone}
-        sx={[
-          {
-            width: '40%',
-            color: 'black',
-            bgcolor: '#eeeeee',
-            m: 1,
-            fontSize: '12px'
-          },
-          { '&:hover': { bgcolor: '#cccccc' } }
-        ]}
-      >
+      <Button onClick={handleNone} sx={SelectButtonTheme}>
         Select None
       </Button>
       <List
@@ -75,7 +71,7 @@ const CategoryList = () => {
         style={{ overflow: 'auto' }}
         sx={{
           bgcolor: 'background.paper',
-          height: 'calc(100vh - 150px)',
+          height: 'calc(100vh - 200px)',
           overflowY: 'scroll'
         }}
       >
@@ -85,11 +81,6 @@ const CategoryList = () => {
           if (Icon == undefined) {
             Icon = icons['CircleOutlinedIcon']
           }
-          // try {
-          //   Icon = icons[item.icon]
-          // } catch {
-          //   Icon = icons['CircleOutlinedIcon']
-          // }
           return (
             <ListItem
               key={Math.random()}
@@ -98,7 +89,7 @@ const CategoryList = () => {
                   value={item.category_name}
                   edge="end"
                   onChange={handleChange}
-                  checked={selected.includes(item)}
+                  checked={selectedNotSaved.includes(item)}
                   inputProps={{ 'aria-labelledby': labelId }}
                 />
               }
@@ -106,7 +97,6 @@ const CategoryList = () => {
             >
               <ListItemButton>
                 <ListItemIcon>
-                  {/* <Avatar alt={`AE`} src={`placeholder`} /> */}
                   <Icon sx={{ color: item.color }} />
                 </ListItemIcon>
                 <ListItemText id={labelId} primary={`${item.category_name}`} />
@@ -114,14 +104,23 @@ const CategoryList = () => {
             </ListItem>
           )
         })}
-      </List>{' '}
+      </List>
       <Button
-        className="menu-button"
-        size="medium"
-        variant="contained"
-        color="primary"
+        onClick={applyFilters}
+        sx={[
+          {
+            width: '60%',
+            color: 'black',
+            bgcolor: '#dddddd',
+            m: 3,
+            p: 0.5,
+            fontSize: '13px',
+            borderRadius: 0
+          },
+          { '&:hover': { bgcolor: '#cccccc' } }
+        ]}
       >
-        Apply Changes
+        Apply Filters
       </Button>
     </Box>
   )

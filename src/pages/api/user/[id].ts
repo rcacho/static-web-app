@@ -1,12 +1,10 @@
+import { withAuthMiddleware } from '@/utils/middleware/Auth'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { User } from '@/interfaces/User'
 import { UserDAO } from '@/utils/dao/UserDAO'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 
-export default async function handler(
-  req: NextApiRequest,
-  res: NextApiResponse
-) {
+async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { body, method, query } = req
   const id = query.id as string
   const db: DatabaseConnector = new DatabaseConnector()
@@ -18,7 +16,7 @@ export default async function handler(
     is_admin: body.is_admin,
     notification_check: body.notification_check
   }
-  const admin_id = body.admin_id
+  const admin_id = body.user_id
 
   switch (method) {
     case 'GET':
@@ -41,3 +39,5 @@ export default async function handler(
       res.status(405).end(`Method ${method} Not Allowed`)
   }
 }
+
+export default withAuthMiddleware('authenticate')(handler)

@@ -6,21 +6,16 @@ import TopBar from '@/components/TopBar'
 import { Box, Stack, Divider } from '@mui/material/'
 import Legend from '@/components/Legend'
 import Calendar from '@/components/calendar/Calendar'
-import CalendarStore from '@/store/CalendarContext'
-import { loginRequest } from '@/authConfig'
-import { useMsalAuthentication } from '@azure/msal-react'
-import { InteractionType } from '@azure/msal-browser'
+import GlobalStore from '@/store/GlobalStore'
 
 export default function Home(this: any) {
-  useMsalAuthentication(InteractionType.Redirect, loginRequest)
-
   return (
     <ThemeProvider theme={MuiTheme}>
       <Head>
         <></>
       </Head>
       <main>
-        <CalendarStore>
+        <GlobalStore>
           {/* <Stack direction="column" alignItems="stretch"> */}
           <Box
             sx={{ color: '#fff', zIndex: 2 }}
@@ -41,7 +36,7 @@ export default function Home(this: any) {
               <Calendar />
             </Stack>
           </Box>
-        </CalendarStore>
+        </GlobalStore>
       </main>
     </ThemeProvider>
   )
