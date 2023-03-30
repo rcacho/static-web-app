@@ -1,8 +1,4 @@
-import {
-  isAdmin,
-  RequestLocal,
-  withAuthMiddleware
-} from '@/utils/middleware/Auth'
+import { isAdmin, withAuthMiddleware } from '@/utils/middleware/Auth'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 import { Category } from '@/interfaces/Category'
