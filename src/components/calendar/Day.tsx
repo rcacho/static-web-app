@@ -217,6 +217,7 @@ const Day = (props: DayProps) => {
               onClick={() => props.handleDayClick(props.day)}
               size={isYearView ? 'small' : 'large'}
               style={{
+                borderRadius: '60px',
                 fontSize: isYearView ? '100%' : '24px',
                 color: '#4D4D4D',
                 maxWidth: isYearView ? '30px' : '60px',
@@ -237,6 +238,7 @@ const Day = (props: DayProps) => {
                 onClick={() => props.handleDayClick(props.day)}
                 size={isYearView ? 'small' : 'large'}
                 style={{
+                  borderRadius: '60px',
                   fontSize: isYearView ? '100%' : '24px',
                   color: '#4D4D4D',
                   maxWidth: isYearView ? '30px' : '60px',

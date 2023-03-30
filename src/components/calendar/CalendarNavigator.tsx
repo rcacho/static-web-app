@@ -80,7 +80,7 @@ const DecrementDateButton = () => {
   }
 
   return (
-    <Button>
+    <Button sx={{ borderRadius: '60px' }}>
       <ChevronLeftIcon
         onClick={handleClick}
         style={{ fontSize: '32px', color: '#4D4D4D' }}
@@ -109,7 +109,7 @@ const IncrementDateButton = () => {
   }
 
   return (
-    <Button>
+    <Button sx={{ borderRadius: '60px' }}>
       <ChevronRightIcon
         onClick={handleClick}
         style={{ fontSize: '32px', color: '#4D4D4D' }}
@@ -127,7 +127,7 @@ const ToggleYearViewButton = () => {
   }
 
   return (
-    <Button onClick={handleClick}>
+    <Button onClick={handleClick} sx={{ borderRadius: '60px' }}>
       <Box
         sx={{
           display: { xs: 'none', sm: 'block' },
@@ -175,7 +175,7 @@ const ToggleMonthViewButton = () => {
   }
 
   return (
-    <Button onClick={handleClick}>
+    <Button onClick={handleClick} sx={{ borderRadius: '60px' }}>
       <Box
         sx={{
           display: { xs: 'none', sm: 'block' },

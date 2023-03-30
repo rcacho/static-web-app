@@ -104,6 +104,7 @@ const MonthButton = ({ month, handleClick }: MBProps) => {
   const monthNumber = months.indexOf(month)
   return (
     <Button
+      sx={{ borderRadius: '60px' }}
       style={{ color: 'black', fontSize: '75%' }}
       onClick={() => handleClick(monthNumber)}
     >
