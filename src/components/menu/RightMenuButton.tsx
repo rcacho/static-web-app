@@ -6,9 +6,11 @@ import { useCalendarContext } from '@/store/CalendarContext'
 import { Button } from '@mui/material/'
 import { APIManager } from '@/utils/APIManager'
 import { Category } from '@/interfaces/Category'
+import { useAPIContext } from '@/store/APIContext'
 
 const RightMenuButton = () => {
-  const { dayClickCount, setCategories } = useCalendarContext()
+  const { dayClickCount } = useCalendarContext()
+  const { setCategories } = useAPIContext()
 
   const [panelAnchor, setPanelAnchor] = useState<null | HTMLElement | any>(null)
   const [menuState, setMenuState] = useState(0)
