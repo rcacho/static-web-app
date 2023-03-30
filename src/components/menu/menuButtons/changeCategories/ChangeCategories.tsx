@@ -26,26 +26,26 @@ const ChangeCategories = (props: any) => {
   }
 
   // render list for the scroll function
-  function renderList(funcProps: ListChildComponentProps) {
-    const { index, style } = funcProps
-
-    const handleSelect = () => {
+  function renderList() {
+    const handleSelect = (index: any) => {
       setSelected(index)
       props.handleCategory(categories[index])
     }
-    return (
-      <ListItem
-        style={style}
-        key={index}
-        component="div"
-        disablePadding
-        onClick={handleSelect}
-      >
-        <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={categories[index].category_name} />
-        </ListItemButton>
-      </ListItem>
-    )
+
+    return categories.map((value, index) => {
+      return (
+        <ListItem
+          key={index}
+          component="div"
+          disablePadding
+          onClick={() => handleSelect(index)}
+        >
+          <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
+            <ListItemText primary={value.category_name} />
+          </ListItemButton>
+        </ListItem>
+      )
+    })
   }
 
   //function to handle Back button
@@ -81,15 +81,16 @@ const ChangeCategories = (props: any) => {
         <ListItem>
           <ListItemText primary="Please select category:" />
         </ListItem>
-        <FixedSizeList
-          height={350}
-          width={360}
-          itemSize={38}
-          itemCount={categories.length}
-          overscanCount={5}
+        <List
+          disablePadding={true}
+          style={{
+            overflow: 'auto',
+            overflowY: 'scroll',
+            height: '350px'
+          }}
         >
-          {renderList}
-        </FixedSizeList>
+          {renderList()}
+        </List>
       </List>
       <List
         className="bottom-buttons-cat"
@@ -99,7 +100,7 @@ const ChangeCategories = (props: any) => {
           margin: 'auto',
           bottom: '0',
           width: '100%',
-          height: '13%'
+          height: '26%'
         }}
       >
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
