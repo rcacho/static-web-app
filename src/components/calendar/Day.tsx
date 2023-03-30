@@ -9,7 +9,7 @@ import { Box } from '@mui/material/'
 export const noValue = ''
 
 interface DayProps {
-  key: any
+  //key: any
   day: Number
   dayOfWeek: String
   handleDayClick: any
