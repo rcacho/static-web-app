@@ -31,7 +31,7 @@ const PrintCalPopUp = (props: any) => {
     const input = document.getElementById("PDFRender")
     if (input != null) {
       html2canvas(input, { logging: true, useCORS: true }).then((canvas) => {
-        const imgWidth = 208
+        const imgWidth = 297
         const imgHeight = canvas.height * imgWidth / canvas.width
         const imgData = canvas.toDataURL('img/png');
 
