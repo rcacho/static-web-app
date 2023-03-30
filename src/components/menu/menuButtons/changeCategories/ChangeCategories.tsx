@@ -41,7 +41,7 @@ const ChangeCategories = (props: any) => {
           onClick={() => handleSelect(index)}
         >
           <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-            <ListItemText primary={categories[index].category_name} />
+            <ListItemText primary={value.category_name} />
           </ListItemButton>
         </ListItem>
       )
