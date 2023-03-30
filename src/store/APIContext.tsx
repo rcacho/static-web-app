@@ -12,7 +12,8 @@ interface APIStoreValue {
   categories: Category[]
   setCategories: React.Dispatch<React.SetStateAction<Category[]>>
   setSelected: React.Dispatch<React.SetStateAction<Category[]>>
-  accountId: number
+  accountId: string
+  isAdmin: boolean
   events: Event[]
   setEvents: React.Dispatch<React.SetStateAction<Event[]>>
   catMap: Map<number, string>
@@ -30,16 +31,23 @@ export const useAPIContext = () => {
   return apiContext
 }
 
-function getAccountID(): number {
+function getAccountID(): string {
   const { accounts } = useMsal()
   const account = useAccount(accounts[0])
-  return parseInt(account?.idTokenClaims?.oid ?? '0')
+  return account?.idTokenClaims?.oid ?? '00000000-0000-0000-0000-000000000000'
+}
+
+function getIsAdmin(): boolean {
+  const { accounts } = useMsal()
+  const account = useAccount(accounts[0])
+  return account?.idTokenClaims?.extension_isadmin as boolean
 }
 
 const APIStore = ({ children }: any) => {
   const [selected, setSelected] = useState<Category[]>([])
   const [categories, setCategories] = useState<Category[]>([])
   const accountId = getAccountID()
+  const isAdmin = getIsAdmin()
   const [events, setEvents] = React.useState<Event[]>([])
   const [catMap, setCatMap] = useState(new Map())
   const [selectedEvent, setSelectedEvent] = useState(0)
@@ -76,6 +84,7 @@ const APIStore = ({ children }: any) => {
     setSelected: setSelected,
     setCategories: setCategories,
     accountId: accountId,
+    isAdmin: isAdmin,
     events: events,
     setEvents: setEvents,
     catMap: catMap,
