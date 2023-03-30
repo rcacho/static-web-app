@@ -263,7 +263,11 @@ const Day = (props: DayProps) => {
       display="flex"
       justifyContent="center"
       alignItems="top"
-      onClick={() => props.handleDayClick(props.day)}
+      onClick={() => {
+        if (props.day !== 0) {
+          props.handleDayClick(props.day)
+        }
+      }}
     >
       <Typography
         fontSize={isYearView ? '80%' : '24px'}
