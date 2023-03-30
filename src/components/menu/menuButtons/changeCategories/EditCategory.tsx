@@ -16,7 +16,7 @@ import ColourPicker from '@/components/menu/menuButtons/changeCategories/ColourP
 import SymbolPicker from '@/components/menu/menuButtons/changeCategories/SymbolPicker'
 import { Category } from '@/interfaces/Category'
 import { APIManager } from '@/utils/APIManager'
-import { icons } from '@/store/Icons'
+import { icons } from '@/interfaces/Icons'
 
 // @ts-ignore
 const EditCategory = (props: any) => {
@@ -130,7 +130,17 @@ const EditCategory = (props: any) => {
           />
         </Box>
       </List>
-      <List className="bottom-buttons" disablePadding={true}>
+      <List
+        className="bottom-buttons"
+        disablePadding={true}
+        sx={{
+          position: 'absolute',
+          margin: 'auto',
+          bottom: '0',
+          width: '100%',
+          height: '13%'
+        }}
+      >
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className="menu-button"

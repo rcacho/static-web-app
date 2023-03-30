@@ -29,7 +29,7 @@ const RightMenu = (props: any) => {
     marginTop: '20px',
     paddingTop: '10px',
     height: 'calc(100vh - 64px)',
-    width: 300,
+    width: 320,
     boxShadow: '0 0 5px #ccc',
     overflow: 'hidden'
   }

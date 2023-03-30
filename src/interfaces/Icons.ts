@@ -23,6 +23,7 @@ import InvertColorsIcon from '@mui/icons-material/InvertColors'
 import CropSquareIcon from '@mui/icons-material/CropSquare'
 import SpaIcon from '@mui/icons-material/Spa'
 import FavoriteIcon from '@mui/icons-material/Favorite'
+import CloudIcon from '@mui/icons-material/Cloud'
 
 export const icons = {
   CircleOutlinedIcon,
@@ -49,5 +50,6 @@ export const icons = {
   ArrowDownwardIcon,
   ArrowUpwardIcon,
   FilterDramaIcon,
-  InvertColorsIcon
+  InvertColorsIcon,
+  CloudIcon
 }
