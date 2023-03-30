@@ -7,7 +7,6 @@ import { APIManager } from '@/utils/APIManager'
 import { Category } from '@/interfaces/Category'
 import { useAPIContext } from '@/store/APIContext'
 import { Event } from '@/interfaces/Event'
-import { useCalendarContext } from '@/store/CalendarContext'
 
 const Legend = () => {
   const { setEvents, updateCatMap, setCategories, categories, setSelected } =
