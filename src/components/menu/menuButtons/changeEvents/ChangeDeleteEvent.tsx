@@ -21,6 +21,7 @@ let IdList: (number | null)[] = []
 
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
+  const { isAdmin } = useAPIContext()
   const { selectedDate } = useCalendarContext()
   const { events, catMap, setSelectedEvent } = useAPIContext()
   const [selected, setSelected] = useState(null)
@@ -118,7 +119,7 @@ const ChangeDeleteEvent = (props: any) => {
         <ListItem>
           <ListItemText
             sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Change / Delete Event"
+            secondary={isAdmin ? 'Change / Delete Event' : 'Selected Event'}
           />
           <Box
             sx={{
@@ -154,48 +155,52 @@ const ChangeDeleteEvent = (props: any) => {
           {renderList}
         </FixedSizeList>
       </List>
-      <List
-        className="bottom-buttons-cat"
-        disablePadding={true}
-        sx={{
-          position: 'absolute',
-          margin: 'auto',
-          bottom: '0',
-          width: '100%',
-          height: '26%'
-        }}
-      >
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.updateState(1)
-            }}
-          >
-            Add New Event
-          </Button>
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <EditEvent></EditEvent>
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <DeleteEventPopUp selected={selected}>Delete Event</DeleteEventPopUp>
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={handleBackClick}
-          >
-            Cancel
-          </Button>
-        </ListItem>
-      </List>
+      {isAdmin && (
+        <List
+          className="bottom-buttons-cat"
+          disablePadding={true}
+          sx={{
+            position: 'absolute',
+            margin: 'auto',
+            bottom: '0',
+            width: '100%',
+            height: '26%'
+          }}
+        >
+          <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              className="menu-button"
+              size="medium"
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                props.updateState(1)
+              }}
+            >
+              Add New Event
+            </Button>
+          </ListItem>
+          <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+            <EditEvent></EditEvent>
+          </ListItem>
+          <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+            <DeleteEventPopUp selected={selected}>
+              Delete Event
+            </DeleteEventPopUp>
+          </ListItem>
+          <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+            <Button
+              className="menu-button"
+              size="medium"
+              variant="contained"
+              color="primary"
+              onClick={handleBackClick}
+            >
+              Cancel
+            </Button>
+          </ListItem>
+        </List>
+      )}
     </ThemeProvider>
   )
 }
