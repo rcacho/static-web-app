@@ -29,7 +29,6 @@ let catIDs: any[] = []
 // @ts-ignore
 const AddEventRender = (props: any) => {
   const [eventDate, setEventDate] = useState(new Date(2022, 1, 1))
-  const adminID = 'user' // @TODO this will be changed to whatever user is logged in?
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
   const [events, setEvents] = useState([''])
@@ -47,7 +46,32 @@ const AddEventRender = (props: any) => {
 
   const handleAddEvent = () => {
     if (selected !== null) {
-      addEvent(eventDate, description, adminID, catIDs[selected]).then(() => {
+      APIManager.getInstance().then((instance) => {
+        instance.getEvent().then((data) => {
+          for (let i = 0; i < data.result.length; i++) {
+            let eDate = new Date(
+              +(data.result[i].event_date as unknown as string).substring(0, 4),
+              +(data.result[i].event_date as unknown as string).substring(5, 7),
+              +(data.result[i].event_date as unknown as string).substring(8, 10)
+            )
+            eventDate.setHours(0, 0, 0, 0)
+            console.log(eDate)
+            console.log(eventDate)
+            if (+eDate === +eventDate) {
+              console.log('WHOA')
+              if (data.result[i].category_id === catIDs[selected])
+                console.log('DOUBLE WHOA')
+            }
+          }
+        })
+      })
+
+      addEvent(
+        eventDate,
+        description,
+        accountId.toString(),
+        catIDs[selected]
+      ).then(() => {
         updateEvents()
         setOpen(true)
       })
@@ -66,6 +90,7 @@ const AddEventRender = (props: any) => {
       event_description: event_description,
       admin_id: admin_id
     }
+
     APIManager.getInstance()
       .then((instance) => instance.addEvent(payload))
       .then((data) => {
@@ -209,7 +234,9 @@ const AddEventRender = (props: any) => {
             sx={{ color: '#898989' }}
             variant="standard"
             inputProps={{ maxLength: 200 }}
-            onChange={(newVal) => setEventDescription(newVal.target.value)}
+            onChange={(newVal) => {
+              setEventDescription(newVal.target.value)
+            }}
           />
         </ListItem>
       </List>
