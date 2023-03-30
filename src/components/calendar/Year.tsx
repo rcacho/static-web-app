@@ -69,8 +69,6 @@ const Year = (props: any) => {
             month={monthNumber + 1}
             weekNum={week}
             numWeeks={numWeeks}
-            eventList={props.eventList}
-            categoryList={props.categoryList}
             year={currentDate.getFullYear()}
           />
         </Stack>

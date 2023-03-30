@@ -5,6 +5,7 @@ import { useCalendarContext } from '@/store/CalendarContext'
 import AddIcon from '@mui/icons-material/Add'
 import { icons } from '@/interfaces/Icons'
 import { Box } from '@mui/material/'
+import { useAPIContext } from '@/store/APIContext'
 
 export const noValue = ''
 
@@ -14,8 +15,6 @@ interface DayProps {
   dayOfWeek: String
   handleDayClick: any
   month: any
-  categoryList: any
-  eventList: any
 }
 
 interface IconItems {
@@ -29,29 +28,27 @@ let IconList: IconItems[] = []
 const Day = (props: DayProps) => {
   const [iconSet, setIconSet] = useState(IconList)
   const { isYearView, currentDate } = useCalendarContext()
+  const { events, selected, categories } = useAPIContext()
 
   useEffect(() => {
     IconList = []
-    if (props.eventList.length > 0 && props.categoryList.length > 0) {
-      for (let j = 0; j < props.eventList.length; j++) {
-        let date = props.eventList[j].event_date
-        let day = Number(date.slice(8, 10))
-        let eventMonth = Number(date.slice(5, 7))
-        let year = Number(date.slice(0, 4))
+    if (events.length > 0 && selected.length > 0) {
+      for (let j = 0; j < events.length; j++) {
+        let date: Date = new Date(events[j].event_date)
+        let day = date.getDate() + 1
+        let eventMonth = date.getMonth() + 1
+        let year = date.getFullYear()
         if (
           day === props.day &&
           eventMonth === props.month &&
           year === currentDate.getFullYear()
         ) {
-          for (let i = 0; i < props.categoryList.length; i++) {
-            if (
-              props.eventList[j].category_id ===
-              props.categoryList[i].category_id
-            ) {
+          for (let i = 0; i < selected.length; i++) {
+            if (events[j].category_id === selected[i].category_id) {
               let item: IconItems = {
-                icon: props.categoryList[i].icon,
-                color: props.categoryList[i].color,
-                event: props.categoryList[i].category_name
+                icon: selected[i].icon,
+                color: selected[i].color,
+                event: selected[i].category_name
               }
               IconList.push(item)
             }
@@ -60,7 +57,7 @@ const Day = (props: DayProps) => {
       }
     }
     setIconSet(IconList)
-  }, [currentDate, props.eventList, props.categoryList])
+  }, [currentDate, events, selected, categories])
 
   const CheckKey = (index: number) => {
     if (index === 7 && iconSet.length > 8) {
