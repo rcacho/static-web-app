@@ -74,6 +74,11 @@ const RemoveAdmin = (props: any) => {
               onClick={handleBackClick}
               variant="body2"
               color="#898989"
+              sx={{
+                '&:hover': {
+                  cursor: 'pointer'
+                }
+              }}
             >
               Back
             </Typography>

@@ -42,7 +42,7 @@ const AddEventRender = (props: any) => {
       catIDs.push(categories[i].category_id)
     }
     setEvents(EventList)
-  }, [selected])
+  }, [selected, categories])
 
   const handleAddEvent = () => {
     if (selected !== null) {
@@ -179,11 +179,17 @@ const AddEventRender = (props: any) => {
               justifyContent: 'flex-end',
               color: '#898989',
               textDecoration: 'underline',
-              fontFamily: 'Roboto'
+              fontFamily: 'Roboto',
+              input: { cursor: 'pointer' }
             }}
           >
             <Typography
               onClick={handleBackClick}
+              sx={{
+                '&:hover': {
+                  cursor: 'pointer'
+                }
+              }}
               variant="body2"
               color="#898989"
             >
