@@ -26,9 +26,10 @@ import DialogTitle from '@mui/material/DialogTitle'
 // placeholder for the list of categories
 let EventList: string[] = []
 let catIDs: any[] = []
+const nullDate = new Date(0)
 // @ts-ignore
 const AddEventRender = (props: any) => {
-  const [eventDate, setEventDate] = useState(new Date(2022, 1, 1))
+  const [eventDate, setEventDate] = useState(new Date(0))
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
   const [events, setEvents] = useState([''])
@@ -211,7 +212,7 @@ const AddEventRender = (props: any) => {
             }}
           >
             <Typography
-              onClick={handleBackClick}
+              onClick={() => handleBackClick()}
               sx={{
                 '&:hover': {
                   cursor: 'pointer'
@@ -286,11 +287,12 @@ const AddEventRender = (props: any) => {
       >
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
+            disabled={selected === null || +eventDate === +nullDate}
             className="menu-button"
             size="medium"
             variant="contained"
             color="primary"
-            onClick={handleAddEvent}
+            onClick={() => handleAddEvent()}
           >
             Add Event
           </Button>
@@ -301,7 +303,7 @@ const AddEventRender = (props: any) => {
             size="medium"
             variant="contained"
             color="primary"
-            onClick={handleBackClick}
+            onClick={() => handleBackClick()}
           >
             Cancel
           </Button>
