@@ -68,7 +68,7 @@ export class APIManager {
     return await this.fetch(apiPaths.user(userId), 'PUT', data)
   }
 
-  public async setUserLastLogin(userId: number) {
+  public async setUserLastLogin(userId: any) {
     return await this.fetch(apiPaths.userLogin(userId), 'PUT')
   }
 
