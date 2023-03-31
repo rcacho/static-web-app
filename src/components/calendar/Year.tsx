@@ -19,7 +19,7 @@ export const months = [
   'December'
 ]
 
-const Year = (props: any) => {
+const Year = () => {
   const { currentDate, changeView, toggleBarOnDateClick } = useCalendarContext()
 
   const handleMonthButtonClick = (monthNumber: number) => {
