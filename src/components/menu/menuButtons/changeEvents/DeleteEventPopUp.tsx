@@ -11,8 +11,7 @@ import { useAPIContext } from '@/store/APIContext'
 
 const DeleteEventPopUp = (props: any) => {
   const [open, setOpen] = React.useState(false)
-  const { selectedEvent } = useAPIContext()
-  const userid = 'user' // @TODO
+  const { selectedEvent, accountId } = useAPIContext()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -34,7 +33,7 @@ const DeleteEventPopUp = (props: any) => {
       event_date: new Date(),
       category_id: 69,
       event_description: null,
-      admin_id: userid
+      admin_id: accountId.toString()
     }
     APIManager.getInstance()
       .then((instance) => {
