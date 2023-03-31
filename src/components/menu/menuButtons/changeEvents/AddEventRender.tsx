@@ -42,7 +42,7 @@ const AddEventRender = (props: any) => {
       catIDs.push(categories[i].category_id)
     }
     setEvents(EventList)
-  }, [selected])
+  }, [selected, categories])
 
   const handleAddEvent = () => {
     if (selected !== null) {
