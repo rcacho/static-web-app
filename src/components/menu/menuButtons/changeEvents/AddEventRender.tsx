@@ -9,6 +9,7 @@ import {
   Typography,
   Box
 } from '@mui/material'
+
 import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
@@ -16,6 +17,11 @@ import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -23,11 +29,11 @@ let catIDs: any[] = []
 // @ts-ignore
 const AddEventRender = (props: any) => {
   const [eventDate, setEventDate] = useState(new Date(2022, 1, 1))
-  const adminID = 'user' // @TODO this will be changed to whatever user is logged in?
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
   const [events, setEvents] = useState([''])
-  const { categories } = useAPIContext()
+  const { categories, updateEvents, accountId } = useAPIContext()
+  const [open, setOpen] = React.useState(false)
 
   useEffect(() => {
     EventList = []
@@ -40,9 +46,35 @@ const AddEventRender = (props: any) => {
 
   const handleAddEvent = () => {
     if (selected !== null) {
-      addEvent(eventDate, description, adminID, catIDs[selected]).then(
-        props.clickAway()
-      )
+      APIManager.getInstance().then((instance) => {
+        instance.getEvent().then((data) => {
+          for (let i = 0; i < data.result.length; i++) {
+            let eDate = new Date(
+              +(data.result[i].event_date as unknown as string).substring(0, 4),
+              +(data.result[i].event_date as unknown as string).substring(5, 7),
+              +(data.result[i].event_date as unknown as string).substring(8, 10)
+            )
+            eventDate.setHours(0, 0, 0, 0)
+            console.log(eDate)
+            console.log(eventDate)
+            if (+eDate === +eventDate) {
+              console.log('WHOA')
+              if (data.result[i].category_id === catIDs[selected])
+                console.log('DOUBLE WHOA')
+            }
+          }
+        })
+      })
+
+      addEvent(
+        eventDate,
+        description,
+        accountId.toString(),
+        catIDs[selected]
+      ).then(() => {
+        updateEvents()
+        setOpen(true)
+      })
     }
   }
   async function addEvent(
@@ -58,6 +90,7 @@ const AddEventRender = (props: any) => {
       event_description: event_description,
       admin_id: admin_id
     }
+
     APIManager.getInstance()
       .then((instance) => instance.addEvent(payload))
       .then((data) => {
@@ -96,8 +129,44 @@ const AddEventRender = (props: any) => {
     props.updateState(0)
   }
 
+  const handleClose = () => {
+    setOpen(false)
+    props.clickAway()
+  }
+
+  function EventAddedPopup() {
+    return (
+      <>
+        <Dialog
+          sx={{
+            '& .MuiDialog-container': {
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '90vh'
+            }
+          }}
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{'Event Added'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Event successfully added
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>OK</Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    )
+  }
+
   return (
     <ThemeProvider theme={MuiTheme}>
+      <EventAddedPopup />
       <List>
         <ListItem>
           <ListItemText
@@ -165,7 +234,9 @@ const AddEventRender = (props: any) => {
             sx={{ color: '#898989' }}
             variant="standard"
             inputProps={{ maxLength: 200 }}
-            onChange={(newVal) => setEventDescription(newVal.target.value)}
+            onChange={(newVal) => {
+              setEventDescription(newVal.target.value)
+            }}
           />
         </ListItem>
       </List>
