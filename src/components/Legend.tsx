@@ -19,7 +19,6 @@ const Legend = () => {
     const getData = async () => {
       const instance = await APIManager.getInstance()
       const data = await instance.getCategory()
-
       const cat: Category[] = data.result
       console.log(cat)
       setCategories(cat)

@@ -13,6 +13,7 @@ import {
 
 import React from 'react'
 import { icons } from '@/interfaces/Icons'
+import { APIManager } from '@/utils/APIManager'
 
 const SelectButtonTheme = [
   {
@@ -20,7 +21,7 @@ const SelectButtonTheme = [
     color: 'black',
     bgcolor: '#eeeeee',
     m: 1,
-    fontSize: '12px'
+    fontSize: '10px'
   },
   { '&:hover': { bgcolor: '#cccccc' } }
 ]
@@ -32,7 +33,7 @@ const CategoryList = ({
   selectedNotSaved: Category[]
   setSelectedNotSaved: React.Dispatch<React.SetStateAction<Category[]>>
 }) => {
-  const { categories, setSelected } = useAPIContext()
+  const { categories, setSelected, accountId } = useAPIContext()
 
   const handleChange = (category: { target: { value: any } }) => {
     const s: string = category.target.value
@@ -56,7 +57,21 @@ const CategoryList = ({
 
   const handleAll = () => setSelectedNotSaved(categories)
   const handleNone = () => setSelectedNotSaved([])
-  const applyFilters = () => setSelected(selectedNotSaved)
+  const applyFilters = async () => {
+    let selectedIds: (number | null)[] = []
+    selectedNotSaved.map((category: Category) => {
+      selectedIds.push(category.category_id)
+    })
+    console.log('selectedIds')
+    console.log(selectedIds)
+    console.log(accountId)
+    console.log('selectedIds')
+
+    // const instance = await APIManager.getInstance()
+
+    // await instance.setFilter(accountId, selectedIds)
+    setSelected(selectedNotSaved)
+  }
 
   return (
     <Box>
@@ -68,7 +83,7 @@ const CategoryList = ({
       </Button>
       <List
         dense
-        style={{ overflow: 'auto' }}
+        style={{ overflow: 'auto', maxWidth: '250px' }}
         sx={{
           bgcolor: 'background.paper',
           height: 'calc(100vh - 200px)',
@@ -99,7 +114,11 @@ const CategoryList = ({
                 <ListItemIcon>
                   <Icon sx={{ color: item.color }} />
                 </ListItemIcon>
-                <ListItemText id={labelId} primary={`${item.category_name}`} />
+                <ListItemText
+                  sx={{}}
+                  id={labelId}
+                  primary={`${item.category_name}`}
+                />
               </ListItemButton>
             </ListItem>
           )
@@ -114,8 +133,7 @@ const CategoryList = ({
             bgcolor: '#dddddd',
             m: 3,
             p: 0.5,
-            fontSize: '13px',
-            borderRadius: 0
+            fontSize: '13px'
           },
           { '&:hover': { bgcolor: '#cccccc' } }
         ]}

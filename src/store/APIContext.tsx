@@ -11,7 +11,7 @@ interface APIStoreValue {
   categories: Category[]
   setCategories: React.Dispatch<React.SetStateAction<Category[]>>
   setSelected: React.Dispatch<React.SetStateAction<Category[]>>
-  accountId: number
+  accountId: string
   events: Event[]
   setEvents: React.Dispatch<React.SetStateAction<Event[]>>
   catMap: Map<number, string>
@@ -28,10 +28,10 @@ export const useAPIContext = () => {
   return apiContext
 }
 
-function getAccountID(): number {
+function getAccountID(): string {
   const { accounts } = useMsal()
   const account = useAccount(accounts[0])
-  return parseInt(account?.idTokenClaims?.oid ?? '0')
+  return account?.idTokenClaims?.oid ?? '00000000-0000-0000-0000-000000000000'
 }
 
 const APIStore = ({ children }: any) => {
