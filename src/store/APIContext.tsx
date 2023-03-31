@@ -38,7 +38,7 @@ function getAccountID(): string {
 function getIsAdmin(): boolean {
   const { accounts } = useMsal()
   const account = useAccount(accounts[0])
-  return account?.idTokenClaims?.extension_isadmin as boolean
+  return account?.idTokenClaims?.extension_IsAdmin as boolean
 }
 
 const APIStore = ({ children }: any) => {
