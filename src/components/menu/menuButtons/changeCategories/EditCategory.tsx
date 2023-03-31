@@ -91,6 +91,11 @@ const EditCategory = (props: any) => {
               onClick={handleBackClick}
               variant="body2"
               color="#898989"
+              sx={{
+                '&:hover': {
+                  cursor: 'pointer'
+                }
+              }}
             >
               Back
             </Typography>
@@ -104,7 +109,8 @@ const EditCategory = (props: any) => {
             multiline={true}
             maxRows={4}
             id="standard-basic"
-            label={props.category.category_name}
+            label={'Category name'}
+            defaultValue={props.category.category_name}
             sx={{ color: '#898989' }}
             variant="standard"
             inputProps={{ maxLength: 50 }}

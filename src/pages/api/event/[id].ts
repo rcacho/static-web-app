@@ -1,9 +1,8 @@
-import { withAuthMiddleware } from '@/utils/middleware/Auth'
+import { isAdmin, withAuthMiddleware } from '@/utils/middleware/Auth'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 import { Event } from '@/interfaces/Event'
 import { EventDAO } from '@/utils/dao/EventDAO'
-import { UserDAO } from '@/utils/dao/UserDAO'
 import { Notification } from '@/interfaces/Notification'
 import { NotificationDAO } from '@/utils/dao/NotificationDAO'
 
@@ -12,7 +11,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const id = parseInt(query.id as string, 10)
   const db: DatabaseConnector = new DatabaseConnector()
   const eventDAO: EventDAO = new EventDAO(db)
-  const userDAO: UserDAO = new UserDAO(db)
   const notificationDAO: NotificationDAO = new NotificationDAO(db)
 
   const event: Event = {
@@ -23,9 +21,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
     event_id: id
   }
 
-  console.log(event)
-
-  let adminStatus = await userDAO.isAdmin(event.admin_id)
+  let adminStatus = isAdmin(req)
 
   if (!adminStatus) {
     res.status(401).json({ result: 'User not permitted to make changes' })

@@ -11,8 +11,8 @@ import { useAPIContext } from '@/store/APIContext'
 
 const DeleteEventPopUp = (props: any) => {
   const [open, setOpen] = React.useState(false)
-  const { selectedEvent } = useAPIContext()
-  const userid = 'user' // @TODO
+  const [openConfirm, setOpenConfirm] = React.useState(false)
+  const { selectedEvent, accountId } = useAPIContext()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -21,11 +21,13 @@ const DeleteEventPopUp = (props: any) => {
   const handleCloseDelete = () => {
     deleteEvent(selectedEvent).then(() => {
       setOpen(false)
+      setOpenConfirm(true)
     })
   }
 
   const handleClose = () => {
     setOpen(false)
+    setOpenConfirm(false)
   }
 
   async function deleteEvent(id: number) {
@@ -34,7 +36,7 @@ const DeleteEventPopUp = (props: any) => {
       event_date: new Date(),
       category_id: 69,
       event_description: null,
-      admin_id: userid
+      admin_id: accountId.toString()
     }
     APIManager.getInstance()
       .then((instance) => {
@@ -46,6 +48,37 @@ const DeleteEventPopUp = (props: any) => {
       .catch((err) => {
         console.log(`DeletePopUp error: ${err}`)
       })
+  }
+
+  function EventDeletePopup() {
+    return (
+      <>
+        <Dialog
+          sx={{
+            '& .MuiDialog-container': {
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '90vh'
+            }
+          }}
+          open={openConfirm}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{'Event Deleted'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Event successfully deleted!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>OK</Button>
+          </DialogActions>
+        </Dialog>
+        s
+      </>
+    )
   }
 
   function DeleteButton() {
@@ -79,6 +112,7 @@ const DeleteEventPopUp = (props: any) => {
   return (
     <>
       <DeleteButton />
+      <EventDeletePopup />
       <Dialog
         sx={{
           '& .MuiDialog-container': {

@@ -42,7 +42,7 @@ const symbolKeys = [
   'ReportProblemIcon',
   'PaidIcon',
   'HexagonIcon',
-  'PanoramaFishEyeIcon',
+  'PanoramaFishEyeIcon,',
   'CropSquareIcon',
   'CloseIcon',
   'SpaIcon',
@@ -88,6 +88,7 @@ const SymbolPicker = (props: any) => {
             handleSelect(id)
           }}
           sx={{
+            border: id === selected ? 'solid' : 'none',
             backgroundColor: 'white',
             height: 20,
             minWidth: 28,
