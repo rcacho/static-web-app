@@ -10,7 +10,7 @@ import { useAPIContext } from '@/store/APIContext'
 import { icons } from '@/interfaces/Icons'
 import { Category } from '@/interfaces/Category'
 
-const AddCatPopUp = (props: any) => {
+const EditCatPopUp = (props: any) => {
   const [open, setOpen] = useState(false)
   const { categories, setCategories } = useAPIContext()
   const admin_id_1 = 'user'
@@ -25,23 +25,25 @@ const AddCatPopUp = (props: any) => {
       .then(() => {
         let err = 0
         for (let i = 0; i < categories.length; i++) {
-          if (categories[i].category_name === props.name) {
-            console.log('name error')
-            err += 1
-            setPopup(1)
-            setOpen(true)
-          } else if (
-            categories[i].icon === props.icon &&
-            props.color === categories[i].color
-          ) {
-            console.log('colour and symbol error')
-            err += 1
-            setPopup(2)
-            setOpen(true)
+          if (categories[i].category_id !== props.category.category_id) {
+            if (categories[i].category_name === props.name) {
+              console.log('name error')
+              err += 1
+              setPopup(1)
+              setOpen(true)
+            } else if (
+              categories[i].icon === props.icon &&
+              props.color === categories[i].color
+            ) {
+              console.log('colour and symbol error')
+              err += 1
+              setPopup(2)
+              setOpen(true)
+            }
           }
         }
         if (err === 0) {
-          addCategory(props.name, admin_id_1, props.icon, props.color)
+          updateCategory(props.name, admin_id_1, props.icon, props.color)
           setPopup(0)
           setOpen(true)
         }
@@ -51,21 +53,23 @@ const AddCatPopUp = (props: any) => {
       })
   }
 
-  async function addCategory(
+  async function updateCategory(
     category_name: string,
     admin_id: string,
     icon: keyof typeof icons,
     color: string
   ) {
     let payload: Category = {
-      category_id: null,
+      category_id: props.category.category_id,
       category_name: category_name,
       admin_id: admin_id,
       icon: icon,
       color: color
     }
     APIManager.getInstance()
-      .then((instance) => instance.addCategory(payload))
+      .then((instance) =>
+        instance.updateCategory(props.category.category_id, payload)
+      )
       .then((data) => {
         console.log(data)
       })
@@ -93,7 +97,7 @@ const AddCatPopUp = (props: any) => {
         color="primary"
         onClick={handleClickOpen}
       >
-        Add Category
+        Save Changes
       </Button>
     )
   }
@@ -113,10 +117,10 @@ const AddCatPopUp = (props: any) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{'Category Added'}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'Category Updated'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Category {props.name} added successfully.
+            Category updated successfully.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -144,7 +148,7 @@ const AddCatPopUp = (props: any) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {'Category Not Added'}
+          {'Category Not Updated'}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -177,7 +181,7 @@ const AddCatPopUp = (props: any) => {
         aria-describedby="alert-dialog-description"
       >
         <DialogTitle id="alert-dialog-title">
-          {'Category Not Added'}
+          {'Category Not Updated'}
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
@@ -208,4 +212,4 @@ const AddCatPopUp = (props: any) => {
   )
 }
 
-export default AddCatPopUp
+export default EditCatPopUp
