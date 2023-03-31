@@ -29,11 +29,13 @@ let catIDs: any[] = []
 // @ts-ignore
 const AddEventRender = (props: any) => {
   const [eventDate, setEventDate] = useState(new Date(2022, 1, 1))
+  const [testDate, setTestDate] = useState('')
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
   const [events, setEvents] = useState([''])
   const { categories, updateEvents, accountId } = useAPIContext()
   const [open, setOpen] = React.useState(false)
+  const [openFailed, setOpenFailed] = React.useState(false)
 
   useEffect(() => {
     EventList = []
@@ -49,31 +51,25 @@ const AddEventRender = (props: any) => {
       APIManager.getInstance().then((instance) => {
         instance.getEvent().then((data) => {
           for (let i = 0; i < data.result.length; i++) {
-            let eDate = new Date(
-              +(data.result[i].event_date as unknown as string).substring(0, 4),
-              +(data.result[i].event_date as unknown as string).substring(5, 7),
-              +(data.result[i].event_date as unknown as string).substring(8, 10)
-            )
-            eventDate.setHours(0, 0, 0, 0)
-            console.log(eDate)
-            console.log(eventDate)
-            if (+eDate === +eventDate) {
-              console.log('WHOA')
-              if (data.result[i].category_id === catIDs[selected])
-                console.log('DOUBLE WHOA')
+            let eDate = new Date(data.result[i].event_date)
+            if (eDate.toUTCString() === eventDate.toUTCString()) {
+              if (data.result[i].category_id === catIDs[selected]) {
+                setOpenFailed(true)
+                return
+              }
             }
           }
-        })
-      })
 
-      addEvent(
-        eventDate,
-        description,
-        accountId.toString(),
-        catIDs[selected]
-      ).then(() => {
-        updateEvents()
-        setOpen(true)
+          addEvent(
+            eventDate,
+            description,
+            accountId.toString(),
+            catIDs[selected]
+          ).then(() => {
+            updateEvents()
+            setOpen(true)
+          })
+        })
       })
     }
   }
@@ -131,7 +127,38 @@ const AddEventRender = (props: any) => {
 
   const handleClose = () => {
     setOpen(false)
+    setOpenFailed(false)
     props.clickAway()
+  }
+
+  function EventAddedPopupFailed() {
+    return (
+      <>
+        <Dialog
+          sx={{
+            '& .MuiDialog-container': {
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '90vh'
+            }
+          }}
+          open={openFailed}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{'ERROR'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Event already exists on this date!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>OK</Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    )
   }
 
   function EventAddedPopup() {
@@ -167,6 +194,7 @@ const AddEventRender = (props: any) => {
   return (
     <ThemeProvider theme={MuiTheme}>
       <EventAddedPopup />
+      <EventAddedPopupFailed />
       <List>
         <ListItem>
           <ListItemText
