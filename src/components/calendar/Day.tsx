@@ -35,8 +35,11 @@ const Day = (props: DayProps) => {
     if (events.length > 0 && selected.length > 0) {
       for (let j = 0; j < events.length; j++) {
         let date: Date = new Date(events[j].event_date)
-        let day = date.getDate() + 1
-        let eventMonth = date.getMonth() + 1
+        let day = +(events[j].event_date as unknown as string).substring(8, 10)
+        let eventMonth = +(events[j].event_date as unknown as string).substring(
+          5,
+          7
+        )
         let year = date.getFullYear()
         if (
           day === props.day &&

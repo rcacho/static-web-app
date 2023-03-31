@@ -58,7 +58,7 @@ const ChangeCategories = (props: any) => {
         <ListItem>
           <ListItemText
             sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Change Categories"
+            secondary="Edit Categories"
           />{' '}
           <Box
             sx={{
