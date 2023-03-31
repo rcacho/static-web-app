@@ -67,6 +67,11 @@ const AddAdmin = (props: any) => {
           >
             <Typography
               onClick={handleBackClick}
+              sx={{
+                '&:hover': {
+                  cursor: 'pointer'
+                }
+              }}
               variant="body2"
               color="#898989"
             >

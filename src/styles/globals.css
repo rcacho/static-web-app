@@ -25,7 +25,7 @@ body {
   }
 }
 
-.MuiButton-root {
+button {
   border-radius: 60px;
 }
 

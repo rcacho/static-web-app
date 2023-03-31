@@ -27,7 +27,16 @@ const AddRemoveMain = (props: any) => {
             fontFamily: 'Roboto'
           }}
         >
-          <Typography onClick={handleBackClick} variant="body2" color="#898989">
+          <Typography
+            onClick={handleBackClick}
+            sx={{
+              '&:hover': {
+                cursor: 'pointer'
+              }
+            }}
+            variant="body2"
+            color="#898989"
+          >
             Back
           </Typography>
         </Box>

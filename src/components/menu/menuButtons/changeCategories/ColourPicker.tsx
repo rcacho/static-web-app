@@ -54,6 +54,7 @@ const ColourPicker = (props: any) => {
             handleSelect(id)
           }}
           sx={{
+            border: id === selected ? 'solid' : 'none',
             backgroundColor: colours[id],
             height: 20,
             minWidth: 28,
