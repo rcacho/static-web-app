@@ -93,28 +93,6 @@ const ChangeDeleteEvent = (props: any) => {
     }
   }
 
-  // render list for the scroll function
-  // function renderList(props: ListChildComponentProps) {
-  //   const { index, style } = props
-  //   const handleSelect = () => {
-  //     setSelected(index)
-  //     setSelectedEvent(IdList[index] as number)
-  //   }
-  //   return (
-  //     <ListItem
-  //       style={style}
-  //       key={index}
-  //       component="div"
-  //       disablePadding
-  //       onClick={handleSelect}
-  //     >
-  //       <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-  //         <ListItemText primary={`${EventList[index]}`} />
-  //       </ListItemButton>
-  //     </ListItem>
-  //   )
-  // }
-
   function renderList() {
     const handleSelect = (index: any) => {
       setSelected(index)
@@ -124,6 +102,7 @@ const ChangeDeleteEvent = (props: any) => {
     const handleChange =
       (index: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
         setExpanded(isExpanded ? index : false)
+        console.log(event.bubbles)
       }
 
     return eventsState.map((value, index) => {
