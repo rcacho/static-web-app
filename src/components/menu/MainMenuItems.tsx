@@ -35,7 +35,7 @@ const MainMenuItems = (props: any) => {
               icon={ModeIcon}
               parentProp={props}
               state={2}
-              text={'Change Categories'}
+              text={'Edit Categories'}
             />
           </ListItem>
           <ListItem disablePadding>

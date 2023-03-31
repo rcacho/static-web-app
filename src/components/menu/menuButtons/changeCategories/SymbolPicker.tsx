@@ -42,7 +42,7 @@ const symbolKeys = [
   'ReportProblemIcon',
   'PaidIcon',
   'HexagonIcon',
-  'PanoramaFishEyeIcon',
+  'PanoramaFishEyeIcon,',
   'CropSquareIcon',
   'CloseIcon',
   'SpaIcon',
