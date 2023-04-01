@@ -21,6 +21,10 @@ interface APIStoreValue {
   selectedEvent: number
   setSelectedEvent: React.Dispatch<React.SetStateAction<number>>
   updateEvents: () => void
+  eventIndex: number
+  setEventIndex: React.Dispatch<React.SetStateAction<number>>
+  eventId: number
+  changeEventId: (id: number) => void
 }
 
 export const useAPIContext = () => {
@@ -51,6 +55,8 @@ const APIStore = ({ children }: any) => {
   const [events, setEvents] = React.useState<Event[]>([])
   const [catMap, setCatMap] = useState(new Map())
   const [selectedEvent, setSelectedEvent] = useState(0)
+  const [eventId, setEventId] = useState(-1)
+  const [eventIndex, setEventIndex] = useState(-1)
 
   //@ TODO: Unsure if necessary. Consult Joseph later.
   React.useEffect(() => {
@@ -58,6 +64,10 @@ const APIStore = ({ children }: any) => {
       instance.setUserLastLogin(accountId)
     )
   }, [])
+
+  const changeEventId = (id: number) => {
+    setEventId(id)
+  }
 
   function updateEvents() {
     APIManager.getInstance()
@@ -91,7 +101,11 @@ const APIStore = ({ children }: any) => {
     updateCatMap: updateCatMap,
     selectedEvent: selectedEvent,
     setSelectedEvent: setSelectedEvent,
-    updateEvents: updateEvents
+    updateEvents: updateEvents,
+    eventIndex: eventIndex,
+    setEventIndex: setEventIndex,
+    eventId: eventId,
+    changeEventId: changeEventId
   }
 
   return (

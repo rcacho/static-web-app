@@ -21,19 +21,29 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 let EventList: (string | undefined)[] = []
 let IdList: (number | null)[] = []
+let CatList: (number | null)[] = []
 let DescriptionList: (string | null)[] = []
 
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
   const { isAdmin } = useAPIContext()
   const { selectedDate } = useCalendarContext()
-  const { events, catMap, setSelectedEvent, categories } = useAPIContext()
+  const {
+    events,
+    catMap,
+    setSelectedEvent,
+    categories,
+    changeEventId,
+    eventId
+  } = useAPIContext()
   const [selected, setSelected] = useState(null)
   const [expanded, setExpanded] = useState<number | false>(false)
   const [eventsState, setEventsState] = useState(EventList)
 
   useEffect(() => {
     EventList = []
+    CatList = []
+    IdList = []
     for (let i = 0; i < events.length; i++) {
       if (selectedDate) {
         let testDate = new Date(
@@ -53,15 +63,14 @@ const ChangeDeleteEvent = (props: any) => {
           if (catMap.get(events[i].category_id) !== undefined) {
             EventList.push(catMap.get(events[i].category_id))
             IdList.push(events[i].event_id)
+            CatList.push(events[i].category_id)
             DescriptionList.push(events[i].event_description)
           }
         }
       }
     }
     setEventsState(EventList)
-  }, [selected, categories])
-
-  // format date
+  }, [selected, categories, eventId])
 
   function EditEvent() {
     if (selected === null) {
@@ -96,7 +105,8 @@ const ChangeDeleteEvent = (props: any) => {
   function renderList() {
     const handleSelect = (index: any) => {
       setSelected(index)
-      setSelectedEvent(IdList[index] as number)
+      setSelectedEvent(CatList[index] as number) // basically category id of event
+      changeEventId(IdList[index] as number)
     }
 
     const handleChange =
@@ -215,7 +225,7 @@ const ChangeDeleteEvent = (props: any) => {
             </Button>
           </ListItem>
           <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-            <EditEvent></EditEvent>
+            <EditEvent />
           </ListItem>
           <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
             <DeleteEventPopUp selected={selected}>

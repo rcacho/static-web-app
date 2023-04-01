@@ -16,30 +16,42 @@ import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
+import { useCalendarContext } from '@/store/CalendarContext'
 
 // placeholder for the list of categories
 let EventList: string[] = []
 let catIDs: any[] = []
+const nullDate = new Date(0)
 
 // @ts-ignore
 const EditEvent = (props: any) => {
-  const [selected, setSelected] = useState(null)
-  const { categories, selectedEvent } = useAPIContext()
+  const { categories, selectedEvent, eventIndex, accountId, eventId } =
+    useAPIContext()
+  const { selectedDate } = useCalendarContext()
+
+  const [selected, setSelected] = useState(eventIndex)
+  const [first, setFirst] = useState(true)
   const [events, setEvents] = useState([''])
   const [size, setSize] = useState(0)
 
-  const [eventDate, setEventDate] = useState(new Date(1969, 1, 1))
+  const [eventDate, setEventDate] = useState(nullDate)
   const [description, setEventDescription] = useState('')
-  const adminID = 'user' // this will be changed to whatever user is logged in?
+  const adminID = accountId
 
   useEffect(() => {
     EventList = []
+    catIDs = []
     for (let i = 0; i < categories.length; i++) {
       EventList.push(categories[i].category_name)
       catIDs.push(categories[i].category_id)
     }
     setEvents(EventList)
     setSize(EventList.length)
+    if (first) {
+      setSelected(catIDs.indexOf(selectedEvent))
+      setEventDate(new Date(reformatDate(selectedDate as string)))
+      setFirst(false)
+    }
   }, [selected])
 
   // render list for the scroll function
@@ -70,27 +82,32 @@ const EditEvent = (props: any) => {
 
   const handleOnClick = () => {
     if (selected !== null) {
-      editEvent(eventDate, description, adminID, catIDs[selected]).then(
-        props.clickAway()
-      )
+      editEvent(
+        eventId,
+        eventDate,
+        description,
+        adminID,
+        catIDs[selected]
+      ).then(props.clickAway())
     }
   }
 
   async function editEvent(
+    event_id: number,
     event_date: Date,
     event_description: string,
     admin_id: string,
     category_id: number
   ) {
     let payload: Event = {
-      event_id: selectedEvent,
+      event_id: event_id,
       event_date: event_date,
       category_id: category_id,
       event_description: event_description,
       admin_id: admin_id
     }
     APIManager.getInstance()
-      .then((instance) => instance.editEvent(selectedEvent, payload))
+      .then((instance) => instance.editEvent(event_id, payload))
       .then((data) => {
         console.log(data)
       })
@@ -99,6 +116,16 @@ const EditEvent = (props: any) => {
       })
 
     setEventDate(event_date)
+  }
+
+  function reformatDate(date: string) {
+    let res: string = ''
+    res += date.substring(6, 10)
+    res += '-'
+    res += date.substring(0, 2)
+    res += '-'
+    res += date.substring(3, 5)
+    return res
   }
 
   return (
@@ -158,6 +185,7 @@ const EditEvent = (props: any) => {
             InputLabelProps={{
               shrink: true
             }}
+            defaultValue={reformatDate(selectedDate as string)}
             onChange={(newVal) => {
               setEventDate(new Date(newVal.target.value))
             }}
