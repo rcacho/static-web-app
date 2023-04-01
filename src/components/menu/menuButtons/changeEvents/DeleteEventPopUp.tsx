@@ -76,7 +76,6 @@ const DeleteEventPopUp = (props: any) => {
             <Button onClick={handleClose}>OK</Button>
           </DialogActions>
         </Dialog>
-        s
       </>
     )
   }

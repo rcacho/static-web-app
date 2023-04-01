@@ -23,8 +23,8 @@ let catIDs: any[] = []
 
 // @ts-ignore
 const EditEvent = (props: any) => {
-  const [selected, setSelected] = useState(null)
-  const { categories, selectedEvent } = useAPIContext()
+  const { categories, selectedEvent, eventIndex } = useAPIContext()
+  const [selected, setSelected] = useState(eventIndex)
   const [events, setEvents] = useState([''])
   const [size, setSize] = useState(0)
 
@@ -34,12 +34,15 @@ const EditEvent = (props: any) => {
 
   useEffect(() => {
     EventList = []
+    catIDs = []
     for (let i = 0; i < categories.length; i++) {
       EventList.push(categories[i].category_name)
       catIDs.push(categories[i].category_id)
     }
     setEvents(EventList)
     setSize(EventList.length)
+    setSelected(catIDs.indexOf(selectedEvent))
+    console.log(`cats ${selectedEvent}`)
   }, [selected])
 
   // render list for the scroll function

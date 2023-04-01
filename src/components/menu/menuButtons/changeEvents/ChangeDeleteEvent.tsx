@@ -18,17 +18,20 @@ import { useCalendarContext } from '@/store/CalendarContext'
 
 let EventList: (string | undefined)[] = []
 let IdList: (number | null)[] = []
+let CatList: (number | null)[] = []
 
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
   const { isAdmin } = useAPIContext()
   const { selectedDate } = useCalendarContext()
-  const { events, catMap, setSelectedEvent, categories } = useAPIContext()
+  const { events, catMap, setSelectedEvent, categories, selectedEvent } =
+    useAPIContext()
   const [selected, setSelected] = useState(null)
   const [size, setSize] = useState(0)
 
   useEffect(() => {
     EventList = []
+    CatList = []
     for (let i = 0; i < events.length; i++) {
       if (selectedDate) {
         let testDate = new Date(
@@ -48,14 +51,13 @@ const ChangeDeleteEvent = (props: any) => {
           if (catMap.get(events[i].category_id) !== undefined) {
             EventList.push(catMap.get(events[i].category_id))
             IdList.push(events[i].event_id)
+            CatList.push(events[i].category_id)
           }
         }
       }
       setSize(EventList.length)
     }
   }, [selected, categories])
-
-  // format date
 
   function EditEvent() {
     if (selected === null) {
@@ -92,7 +94,7 @@ const ChangeDeleteEvent = (props: any) => {
     const { index, style } = props
     const handleSelect = () => {
       setSelected(index)
-      setSelectedEvent(IdList[index] as number)
+      setSelectedEvent(CatList[index] as number)
     }
     return (
       <ListItem
@@ -186,7 +188,7 @@ const ChangeDeleteEvent = (props: any) => {
             </Button>
           </ListItem>
           <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-            <EditEvent></EditEvent>
+            <EditEvent />
           </ListItem>
           <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
             <DeleteEventPopUp selected={selected}>
