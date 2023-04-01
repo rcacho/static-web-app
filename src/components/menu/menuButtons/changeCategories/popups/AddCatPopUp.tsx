@@ -67,8 +67,7 @@ const AddCatPopUp = (props: any) => {
     }
     APIManager.getInstance()
       .then((instance) => instance.addCategory(payload))
-      .then((data) => {
-        console.log(data)
+      .then(() => {
         updateCategories()
       })
       .then(() => {
