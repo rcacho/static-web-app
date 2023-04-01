@@ -25,7 +25,8 @@ const nullDate = new Date(0)
 
 // @ts-ignore
 const EditEvent = (props: any) => {
-  const { categories, selectedEvent, eventIndex } = useAPIContext()
+  const { categories, selectedEvent, eventIndex, accountId, eventId } =
+    useAPIContext()
   const { selectedDate } = useCalendarContext()
 
   const [selected, setSelected] = useState(eventIndex)
@@ -35,7 +36,7 @@ const EditEvent = (props: any) => {
 
   const [eventDate, setEventDate] = useState(nullDate)
   const [description, setEventDescription] = useState('')
-  const adminID = 'user' // this will be changed to whatever user is logged in?
+  const adminID = accountId
 
   useEffect(() => {
     EventList = []
@@ -49,6 +50,7 @@ const EditEvent = (props: any) => {
     if (first) {
       console.log(`raa ${selectedEvent}`)
       setSelected(catIDs.indexOf(selectedEvent))
+      setEventDate(new Date(reformatDate(selectedDate)))
       setFirst(false)
     }
   }, [selected])
@@ -81,30 +83,32 @@ const EditEvent = (props: any) => {
 
   const handleOnClick = () => {
     if (selected !== null) {
-      if (+eventDate === +nullDate) {
-        setEventDate(new Date(selectedDate as unknown as string))
-      }
-      editEvent(eventDate, description, adminID, catIDs[selected]).then(
-        props.clickAway()
-      )
+      editEvent(
+        eventId,
+        eventDate,
+        description,
+        adminID,
+        catIDs[selected]
+      ).then(props.clickAway())
     }
   }
 
   async function editEvent(
+    event_id: number,
     event_date: Date,
     event_description: string,
     admin_id: string,
     category_id: number
   ) {
     let payload: Event = {
-      event_id: selectedEvent,
+      event_id: event_id,
       event_date: event_date,
       category_id: category_id,
       event_description: event_description,
       admin_id: admin_id
     }
     APIManager.getInstance()
-      .then((instance) => instance.editEvent(selectedEvent, payload))
+      .then((instance) => instance.editEvent(event_id, payload))
       .then((data) => {
         console.log(data)
       })

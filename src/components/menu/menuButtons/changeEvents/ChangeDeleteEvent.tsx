@@ -24,7 +24,8 @@ let CatList: (number | null)[] = []
 const ChangeDeleteEvent = (props: any) => {
   const { isAdmin } = useAPIContext()
   const { selectedDate } = useCalendarContext()
-  const { events, catMap, setSelectedEvent, categories } = useAPIContext()
+  const { events, catMap, setSelectedEvent, categories, setEventId } =
+    useAPIContext()
   const [selected, setSelected] = useState(null)
   const [size, setSize] = useState(0)
 
@@ -93,7 +94,8 @@ const ChangeDeleteEvent = (props: any) => {
     const { index, style } = props
     const handleSelect = () => {
       setSelected(index)
-      setSelectedEvent(CatList[index] as number)
+      setSelectedEvent(CatList[index] as number) // basically category id of event
+      setEventId(IdList[index] as number)
     }
     return (
       <ListItem
