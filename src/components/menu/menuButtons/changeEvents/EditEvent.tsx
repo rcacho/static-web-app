@@ -50,7 +50,7 @@ const EditEvent = (props: any) => {
     if (first) {
       console.log(`raa ${selectedEvent}`)
       setSelected(catIDs.indexOf(selectedEvent))
-      setEventDate(new Date(reformatDate(selectedDate)))
+      setEventDate(new Date(reformatDate(selectedDate as string)))
       setFirst(false)
     }
   }, [selected])
@@ -186,7 +186,7 @@ const EditEvent = (props: any) => {
             InputLabelProps={{
               shrink: true
             }}
-            defaultValue={reformatDate(selectedDate)}
+            defaultValue={reformatDate(selectedDate as string)}
             onChange={(newVal) => {
               setEventDate(new Date(newVal.target.value))
             }}
