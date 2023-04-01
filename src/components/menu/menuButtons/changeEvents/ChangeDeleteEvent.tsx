@@ -2,11 +2,13 @@ import {
   List,
   ListItem,
   ListItemText,
-  ListItemButton,
   ThemeProvider,
   Button,
   Typography,
-  Box
+  Box,
+  AccordionSummary,
+  Accordion,
+  AccordionDetails
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
@@ -15,10 +17,12 @@ import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import DeleteEventPopUp from '@/components/menu/menuButtons/changeEvents/DeleteEventPopUp'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 
 let EventList: (string | undefined)[] = []
 let IdList: (number | null)[] = []
 let CatList: (number | null)[] = []
+let DescriptionList: (string | null)[] = []
 
 // @ts-ignore
 const ChangeDeleteEvent = (props: any) => {
@@ -27,7 +31,8 @@ const ChangeDeleteEvent = (props: any) => {
   const { events, catMap, setSelectedEvent, categories, setEventId } =
     useAPIContext()
   const [selected, setSelected] = useState(null)
-  const [size, setSize] = useState(0)
+  const [expanded, setExpanded] = useState<number | false>(false)
+  const [eventsState, setEventsState] = useState(EventList)
 
   useEffect(() => {
     EventList = []
@@ -52,11 +57,12 @@ const ChangeDeleteEvent = (props: any) => {
             EventList.push(catMap.get(events[i].category_id))
             IdList.push(events[i].event_id)
             CatList.push(events[i].category_id)
+            DescriptionList.push(events[i].event_description)
           }
         }
       }
-      setSize(EventList.length)
     }
+    setEventsState(EventList)
   }, [selected, categories])
 
   function EditEvent() {
@@ -89,27 +95,49 @@ const ChangeDeleteEvent = (props: any) => {
     }
   }
 
-  // render list for the scroll function
-  function renderList(props: ListChildComponentProps) {
-    const { index, style } = props
-    const handleSelect = () => {
+  function renderList() {
+    const handleSelect = (index: any) => {
       setSelected(index)
       setSelectedEvent(CatList[index] as number) // basically category id of event
       setEventId(IdList[index] as number)
     }
-    return (
-      <ListItem
-        style={style}
-        key={index}
-        component="div"
-        disablePadding
-        onClick={handleSelect}
-      >
-        <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`${EventList[index]}`} />
-        </ListItemButton>
-      </ListItem>
-    )
+
+    const handleChange =
+      (index: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+        setExpanded(isExpanded ? index : false)
+        console.log(event.bubbles)
+      }
+
+    return eventsState.map((value, index) => {
+      return (
+        <ListItem
+          key={index}
+          component="div"
+          disablePadding
+          onClick={() => handleSelect(index)}
+        >
+          <Accordion
+            expanded={index === expanded}
+            onChange={handleChange(index)}
+          >
+            <AccordionSummary
+              sx={{ width: '310px' }}
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1bh-content"
+              id="panel1bh-header"
+            >
+              <Typography>{value}</Typography>
+            </AccordionSummary>
+            <AccordionDetails>
+              <Typography>
+                {DescriptionList[index]}
+                {``}{' '}
+              </Typography>
+            </AccordionDetails>
+          </Accordion>
+        </ListItem>
+      )
+    })
   }
 
   const handleBackClick = () => {
@@ -153,15 +181,16 @@ const ChangeDeleteEvent = (props: any) => {
         <ListItem>
           <ListItemText primary="Please select category:" />
         </ListItem>
-        <FixedSizeList
-          height={200}
-          width={360}
-          itemSize={38}
-          itemCount={size}
-          overscanCount={5}
+        <List
+          disablePadding={true}
+          style={{
+            overflow: 'auto',
+            overflowY: 'scroll',
+            height: '300px'
+          }}
         >
-          {renderList}
-        </FixedSizeList>
+          {renderList()}
+        </List>
       </List>
       {isAdmin && (
         <List
