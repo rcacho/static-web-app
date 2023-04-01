@@ -12,6 +12,7 @@ import { Category } from '@/interfaces/Category'
 
 const AddCatPopUp = (props: any) => {
   const [open, setOpen] = useState(false)
+  const [clicked, setClicked] = useState(false)
   const {
     categories,
     setCategories,
@@ -85,6 +86,7 @@ const AddCatPopUp = (props: any) => {
   }
 
   const handleClickOpen = () => {
+    setClicked(true)
     duplicateCheck()
   }
   const handleClose = () => {
@@ -97,6 +99,7 @@ const AddCatPopUp = (props: any) => {
   function AddCategoryButton() {
     return (
       <Button
+        disabled={clicked}
         className="menu-button"
         size="medium"
         variant="contained"
