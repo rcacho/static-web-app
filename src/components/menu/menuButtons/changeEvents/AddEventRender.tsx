@@ -22,6 +22,7 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
+import { useCalendarContext } from '@/store/CalendarContext'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -37,6 +38,9 @@ const AddEventRender = (props: any) => {
   const [open, setOpen] = React.useState(false)
   const [openFailed, setOpenFailed] = React.useState(false)
 
+  const [first, setFirst] = useState(true)
+  const { selectedDate } = useCalendarContext()
+
   useEffect(() => {
     EventList = []
     for (let i = 0; i < categories.length; i++) {
@@ -44,7 +48,25 @@ const AddEventRender = (props: any) => {
       catIDs.push(categories[i].category_id)
     }
     setEvents(EventList)
+    if (first) {
+      setEventDate(new Date(reformatDate(selectedDate as string)))
+      if (props.fromMenu === 0) {
+        console.log('boogers')
+        setEventDate(nullDate)
+      }
+      setFirst(false)
+    }
   }, [selected, categories])
+
+  function reformatDate(date: string) {
+    let res: string = ''
+    res += date.substring(6, 10)
+    res += '-'
+    res += date.substring(0, 2)
+    res += '-'
+    res += date.substring(3, 5)
+    return res
+  }
 
   const handleAddEvent = () => {
     if (selected !== null) {
@@ -105,6 +127,7 @@ const AddEventRender = (props: any) => {
 
     const handleSelect = () => {
       setSelected(index)
+      console.log(eventDate)
     }
     return (
       <ListItem
@@ -239,7 +262,7 @@ const AddEventRender = (props: any) => {
         </FixedSizeList>
 
         <ListItem>
-          <ListItemText primary="Please enter date:" />
+          <ListItemText primary="Please enter a date:" />
         </ListItem>
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
@@ -251,6 +274,9 @@ const AddEventRender = (props: any) => {
             InputLabelProps={{
               shrink: true
             }}
+            defaultValue={
+              props.fromMenu === 1 ? reformatDate(selectedDate as string) : ''
+            }
             onChange={(newVal) => {
               setEventDate(new Date(newVal.target.value))
             }}

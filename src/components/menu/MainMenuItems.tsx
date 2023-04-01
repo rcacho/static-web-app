@@ -26,7 +26,7 @@ const MainMenuItems = (props: any) => {
             <StateMenuButton
               icon={AddIcon}
               parentProp={props}
-              state={1}
+              state={1.1}
               text={'Add Event'}
             />
           </ListItem>

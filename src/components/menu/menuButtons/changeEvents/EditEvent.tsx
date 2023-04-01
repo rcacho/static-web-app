@@ -58,6 +58,7 @@ const EditEvent = (props: any) => {
       setEventDate(new Date(reformatDate(selectedDate as string)))
       setFirst(false)
     }
+    if (props.fromMenu === 1) setEventDate(nullDate)
   }, [selected])
 
   // render list for the scroll function
