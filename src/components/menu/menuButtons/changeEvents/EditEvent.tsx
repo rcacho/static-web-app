@@ -25,8 +25,14 @@ const nullDate = new Date(0)
 
 // @ts-ignore
 const EditEvent = (props: any) => {
-  const { categories, selectedEvent, eventIndex, accountId, eventId } =
-    useAPIContext()
+  const {
+    categories,
+    selectedEvent,
+    eventIndex,
+    accountId,
+    eventId,
+    updateEvents
+  } = useAPIContext()
   const { selectedDate } = useCalendarContext()
 
   const [selected, setSelected] = useState(eventIndex)
@@ -116,6 +122,7 @@ const EditEvent = (props: any) => {
       })
 
     setEventDate(event_date)
+    updateEvents()
   }
 
   function reformatDate(date: string) {

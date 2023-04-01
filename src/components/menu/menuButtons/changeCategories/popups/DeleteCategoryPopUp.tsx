@@ -6,10 +6,12 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import { APIManager } from '@/utils/APIManager'
+import { useAPIContext } from '@/store/APIContext'
 
 const DeleteCategoryPopUp = (props: any) => {
   const [open, setOpen] = useState(false)
   let admin_id = 'user'
+  const { updateEvents } = useAPIContext()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -32,6 +34,7 @@ const DeleteCategoryPopUp = (props: any) => {
         instance.deleteCategory(categoryID, { admin_id: admin_id })
       )
       .then((data) => {
+        updateEvents()
         console.log(data)
       })
       .catch((err) => {
