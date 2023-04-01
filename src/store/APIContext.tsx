@@ -25,6 +25,9 @@ interface APIStoreValue {
   setEventIndex: React.Dispatch<React.SetStateAction<number>>
   eventId: number
   changeEventId: (id: number) => void
+  updateCategories: () => void
+  updateCats: boolean
+  setUpdateCats: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const useAPIContext = () => {
@@ -57,6 +60,7 @@ const APIStore = ({ children }: any) => {
   const [selectedEvent, setSelectedEvent] = useState(0)
   const [eventId, setEventId] = useState(-1)
   const [eventIndex, setEventIndex] = useState(-1)
+  const [updateCats, setUpdateCats] = useState(false)
 
   const changeEventId = (id: number) => {
     setEventId(id)
@@ -67,6 +71,17 @@ const APIStore = ({ children }: any) => {
       .then((instance) => instance.getEvent())
       .then((data) => {
         setEvents(data.result)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  function updateCategories() {
+    APIManager.getInstance()
+      .then((instance) => instance.getCategory())
+      .then((data) => {
+        setCategories(data.result)
       })
       .catch((err) => {
         console.log(err)
@@ -98,7 +113,10 @@ const APIStore = ({ children }: any) => {
     eventIndex: eventIndex,
     setEventIndex: setEventIndex,
     eventId: eventId,
-    changeEventId: changeEventId
+    changeEventId: changeEventId,
+    updateCategories: updateCategories,
+    updateCats: updateCats,
+    setUpdateCats: setUpdateCats
   }
 
   return (

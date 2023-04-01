@@ -126,6 +126,7 @@ const ChangeDeleteEvent = (props: any) => {
           <Accordion
             expanded={index === expanded}
             onChange={handleChange(index)}
+            sx={{ backgroundColor: index === expanded ? 'lightgrey' : 'white' }}
           >
             <AccordionSummary
               sx={{ width: '310px' }}

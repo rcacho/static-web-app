@@ -12,7 +12,8 @@ import { Category } from '@/interfaces/Category'
 
 const EditCatPopUp = (props: any) => {
   const [open, setOpen] = useState(false)
-  const { categories, setCategories } = useAPIContext()
+  const { categories, setCategories, updateCategories, setUpdateCats } =
+    useAPIContext()
   const admin_id_1 = 'user'
   const [popup, setPopup] = useState(100)
 
@@ -45,7 +46,6 @@ const EditCatPopUp = (props: any) => {
         if (err === 0) {
           updateCategory(props.name, admin_id_1, props.icon, props.color)
           setPopup(0)
-          setOpen(true)
         }
       })
       .catch((err) => {
@@ -70,8 +70,14 @@ const EditCatPopUp = (props: any) => {
       .then((instance) =>
         instance.updateCategory(props.category.category_id, payload)
       )
-      .then((data) => {
-        console.log(data)
+      .then(() => {
+        updateCategories()
+      })
+      .then(() => {
+        setUpdateCats((prev) => !prev)
+      })
+      .then(() => {
+        setOpen(true)
       })
       .catch((err) => {
         console.log(err)
