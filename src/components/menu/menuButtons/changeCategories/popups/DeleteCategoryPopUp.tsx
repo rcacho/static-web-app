@@ -33,10 +33,9 @@ const DeleteCategoryPopUp = (props: any) => {
       .then((instance) =>
         instance.deleteCategory(categoryID, { admin_id: admin_id })
       )
-      .then((data) => {
+      .then(() => {
         updateEvents()
         updateCategories()
-        console.log(data)
       })
       .then(() => {
         setUpdateCats((prev) => !prev)
