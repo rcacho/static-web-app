@@ -17,6 +17,11 @@ import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -39,6 +44,7 @@ const EditEvent = (props: any) => {
   const [first, setFirst] = useState(true)
   const [events, setEvents] = useState([''])
   const [size, setSize] = useState(0)
+  const [open, setOpen] = React.useState(false)
 
   const [eventDate, setEventDate] = useState(nullDate)
   const [description, setEventDescription] = useState('')
@@ -58,6 +64,7 @@ const EditEvent = (props: any) => {
       setEventDate(new Date(reformatDate(selectedDate as string)))
       setFirst(false)
     }
+    if (props.fromMenu === 1) setEventDate(nullDate)
   }, [selected])
 
   // render list for the scroll function
@@ -94,8 +101,45 @@ const EditEvent = (props: any) => {
         description,
         adminID,
         catIDs[selected]
-      ).then(props.clickAway())
+      ).then((_) => {
+        setOpen(true)
+      })
     }
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+    props.clickAway()
+  }
+
+  function EventEditPopup() {
+    return (
+      <>
+        <Dialog
+          sx={{
+            '& .MuiDialog-container': {
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '90vh'
+            }
+          }}
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{'Event Edited'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Event successfully edited!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>OK</Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    )
   }
 
   async function editEvent(
@@ -137,6 +181,7 @@ const EditEvent = (props: any) => {
 
   return (
     <ThemeProvider theme={MuiTheme}>
+      <EventEditPopup />
       <List>
         <ListItem>
           <ListItemText
