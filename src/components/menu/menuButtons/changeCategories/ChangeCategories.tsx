@@ -12,7 +12,7 @@ import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
-import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/DeleteCategoryPopUp'
+import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/popups/DeleteCategoryPopUp'
 import { useAPIContext } from '@/store/APIContext'
 
 // placeholder for the list of categories
