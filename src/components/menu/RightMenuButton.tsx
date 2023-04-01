@@ -9,7 +9,7 @@ import { Category } from '@/interfaces/Category'
 import { useAPIContext } from '@/store/APIContext'
 
 const RightMenuButton = () => {
-  const { dayClickCount, setSelectedDate } = useCalendarContext()
+  const { dayClickCount } = useCalendarContext()
   const { setCategories } = useAPIContext()
 
   const [panelAnchor, setPanelAnchor] = useState<null | HTMLElement | any>(null)
@@ -39,7 +39,6 @@ const RightMenuButton = () => {
   const handleClose = () => {
     setPanelAnchor(null)
     updateState(0)
-    setSelectedDate(undefined)
     setBackDrop(false)
   }
 
