@@ -13,6 +13,7 @@ interface CalendarStoreValue {
   dayClickCount: number
   selectedDate: undefined | string
   toggleBarOnDateClick: (num: number, date?: any) => void
+  setSelectedDate: React.Dispatch<React.SetStateAction<undefined | string>>
 }
 
 export const useCalendarContext = () => {
@@ -41,6 +42,9 @@ const CalendarStore = ({ children }: any) => {
   const toggleBarOnDateClick = (num: number, date?: any) => {
     num === 0 ? setDayClickCount(0) : setDayClickCount(dayClickCount + 1)
     setSelectedDate(date)
+    if (date === null) {
+      setSelectedDate('')
+    }
   }
 
   const calendarStoreValues: CalendarStoreValue = {
@@ -50,7 +54,8 @@ const CalendarStore = ({ children }: any) => {
     changeView: changeView,
     dayClickCount: dayClickCount,
     selectedDate: selectedDate,
-    toggleBarOnDateClick: toggleBarOnDateClick
+    toggleBarOnDateClick: toggleBarOnDateClick,
+    setSelectedDate: setSelectedDate
   }
 
   return (

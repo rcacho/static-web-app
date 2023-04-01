@@ -22,6 +22,7 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
+import { useCalendarContext } from '@/store/CalendarContext'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -29,6 +30,7 @@ let catIDs: any[] = []
 const nullDate = new Date(0)
 // @ts-ignore
 const AddEventRender = (props: any) => {
+  const { selectedDate } = useCalendarContext()
   const [eventDate, setEventDate] = useState(new Date(0))
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
@@ -36,6 +38,7 @@ const AddEventRender = (props: any) => {
   const { categories, updateEvents, accountId } = useAPIContext()
   const [open, setOpen] = React.useState(false)
   const [openFailed, setOpenFailed] = React.useState(false)
+  let first = true
 
   useEffect(() => {
     EventList = []
@@ -44,7 +47,21 @@ const AddEventRender = (props: any) => {
       catIDs.push(categories[i].category_id)
     }
     setEvents(EventList)
+    if (first && selectedDate !== undefined) {
+      setEventDate(new Date(reformatDate(selectedDate)))
+      first = false
+    }
   }, [selected, categories])
+
+  function reformatDate(date: string) {
+    let res: string = ''
+    res += date.substring(6, 10)
+    res += '-'
+    res += date.substring(0, 2)
+    res += '-'
+    res += date.substring(3, 5)
+    return res
+  }
 
   const handleAddEvent = () => {
     if (selected !== null) {
@@ -251,6 +268,9 @@ const AddEventRender = (props: any) => {
             InputLabelProps={{
               shrink: true
             }}
+            defaultValue={
+              selectedDate !== undefined ? reformatDate(selectedDate) : ''
+            }
             onChange={(newVal) => {
               setEventDate(new Date(newVal.target.value))
             }}
