@@ -116,7 +116,7 @@ const AddEventRender = (props: any) => {
           onClick={() => handleSelect(index)}
         >
           <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-            <ListItemText primary={`${events[index]}`} />
+            <ListItemText primary={`${value}`} />
           </ListItemButton>
         </ListItem>
       )
