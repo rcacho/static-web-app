@@ -248,7 +248,11 @@ const Day = (props: DayProps) => {
                 {props.day.toString()}
               </Button>
             </Grid>
-            <Box sx={{ display: { xs: 'block', sm: 'none' } }}>
+            <Box
+              maxWidth={'80%'}
+              minWidth={'80%'}
+              sx={{ display: { xs: 'block', sm: 'none' } }}
+            >
               <Grid
                 container
                 xs={12}
@@ -259,13 +263,18 @@ const Day = (props: DayProps) => {
                 <ReturnMonthGrid></ReturnMonthGrid>
               </Grid>
             </Box>
-            <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
+            <Box
+              maxWidth={'100%'}
+              minWidth={'100%'}
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
               <Grid
                 container
                 xs={12}
                 paddingRight="5px"
                 paddingLeft="5px"
                 maxWidth={'100%'}
+                minWidth={'100%'}
               >
                 <ReturnMonthGrid></ReturnMonthGrid>
               </Grid>
