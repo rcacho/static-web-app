@@ -6,7 +6,6 @@ import SquareIcon from '@mui/icons-material/Square'
 import StarIcon from '@mui/icons-material/Star'
 import ReportProblemIcon from '@mui/icons-material/ReportProblem'
 import PaidIcon from '@mui/icons-material/Paid'
-import PanoramaFishEyeIcon from '@mui/icons-material/PanoramaFishEye'
 import HexagonIcon from '@mui/icons-material/Hexagon'
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward'
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward'
@@ -16,6 +15,7 @@ import CloseIcon from '@mui/icons-material/Close'
 import SpaIcon from '@mui/icons-material/Spa'
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import CloudIcon from '@mui/icons-material/Cloud'
+import GroupsIcon from '@mui/icons-material/Groups'
 
 const symbols = [
   CircleIcon,
@@ -24,7 +24,7 @@ const symbols = [
   ReportProblemIcon,
   PaidIcon,
   HexagonIcon,
-  PanoramaFishEyeIcon,
+  GroupsIcon,
   CropSquareIcon,
   CloseIcon,
   SpaIcon,
@@ -42,7 +42,7 @@ const symbolKeys = [
   'ReportProblemIcon',
   'PaidIcon',
   'HexagonIcon',
-  'PanoramaFishEyeIcon,',
+  'GroupsIcon',
   'CropSquareIcon',
   'CloseIcon',
   'SpaIcon',
