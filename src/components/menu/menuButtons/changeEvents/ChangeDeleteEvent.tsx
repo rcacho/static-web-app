@@ -24,8 +24,7 @@ let CatList: (number | null)[] = []
 const ChangeDeleteEvent = (props: any) => {
   const { isAdmin } = useAPIContext()
   const { selectedDate } = useCalendarContext()
-  const { events, catMap, setSelectedEvent, categories, selectedEvent } =
-    useAPIContext()
+  const { events, catMap, setSelectedEvent, categories } = useAPIContext()
   const [selected, setSelected] = useState(null)
   const [size, setSize] = useState(0)
 

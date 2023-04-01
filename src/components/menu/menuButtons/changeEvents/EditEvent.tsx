@@ -16,19 +16,24 @@ import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
+import { useCalendarContext } from '@/store/CalendarContext'
 
 // placeholder for the list of categories
 let EventList: string[] = []
 let catIDs: any[] = []
+const nullDate = new Date(0)
 
 // @ts-ignore
 const EditEvent = (props: any) => {
   const { categories, selectedEvent, eventIndex } = useAPIContext()
+  const { selectedDate } = useCalendarContext()
+
   const [selected, setSelected] = useState(eventIndex)
+  const [first, setFirst] = useState(true)
   const [events, setEvents] = useState([''])
   const [size, setSize] = useState(0)
 
-  const [eventDate, setEventDate] = useState(new Date(1969, 1, 1))
+  const [eventDate, setEventDate] = useState(nullDate)
   const [description, setEventDescription] = useState('')
   const adminID = 'user' // this will be changed to whatever user is logged in?
 
@@ -41,8 +46,11 @@ const EditEvent = (props: any) => {
     }
     setEvents(EventList)
     setSize(EventList.length)
-    setSelected(catIDs.indexOf(selectedEvent))
-    console.log(`cats ${selectedEvent}`)
+    if (first) {
+      console.log(`raa ${selectedEvent}`)
+      setSelected(catIDs.indexOf(selectedEvent))
+      setFirst(false)
+    }
   }, [selected])
 
   // render list for the scroll function
@@ -73,6 +81,9 @@ const EditEvent = (props: any) => {
 
   const handleOnClick = () => {
     if (selected !== null) {
+      if (+eventDate === +nullDate) {
+        setEventDate(new Date(selectedDate as unknown as string))
+      }
       editEvent(eventDate, description, adminID, catIDs[selected]).then(
         props.clickAway()
       )
@@ -102,6 +113,16 @@ const EditEvent = (props: any) => {
       })
 
     setEventDate(event_date)
+  }
+
+  function reformatDate(date: string) {
+    let res: string = ''
+    res += date.substring(6, 10)
+    res += '-'
+    res += date.substring(0, 2)
+    res += '-'
+    res += date.substring(3, 5)
+    return res
   }
 
   return (
@@ -161,6 +182,7 @@ const EditEvent = (props: any) => {
             InputLabelProps={{
               shrink: true
             }}
+            defaultValue={reformatDate(selectedDate)}
             onChange={(newVal) => {
               setEventDate(new Date(newVal.target.value))
             }}
