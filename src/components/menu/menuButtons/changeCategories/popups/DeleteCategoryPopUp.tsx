@@ -11,7 +11,7 @@ import { useAPIContext } from '@/store/APIContext'
 const DeleteCategoryPopUp = (props: any) => {
   const [open, setOpen] = useState(false)
   let admin_id = 'user'
-  const { updateEvents } = useAPIContext()
+  const { updateEvents, updateCategories, setUpdateCats } = useAPIContext()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -35,7 +35,11 @@ const DeleteCategoryPopUp = (props: any) => {
       )
       .then((data) => {
         updateEvents()
+        updateCategories()
         console.log(data)
+      })
+      .then(() => {
+        setUpdateCats((prev) => !prev)
       })
       .catch((err) => {
         console.log(err)
