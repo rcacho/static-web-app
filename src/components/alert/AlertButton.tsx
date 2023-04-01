@@ -2,6 +2,7 @@ import {
   Avatar,
   Badge,
   ClickAwayListener,
+  List,
   Popper,
   Stack,
   Typography
@@ -16,12 +17,21 @@ import { useAPIContext } from '@/store/APIContext'
 const defaultColour = 'rgb(137,137,137)'
 const fontColour = 'rgb(90,90,90)'
 
+const login = (accountId: string) => {
+  APIManager.getInstance()
+    .then((instance) => instance.setUserLastLogin(accountId))
+}
+
 const AlertButton = () => {
+  const { accountId } = useAPIContext()
+  const [loggedIn, setLoggedIn] = useState<boolean>(false)
   const [hasAlerts, setHasAlerts] = useState<boolean>(false)
   const [panelAnchor, setPanelAnchor] = useState<null | HTMLElement>(null)
 
   const handleClick = (event: any) => {
     panelAnchor ? setPanelAnchor(null) : setPanelAnchor(event.currentTarget)
+    setLoggedIn(true)
+    if (!loggedIn) login(accountId)
   }
 
   return (
@@ -46,46 +56,20 @@ const AlertPanel = (props: any) => {
     marginTop: '20px',
     paddingTop: '10px',
     height: 'calc(100vh - 64px)',
+    overflow: 'auto',
     width: 400,
     boxShadow: '0 0 5px #ccc'
   }
 
   useEffect(() => {
-    setAlerts([
-      {
-        name: 'Expense Cutoff',
-        date: new Date('2023-10-13'),
-        admin: 'Steve',
-        action: 'added'
-      },
-      {
-        name: 'Annual General Meeting',
-        date: new Date('2023-05-13'),
-        admin: 'Shawn',
-        action: 'added'
-      },
-      {
-        name: 'Office Closed',
-        date: new Date('2023-12-23'),
-        admin: 'Nash',
-        action: 'added'
-      },
-      {
-        name: "Jerry's Birthday Party",
-        date: new Date('2023-07-21'),
-        admin: 'Shawn',
-        action: 'deleted'
-      }
-    ])
-
-    props.setHasAlerts(true)
-
-    // @TODO: wait until token verification is done in the backend before parsing the response
-    // As of right now, the response fails here. I've set some placeholder data below for testing purposes.
     APIManager.getInstance()
       .then((instance) => instance.getNotification(accountId))
-      .then((data) => {
-        console.log(data)
+      .then((data) => data.result)
+      .then((result) => {
+        if (result.length > 0) {
+          setAlerts(result)
+          props.setHasAlerts(true)
+        }
       })
   }, [])
 
@@ -114,7 +98,7 @@ const AlertPanel = (props: any) => {
       sx={{ bgcolor: 'white' }}
     >
       <ClickAwayListener onClickAway={props.onClickAway}>
-        <Stack style={alertPanelStyle}>
+        <List style={alertPanelStyle}>
           {props.hasAlerts ? (
             renderAlerts()
           ) : (
@@ -122,14 +106,27 @@ const AlertPanel = (props: any) => {
               No alerts at this time.
             </Typography>
           )}
-        </Stack>
+        </List>
       </ClickAwayListener>
     </Popper>
   )
 }
 
 const AlertItem = (props: any) => {
-  const { name, date, admin, action } = props.alert
+  const { 
+    first_name, 
+    category_name, 
+    event_date, 
+    update_type 
+  } = props.alert
+
+  const action = update_type as boolean ? 'updated' : 'added'
+
+  const date = new Date( // @TODO: Clean this up here and in ChangeDeleteEvent
+    +(event_date as unknown as string).substring(0, 4),
+    +(event_date as unknown as string).substring(5, 7),
+    +(event_date as unknown as string).substring(8, 10)
+  )
 
   const alertItemStyle = {
     minHeight: '60px',
@@ -150,10 +147,10 @@ const AlertItem = (props: any) => {
       justifyContent="space-between"
       style={alertItemStyle}
     >
-      <Avatar alt={admin} src={`placeholder`} />
+      <Avatar alt={first_name} src={`placeholder`} />
       <Typography color={fontColour} style={{ paddingLeft: 10 }}>
-        {`${admin} ${action} `}
-        <strong>{name}</strong>
+        {`${first_name} ${action} `}
+        <strong>{category_name}</strong>
         {` on ${date.toDateString().substring(4)}`}
       </Typography>
       <CloseIcon onClick={props.handleClick}></CloseIcon>

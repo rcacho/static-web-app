@@ -38,7 +38,7 @@ export const useAPIContext = () => {
 function getAccountID(): string {
   const { accounts } = useMsal()
   const account = useAccount(accounts[0])
-  return account?.idTokenClaims?.oid ?? '00000000-0000-0000-0000-000000000000'
+  return 'user' // account?.idTokenClaims?.oid ?? '00000000-0000-0000-0000-000000000000'
 }
 
 function getIsAdmin(): boolean {
@@ -57,13 +57,6 @@ const APIStore = ({ children }: any) => {
   const [selectedEvent, setSelectedEvent] = useState(0)
   const [eventId, setEventId] = useState(-1)
   const [eventIndex, setEventIndex] = useState(-1)
-
-  //@ TODO: Unsure if necessary. Consult Joseph later.
-  React.useEffect(() => {
-    APIManager.getInstance().then((instance) =>
-      instance.setUserLastLogin(accountId)
-    )
-  }, [])
 
   const changeEventId = (id: number) => {
     setEventId(id)
