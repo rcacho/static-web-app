@@ -12,10 +12,16 @@ import {
 import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
+import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import DialogTitle from '@mui/material/DialogTitle'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -30,14 +36,16 @@ const EditEvent = (props: any) => {
     eventIndex,
     accountId,
     eventId,
-    updateEvents,
-    setUpdateCats
+    updateEvents
   } = useAPIContext()
   const { selectedDate } = useCalendarContext()
 
   const [selected, setSelected] = useState(eventIndex)
   const [first, setFirst] = useState(true)
   const [events, setEvents] = useState([''])
+  const [size, setSize] = useState(0)
+  const [open, setOpen] = React.useState(false)
+
   const [eventDate, setEventDate] = useState(nullDate)
   const [description, setEventDescription] = useState('')
   const adminID = accountId
@@ -50,32 +58,35 @@ const EditEvent = (props: any) => {
       catIDs.push(categories[i].category_id)
     }
     setEvents(EventList)
+    setSize(EventList.length)
     if (first) {
       setSelected(catIDs.indexOf(selectedEvent))
       setEventDate(new Date(reformatDate(selectedDate as string)))
       setFirst(false)
     }
+    if (props.fromMenu === 1) setEventDate(nullDate)
   }, [selected])
 
   // render list for the scroll function
-  function renderList() {
-    const handleSelect = (index: any) => {
+  function renderList(props: ListChildComponentProps) {
+    const { index, style } = props
+
+    const handleSelect = () => {
       setSelected(index)
     }
-    return events.map((value, index) => {
-      return (
-        <ListItem
-          key={index}
-          component="div"
-          disablePadding
-          onClick={() => handleSelect(index)}
-        >
-          <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-            <ListItemText primary={`${events[index]}`} />
-          </ListItemButton>
-        </ListItem>
-      )
-    })
+    return (
+      <ListItem
+        style={style}
+        key={index}
+        component="div"
+        disablePadding
+        onClick={handleSelect}
+      >
+        <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
+          <ListItemText primary={`${events[index]}`} />
+        </ListItemButton>
+      </ListItem>
+    )
   }
 
   const handleBackClick = () => {
@@ -90,8 +101,45 @@ const EditEvent = (props: any) => {
         description,
         adminID,
         catIDs[selected]
-      ).then(props.clickAway())
+      ).then((_) => {
+        setOpen(true)
+      })
     }
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+    props.clickAway()
+  }
+
+  function EventEditPopup() {
+    return (
+      <>
+        <Dialog
+          sx={{
+            '& .MuiDialog-container': {
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '90vh'
+            }
+          }}
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">{'Event Edited'}</DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Event successfully edited!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>OK</Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    )
   }
 
   async function editEvent(
@@ -110,11 +158,8 @@ const EditEvent = (props: any) => {
     }
     APIManager.getInstance()
       .then((instance) => instance.editEvent(event_id, payload))
-      .then(() => {
-        updateEvents()
-      })
-      .then(() => {
-        setUpdateCats((prev) => !prev)
+      .then((data) => {
+        console.log(data)
       })
       .catch((err) => {
         console.log(err)
@@ -136,6 +181,7 @@ const EditEvent = (props: any) => {
 
   return (
     <ThemeProvider theme={MuiTheme}>
+      <EventEditPopup />
       <List>
         <ListItem>
           <ListItemText
@@ -168,16 +214,16 @@ const EditEvent = (props: any) => {
         <ListItem>
           <ListItemText primary="Please select category:" />
         </ListItem>
-        <List
-          disablePadding={true}
-          style={{
-            overflow: 'auto',
-            overflowY: 'scroll',
-            height: '200px'
-          }}
+        <FixedSizeList
+          height={200}
+          width={360}
+          itemSize={38}
+          itemCount={size}
+          overscanCount={5}
         >
-          {renderList()}
-        </List>
+          {renderList}
+        </FixedSizeList>
+
         <ListItem>
           <ListItemText primary="Please enter date:" />
         </ListItem>

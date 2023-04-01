@@ -12,6 +12,8 @@ import {
 
 import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
+// @ts-ignore
+import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
@@ -20,6 +22,7 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
+import { useCalendarContext } from '@/store/CalendarContext'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -31,10 +34,12 @@ const AddEventRender = (props: any) => {
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
   const [events, setEvents] = useState([''])
-  const { categories, updateEvents, accountId, updateCats, setUpdateCats } =
-    useAPIContext()
+  const { categories, updateEvents, accountId } = useAPIContext()
   const [open, setOpen] = React.useState(false)
   const [openFailed, setOpenFailed] = React.useState(false)
+
+  const [first, setFirst] = useState(true)
+  const { selectedDate } = useCalendarContext()
 
   useEffect(() => {
     EventList = []
@@ -43,7 +48,25 @@ const AddEventRender = (props: any) => {
       catIDs.push(categories[i].category_id)
     }
     setEvents(EventList)
-  }, [selected, categories, updateCats])
+    if (first) {
+      setEventDate(new Date(reformatDate(selectedDate as string)))
+      if (props.fromMenu === 0) {
+        console.log('boogers')
+        setEventDate(nullDate)
+      }
+      setFirst(false)
+    }
+  }, [selected, categories])
+
+  function reformatDate(date: string) {
+    let res: string = ''
+    res += date.substring(6, 10)
+    res += '-'
+    res += date.substring(0, 2)
+    res += '-'
+    res += date.substring(3, 5)
+    return res
+  }
 
   const handleAddEvent = () => {
     if (selected !== null) {
@@ -64,14 +87,10 @@ const AddEventRender = (props: any) => {
             description,
             accountId.toString(),
             catIDs[selected]
-          )
-            .then(() => {
-              updateEvents()
-              setOpen(true)
-            })
-            .then(() => {
-              setUpdateCats((prev) => !prev)
-            })
+          ).then(() => {
+            updateEvents()
+            setOpen(true)
+          })
         })
       })
     }
@@ -103,24 +122,26 @@ const AddEventRender = (props: any) => {
   }
 
   // render list for the scroll function
-  function renderList() {
-    const handleSelect = (index: any) => {
+  function renderList(props: ListChildComponentProps) {
+    const { index, style } = props
+
+    const handleSelect = () => {
       setSelected(index)
+      console.log(eventDate)
     }
-    return events.map((value, index) => {
-      return (
-        <ListItem
-          key={index}
-          component="div"
-          disablePadding
-          onClick={() => handleSelect(index)}
-        >
-          <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-            <ListItemText primary={`${events[index]}`} />
-          </ListItemButton>
-        </ListItem>
-      )
-    })
+    return (
+      <ListItem
+        style={style}
+        key={index}
+        component="div"
+        disablePadding
+        onClick={handleSelect}
+      >
+        <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
+          <ListItemText primary={`${events[index]}`} />
+        </ListItemButton>
+      </ListItem>
+    )
   }
 
   const handleBackClick = () => {
@@ -230,18 +251,18 @@ const AddEventRender = (props: any) => {
         <ListItem>
           <ListItemText primary="Please select category:" />
         </ListItem>
-        <List
-          disablePadding={true}
-          style={{
-            overflow: 'auto',
-            overflowY: 'scroll',
-            height: '200px'
-          }}
+        <FixedSizeList
+          height={200}
+          width={360}
+          itemSize={38}
+          itemCount={EventList.length}
+          overscanCount={5}
         >
-          {renderList()}
-        </List>
+          {renderList}
+        </FixedSizeList>
+
         <ListItem>
-          <ListItemText primary="Please enter date:" />
+          <ListItemText primary="Please enter a date:" />
         </ListItem>
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
@@ -253,6 +274,9 @@ const AddEventRender = (props: any) => {
             InputLabelProps={{
               shrink: true
             }}
+            defaultValue={
+              props.fromMenu === 1 ? reformatDate(selectedDate as string) : ''
+            }
             onChange={(newVal) => {
               setEventDate(new Date(newVal.target.value))
             }}
