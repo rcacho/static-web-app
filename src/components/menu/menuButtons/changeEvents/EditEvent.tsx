@@ -48,7 +48,6 @@ const EditEvent = (props: any) => {
     setEvents(EventList)
     setSize(EventList.length)
     if (first) {
-      console.log(`raa ${selectedEvent}`)
       setSelected(catIDs.indexOf(selectedEvent))
       setEventDate(new Date(reformatDate(selectedDate as string)))
       setFirst(false)

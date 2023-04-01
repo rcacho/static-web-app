@@ -24,7 +24,7 @@ interface APIStoreValue {
   eventIndex: number
   setEventIndex: React.Dispatch<React.SetStateAction<number>>
   eventId: number
-  setEventId: React.Dispatch<React.SetStateAction<number>>
+  changeEventId: (id: number) => void
 }
 
 export const useAPIContext = () => {
@@ -65,6 +65,10 @@ const APIStore = ({ children }: any) => {
     )
   }, [])
 
+  const changeEventId = (id: number) => {
+    setEventId(id)
+  }
+
   function updateEvents() {
     APIManager.getInstance()
       .then((instance) => instance.getEvent())
@@ -101,7 +105,7 @@ const APIStore = ({ children }: any) => {
     eventIndex: eventIndex,
     setEventIndex: setEventIndex,
     eventId: eventId,
-    setEventId: setEventId
+    changeEventId: changeEventId
   }
 
   return (

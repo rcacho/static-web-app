@@ -28,8 +28,14 @@ let DescriptionList: (string | null)[] = []
 const ChangeDeleteEvent = (props: any) => {
   const { isAdmin } = useAPIContext()
   const { selectedDate } = useCalendarContext()
-  const { events, catMap, setSelectedEvent, categories, setEventId } =
-    useAPIContext()
+  const {
+    events,
+    catMap,
+    setSelectedEvent,
+    categories,
+    changeEventId,
+    eventId
+  } = useAPIContext()
   const [selected, setSelected] = useState(null)
   const [expanded, setExpanded] = useState<number | false>(false)
   const [eventsState, setEventsState] = useState(EventList)
@@ -37,6 +43,7 @@ const ChangeDeleteEvent = (props: any) => {
   useEffect(() => {
     EventList = []
     CatList = []
+    IdList = []
     for (let i = 0; i < events.length; i++) {
       if (selectedDate) {
         let testDate = new Date(
@@ -63,7 +70,7 @@ const ChangeDeleteEvent = (props: any) => {
       }
     }
     setEventsState(EventList)
-  }, [selected, categories])
+  }, [selected, categories, eventId])
 
   function EditEvent() {
     if (selected === null) {
@@ -99,7 +106,7 @@ const ChangeDeleteEvent = (props: any) => {
     const handleSelect = (index: any) => {
       setSelected(index)
       setSelectedEvent(CatList[index] as number) // basically category id of event
-      setEventId(IdList[index] as number)
+      changeEventId(IdList[index] as number)
     }
 
     const handleChange =
