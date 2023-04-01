@@ -18,8 +18,9 @@ const defaultColour = 'rgb(137,137,137)'
 const fontColour = 'rgb(90,90,90)'
 
 const login = (accountId: string) => {
-  APIManager.getInstance()
-    .then((instance) => instance.setUserLastLogin(accountId))
+  APIManager.getInstance().then((instance) =>
+    instance.setUserLastLogin(accountId)
+  )
 }
 
 const AlertButton = () => {
@@ -113,14 +114,9 @@ const AlertPanel = (props: any) => {
 }
 
 const AlertItem = (props: any) => {
-  const { 
-    first_name, 
-    category_name, 
-    event_date, 
-    update_type 
-  } = props.alert
+  const { first_name, category_name, event_date, update_type } = props.alert
 
-  const action = update_type as boolean ? 'updated' : 'added'
+  const action = (update_type as boolean) ? 'updated' : 'added'
 
   const date = new Date( // @TODO: Clean this up here and in ChangeDeleteEvent
     +(event_date as unknown as string).substring(0, 4),

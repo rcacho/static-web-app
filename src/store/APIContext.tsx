@@ -41,7 +41,7 @@ export const useAPIContext = () => {
 function getAccountID(): string {
   const { accounts } = useMsal()
   const account = useAccount(accounts[0])
-  return 'user' // account?.idTokenClaims?.oid ?? '00000000-0000-0000-0000-000000000000'
+  return account?.idTokenClaims?.oid ?? '00000000-0000-0000-0000-000000000000'
 }
 
 function getIsAdmin(): boolean {
