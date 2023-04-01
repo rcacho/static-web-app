@@ -5,7 +5,7 @@ const apiPaths = {
   events: (eventId?: number) => `/api/event/${eventId ?? ''}`,
   notifications: (userId: string) => `/api/notification/${userId}`,
   user: (userId?: number) => `/api/user/${userId ?? ''}`,
-  userLogin: (userId: number) => `/api/user/login/${userId}`
+  userLogin: (userId: number) => `/api/user/check_notifications/${userId}`
 }
 
 export class APIManager {
