@@ -108,7 +108,7 @@ const APIStore = ({ children }: any) => {
     categories: categories,
     setSelected: setSelected,
     setCategories: setCategories,
-    accountId: 'user',
+    accountId: accountId,
     isAdmin: isAdmin,
     events: events,
     setEvents: setEvents,
