@@ -31,7 +31,8 @@ const EditEvent = (props: any) => {
     eventIndex,
     accountId,
     eventId,
-    updateEvents
+    updateEvents,
+    setUpdateCats
   } = useAPIContext()
   const { selectedDate } = useCalendarContext()
 
@@ -114,8 +115,11 @@ const EditEvent = (props: any) => {
     }
     APIManager.getInstance()
       .then((instance) => instance.editEvent(event_id, payload))
-      .then((data) => {
-        console.log(data)
+      .then(() => {
+        updateEvents()
+      })
+      .then(() => {
+        setUpdateCats((prev) => !prev)
       })
       .catch((err) => {
         console.log(err)
