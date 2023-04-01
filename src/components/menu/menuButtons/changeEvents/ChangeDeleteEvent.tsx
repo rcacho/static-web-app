@@ -194,7 +194,13 @@ const ChangeDeleteEvent = (props: any) => {
           <ListItemText primary={`Selected date: ${selectedDate}`} />
         </ListItem>
         <ListItem>
-          <ListItemText primary="Please select category:" />
+          <ListItemText
+            primary={
+              eventsState.length === 0
+                ? 'No events on this day.'
+                : 'Please select event:'
+            }
+          />
         </ListItem>
         <List
           disablePadding={true}

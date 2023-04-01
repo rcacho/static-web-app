@@ -31,7 +31,8 @@ const AddEventRender = (props: any) => {
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
   const [events, setEvents] = useState([''])
-  const { categories, updateEvents, accountId } = useAPIContext()
+  const { categories, updateEvents, accountId, updateCats, setUpdateCats } =
+    useAPIContext()
   const [open, setOpen] = React.useState(false)
   const [openFailed, setOpenFailed] = React.useState(false)
 
@@ -42,7 +43,7 @@ const AddEventRender = (props: any) => {
       catIDs.push(categories[i].category_id)
     }
     setEvents(EventList)
-  }, [selected, categories])
+  }, [selected, categories, updateCats])
 
   const handleAddEvent = () => {
     if (selected !== null) {
@@ -63,10 +64,14 @@ const AddEventRender = (props: any) => {
             description,
             accountId.toString(),
             catIDs[selected]
-          ).then(() => {
-            updateEvents()
-            setOpen(true)
-          })
+          )
+            .then(() => {
+              updateEvents()
+              setOpen(true)
+            })
+            .then(() => {
+              setUpdateCats((prev) => !prev)
+            })
         })
       })
     }
