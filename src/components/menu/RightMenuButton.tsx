@@ -17,21 +17,6 @@ const RightMenuButton = () => {
   const [backDrop, setBackDrop] = useState(false)
   const ref = useRef(null)
 
-  useEffect(() => {
-    const getData = async () => {
-      const instance = await APIManager.getInstance()
-      const data = await instance.getCategory()
-
-      const cat: Category[] = data.result
-      console.log(cat)
-      setCategories(cat)
-      // console.log(categories)
-    }
-    getData().catch((err) => {
-      console.log(err)
-    })
-  }, [menuState])
-
   function updateState(state: any) {
     setMenuState(state)
   }
