@@ -12,8 +12,13 @@ import { Category } from '@/interfaces/Category'
 
 const AddCatPopUp = (props: any) => {
   const [open, setOpen] = useState(false)
-  const { categories, setCategories, updateCategories, setUpdateCats } =
-    useAPIContext()
+  const {
+    categories,
+    setCategories,
+    updateCategories,
+    setUpdateCats,
+    updateEvents
+  } = useAPIContext()
   const admin_id_1 = 'user'
   const [popup, setPopup] = useState(100)
 
@@ -69,6 +74,7 @@ const AddCatPopUp = (props: any) => {
       .then((instance) => instance.addCategory(payload))
       .then(() => {
         updateCategories()
+        updateEvents()
       })
       .then(() => {
         setUpdateCats((prev) => !prev)

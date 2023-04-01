@@ -12,8 +12,6 @@ import {
 
 import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
-// @ts-ignore
-import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
@@ -100,25 +98,24 @@ const AddEventRender = (props: any) => {
   }
 
   // render list for the scroll function
-  function renderList(props: ListChildComponentProps) {
-    const { index, style } = props
-
-    const handleSelect = () => {
+  function renderList() {
+    const handleSelect = (index: any) => {
       setSelected(index)
     }
-    return (
-      <ListItem
-        style={style}
-        key={index}
-        component="div"
-        disablePadding
-        onClick={handleSelect}
-      >
-        <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`${events[index]}`} />
-        </ListItemButton>
-      </ListItem>
-    )
+    return events.map((value, index) => {
+      return (
+        <ListItem
+          key={index}
+          component="div"
+          disablePadding
+          onClick={() => handleSelect(index)}
+        >
+          <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
+            <ListItemText primary={`${events[index]}`} />
+          </ListItemButton>
+        </ListItem>
+      )
+    })
   }
 
   const handleBackClick = () => {
@@ -228,16 +225,16 @@ const AddEventRender = (props: any) => {
         <ListItem>
           <ListItemText primary="Please select category:" />
         </ListItem>
-        <FixedSizeList
-          height={200}
-          width={360}
-          itemSize={38}
-          itemCount={EventList.length}
-          overscanCount={5}
+        <List
+          disablePadding={true}
+          style={{
+            overflow: 'auto',
+            overflowY: 'scroll',
+            height: '200px'
+          }}
         >
-          {renderList}
-        </FixedSizeList>
-
+          {renderList()}
+        </List>
         <ListItem>
           <ListItemText primary="Please enter date:" />
         </ListItem>

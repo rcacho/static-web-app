@@ -12,7 +12,6 @@ import {
 import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
-import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
@@ -39,8 +38,6 @@ const EditEvent = (props: any) => {
   const [selected, setSelected] = useState(eventIndex)
   const [first, setFirst] = useState(true)
   const [events, setEvents] = useState([''])
-  const [size, setSize] = useState(0)
-
   const [eventDate, setEventDate] = useState(nullDate)
   const [description, setEventDescription] = useState('')
   const adminID = accountId
@@ -53,7 +50,6 @@ const EditEvent = (props: any) => {
       catIDs.push(categories[i].category_id)
     }
     setEvents(EventList)
-    setSize(EventList.length)
     if (first) {
       setSelected(catIDs.indexOf(selectedEvent))
       setEventDate(new Date(reformatDate(selectedDate as string)))
@@ -62,25 +58,24 @@ const EditEvent = (props: any) => {
   }, [selected])
 
   // render list for the scroll function
-  function renderList(props: ListChildComponentProps) {
-    const { index, style } = props
-
-    const handleSelect = () => {
+  function renderList() {
+    const handleSelect = (index: any) => {
       setSelected(index)
     }
-    return (
-      <ListItem
-        style={style}
-        key={index}
-        component="div"
-        disablePadding
-        onClick={handleSelect}
-      >
-        <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`${events[index]}`} />
-        </ListItemButton>
-      </ListItem>
-    )
+    return events.map((value, index) => {
+      return (
+        <ListItem
+          key={index}
+          component="div"
+          disablePadding
+          onClick={() => handleSelect(index)}
+        >
+          <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
+            <ListItemText primary={`${events[index]}`} />
+          </ListItemButton>
+        </ListItem>
+      )
+    })
   }
 
   const handleBackClick = () => {
@@ -173,16 +168,16 @@ const EditEvent = (props: any) => {
         <ListItem>
           <ListItemText primary="Please select category:" />
         </ListItem>
-        <FixedSizeList
-          height={200}
-          width={360}
-          itemSize={38}
-          itemCount={size}
-          overscanCount={5}
+        <List
+          disablePadding={true}
+          style={{
+            overflow: 'auto',
+            overflowY: 'scroll',
+            height: '200px'
+          }}
         >
-          {renderList}
-        </FixedSizeList>
-
+          {renderList()}
+        </List>
         <ListItem>
           <ListItemText primary="Please enter date:" />
         </ListItem>

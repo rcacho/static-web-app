@@ -64,7 +64,14 @@ const ChangeDeleteEvent = (props: any) => {
             EventList.push(catMap.get(events[i].category_id))
             IdList.push(events[i].event_id)
             CatList.push(events[i].category_id)
-            DescriptionList.push(events[i].event_description)
+            if (
+              events[i].event_description === null ||
+              events[i].event_description === ''
+            ) {
+              DescriptionList.push('No additional details.')
+            } else {
+              DescriptionList.push(events[i].event_description)
+            }
           }
         }
       }
