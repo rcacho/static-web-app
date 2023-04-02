@@ -33,7 +33,9 @@ export default function Home(this: any) {
               alignItems="stretch"
             >
               <Legend />
-              <Calendar />
+              <header id="Calendar">
+                <Calendar />
+              </header>
             </Stack>
           </Box>
         </GlobalStore>

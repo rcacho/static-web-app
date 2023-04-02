@@ -59,7 +59,6 @@ const Legend = () => {
             setSelectedNotSaved={setSelectedNotSaved}
           ></CategoryList>
         )}
-
         <Button
           onClick={() => toggleShow(!show)}
           style={{
