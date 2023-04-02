@@ -2,8 +2,6 @@ import { DatabaseConnector } from '../DatabaseConnector'
 import { Category } from '@/interfaces/Category'
 import { DatabaseError } from '@/exceptions/DatabaseError'
 
-const sql = require('mssql')
-
 export class CategoryDAO {
   db: DatabaseConnector
 

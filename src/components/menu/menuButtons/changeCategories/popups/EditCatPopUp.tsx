@@ -15,7 +15,6 @@ const EditCatPopUp = (props: any) => {
   const [clicked, setClicked] = useState(false)
   const { categories, setCategories, updateCategories, setUpdateCats } =
     useAPIContext()
-  const admin_id_1 = 'user'
   const [popup, setPopup] = useState(100)
 
   const duplicateCheck = () => {
@@ -45,7 +44,7 @@ const EditCatPopUp = (props: any) => {
           }
         }
         if (err === 0) {
-          updateCategory(props.name, admin_id_1, props.icon, props.color)
+          updateCategory(props.name, props.icon, props.color)
           setPopup(0)
         }
       })
@@ -56,14 +55,12 @@ const EditCatPopUp = (props: any) => {
 
   async function updateCategory(
     category_name: string,
-    admin_id: string,
     icon: keyof typeof icons,
     color: string
   ) {
     let payload: Category = {
       category_id: props.category.category_id,
       category_name: category_name,
-      admin_id: admin_id,
       icon: icon,
       color: color
     }

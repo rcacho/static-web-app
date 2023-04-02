@@ -87,6 +87,7 @@ export class APIManager {
       })
       this.accessToken = response.idToken
     }
+
     // @ts-ignore
     var options
     if (data) {
@@ -104,6 +105,7 @@ export class APIManager {
         method: method
       }
     }
+    console.log('acccesstoken:', this.accessToken)
     return fetch(url, options).then((res) => {
       if (res.status !== 200) {
         throw new Error(

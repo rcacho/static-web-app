@@ -1,4 +1,3 @@
-import { Notification } from '@/interfaces/Notification'
 import { DatabaseConnector } from '../DatabaseConnector'
 
 export class NotificationDAO {

@@ -3,8 +3,6 @@ import type { NextApiRequest, NextApiResponse } from 'next'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 import { Event } from '@/interfaces/Event'
 import { EventDAO } from '@/utils/dao/EventDAO'
-import { Notification } from '@/interfaces/Notification'
-import { NotificationDAO } from '@/utils/dao/NotificationDAO'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { query, body, method } = req
