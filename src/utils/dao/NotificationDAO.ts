@@ -12,7 +12,7 @@ export class NotificationDAO {
     INNER JOIN calendar.event ON calendar.event.id = calendar.notification.event_id
     INNER JOIN calendar.app_user ON calendar.app_user.id = calendar.event.user_id
     INNER JOIN calendar.category ON calendar.event.category_id = calendar.category.id
-    WHERE calendar.notification.time_added >= (SELECT notification_check
+    WHERE calendar.notification.time_added >= (SELECT CURRENT_TIMESTAMP
                                                FROM calendar.app_user
                                                WHERE active_directory_oid = '${oid}')`
 
