@@ -21,8 +21,8 @@ const EditCategoryButton = (props: EditCatProps) => {
 
   const [open, setOpen] = useState(false)
   const [clicked, setClicked] = useState(false)
-  const { categories, setCategories, updateCategories } = useAPIContext()
-  const admin_id_1 = 'user' // @TODO
+  const { categories, setCategories, updateCategories, accountId } = useAPIContext()
+  const admin_id = accountId.toString()
   const [popupType, setPopupType] = useState(PopupType.Success)
 
   const hasDuplicate = async () => {
@@ -64,7 +64,7 @@ const EditCategoryButton = (props: EditCatProps) => {
   const handleClickOpen = async () => {
     setClicked(true)
     if (!(await hasDuplicate())) {
-      updateCategory(name, admin_id_1, icon, color)
+      updateCategory(name, admin_id, icon, color)
     }
     setOpen(true)
   }

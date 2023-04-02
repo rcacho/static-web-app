@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Typography, Button } from '@mui/material'
 import Grid from '@mui/material/Unstable_Grid2'
 import { useCalendarContext } from '@/store/CalendarContext'
@@ -30,7 +30,7 @@ const Day = (props: DayProps) => {
   const { isYearView, currentDate } = useCalendarContext()
   const { events, selected, categories } = useAPIContext()
 
-  useEffect(() => {
+  useMemo(() => {
     IconList = []
     if (events.length > 0 && selected.length > 0) {
       for (let j = 0; j < events.length; j++) {
@@ -311,4 +311,5 @@ const Day = (props: DayProps) => {
     </Grid>
   )
 }
+
 export default Day

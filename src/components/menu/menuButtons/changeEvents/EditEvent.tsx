@@ -38,7 +38,7 @@ const EditEvent = (props: any) => {
   const [description, setEventDescription] = useState('')
   const [oldDate, setOldDate] = useState(nullDate)
   const [oldCat, setOldCat] = useState(-1)
-  const adminID = accountId
+  const adminID = accountId.toString()
 
   useEffect(() => {
     EventList = []

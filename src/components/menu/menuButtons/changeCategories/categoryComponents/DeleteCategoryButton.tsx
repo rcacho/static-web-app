@@ -14,8 +14,8 @@ interface DelButtonProps {
 const DeleteCategoryButton = (props: DelButtonProps) => {
   const { categoryID, selected, clickAway, setSelected } = props
   const [open, setOpen] = useState(false)
-  let admin_id = 'user'
-  const { updateEvents, updateCategories } = useAPIContext()
+  const { updateEvents, updateCategories, accountId } = useAPIContext()
+  const adminId = accountId.toString()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -34,7 +34,7 @@ const DeleteCategoryButton = (props: DelButtonProps) => {
 
   async function deleteCategory(categoryID: number) {
     const instance = await APIManager.getInstance()
-    await instance.deleteCategory(categoryID, { admin_id: admin_id })
+    await instance.deleteCategory(categoryID, { admin_id: adminId })
     await updateEvents()
     await updateCategories()
   }
