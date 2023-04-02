@@ -102,11 +102,13 @@ const EditEvent = (props: any) => {
     if (selected !== null) {
       APIManager.getInstance().then((instance) => {
         instance.getEvent().then((data) => {
-          if (+oldDate !== +eventDate) {
-            for (let i = 0; i < data.result.length; i++) {
-              let eDate = new Date(data.result[i].event_date)
-              if (eDate.toUTCString() === eventDate.toUTCString()) {
-                if (data.result[i].category_id === catIDs[selected]) {
+          for (let i = 0; i < data.result.length; i++) {
+            let eDate = new Date(data.result[i].event_date)
+            if (eDate.toUTCString() === eventDate.toUTCString()) {
+              if (data.result[i].category_id === catIDs[selected]) {
+                if (+oldDate !== +eventDate) {
+                  break
+                } else {
                   setOpenFailed(true)
                   return
                 }
