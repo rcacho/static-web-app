@@ -1,6 +1,6 @@
 export type Alert = {
-  name: String
-  date: Date
-  admin: String
-  action: String
+  first_name: String
+  category_name: String
+  event_date: Date
+  update_type: number
 }
