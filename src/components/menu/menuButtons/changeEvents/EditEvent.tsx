@@ -6,7 +6,6 @@ import {
   TextField,
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-// @ts-ignore
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
@@ -15,12 +14,10 @@ import { ErrorPopup, SuccessPopup } from '../Popup'
 import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 import PanelButton from '../PanelButton'
 
-// placeholder for the list of categories
 let EventList: string[] = []
 let catIDs: any[] = []
 const nullDate = new Date(0)
 
-// @ts-ignore
 const EditEvent = (props: any) => {
   const {
     categories,
@@ -29,7 +26,6 @@ const EditEvent = (props: any) => {
     accountId,
     eventId,
     updateEvents,
-    setUpdateCats
   } = useAPIContext()
   const { selectedDate } = useCalendarContext()
   const [clicked, setClicked] = useState(false)
@@ -38,20 +34,18 @@ const EditEvent = (props: any) => {
   const [events, setEvents] = useState([''])
   const [open, setOpen] = React.useState(false)
   const [openFailed, setOpenFailed] = React.useState(false)
-
   const [eventDate, setEventDate] = useState(nullDate)
   const [description, setEventDescription] = useState('')
   const [oldDate, setOldDate] = useState(nullDate)
   const [oldCat, setOldCat] = useState(-1)
-
   const adminID = accountId
 
   useEffect(() => {
     EventList = []
     catIDs = []
-    for (let i = 0; i < categories.length; i++) {
-      EventList.push(categories[i].category_name)
-      catIDs.push(categories[i].category_id)
+    for (const category of categories) {
+      EventList.push(category.category_name)
+      catIDs.push(category.category_id)
     }
     setEvents(EventList)
     if (first) {
@@ -64,7 +58,6 @@ const EditEvent = (props: any) => {
     if (props.fromMenu === 1) setEventDate(nullDate)
   }, [selected])
 
-  // render list for the scroll function
   function renderList() {
     const handleSelect = (index: any) => {
       setSelected(index)
@@ -89,39 +82,23 @@ const EditEvent = (props: any) => {
     props.updateState(0)
   }
 
-  const handleOnClick = () => {
+  const handleOnClick = async () => {
     setClicked(true)
-    console.log(oldDate)
-    console.log(eventDate)
     if (selected !== null) {
-      APIManager.getInstance().then((instance) => {
-        instance.getEvent().then((data) => {
-          for (let i = 0; i < data.result.length; i++) {
-            let eDate = new Date(data.result[i].event_date)
-            if (eDate.toUTCString() === eventDate.toUTCString()) {
-              if (data.result[i].category_id === catIDs[selected]) {
-                // if the date and cat hasn't changed, do the edit
-                if (+oldDate === +eventDate && oldCat === catIDs[selected]) {
-                  break
-                } else {
-                  setOpenFailed(true)
-                  return
-                }
-              }
-            }
-          }
-
-          editEvent(
-            eventId,
-            eventDate,
-            description,
-            adminID,
-            catIDs[selected]
-          ).then((_) => {
-            setOpen(true)
-          })
-        })
-      })
+      const instance = await APIManager.getInstance()
+      const data = await instance.getEvent()
+      const events = data.result
+      for (const event of events) {
+        let eDate = new Date(event.event_date)
+        if (eDate.toUTCString() === eventDate.toUTCString() 
+          && event.category_id === catIDs[selected] 
+          && (+oldDate !== +eventDate || oldCat !== catIDs[selected])) {
+            setOpenFailed(true)
+            return
+        }
+      }
+      editEvent(eventId, eventDate, description, adminID, catIDs[selected])
+      setOpen(true)
     }
   }
 
@@ -164,18 +141,8 @@ const EditEvent = (props: any) => {
       event_description: event_description,
       admin_id: admin_id
     }
-    APIManager.getInstance()
-      .then((instance) => instance.editEvent(event_id, payload))
-      .then((data) => {
-        console.log(data)
-      })
-      .then(() => {
-        setUpdateCats((prev) => !prev)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
+    const instance = await APIManager.getInstance()
+    await instance.editEvent(event_id, payload)
     setEventDate(event_date)
     updateEvents()
   }
