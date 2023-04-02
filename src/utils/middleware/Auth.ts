@@ -18,6 +18,20 @@ export function isAdmin(req: NextApiRequest) {
   return parsed?.payload as JwtPayload['extension_IsAdmin'] as boolean
 }
 
+export function getOid(req: NextApiRequest) {
+  if (
+    !req.headers.authorization ||
+    !req.headers.authorization.startsWith('Bearer ')
+  ) {
+    throw new Error('Missing bearer token')
+  }
+
+  const idToken = req.headers.authorization!.substring(7)
+  const parsed = decode(idToken, { complete: true })
+
+  return parsed?.payload as JwtPayload['oid'] as string
+}
+
 function getSigningKeyPromise(kid: string, client: JwksClient) {
   return new Promise<string>((resolve, reject) => {
     try {
