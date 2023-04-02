@@ -4,7 +4,6 @@ import {
   ListItemText,
   ListItemButton,
   TextField,
-  Button,
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 // @ts-ignore
@@ -12,7 +11,7 @@ import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
-import Popup, { ErrorPopup, SuccessPopup } from '../Popup'
+import { ErrorPopup, SuccessPopup } from '../Popup'
 import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 import PanelButton from '../PanelButton'
 

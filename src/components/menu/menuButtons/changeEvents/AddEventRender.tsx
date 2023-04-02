@@ -4,7 +4,6 @@ import {
   ListItemText,
   ListItemButton,
   TextField,
-  Button,
 } from '@mui/material'
 
 import React, { useEffect, useState } from 'react'
@@ -13,7 +12,7 @@ import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
 import { ErrorPopup, SuccessPopup } from '../Popup'
-import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
+import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 import PanelButton from '../PanelButton'
 
 let EventList: string[] = []
@@ -153,9 +152,7 @@ const AddEventRender = (props: any) => {
         title={'Add Event'} 
         handleBackClick={goBack}
       >
-        <ListItem>
-          <ListItemText primary="Please select category:" />
-        </ListItem>
+        <Header text="Please select a category:"/>
         <List
           disablePadding={true}
           style={{
@@ -166,9 +163,7 @@ const AddEventRender = (props: any) => {
         >
           {renderList()}
         </List>
-        <ListItem>
-          <ListItemText primary="Please enter a date:" />
-        </ListItem>
+        <Header text="Please enter a date:"/>
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             id="standard-basic"
@@ -187,9 +182,7 @@ const AddEventRender = (props: any) => {
             }}
           />
         </ListItem>
-        <ListItem>
-          <ListItemText primary="Event description:" />
-        </ListItem>
+        <Header text="Event description:"/>
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             multiline={true}

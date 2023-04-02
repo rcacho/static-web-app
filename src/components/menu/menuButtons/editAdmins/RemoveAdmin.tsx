@@ -7,7 +7,7 @@ import {
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import RemoveAdminButton from '@/components/menu/menuButtons/editAdmins/RemoveAdminButton'
-import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
+import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 
 const RemoveAdmin = (props: any) => {
   const [selected, setSelected] = useState(null)
@@ -56,10 +56,7 @@ const RemoveAdmin = (props: any) => {
         title={'Remove Admin'}
         handleBackClick={handleBackClick}
       >
-        <ListItem>
-          <ListItemText primary="Please select admin to remove:" />
-        </ListItem>
-
+        <Header text="Please select admin to remove:"/>
         <FixedSizeList
           height={200}
           width={360}

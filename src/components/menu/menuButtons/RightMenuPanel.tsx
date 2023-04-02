@@ -1,6 +1,6 @@
 import MuiTheme from "@/styles/MuiTheme"
 import { ThemeProvider } from "@emotion/react"
-import { List, ListItem, ListItemText, Box, Typography, Button } from "@mui/material"
+import { List, ListItem, ListItemText, Box, Typography } from "@mui/material"
 import PanelButton from "./PanelButton"
 
 interface RightMenuBottomProps {

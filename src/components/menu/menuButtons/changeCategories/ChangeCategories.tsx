@@ -3,13 +3,12 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
-  Button
 } from '@mui/material'
 import React, { useState } from 'react'
 import DeleteCategoryButton from '@/components/menu/menuButtons/changeCategories/categoryComponents/DeleteCategoryButton'
 import { useAPIContext } from '@/store/APIContext'
 import PanelButton from '../PanelButton'
-import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
+import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 
 const ChangeCategories = (props: any) => {
   const [selected, setSelected] = useState(null)
@@ -47,19 +46,17 @@ const ChangeCategories = (props: any) => {
         title={"Edit Categories"}
         handleBackClick={() => props.updateState(0)}
       >
-        <ListItem>
-            <ListItemText primary="Please select category:" />
-          </ListItem>
-          <List
-            disablePadding={true}
-            style={{
-              overflow: 'auto',
-              overflowY: 'scroll',
-              height: '350px'
-            }}
-          >
-            {renderList()}
-          </List>
+        <Header text="Please select category:"/>
+        <List
+          disablePadding={true}
+          style={{
+            overflow: 'auto',
+            overflowY: 'scroll',
+            height: '350px'
+          }}
+        >
+          {renderList()}
+        </List>
       </RightMenuPanel>
       <RightMenuPanelBottom handleCancelClick={() => props.clickAway(false)}>
         <PanelButton onClick={() => props.updateState(2.1)}>

@@ -1,8 +1,6 @@
 import {
   List,
   ListItem,
-  ListItemText,
-  Button,
   Typography,
   AccordionSummary,
   Accordion,
@@ -13,7 +11,7 @@ import DeleteEventButton from '@/components/menu/menuButtons/changeEvents/Delete
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
+import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 import PanelButton from '../PanelButton'
 
 let EventList: (string | undefined)[] = []
@@ -132,18 +130,13 @@ const ChangeDeleteEvent = (props: any) => {
         title={isAdmin ? 'Change / Delete Event' : 'Selected Event'} 
         handleBackClick={goBack}
       >
-        <ListItem>
-          <ListItemText primary={`Selected date: ${selectedDate}`} />
-        </ListItem>
-        <ListItem>
-          <ListItemText
-            primary={
+        <Header text={`Selected date: ${selectedDate}`}/>
+        <Header text={
               eventsState.length === 0
                 ? 'No events on this day.'
                 : 'Please select event:'
             }
-          />
-        </ListItem>
+        />
         <List
           disablePadding={true}
           style={{

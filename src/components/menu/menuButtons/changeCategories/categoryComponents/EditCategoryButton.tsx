@@ -1,10 +1,9 @@
-import { Button } from '@mui/material'
 import React, { useState } from 'react'
 import { APIManager } from '@/utils/APIManager'
 import { useAPIContext } from '@/store/APIContext'
 import { icons } from '@/interfaces/Icons'
 import { Category } from '@/interfaces/Category'
-import { ErrorPopup, PopupType, SuccessPopup } from '../../Popup'
+import { PopupType } from '../../Popup'
 import PanelButton from '../../PanelButton'
 import CategoryPopup from './popups/CategoryPopups'
 
@@ -22,8 +21,7 @@ const EditCategoryButton = (props: EditCatProps) => {
 
   const [open, setOpen] = useState(false)
   const [clicked, setClicked] = useState(false)
-  const { categories, setCategories, updateCategories, setUpdateCats } =
-    useAPIContext()
+  const { categories, setCategories, updateCategories } = useAPIContext()
   const admin_id_1 = 'user' // @TODO
   const [popupType, setPopupType] = useState(PopupType.Success)
 

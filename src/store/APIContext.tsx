@@ -53,7 +53,7 @@ function getIsAdmin(): boolean {
 const APIStore = ({ children }: any) => {
   const [selected, setSelected] = useState<Category[]>([])
   const [categories, setCategories] = useState<Category[]>([])
-  const accountId = 'user' //getAccountID()
+  const accountId = getAccountID()
   const isAdmin = getIsAdmin()
   const [events, setEvents] = React.useState<Event[]>([])
   const [catMap, setCatMap] = useState(new Map())
