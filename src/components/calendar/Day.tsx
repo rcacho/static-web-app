@@ -5,17 +5,16 @@ import { useCalendarContext } from '@/store/CalendarContext'
 import AddIcon from '@mui/icons-material/Add'
 import { icons } from '@/interfaces/Icons'
 import { Box } from '@mui/material/'
+import { useAPIContext } from '@/store/APIContext'
 
 export const noValue = ''
 
 interface DayProps {
-  key: any
+  //key: any
   day: Number
   dayOfWeek: String
   handleDayClick: any
   month: any
-  categoryList: any
-  eventList: any
 }
 
 interface IconItems {
@@ -29,29 +28,30 @@ let IconList: IconItems[] = []
 const Day = (props: DayProps) => {
   const [iconSet, setIconSet] = useState(IconList)
   const { isYearView, currentDate } = useCalendarContext()
+  const { events, selected, categories } = useAPIContext()
 
   useEffect(() => {
     IconList = []
-    if (props.eventList.length > 0 && props.categoryList.length > 0) {
-      for (let j = 0; j < props.eventList.length; j++) {
-        let date = props.eventList[j].event_date
-        let day = Number(date.slice(8, 10))
-        let eventMonth = Number(date.slice(5, 7))
-        let year = Number(date.slice(0, 4))
+    if (events.length > 0 && selected.length > 0) {
+      for (let j = 0; j < events.length; j++) {
+        let date: Date = new Date(events[j].event_date)
+        let day = +(events[j].event_date as unknown as string).substring(8, 10)
+        let eventMonth = +(events[j].event_date as unknown as string).substring(
+          5,
+          7
+        )
+        let year = date.getFullYear()
         if (
           day === props.day &&
           eventMonth === props.month &&
           year === currentDate.getFullYear()
         ) {
-          for (let i = 0; i < props.categoryList.length; i++) {
-            if (
-              props.eventList[j].category_id ===
-              props.categoryList[i].category_id
-            ) {
+          for (let i = 0; i < selected.length; i++) {
+            if (events[j].category_id === selected[i].category_id) {
               let item: IconItems = {
-                icon: props.categoryList[i].icon,
-                color: props.categoryList[i].color,
-                event: props.categoryList[i].category_name
+                icon: selected[i].icon,
+                color: selected[i].color,
+                event: selected[i].category_name
               }
               IconList.push(item)
             }
@@ -60,7 +60,7 @@ const Day = (props: DayProps) => {
       }
     }
     setIconSet(IconList)
-  }, [currentDate, props.eventList, props.categoryList])
+  }, [currentDate, events, selected, categories])
 
   const CheckKey = (index: number) => {
     if (index === 7 && iconSet.length > 8) {
@@ -69,7 +69,7 @@ const Day = (props: DayProps) => {
       let Icon = icons[iconSet[index].icon]
       let color = iconSet[index].color
       return (
-        <Icon sx={{ color: color, minHeight: '10px', maxHeight: '10px' }} />
+        <Icon sx={{ color: color, minHeight: '12px', maxHeight: '12px' }} />
       )
     } else {
       return ' '
@@ -86,7 +86,7 @@ const Day = (props: DayProps) => {
               Icon = icons['CircleOutlinedIcon']
             }
             return (
-              <Grid key={index} xs={2}>
+              <Grid key={index} xs={3}>
                 <Icon
                   sx={{
                     color: color,
@@ -136,32 +136,32 @@ const Day = (props: DayProps) => {
         maxWidth="33px"
         minWidth="33px"
       >
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(5)}
         </Grid>
 
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(6)}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(7)}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(3)}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '9px', maxHeight: '9px' }}>
           {' '}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(4)}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(0)}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(1)}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(2)}
         </Grid>
       </Grid>
@@ -217,6 +217,7 @@ const Day = (props: DayProps) => {
               onClick={() => props.handleDayClick(props.day)}
               size={isYearView ? 'small' : 'large'}
               style={{
+                borderRadius: '60px',
                 fontSize: isYearView ? '100%' : '24px',
                 color: '#4D4D4D',
                 maxWidth: isYearView ? '30px' : '60px',
@@ -237,6 +238,7 @@ const Day = (props: DayProps) => {
                 onClick={() => props.handleDayClick(props.day)}
                 size={isYearView ? 'small' : 'large'}
                 style={{
+                  borderRadius: '60px',
                   fontSize: isYearView ? '100%' : '24px',
                   color: '#4D4D4D',
                   maxWidth: isYearView ? '30px' : '60px',
@@ -246,9 +248,37 @@ const Day = (props: DayProps) => {
                 {props.day.toString()}
               </Button>
             </Grid>
-            <Grid container xs={12} paddingRight="5px" paddingLeft="5px">
-              <ReturnMonthGrid></ReturnMonthGrid>
-            </Grid>
+            <Box
+              maxWidth={'80%'}
+              minWidth={'80%'}
+              sx={{ display: { xs: 'block', sm: 'none' } }}
+            >
+              <Grid
+                container
+                xs={12}
+                paddingRight="5px"
+                paddingLeft="5px"
+                maxWidth={'80%'}
+              >
+                <ReturnMonthGrid></ReturnMonthGrid>
+              </Grid>
+            </Box>
+            <Box
+              maxWidth={'100%'}
+              minWidth={'100%'}
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
+              <Grid
+                container
+                xs={12}
+                paddingRight="5px"
+                paddingLeft="5px"
+                maxWidth={'100%'}
+                minWidth={'100%'}
+              >
+                <ReturnMonthGrid></ReturnMonthGrid>
+              </Grid>
+            </Box>
           </Grid>
         </>
       )
@@ -264,7 +294,11 @@ const Day = (props: DayProps) => {
       display="flex"
       justifyContent="center"
       alignItems="top"
-      onClick={() => props.handleDayClick(props.day)}
+      onClick={() => {
+        if (props.day !== 0) {
+          props.handleDayClick(props.day)
+        }
+      }}
     >
       <Typography
         fontSize={isYearView ? '80%' : '24px'}

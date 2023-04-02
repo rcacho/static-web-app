@@ -14,18 +14,16 @@ import MuiTheme from '@/styles/MuiTheme'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import ColourPicker from '@/components/menu/menuButtons/changeCategories/ColourPicker'
 import SymbolPicker from '@/components/menu/menuButtons/changeCategories/SymbolPicker'
-import { APIManager } from '@/utils/APIManager'
-import { Category } from '@/interfaces/Category'
 import { icons } from '@/interfaces/Icons'
+import AddCatPopUp from '@/components/menu/menuButtons/changeCategories/popups/AddCatPopUp'
 
 // @ts-ignore
 const AddNewCategory = (props: any) => {
   const [categoryName, setCategoryName] = useState('')
-  const [categorySymbol, setCategorySymbol] =
-    useState<keyof typeof icons>('CircleIcon')
+  const [categorySymbol, setCategorySymbol] = useState<keyof typeof icons>(
+    'PanoramaFishEyeIcon'
+  )
   const [categoryColour, setCategoryColour] = useState('')
-
-  const admin_id_1 = 'user'
 
   const handleBackClick = () => {
     props.updateState(2)
@@ -37,39 +35,6 @@ const AddNewCategory = (props: any) => {
 
   const updateSymbol = (symbol: any) => {
     setCategorySymbol(symbol)
-  }
-
-  const handleAddCategory = () => {
-    addCategory(categoryName, admin_id_1, categorySymbol, categoryColour).then(
-      props.clickAway()
-    )
-  }
-
-  async function addCategory(
-    category_name: string,
-    admin_id: string,
-    icon: keyof typeof icons,
-    color: string
-  ) {
-    let payload: Category = {
-      category_id: null,
-      category_name: category_name,
-      admin_id: admin_id,
-      icon: icon,
-      color: color
-    }
-    APIManager.getInstance()
-      .then((instance) => instance.addCategory(payload))
-      .then((data) => {
-        console.log(data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
-    setCategoryName('')
-    setCategoryColour('')
-    setCategorySymbol('CircleIcon')
   }
 
   return (
@@ -93,6 +58,11 @@ const AddNewCategory = (props: any) => {
               onClick={handleBackClick}
               variant="body2"
               color="#898989"
+              sx={{
+                '&:hover': {
+                  cursor: 'pointer'
+                }
+              }}
             >
               Back
             </Typography>
@@ -139,8 +109,8 @@ const AddNewCategory = (props: any) => {
       >
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           {categoryName === '' ||
-          categoryColour === null ||
-          categorySymbol === null ? (
+          categoryColour === '' ||
+          categorySymbol === 'PanoramaFishEyeIcon' ? (
             <Button
               disabled
               className="menu-button"
@@ -151,15 +121,15 @@ const AddNewCategory = (props: any) => {
               Add New Category
             </Button>
           ) : (
-            <Button
-              className="menu-button"
-              size="medium"
-              variant="contained"
-              color="primary"
-              onClick={handleAddCategory}
+            <AddCatPopUp
+              name={categoryName}
+              icon={categorySymbol}
+              color={categoryColour}
+              clickAway={props.clickAway}
+              updateState={props.updateState}
             >
-              Add New Category
-            </Button>
+              Add Category
+            </AddCatPopUp>
           )}
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>

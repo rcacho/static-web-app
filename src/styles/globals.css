@@ -24,7 +24,7 @@ body {
   }
 }
 
-.MuiButton-root {
+button {
   border-radius: 60px;
 }
 
@@ -67,7 +67,7 @@ body {
 }
 
 .MuiGrid2-root {
-  color: #b9b9b9;
+  color: rgba(185, 185, 185, 0.63);
 
 }
 

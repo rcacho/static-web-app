@@ -34,7 +34,11 @@ const CalendarNavigator = () => {
           <IncrementDateButton />
           <Stack direction="column" alignItems="center">
             {getSmallDateString()}
-            {!isYearView ? <ToggleYearViewButton /> : <></>}
+            {!isYearView ? (
+              <ToggleYearViewButton />
+            ) : (
+              <ToggleMonthViewButton></ToggleMonthViewButton>
+            )}
           </Stack>
         </Stack>
       </Typography>
@@ -50,7 +54,7 @@ const CalendarNavigator = () => {
         alignItems="center"
         sx={{ display: { xs: 'none', sm: 'block' } }}
       >
-        {!isYearView ? <ToggleYearViewButton /> : <></>}
+        {!isYearView ? <ToggleYearViewButton /> : <ToggleMonthViewButton />}
       </Stack>
     </>
   )
@@ -76,7 +80,7 @@ const DecrementDateButton = () => {
   }
 
   return (
-    <Button>
+    <Button sx={{ borderRadius: '60px' }}>
       <ChevronLeftIcon
         onClick={handleClick}
         style={{ fontSize: '32px', color: '#4D4D4D' }}
@@ -105,7 +109,7 @@ const IncrementDateButton = () => {
   }
 
   return (
-    <Button>
+    <Button sx={{ borderRadius: '60px' }}>
       <ChevronRightIcon
         onClick={handleClick}
         style={{ fontSize: '32px', color: '#4D4D4D' }}
@@ -123,7 +127,7 @@ const ToggleYearViewButton = () => {
   }
 
   return (
-    <Button onClick={handleClick}>
+    <Button onClick={handleClick} sx={{ borderRadius: '60px' }}>
       <Box
         sx={{
           display: { xs: 'none', sm: 'block' },
@@ -156,6 +160,54 @@ const ToggleYearViewButton = () => {
           width="60px"
         >
           Year View
+        </Typography>
+      </Box>
+    </Button>
+  )
+}
+
+const ToggleMonthViewButton = () => {
+  const { changeView, toggleBarOnDateClick } = useCalendarContext()
+
+  const handleClick = () => {
+    changeView()
+    toggleBarOnDateClick(0)
+  }
+
+  return (
+    <Button onClick={handleClick} sx={{ borderRadius: '60px' }}>
+      <Box
+        sx={{
+          display: { xs: 'none', sm: 'block' },
+          justifyContent: 'flex-end',
+          color: '#898989',
+          textDecoration: 'underline',
+          fontFamily: 'Roboto'
+        }}
+      >
+        <Typography
+          // textTransform="capitalize"
+          variant="body2"
+        >
+          Month View
+        </Typography>
+      </Box>
+      <Box
+        sx={{
+          display: { xs: 'block', sm: 'none' },
+          justifyContent: 'flex-end',
+          color: '#898989',
+          textDecoration: 'underline',
+          fontFamily: 'Roboto'
+        }}
+      >
+        <Typography
+          // textTransform="capitalize"
+          variant="body2"
+          fontSize={'9px'}
+          width="60px"
+        >
+          Month View
         </Typography>
       </Box>
     </Button>

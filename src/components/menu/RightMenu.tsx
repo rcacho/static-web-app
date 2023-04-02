@@ -66,6 +66,7 @@ const RightMenu = (props: any) => {
             />
           ) : props.menuState === 1 ? (
             <AddEventRender
+              fromMenu={1}
               updateState={props.updateState}
               clickAway={handleClickAway}
             />
@@ -108,6 +109,12 @@ const RightMenu = (props: any) => {
             />
           ) : props.menuState === 3.2 ? (
             <RemoveAdmin
+              updateState={props.updateState}
+              clickAway={handleClickAway}
+            />
+          ) : props.menuState === 1.1 ? (
+            <AddEventRender
+              fromMenu={0}
               updateState={props.updateState}
               clickAway={handleClickAway}
             />
