@@ -7,17 +7,15 @@ export class NotificationDAO {
   constructor(db: DatabaseConnector) {
     this.db = db
   }
-  async getNotifications(uid: string) {
-    const query = `SELECT dbo.event.event_id, dbo.event.event_description, dbo.event.event_date, dbo.event.admin_id, dbo.notification_2.time_added, dbo.category.category_id, dbo.category.category_name, dbo.calendar_user.first_name, dbo.calendar_user.last_name, dbo.notification_2.update_type
-    FROM dbo.notification_2
-    INNER JOIN dbo.event ON dbo.event.event_id = dbo.notification_2.event_id
-    INNER JOIN dbo.calendar_user ON dbo.calendar_user.user_id = dbo.event.admin_id
-    INNER JOIN dbo.category ON dbo.event.category_id = dbo.category.category_id
-    WHERE dbo.notification_2_2.time_added >= (
-        SELECT notification_check
-        FROM dbo.calendar_user
-        WHERE user_id = '${uid}'
-    )`
+  async getNotifications(oid: string) {
+    const query = `SELECT calendar.event.id, calendar.event.event_description, calendar.event.event_date, calendar.event.user_id, calendar.notification.time_added, calendar.category.id, calendar.category.name, calendar.notification.update_type
+    FROM calendar.notification
+    INNER JOIN calendar.event ON calendar.event.id = calendar.notification.event_id
+    INNER JOIN calendar.app_user ON calendar.app_user.id = calendar.event.user_id
+    INNER JOIN calendar.category ON calendar.event.category_id = calendar.category.id
+    WHERE calendar.notification.time_added >= (SELECT notification_check
+                                               FROM calendar.app_user
+                                               WHERE active_directory_oid = '${oid}')`
 
     const resultset = await this.db.ConnectAndQuery(query)
     return resultset.recordset
