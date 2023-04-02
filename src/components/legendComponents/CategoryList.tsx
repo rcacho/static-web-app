@@ -73,7 +73,7 @@ const CategoryList = ({
       categories: selectedIds
     }
     const api = await APIManager.getInstance()
-    const result = await api.setFilter(accountId, data)
+    await api.setFilter(accountId, data)
 
     setSelected(selectedNotSaved)
   }

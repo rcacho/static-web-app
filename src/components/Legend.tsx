@@ -15,8 +15,7 @@ const Legend = () => {
     setCategories,
     categories,
     setSelected,
-    updateCats,
-    accountId
+    updateCats
   } = useAPIContext()
   const [show, toggleShow] = React.useState(true)
   const [selectedNotSaved, setSelectedNotSaved] =
