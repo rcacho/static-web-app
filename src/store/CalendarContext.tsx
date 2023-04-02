@@ -28,7 +28,7 @@ const CalendarStore = ({ children }: any) => {
   const [yearView, setYearView] = useState(false)
   const [dayClickCount, setDayClickCount] = useState(0)
   const [selectedDate, setSelectedDate] = useState<undefined | string>(
-    undefined
+    new Date().toUTCString()
   )
 
   const changeView = (date?: Date) => {
