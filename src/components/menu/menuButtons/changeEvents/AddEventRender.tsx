@@ -12,8 +12,6 @@ import {
 
 import React, { useEffect, useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
-// @ts-ignore
-import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
@@ -34,10 +32,10 @@ const AddEventRender = (props: any) => {
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
   const [events, setEvents] = useState([''])
-  const { categories, updateEvents, accountId } = useAPIContext()
+  const { categories, updateEvents, accountId, updateCats, setUpdateCats } =
+    useAPIContext()
   const [open, setOpen] = React.useState(false)
   const [openFailed, setOpenFailed] = React.useState(false)
-
   const [first, setFirst] = useState(true)
   const { selectedDate } = useCalendarContext()
 
@@ -49,14 +47,14 @@ const AddEventRender = (props: any) => {
     }
     setEvents(EventList)
     if (first) {
-      setEventDate(new Date(reformatDate(selectedDate as string)))
       if (props.fromMenu === 0) {
-        console.log('boogers')
         setEventDate(nullDate)
+      } else {
+        setEventDate(new Date(reformatDate(selectedDate as string)))
       }
       setFirst(false)
     }
-  }, [selected, categories])
+  }, [selected, categories, updateCats])
 
   function reformatDate(date: string) {
     let res: string = ''
@@ -87,10 +85,14 @@ const AddEventRender = (props: any) => {
             description,
             accountId.toString(),
             catIDs[selected]
-          ).then(() => {
-            updateEvents()
-            setOpen(true)
-          })
+          )
+            .then(() => {
+              updateEvents()
+              setOpen(true)
+            })
+            .then(() => {
+              setUpdateCats((prev) => !prev)
+            })
         })
       })
     }
@@ -122,26 +124,24 @@ const AddEventRender = (props: any) => {
   }
 
   // render list for the scroll function
-  function renderList(props: ListChildComponentProps) {
-    const { index, style } = props
-
-    const handleSelect = () => {
+  function renderList() {
+    const handleSelect = (index: any) => {
       setSelected(index)
-      console.log(eventDate)
     }
-    return (
-      <ListItem
-        style={style}
-        key={index}
-        component="div"
-        disablePadding
-        onClick={handleSelect}
-      >
-        <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`${events[index]}`} />
-        </ListItemButton>
-      </ListItem>
-    )
+    return events.map((value, index) => {
+      return (
+        <ListItem
+          key={index}
+          component="div"
+          disablePadding
+          onClick={() => handleSelect(index)}
+        >
+          <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
+            <ListItemText primary={`${value}`} />
+          </ListItemButton>
+        </ListItem>
+      )
+    })
   }
 
   const handleBackClick = () => {
@@ -251,16 +251,16 @@ const AddEventRender = (props: any) => {
         <ListItem>
           <ListItemText primary="Please select category:" />
         </ListItem>
-        <FixedSizeList
-          height={200}
-          width={360}
-          itemSize={38}
-          itemCount={EventList.length}
-          overscanCount={5}
+        <List
+          disablePadding={true}
+          style={{
+            overflow: 'auto',
+            overflowY: 'scroll',
+            height: '200px'
+          }}
         >
-          {renderList}
-        </FixedSizeList>
-
+          {renderList()}
+        </List>
         <ListItem>
           <ListItemText primary="Please enter a date:" />
         </ListItem>
