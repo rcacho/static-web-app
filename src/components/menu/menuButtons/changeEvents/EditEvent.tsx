@@ -45,6 +45,7 @@ const EditEvent = (props: any) => {
   const [first, setFirst] = useState(true)
   const [events, setEvents] = useState([''])
   const [open, setOpen] = React.useState(false)
+  const [openFailed, setOpenFailed] = React.useState(false)
 
   const [eventDate, setEventDate] = useState(nullDate)
   const [description, setEventDescription] = useState('')
@@ -94,14 +95,28 @@ const EditEvent = (props: any) => {
   const handleOnClick = () => {
     setClicked(true)
     if (selected !== null) {
-      editEvent(
-        eventId,
-        eventDate,
-        description,
-        adminID,
-        catIDs[selected]
-      ).then((_) => {
-        setOpen(true)
+      APIManager.getInstance().then((instance) => {
+        instance.getEvent().then((data) => {
+          for (let i = 0; i < data.result.length; i++) {
+            let eDate = new Date(data.result[i].event_date)
+            if (eDate.toUTCString() === eventDate.toUTCString()) {
+              if (data.result[i].category_id === catIDs[selected]) {
+                setOpenFailed(true)
+                return
+              }
+            }
+          }
+
+          editEvent(
+            eventId,
+            eventDate,
+            description,
+            adminID,
+            catIDs[selected]
+          ).then((_) => {
+            setOpen(true)
+          })
+        })
       })
     }
   }
@@ -131,6 +146,38 @@ const EditEvent = (props: any) => {
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
               Event successfully edited!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>OK</Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    )
+  }
+
+  function EventEditFailedPopup() {
+    return (
+      <>
+        <Dialog
+          sx={{
+            '& .MuiDialog-container': {
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '90vh'
+            }
+          }}
+          open={openFailed}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'ERROR: Edit Event'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Event already exists!
             </DialogContentText>
           </DialogContent>
           <DialogActions>
@@ -184,6 +231,7 @@ const EditEvent = (props: any) => {
   return (
     <ThemeProvider theme={MuiTheme}>
       <EventEditPopup />
+      <EventEditFailedPopup />
       <List>
         <ListItem>
           <ListItemText
