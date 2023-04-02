@@ -18,7 +18,6 @@ const AddCatPopUp = (props: any) => {
   const {
     categories,
     updateCategories,
-    setUpdateCats,
     updateEvents
   } = useAPIContext()
   const admin_id_1 = 'user' // @TODO
@@ -52,23 +51,15 @@ const AddCatPopUp = (props: any) => {
       color: color
     }
     const instance = await APIManager.getInstance()
-      .then((instance) => instance.addCategory(payload))
-      .then(() => {
-        updateCategories()
-        updateEvents()
-      })
-      .then(() => {
-        setUpdateCats((prev) => !prev)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+    await instance.addCategory(payload)
+    await updateCategories()
+    await updateEvents()
   }
 
   const handleClickOpen = async () => {
     setClicked(true)
     await updateCategories()
-    if (await !hasDuplicate()) {
+    if (!(await hasDuplicate())) {
       addCategory(props.name, admin_id_1, props.icon, props.color)
     }
   }
