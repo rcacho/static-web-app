@@ -2,22 +2,18 @@ import {
   List,
   ListItem,
   ListItemText,
-  ThemeProvider,
   Button,
   Typography,
-  Box,
   AccordionSummary,
   Accordion,
   AccordionDetails
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import MuiTheme from '@/styles/MuiTheme'
-// @ts-ignore
-import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import DeleteEventPopUp from '@/components/menu/menuButtons/changeEvents/DeleteEventPopUp'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
 
 let EventList: (string | undefined)[] = []
 let IdList: (number | null)[] = []
@@ -155,41 +151,16 @@ const ChangeDeleteEvent = (props: any) => {
     })
   }
 
-  const handleBackClick = () => {
+  const goBack = () => {
     props.updateState(0)
   }
 
-  return (
-    <ThemeProvider theme={MuiTheme}>
-      <List>
-        <ListItem>
-          <ListItemText
-            sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary={isAdmin ? 'Change / Delete Event' : 'Selected Event'}
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              color: '#898989',
-              textDecoration: 'underline',
-              fontFamily: 'Roboto'
-            }}
-          >
-            <Typography
-              onClick={handleBackClick}
-              sx={{
-                '&:hover': {
-                  cursor: 'pointer'
-                }
-              }}
-              variant="body2"
-              color="#898989"
-            >
-              Back
-            </Typography>
-          </Box>
-        </ListItem>
+  return ( 
+    <>
+      <RightMenuPanel 
+        title={isAdmin ? 'Change / Delete Event' : 'Selected Event'} 
+        handleBackClick={goBack}
+      >
         <ListItem>
           <ListItemText primary={`Selected date: ${selectedDate}`} />
         </ListItem>
@@ -212,18 +183,10 @@ const ChangeDeleteEvent = (props: any) => {
         >
           {renderList()}
         </List>
-      </List>
-      {isAdmin && (
-        <List
-          className="bottom-buttons-cat"
-          disablePadding={true}
-          sx={{
-            position: 'absolute',
-            margin: 'auto',
-            bottom: '0',
-            width: '100%',
-            height: '26%'
-          }}
+      </RightMenuPanel>
+      {isAdmin ? (
+        <RightMenuPanelBottom
+          handleCancelClick={goBack}
         >
           <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
             <Button
@@ -246,20 +209,9 @@ const ChangeDeleteEvent = (props: any) => {
               Delete Event
             </DeleteEventPopUp>
           </ListItem>
-          <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button
-              className="menu-button"
-              size="medium"
-              variant="contained"
-              color="primary"
-              onClick={handleBackClick}
-            >
-              Cancel
-            </Button>
-          </ListItem>
-        </List>
-      )}
-    </ThemeProvider>
+          </RightMenuPanelBottom>
+      ) : null}
+    </>
   )
 }
 

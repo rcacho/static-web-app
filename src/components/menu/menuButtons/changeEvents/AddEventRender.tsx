@@ -3,24 +3,17 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
-  ThemeProvider,
   TextField,
   Button,
-  Typography,
-  Box
 } from '@mui/material'
 
 import React, { useEffect, useState } from 'react'
-import MuiTheme from '@/styles/MuiTheme'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
 import { useCalendarContext } from '@/store/CalendarContext'
+import Popup from './Popup'
+import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -144,7 +137,7 @@ const AddEventRender = (props: any) => {
     })
   }
 
-  const handleBackClick = () => {
+  const goBack = () => {
     props.updateState(0)
   }
 
@@ -154,100 +147,36 @@ const AddEventRender = (props: any) => {
     props.clickAway()
   }
 
-  function EventAddedPopupFailed() {
+  const EventAddedPopupFailed = () => { 
     return (
-      <>
-        <Dialog
-          sx={{
-            '& .MuiDialog-container': {
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '90vh'
-            }
-          }}
-          open={openFailed}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{'ERROR'}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Event already exists on this date!
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>OK</Button>
-          </DialogActions>
-        </Dialog>
-      </>
+      <Popup 
+        open={openFailed} 
+        onClose={handleClose} 
+        title={'ERROR'} 
+        body={'Event already exists on this date!'}
+      />
     )
   }
 
-  function EventAddedPopup() {
+  const EventAddedPopup = () => {
     return (
-      <>
-        <Dialog
-          sx={{
-            '& .MuiDialog-container': {
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '90vh'
-            }
-          }}
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{'Event Added'}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Event successfully added
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>OK</Button>
-          </DialogActions>
-        </Dialog>
-      </>
+      <Popup
+        open={open} 
+        onClose={handleClose} 
+        title={'Event Added'} 
+        body={'Event Successfully Added'}
+      />
     )
   }
 
   return (
-    <ThemeProvider theme={MuiTheme}>
-      <EventAddedPopup />
-      <EventAddedPopupFailed />
-      <List>
-        <ListItem>
-          <ListItemText
-            sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Add Event"
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              color: '#898989',
-              textDecoration: 'underline',
-              fontFamily: 'Roboto',
-              input: { cursor: 'pointer' }
-            }}
-          >
-            <Typography
-              onClick={() => handleBackClick()}
-              sx={{
-                '&:hover': {
-                  cursor: 'pointer'
-                }
-              }}
-              variant="body2"
-              color="#898989"
-            >
-              Back
-            </Typography>
-          </Box>
-        </ListItem>
+    <>
+      <EventAddedPopup/>
+      <EventAddedPopupFailed/>
+      <RightMenuPanel 
+        title={'Add Event'} 
+        handleBackClick={goBack}
+      >
         <ListItem>
           <ListItemText primary="Please select category:" />
         </ListItem>
@@ -299,18 +228,8 @@ const AddEventRender = (props: any) => {
             }}
           />
         </ListItem>
-      </List>
-      <List
-        className="bottom-buttons"
-        disablePadding={true}
-        sx={{
-          position: 'absolute',
-          margin: 'auto',
-          bottom: '0',
-          width: '100%',
-          height: '13%'
-        }}
-      >
+      </RightMenuPanel>
+      <RightMenuPanelBottom handleCancelClick={goBack}>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             disabled={selected === null || +eventDate === +nullDate}
@@ -318,24 +237,13 @@ const AddEventRender = (props: any) => {
             size="medium"
             variant="contained"
             color="primary"
-            onClick={() => handleAddEvent()}
+            onClick={handleAddEvent}
           >
             Add Event
           </Button>
         </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={() => handleBackClick()}
-          >
-            Cancel
-          </Button>
-        </ListItem>
-      </List>
-    </ThemeProvider>
+      </RightMenuPanelBottom>
+    </>
   )
 }
 

@@ -3,17 +3,12 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
-  ThemeProvider,
-  Button,
-  Box,
-  Typography
+  Button
 } from '@mui/material'
 import React, { useState } from 'react'
-import MuiTheme from '@/styles/MuiTheme'
-// @ts-ignore
-import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/popups/DeleteCategoryPopUp'
 import { useAPIContext } from '@/store/APIContext'
+import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
 
 // placeholder for the list of categories
 
@@ -48,66 +43,27 @@ const ChangeCategories = (props: any) => {
     })
   }
 
-  //function to handle Back button
-  const handleBackClick = () => {
-    props.updateState(0)
-  }
   return (
-    <ThemeProvider theme={MuiTheme}>
-      <List disablePadding={true}>
+    <>
+      <RightMenuPanel
+        title={"Edit Categories"}
+        handleBackClick={() => props.updateState(0)}
+      >
         <ListItem>
-          <ListItemText
-            sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Edit Categories"
-          />{' '}
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              color: '#898989',
-              textDecoration: 'underline',
-              fontFamily: 'Roboto'
+            <ListItemText primary="Please select category:" />
+          </ListItem>
+          <List
+            disablePadding={true}
+            style={{
+              overflow: 'auto',
+              overflowY: 'scroll',
+              height: '350px'
             }}
           >
-            <Typography
-              onClick={handleBackClick}
-              variant="body2"
-              color="#898989"
-              sx={{
-                '&:hover': {
-                  cursor: 'pointer'
-                }
-              }}
-            >
-              Back
-            </Typography>
-          </Box>
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Please select category:" />
-        </ListItem>
-        <List
-          disablePadding={true}
-          style={{
-            overflow: 'auto',
-            overflowY: 'scroll',
-            height: '350px'
-          }}
-        >
-          {renderList()}
-        </List>
-      </List>
-      <List
-        className="bottom-buttons-cat"
-        disablePadding={true}
-        sx={{
-          position: 'absolute',
-          margin: 'auto',
-          bottom: '0',
-          width: '100%',
-          height: '26%'
-        }}
-      >
+            {renderList()}
+          </List>
+      </RightMenuPanel>
+      <RightMenuPanelBottom handleCancelClick={() => props.clickAway(false)}>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             className="menu-button"
@@ -167,19 +123,8 @@ const ChangeCategories = (props: any) => {
             </DeleteCategoryPopUp>
           )}
         </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="small"
-            variant="contained"
-            color="primary"
-            onClick={() => props.clickAway(false)}
-          >
-            Cancel
-          </Button>
-        </ListItem>
-      </List>
-    </ThemeProvider>
+      </RightMenuPanelBottom>
+    </>
   )
 }
 

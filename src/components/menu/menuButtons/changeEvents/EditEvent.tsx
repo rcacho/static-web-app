@@ -3,25 +3,17 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
-  ThemeProvider,
   TextField,
   Button,
-  Typography,
-  Box
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
-import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
+import Popup from './Popup'
+import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -126,65 +118,25 @@ const EditEvent = (props: any) => {
     props.clickAway()
   }
 
-  function EventEditPopup() {
+  const EventEditPopup = () => {
     return (
-      <>
-        <Dialog
-          sx={{
-            '& .MuiDialog-container': {
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '90vh'
-            }
-          }}
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{'Event Edited'}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Event successfully edited!
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>OK</Button>
-          </DialogActions>
-        </Dialog>
-      </>
+      <Popup
+        open={open}
+        onClose={handleClose}
+        title={'Event Edited'}
+        body={'Event successfully edited!'}
+      />
     )
   }
 
-  function EventEditFailedPopup() {
+  const EventEditFailedPopup = () => {
     return (
-      <>
-        <Dialog
-          sx={{
-            '& .MuiDialog-container': {
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '90vh'
-            }
-          }}
-          open={openFailed}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {'ERROR: Edit Event'}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Event already exists!
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>OK</Button>
-          </DialogActions>
-        </Dialog>
-      </>
+      <Popup
+        open={openFailed}
+        onClose={handleClose}
+        title={'ERROR: Edit Event'}
+        body={'Event already exists!'}
+      />
     )
   }
 
@@ -229,41 +181,14 @@ const EditEvent = (props: any) => {
   }
 
   return (
-    <ThemeProvider theme={MuiTheme}>
+    <>
       <EventEditPopup />
       <EventEditFailedPopup />
-      <List>
-        <ListItem>
-          <ListItemText
-            sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Edit Event"
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              color: '#898989',
-              textDecoration: 'underline',
-              fontFamily: 'Roboto'
-            }}
-          >
-            <Typography
-              onClick={handleBackClick}
-              sx={{
-                '&:hover': {
-                  cursor: 'pointer'
-                }
-              }}
-              variant="body2"
-              color="#898989"
-            >
-              Back
-            </Typography>
-          </Box>
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Please select category:" />
-        </ListItem>
+      <RightMenuPanel
+        title={"Edit Event"}
+        handleBackClick={handleBackClick}
+      >
+        <Header text="Please select category:"/>
         <List
           disablePadding={true}
           style={{
@@ -274,10 +199,7 @@ const EditEvent = (props: any) => {
         >
           {renderList()}
         </List>
-
-        <ListItem>
-          <ListItemText primary="Please enter date:" />
-        </ListItem>
+        <Header text="Please enter date:"/>
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             id="standard-basic"
@@ -294,9 +216,7 @@ const EditEvent = (props: any) => {
             }}
           />
         </ListItem>
-        <ListItem>
-          <ListItemText primary="Event description:" />
-        </ListItem>
+        <Header text="Event description:"/>
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             multiline={true}
@@ -309,19 +229,9 @@ const EditEvent = (props: any) => {
             onChange={(newVal) => setEventDescription(newVal.target.value)}
           />
         </ListItem>
-      </List>
-      <List
-        className="bottom-buttons"
-        disablePadding={true}
-        sx={{
-          position: 'absolute',
-          margin: 'auto',
-          bottom: '0',
-          width: '100%',
-          height: '13%'
-        }}
-      >
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+      </RightMenuPanel>
+      <RightMenuPanelBottom handleCancelClick={handleBackClick}>
+      <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
             disabled={clicked}
             className="menu-button"
@@ -333,19 +243,8 @@ const EditEvent = (props: any) => {
             Save Changes
           </Button>
         </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={handleBackClick}
-          >
-            Cancel
-          </Button>
-        </ListItem>
-      </List>
-    </ThemeProvider>
+      </RightMenuPanelBottom>
+    </>
   )
 }
 

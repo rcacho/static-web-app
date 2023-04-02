@@ -20,12 +20,12 @@ interface APIStoreValue {
   updateCatMap: (category: Category[]) => void
   selectedEvent: number
   setSelectedEvent: React.Dispatch<React.SetStateAction<number>>
-  updateEvents: () => void
+  updateEvents: () => Promise<void>
   eventIndex: number
   setEventIndex: React.Dispatch<React.SetStateAction<number>>
   eventId: number
   changeEventId: (id: number) => void
-  updateCategories: () => void
+  updateCategories: () => Promise<void>
   updateCats: boolean
   setUpdateCats: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -53,7 +53,7 @@ function getIsAdmin(): boolean {
 const APIStore = ({ children }: any) => {
   const [selected, setSelected] = useState<Category[]>([])
   const [categories, setCategories] = useState<Category[]>([])
-  const accountId = getAccountID()
+  const accountId = 'user' //getAccountID()
   const isAdmin = getIsAdmin()
   const [events, setEvents] = React.useState<Event[]>([])
   const [catMap, setCatMap] = useState(new Map())
@@ -66,26 +66,16 @@ const APIStore = ({ children }: any) => {
     setEventId(id)
   }
 
-  function updateEvents() {
-    APIManager.getInstance()
-      .then((instance) => instance.getEvent())
-      .then((data) => {
-        setEvents(data.result)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  async function updateEvents() {
+    const instance = await APIManager.getInstance()
+    const data = await instance.getEvent()
+    setEvents(data.result)
   }
 
-  function updateCategories() {
-    APIManager.getInstance()
-      .then((instance) => instance.getCategory())
-      .then((data) => {
-        setCategories(data.result)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
+  async function updateCategories() {
+    const instance = await APIManager.getInstance()
+    const data = await instance.getCategory()
+    setCategories(data.result)
   }
 
   const updateCatMap = (categories: Category[]) => {

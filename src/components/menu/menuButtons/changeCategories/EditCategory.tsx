@@ -1,29 +1,20 @@
 import {
-  List,
   ListItem,
   ListItemText,
-  ThemeProvider,
   TextField,
-  Button,
-  Typography,
   Box
 } from '@mui/material'
 import React, { useState } from 'react'
-import MuiTheme from '@/styles/MuiTheme'
-// @ts-ignore
-import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import ColourPicker from '@/components/menu/menuButtons/changeCategories/ColourPicker'
 import SymbolPicker from '@/components/menu/menuButtons/changeCategories/SymbolPicker'
 import EditCatPopUp from '@/components/menu/menuButtons/changeCategories/popups/EditCatPopUp'
+import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
 
 // @ts-ignore
 const EditCategory = (props: any) => {
   const [categoryName, setCategoryName] = useState(props.category.category_name)
   const [categorySymbol, setCategorySymbol] = useState(props.category.icon)
   const [categoryColour, setCategoryColour] = useState(props.category.color)
-  const handleBackClick = () => {
-    props.updateState(2)
-  }
 
   const updateColour = (colour: any) => {
     setCategoryColour(colour)
@@ -34,36 +25,11 @@ const EditCategory = (props: any) => {
   }
 
   return (
-    <ThemeProvider theme={MuiTheme}>
-      <List>
-        <ListItem>
-          <ListItemText
-            sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Edit Category"
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              color: '#898989',
-              textDecoration: 'underline',
-              fontFamily: 'Roboto'
-            }}
-          >
-            <Typography
-              onClick={handleBackClick}
-              variant="body2"
-              color="#898989"
-              sx={{
-                '&:hover': {
-                  cursor: 'pointer'
-                }
-              }}
-            >
-              Back
-            </Typography>
-          </Box>
-        </ListItem>
+    <>
+      <RightMenuPanel
+        title={"Edit Category"}
+        handleBackClick={() => props.updateState(2)}
+      >
         <ListItem>
           <ListItemText primary="Please enter category name:" />
         </ListItem>
@@ -98,19 +64,9 @@ const EditCategory = (props: any) => {
             setColour={updateColour}
           />
         </Box>
-      </List>
-      <List
-        className="bottom-buttons"
-        disablePadding={true}
-        sx={{
-          position: 'absolute',
-          margin: 'auto',
-          bottom: '0',
-          width: '100%',
-          height: '13%'
-        }}
-      >
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
+      </RightMenuPanel>
+      <RightMenuPanelBottom handleCancelClick={props.clickAway}>
+      <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <EditCatPopUp
             name={categoryName}
             icon={categorySymbol}
@@ -122,21 +78,8 @@ const EditCategory = (props: any) => {
             Save Changes
           </EditCatPopUp>
         </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.clickAway()
-            }}
-          >
-            Cancel
-          </Button>
-        </ListItem>
-      </List>
-    </ThemeProvider>
+      </RightMenuPanelBottom>
+    </>
   )
 }
 
