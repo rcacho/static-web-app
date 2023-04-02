@@ -1,13 +1,9 @@
 import { Button } from '@mui/material'
 import React from 'react'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
+import Popup, { ButtonPopup } from './Popup'
 
 const DeleteEventPopUp = (props: any) => {
   const [open, setOpen] = React.useState(false)
@@ -54,33 +50,14 @@ const DeleteEventPopUp = (props: any) => {
       })
   }
 
-  function EventDeletePopup() {
+  const EventDeletePopup = () => {
     return (
-      <>
-        <Dialog
-          sx={{
-            '& .MuiDialog-container': {
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '90vh'
-            }
-          }}
-          open={openConfirm}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{'Event Deleted'}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Event successfully deleted!
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>OK</Button>
-          </DialogActions>
-        </Dialog>
-      </>
+      <Popup
+        open={openConfirm}
+        onClose={handleClose}
+        title={'Event Deleted'}
+        body={'Event successfully deleted!'}
+      />
     )
   }
 
@@ -116,33 +93,14 @@ const DeleteEventPopUp = (props: any) => {
     <>
       <DeleteButton />
       <EventDeletePopup />
-      <Dialog
-        sx={{
-          '& .MuiDialog-container': {
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '90vh'
-          }
-        }}
+      <ButtonPopup
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{'Delete Event'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you would like to delete the selected event? This
-            action is permanent.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleCloseDelete} autoFocus>
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
+        title={'Delete Event'}
+        body={'Are you sure you would like to delete the selected event? This action is permanent.'}
+        buttonLabel={'Delete'}
+        buttonClick={handleCloseDelete}
+      />
     </>
   )
 }

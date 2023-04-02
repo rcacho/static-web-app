@@ -1,14 +1,10 @@
 import { Button } from '@mui/material'
 import React, { useState } from 'react'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
 import { APIManager } from '@/utils/APIManager'
 import { useAPIContext } from '@/store/APIContext'
 import { icons } from '@/interfaces/Icons'
 import { Category } from '@/interfaces/Category'
+import Popup from '../../changeEvents/Popup'
 
 const EditCatPopUp = (props: any) => {
   const [open, setOpen] = useState(false)
@@ -113,97 +109,34 @@ const EditCatPopUp = (props: any) => {
 
   const Success = () => {
     return (
-      <Dialog
-        sx={{
-          '& .MuiDialog-container': {
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '90vh'
-          }
-        }}
+      <Popup
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{'Category Updated'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Category updated successfully.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} autoFocus>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+        title={'Category Updated'}
+        body={'Category updated successfully.'}
+      />
     )
   }
 
   const DuplicateName = () => {
     return (
-      <Dialog
-        sx={{
-          '& .MuiDialog-container': {
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '90vh'
-          }
-        }}
+      <Popup
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {'Category Not Updated'}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            The name "{props.name}" is already in use by another category.
-            Please try another name.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} autoFocus>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+        title={'ERROR'}
+        body={`The name "${props.name}" is already in use by another category. Please try another name.`}
+      />
     )
   }
 
   const DuplicateCombo = () => {
     return (
-      <Dialog
-        sx={{
-          '& .MuiDialog-container': {
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '90vh'
-          }
-        }}
+      <Popup
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {'Category Not Updated'}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Colour and symbol combination already in use. Please try a unique
-            combination.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} autoFocus>
-            Close
-          </Button>
-        </DialogActions>
-      </Dialog>
+        title={'ERROR'}
+        body={'Colour and symbol combination already in use. Please try a unique combination.'}
+      />
     )
   }
 
