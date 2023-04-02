@@ -16,6 +16,15 @@ export class DatabaseConnector {
     }
   }
 
+  async CreateRequest() {
+    try {
+      const conn = await sql.connect(this.configs)
+      return new sql.Request(conn)
+    } catch (err: any) {
+      throw new DatabaseError(err.stack)
+    }
+  }
+
   async ConnectAndQuery(query: String) {
     try {
       const poolConnection = await sql.connect(this.configs)
