@@ -21,6 +21,13 @@ interface APIStoreValue {
   selectedEvent: number
   setSelectedEvent: React.Dispatch<React.SetStateAction<number>>
   updateEvents: () => void
+  eventIndex: number
+  setEventIndex: React.Dispatch<React.SetStateAction<number>>
+  eventId: number
+  changeEventId: (id: number) => void
+  updateCategories: () => void
+  updateCats: boolean
+  setUpdateCats: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const useAPIContext = () => {
@@ -51,13 +58,13 @@ const APIStore = ({ children }: any) => {
   const [events, setEvents] = React.useState<Event[]>([])
   const [catMap, setCatMap] = useState(new Map())
   const [selectedEvent, setSelectedEvent] = useState(0)
+  const [eventId, setEventId] = useState(-1)
+  const [eventIndex, setEventIndex] = useState(-1)
+  const [updateCats, setUpdateCats] = useState(false)
 
-  //@ TODO: Unsure if necessary. Consult Joseph later.
-  React.useEffect(() => {
-    APIManager.getInstance().then((instance) =>
-      instance.setUserLastLogin(accountId)
-    )
-  }, [])
+  const changeEventId = (id: number) => {
+    setEventId(id)
+  }
 
   function updateCategories() {
     APIManager.getInstance()
@@ -75,6 +82,17 @@ const APIStore = ({ children }: any) => {
       .then((instance) => instance.getEvent())
       .then((data) => {
         setEvents(data.result)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  function updateCategories() {
+    APIManager.getInstance()
+      .then((instance) => instance.getCategory())
+      .then((data) => {
+        setCategories(data.result)
       })
       .catch((err) => {
         console.log(err)
@@ -102,7 +120,14 @@ const APIStore = ({ children }: any) => {
     updateCatMap: updateCatMap,
     selectedEvent: selectedEvent,
     setSelectedEvent: setSelectedEvent,
-    updateEvents: updateEvents
+    updateEvents: updateEvents,
+    eventIndex: eventIndex,
+    setEventIndex: setEventIndex,
+    eventId: eventId,
+    changeEventId: changeEventId,
+    updateCategories: updateCategories,
+    updateCats: updateCats,
+    setUpdateCats: setUpdateCats
   }
 
   return (

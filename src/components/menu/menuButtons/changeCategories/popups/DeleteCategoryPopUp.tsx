@@ -12,6 +12,7 @@ const DeleteCategoryPopUp = (props: any) => {
   const { setCategories, categories } = useAPIContext()
   const [open, setOpen] = useState(false)
   let admin_id = 'user'
+  const { updateEvents, updateCategories, setUpdateCats } = useAPIContext()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -39,9 +40,13 @@ const DeleteCategoryPopUp = (props: any) => {
         }
         setCategories(newCat)
         instance.deleteCategory(categoryID, { admin_id: admin_id })
+      )
+      .then(() => {
+        updateEvents()
+        updateCategories()
       })
-      .then((data) => {
-        console.log(data)
+      .then(() => {
+        setUpdateCats((prev) => !prev)
       })
       .catch((err) => {
         console.log(err)

@@ -82,8 +82,6 @@ export class APIManager {
   }
 
   private async fetch(url: string, method: string, data?: any) {
-    console.log(data)
-
     if (!this.accessToken) {
       const account = msalInstance.getAllAccounts()[0]
       if (!account) {

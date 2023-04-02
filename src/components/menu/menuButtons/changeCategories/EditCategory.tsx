@@ -14,16 +14,13 @@ import MuiTheme from '@/styles/MuiTheme'
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import ColourPicker from '@/components/menu/menuButtons/changeCategories/ColourPicker'
 import SymbolPicker from '@/components/menu/menuButtons/changeCategories/SymbolPicker'
-import { Category } from '@/interfaces/Category'
-import { APIManager } from '@/utils/APIManager'
-import { icons } from '@/interfaces/Icons'
+import EditCatPopUp from '@/components/menu/menuButtons/changeCategories/popups/EditCatPopUp'
 
 // @ts-ignore
 const EditCategory = (props: any) => {
   const [categoryName, setCategoryName] = useState(props.category.category_name)
   const [categorySymbol, setCategorySymbol] = useState(props.category.icon)
   const [categoryColour, setCategoryColour] = useState(props.category.color)
-  const admin_id_1 = 'user'
   const handleBackClick = () => {
     props.updateState(2)
   }
@@ -34,40 +31,6 @@ const EditCategory = (props: any) => {
 
   const updateSymbol = (symbol: any) => {
     setCategorySymbol(symbol)
-  }
-
-  const handleSave = () => {
-    updateCategory(
-      categoryName,
-      admin_id_1,
-      categorySymbol,
-      categoryColour
-    ).then(props.clickAway())
-  }
-
-  async function updateCategory(
-    category_name: string,
-    admin_id: string,
-    icon: keyof typeof icons,
-    color: string
-  ) {
-    let payload: Category = {
-      category_id: props.category.category_id,
-      category_name: category_name,
-      admin_id: admin_id,
-      icon: icon,
-      color: color
-    }
-    APIManager.getInstance()
-      .then((instance) =>
-        instance.updateCategory(props.category.category_id, payload)
-      )
-      .then((data) => {
-        console.log(data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
   }
 
   return (
@@ -148,15 +111,16 @@ const EditCategory = (props: any) => {
         }}
       >
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={handleSave}
+          <EditCatPopUp
+            name={categoryName}
+            icon={categorySymbol}
+            color={categoryColour}
+            clickAway={props.clickAway}
+            updateState={props.updateState}
+            category={props.category}
           >
             Save Changes
-          </Button>
+          </EditCatPopUp>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button

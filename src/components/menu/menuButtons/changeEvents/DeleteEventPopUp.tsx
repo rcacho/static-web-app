@@ -12,14 +12,14 @@ import { useAPIContext } from '@/store/APIContext'
 const DeleteEventPopUp = (props: any) => {
   const [open, setOpen] = React.useState(false)
   const [openConfirm, setOpenConfirm] = React.useState(false)
-  const { selectedEvent, accountId } = useAPIContext()
+  const { accountId, eventId, updateEvents } = useAPIContext()
 
   const handleClickOpen = () => {
     setOpen(true)
   }
 
   const handleCloseDelete = () => {
-    deleteEvent(selectedEvent).then(() => {
+    deleteEvent(eventId).then(() => {
       setOpen(false)
       setOpenConfirm(true)
     })
@@ -43,6 +43,7 @@ const DeleteEventPopUp = (props: any) => {
         instance.deleteEvent(id, payload)
       })
       .then((data) => {
+        updateEvents()
         console.log(data)
       })
       .catch((err) => {
@@ -76,7 +77,6 @@ const DeleteEventPopUp = (props: any) => {
             <Button onClick={handleClose}>OK</Button>
           </DialogActions>
         </Dialog>
-        s
       </>
     )
   }
