@@ -9,8 +9,8 @@ export class CategoryDAO {
     this.db = db
   }
 
-  async addCategory(category: Category) {
-    const query = `INSERT INTO dbo.category (category_name, admin_id, color, icon) VALUES ('${category.category_name}', '${category.admin_id}', '${category.color}', '${category.icon}')`
+  async addCategory(oid: string, category: Category) {
+    const query = `EXEC calendar.insert_category @oid = ${oid}, @name = ${category.category_name}, @icon = ${category.icon}, @color = ${category.color}`
     try {
       await this.db.ConnectAndQuery(query)
     } catch (err: any) {
@@ -19,7 +19,7 @@ export class CategoryDAO {
   }
 
   async getCategory() {
-    const query = `SELECT * FROM dbo.category`
+    const query = `SELECT name, icon, color FROM calendar.category`
     try {
       const resultset = await this.db.ConnectAndQuery(query)
       return resultset.recordset
@@ -29,9 +29,13 @@ export class CategoryDAO {
   }
 
   async updateCategory(category: Category) {
-    const query = `UPDATE dbo.category 
-        SET category_name = '${category.category_name}', admin_id = '${category.admin_id}', color='${category.color}', icon='${category.icon}'
-        WHERE category_id = ${category.category_id}`
+    const query = `
+      UPDATE calendar.category 
+      SET 
+        category_name = '${category.category_name}'
+       ,color='${category.color}'
+       ,icon='${category.icon}'
+      WHERE category_id = ${category.category_id}`
     try {
       await this.db.ConnectAndQuery(query)
     } catch (err: any) {
@@ -40,7 +44,7 @@ export class CategoryDAO {
   }
 
   async deleteCategory(category: Category) {
-    const query = `DELETE FROM dbo.category WHERE category_id=${category.category_id}`
+    const query = `DELETE FROM calendar.category WHERE id = ${category.category_id}`
     try {
       await this.db.ConnectAndQuery(query)
     } catch (err: any) {
