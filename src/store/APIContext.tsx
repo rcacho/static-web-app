@@ -62,13 +62,6 @@ const APIStore = ({ children }: any) => {
   const [eventIndex, setEventIndex] = useState(-1)
   const [updateCats, setUpdateCats] = useState(false)
 
-  //@ TODO: Unsure if necessary. Consult Joseph later.
-  React.useEffect(() => {
-    APIManager.getInstance().then((instance) =>
-      instance.setUserLastLogin(accountId)
-    )
-  }, [])
-
   const changeEventId = (id: number) => {
     setEventId(id)
   }
