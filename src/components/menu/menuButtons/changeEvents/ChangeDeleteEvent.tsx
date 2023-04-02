@@ -34,16 +34,19 @@ const ChangeDeleteEvent = (props: any) => {
     setSelectedEvent,
     categories,
     changeEventId,
-    eventId
+    eventId,
+    updateCats
   } = useAPIContext()
   const [selected, setSelected] = useState(null)
   const [expanded, setExpanded] = useState<number | false>(false)
   const [eventsState, setEventsState] = useState(EventList)
+  const [descriptionList, setDescriptionList] = useState(DescriptionList)
 
   useEffect(() => {
     EventList = []
     CatList = []
     IdList = []
+    DescriptionList = []
     for (let i = 0; i < events.length; i++) {
       if (selectedDate) {
         let testDate = new Date(
@@ -76,8 +79,10 @@ const ChangeDeleteEvent = (props: any) => {
         }
       }
     }
+    setDescriptionList(DescriptionList)
     setEventsState(EventList)
-  }, [selected, categories, eventId])
+    console.log('should be updating')
+  }, [selected, categories, eventId, updateCats, events])
 
   function EditEvent() {
     if (selected === null) {
@@ -145,7 +150,7 @@ const ChangeDeleteEvent = (props: any) => {
             </AccordionSummary>
             <AccordionDetails>
               <Typography>
-                {DescriptionList[index]}
+                {descriptionList[index]}
                 {``}{' '}
               </Typography>
             </AccordionDetails>
