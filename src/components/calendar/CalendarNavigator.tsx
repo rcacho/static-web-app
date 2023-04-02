@@ -42,7 +42,9 @@ const CalendarNavigator = () => {
         <Stack direction="row" alignItems="center">
           <DecrementDateButton />
           <IncrementDateButton />
+          <header id="TopBar">
           {getDateString()}
+          </header>
         </Stack>
       </Typography>{' '}
       <Stack

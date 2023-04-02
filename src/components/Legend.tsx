@@ -48,12 +48,11 @@ const Legend = () => {
     <Box display="flex" bgcolor="white" color="black" textAlign={'center'}>
       <Stack direction="row" spacing={0}>
         {show && (
-          <CategoryList
-            selectedNotSaved={selectedNotSaved}
-            setSelectedNotSaved={setSelectedNotSaved}
-          ></CategoryList>
+            <CategoryList
+              selectedNotSaved={selectedNotSaved}
+              setSelectedNotSaved={setSelectedNotSaved}
+            ></CategoryList>
         )}
-
         <Button
           onClick={() => toggleShow(!show)}
           style={{

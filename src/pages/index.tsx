@@ -24,7 +24,6 @@ export default function Home(this: any) {
             flexDirection="column"
           >
             <TopBar />
-            <header id="PDFRender" >         
             <Stack
               direction="row"
               className="mainS"
@@ -34,9 +33,10 @@ export default function Home(this: any) {
               alignItems="stretch"
             >
               <Legend />
+            <header id="Calendar" >         
               <Calendar />
+              </header>
             </Stack>
-            </header>
           </Box>
         </GlobalStore>
       </main>

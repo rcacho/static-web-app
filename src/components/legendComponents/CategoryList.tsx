@@ -66,6 +66,7 @@ const CategoryList = ({
       <Button onClick={handleNone} sx={SelectButtonTheme}>
         Select None
       </Button>
+      <header id="Legend">
       <List
         dense
         style={{ overflow: 'auto' }}
@@ -105,6 +106,7 @@ const CategoryList = ({
           )
         })}
       </List>
+      </header>
       <Button
         onClick={applyFilters}
         sx={[
