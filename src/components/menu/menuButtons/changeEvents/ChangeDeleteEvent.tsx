@@ -6,7 +6,7 @@ import {
   Accordion,
   AccordionDetails
 } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import DeleteEventButton from '@/components/menu/menuButtons/changeEvents/DeleteEventButton'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
@@ -35,7 +35,7 @@ const ChangeDeleteEvent = (props: any) => {
   const [expanded, setExpanded] = useState<number | false>(false)
   const [eventsState, setEventsState] = useState(EventList)
 
-  useEffect(() => {
+  useMemo(() => {
     EventList = []
     CatList = []
     IdList = []

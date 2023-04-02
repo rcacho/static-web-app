@@ -6,7 +6,7 @@ import {
   TextField
 } from '@mui/material'
 
-import React, { useEffect, useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
@@ -31,11 +31,11 @@ const AddEventRender = (props: any) => {
   const [first, setFirst] = useState(true)
   const { selectedDate } = useCalendarContext()
 
-  useEffect(() => {
+  useMemo(() => {
     EventList = []
-    for (let i = 0; i < categories.length; i++) {
-      EventList.push(categories[i].category_name)
-      catIDs.push(categories[i].category_id)
+    for (const category of categories) {
+      EventList.push(category.category_name)
+      catIDs.push(category.category_id)
     }
     setEvents(EventList)
     if (first) {
