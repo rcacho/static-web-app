@@ -1,5 +1,6 @@
 import { DatabaseConnector } from '../DatabaseConnector'
 import { Event } from '@/interfaces/Event'
+import { DatabaseError } from '@/exceptions/DatabaseError'
 
 const sql = require('mssql')
 
@@ -26,20 +27,36 @@ export class EventDAO {
   }
 
   async getEvent() {
-    const query = `SELECT * FROM calendar.event WHERE is_deleted = 0`
+    const query = `SELECT id AS event_id, event_date, category_id, event_description FROM calendar.event WHERE is_deleted = 0`
     const resultset = await this.db.ConnectAndQuery(query)
     return resultset.recordset
   }
 
   async updateEvent(oid: string, event: Event) {
-    const query = `EXEC calendar.update_event @oid = ${oid}, @event_id = ${event.event_id}, @category_id = ${event.category_id}, @event_date = ${event.event_date}, @description = ${event.event_description}`
-    await this.db.ConnectAndQuery(query)
-    return
+    try {
+      const request = await this.db.CreateRequest()
+
+      request
+        .input('oid', sql.UniqueIdentifier, oid)
+        .input('event_id', sql.Int, event.event_id)
+        .input('category_id', sql.Int, event.category_id)
+        .input('event_date', sql.DateTime, event.event_date)
+        .input('description', sql.VarChar(255), event.event_description)
+
+      await request.execute('calendar.update_event')
+    } catch (err: any) {
+      throw new DatabaseError(err.msg)
+    }
   }
 
   async deleteEvent(oid: string, event: Event) {
-    const query = `EXEC calendar.delete_event @oid = ${oid}, @event_id = ${event.event_id}`
-    await this.db.ConnectAndQuery(query)
+    const request = await this.db.CreateRequest()
+
+    request
+      .input('oid', sql.UniqueIdentifier, oid)
+      .input('event_id', sql.Int, event.event_id)
+
+    await request.execute('calendar.delete_event')
     return
   }
 }

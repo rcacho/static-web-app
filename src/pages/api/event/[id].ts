@@ -11,7 +11,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const id = parseInt(query.id as string, 10)
   const db: DatabaseConnector = new DatabaseConnector()
   const eventDAO: EventDAO = new EventDAO(db)
-  const notificationDAO: NotificationDAO = new NotificationDAO(db)
 
   const event: Event = {
     event_date: body.event_date,
@@ -31,10 +30,14 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   switch (method) {
     case 'PUT':
-      await eventDAO.updateEvent(oid, event)
-      res
-        .status(200)
-        .json({ result: `Successfully update row with event_id = ${id}` })
+      try {
+        await eventDAO.updateEvent(oid, event)
+        res
+          .status(200)
+          .json({ result: `Successfully update row with event_id = ${id}` })
+      } catch (err: any) {
+        res.status(500).json({ error: err.msg })
+      }
       break
     case 'DELETE':
       await eventDAO.deleteEvent(oid, event)

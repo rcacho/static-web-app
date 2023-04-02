@@ -10,7 +10,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { body, method } = req
   const db: DatabaseConnector = new DatabaseConnector()
   const eventDAO: EventDAO = new EventDAO(db)
-  const notificationDAO: NotificationDAO = new NotificationDAO(db)
 
   const event: Event = {
     event_date: body.event_date,
@@ -34,9 +33,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         res.status(401).json({ result: 'User not permitted to make changes' })
         return
       }
-      const event_id = await eventDAO.addEvent(oid, event)
 
-      res.status(200).json({ result: 'Successfully added new event' })
+      await eventDAO.addEvent(oid, event)
+
+      res.status(200).json({ result: `Successfully added new event` })
       break
     default:
       res.setHeader('Allow', ['GET', 'POST'])

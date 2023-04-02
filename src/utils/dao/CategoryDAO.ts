@@ -2,6 +2,8 @@ import { DatabaseConnector } from '../DatabaseConnector'
 import { Category } from '@/interfaces/Category'
 import { DatabaseError } from '@/exceptions/DatabaseError'
 
+const sql = require('mssql')
+
 export class CategoryDAO {
   db: DatabaseConnector
 
@@ -10,16 +12,17 @@ export class CategoryDAO {
   }
 
   async addCategory(oid: string, category: Category) {
-    const query = `EXEC calendar.insert_category @oid = ${oid}, @name = ${category.category_name}, @icon = ${category.icon}, @color = ${category.color}`
+    const query = `EXEC calendar.insert_category @oid = '${oid}', @name = '${category.category_name}', @icon = '${category.icon}', @color = '${category.color}'`
     try {
       await this.db.ConnectAndQuery(query)
     } catch (err: any) {
+      console.log(err)
       throw new DatabaseError(err.msg)
     }
   }
 
   async getCategory() {
-    const query = `SELECT name, icon, color FROM calendar.category`
+    const query = `SELECT id AS category_id, name AS category_name, icon, color FROM calendar.category`
     try {
       const resultset = await this.db.ConnectAndQuery(query)
       return resultset.recordset
@@ -32,10 +35,10 @@ export class CategoryDAO {
     const query = `
       UPDATE calendar.category 
       SET 
-        category_name = '${category.category_name}'
+        name = '${category.category_name}'
        ,color='${category.color}'
        ,icon='${category.icon}'
-      WHERE category_id = ${category.category_id}`
+      WHERE id = ${category.category_id}`
     try {
       await this.db.ConnectAndQuery(query)
     } catch (err: any) {
