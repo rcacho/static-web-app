@@ -4,33 +4,14 @@ import RightMenu from './RightMenu'
 import { Backdrop } from '@mui/material'
 import { useCalendarContext } from '@/store/CalendarContext'
 import { Button } from '@mui/material/'
-import { APIManager } from '@/utils/APIManager'
-import { Category } from '@/interfaces/Category'
-import { useAPIContext } from '@/store/APIContext'
 
 const RightMenuButton = () => {
   const { dayClickCount } = useCalendarContext()
-  const { setCategories } = useAPIContext()
 
   const [panelAnchor, setPanelAnchor] = useState<null | HTMLElement | any>(null)
   const [menuState, setMenuState] = useState(0)
   const [backDrop, setBackDrop] = useState(false)
   const ref = useRef(null)
-
-  useEffect(() => {
-    const getData = async () => {
-      const instance = await APIManager.getInstance()
-      const data = await instance.getCategory()
-
-      const cat: Category[] = data.result
-      console.log(cat)
-      setCategories(cat)
-      // console.log(categories)
-    }
-    getData().catch((err) => {
-      console.log(err)
-    })
-  }, [menuState])
 
   function updateState(state: any) {
     setMenuState(state)
@@ -58,7 +39,7 @@ const RightMenuButton = () => {
 
   return (
     <div>
-      <Button sx={{ minWidth: '40px', maxWidth: '40px' }}>
+      <Button sx={{ minWidth: '40px', maxWidth: '40px', borderRadius: '60px' }}>
         <MenuIcon onClick={handleOpen} color="action" ref={ref} />
       </Button>
       <RightMenu

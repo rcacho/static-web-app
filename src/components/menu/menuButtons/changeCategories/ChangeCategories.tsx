@@ -12,7 +12,7 @@ import React, { useState } from 'react'
 import MuiTheme from '@/styles/MuiTheme'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
-import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/DeleteCategoryPopUp'
+import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/popups/DeleteCategoryPopUp'
 import { useAPIContext } from '@/store/APIContext'
 
 // placeholder for the list of categories
@@ -58,7 +58,7 @@ const ChangeCategories = (props: any) => {
         <ListItem>
           <ListItemText
             sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Change Categories"
+            secondary="Edit Categories"
           />{' '}
           <Box
             sx={{
@@ -73,6 +73,11 @@ const ChangeCategories = (props: any) => {
               onClick={handleBackClick}
               variant="body2"
               color="#898989"
+              sx={{
+                '&:hover': {
+                  cursor: 'pointer'
+                }
+              }}
             >
               Back
             </Typography>

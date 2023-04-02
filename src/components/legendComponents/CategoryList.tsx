@@ -59,7 +59,7 @@ const CategoryList = ({
   const applyFilters = () => setSelected(selectedNotSaved)
 
   return (
-    <Box>
+    <Box maxWidth={'300px'}>
       <Button onClick={handleAll} sx={SelectButtonTheme}>
         Select All
       </Button>

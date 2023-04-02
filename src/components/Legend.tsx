@@ -9,8 +9,14 @@ import { useAPIContext } from '@/store/APIContext'
 import { Event } from '@/interfaces/Event'
 
 const Legend = () => {
-  const { setEvents, updateCatMap, setCategories, categories, setSelected } =
-    useAPIContext()
+  const {
+    setEvents,
+    updateCatMap,
+    setCategories,
+    categories,
+    setSelected,
+    updateCats
+  } = useAPIContext()
   const [show, toggleShow] = React.useState(true)
   const [selectedNotSaved, setSelectedNotSaved] =
     React.useState<Category[]>(categories)
@@ -42,7 +48,7 @@ const Legend = () => {
           console.log(`legend, getInstance err: ${err}`)
         })
     })
-  }, [])
+  }, [updateCats])
 
   return (
     <Box display="flex" bgcolor="white" color="black" textAlign={'center'}>
