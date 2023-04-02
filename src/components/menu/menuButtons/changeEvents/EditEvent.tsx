@@ -36,15 +36,16 @@ const EditEvent = (props: any) => {
     eventIndex,
     accountId,
     eventId,
-    updateEvents
+    updateEvents,
+    setUpdateCats
   } = useAPIContext()
   const { selectedDate } = useCalendarContext()
-
+  const [clicked, setClicked] = useState(false)
   const [selected, setSelected] = useState(eventIndex)
   const [first, setFirst] = useState(true)
   const [events, setEvents] = useState([''])
-  const [size, setSize] = useState(0)
   const [open, setOpen] = React.useState(false)
+  const [openFailed, setOpenFailed] = React.useState(false)
 
   const [eventDate, setEventDate] = useState(nullDate)
   const [description, setEventDescription] = useState('')
@@ -58,7 +59,6 @@ const EditEvent = (props: any) => {
       catIDs.push(categories[i].category_id)
     }
     setEvents(EventList)
-    setSize(EventList.length)
     if (first) {
       setSelected(catIDs.indexOf(selectedEvent))
       setEventDate(new Date(reformatDate(selectedDate as string)))
@@ -68,25 +68,24 @@ const EditEvent = (props: any) => {
   }, [selected])
 
   // render list for the scroll function
-  function renderList(props: ListChildComponentProps) {
-    const { index, style } = props
-
-    const handleSelect = () => {
+  function renderList() {
+    const handleSelect = (index: any) => {
       setSelected(index)
     }
-    return (
-      <ListItem
-        style={style}
-        key={index}
-        component="div"
-        disablePadding
-        onClick={handleSelect}
-      >
-        <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`${events[index]}`} />
-        </ListItemButton>
-      </ListItem>
-    )
+    return events.map((value, index) => {
+      return (
+        <ListItem
+          key={index}
+          component="div"
+          disablePadding
+          onClick={() => handleSelect(index)}
+        >
+          <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
+            <ListItemText primary={`${value}`} />
+          </ListItemButton>
+        </ListItem>
+      )
+    })
   }
 
   const handleBackClick = () => {
@@ -94,15 +93,30 @@ const EditEvent = (props: any) => {
   }
 
   const handleOnClick = () => {
+    setClicked(true)
     if (selected !== null) {
-      editEvent(
-        eventId,
-        eventDate,
-        description,
-        adminID,
-        catIDs[selected]
-      ).then((_) => {
-        setOpen(true)
+      APIManager.getInstance().then((instance) => {
+        instance.getEvent().then((data) => {
+          for (let i = 0; i < data.result.length; i++) {
+            let eDate = new Date(data.result[i].event_date)
+            if (eDate.toUTCString() === eventDate.toUTCString()) {
+              if (data.result[i].category_id === catIDs[selected]) {
+                setOpenFailed(true)
+                return
+              }
+            }
+          }
+
+          editEvent(
+            eventId,
+            eventDate,
+            description,
+            adminID,
+            catIDs[selected]
+          ).then((_) => {
+            setOpen(true)
+          })
+        })
       })
     }
   }
@@ -142,6 +156,38 @@ const EditEvent = (props: any) => {
     )
   }
 
+  function EventEditFailedPopup() {
+    return (
+      <>
+        <Dialog
+          sx={{
+            '& .MuiDialog-container': {
+              justifyContent: 'center',
+              alignItems: 'center',
+              minHeight: '90vh'
+            }
+          }}
+          open={openFailed}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogTitle id="alert-dialog-title">
+            {'ERROR: Edit Event'}
+          </DialogTitle>
+          <DialogContent>
+            <DialogContentText id="alert-dialog-description">
+              Event already exists!
+            </DialogContentText>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>OK</Button>
+          </DialogActions>
+        </Dialog>
+      </>
+    )
+  }
+
   async function editEvent(
     event_id: number,
     event_date: Date,
@@ -160,6 +206,9 @@ const EditEvent = (props: any) => {
       .then((instance) => instance.editEvent(event_id, payload))
       .then((data) => {
         console.log(data)
+      })
+      .then(() => {
+        setUpdateCats((prev) => !prev)
       })
       .catch((err) => {
         console.log(err)
@@ -182,6 +231,7 @@ const EditEvent = (props: any) => {
   return (
     <ThemeProvider theme={MuiTheme}>
       <EventEditPopup />
+      <EventEditFailedPopup />
       <List>
         <ListItem>
           <ListItemText
@@ -214,15 +264,16 @@ const EditEvent = (props: any) => {
         <ListItem>
           <ListItemText primary="Please select category:" />
         </ListItem>
-        <FixedSizeList
-          height={200}
-          width={360}
-          itemSize={38}
-          itemCount={size}
-          overscanCount={5}
+        <List
+          disablePadding={true}
+          style={{
+            overflow: 'auto',
+            overflowY: 'scroll',
+            height: '200px'
+          }}
         >
-          {renderList}
-        </FixedSizeList>
+          {renderList()}
+        </List>
 
         <ListItem>
           <ListItemText primary="Please enter date:" />
@@ -272,6 +323,7 @@ const EditEvent = (props: any) => {
       >
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
+            disabled={clicked}
             className="menu-button"
             size="medium"
             variant="contained"

@@ -3,19 +3,19 @@ import { Box, Grid } from '@mui/material/'
 import { ToggleButton } from '@mui/material'
 
 const colours = [
-  '#832A0E',
-  '#B45252',
+  '#794044',
+  '#b26161',
   'red',
-  '#ea6900',
-  '#FAFF00',
+  '#FF5F1F',
+  '#ffd700',
+  '#468a65',
   '#05FD00',
-  '#599273',
-  '#00FFF0',
-  '#04D2FF',
+  '#ccff00',
+  '#40e0d0',
   '#2678F3',
   '#5D64A6',
   '#9104FF',
-  '#FF00B8',
+  '#FF80ED',
   '#8A8A8A',
   'black'
 ]
