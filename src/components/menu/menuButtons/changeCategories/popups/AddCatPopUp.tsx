@@ -40,6 +40,19 @@ const AddCatPopUp = (props: any) => {
         }
         if (err === 0) {
           addCategory(props.name, admin_id_1, props.icon, props.color)
+          let newCat = []
+          categories.map((category) => {
+            newCat.push(category)
+          })
+          let cat: Category = {
+            category_id: null,
+            category_name: props.name,
+            admin_id: admin_id_1,
+            icon: props.icon,
+            color: props.color
+          }
+          newCat.push(cat)
+          setCategories(newCat)
           setPopup(0)
         }
       })
@@ -61,14 +74,20 @@ const AddCatPopUp = (props: any) => {
       icon: icon,
       color: color
     }
+
     APIManager.getInstance()
-      .then((instance) => instance.addCategory(payload))
+      .then((instance) => {
+        instance.addCategory(payload)
+      })
       .then((data) => {
         console.log(data)
       })
       .catch((err) => {
         console.log(err)
       })
+    // const updatedCategories = categories
+    // updatedCategories.push(payload)
+    // setCategories([updatedCategories])
   }
 
   const handleClickOpen = () => {

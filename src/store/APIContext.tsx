@@ -59,6 +59,17 @@ const APIStore = ({ children }: any) => {
     )
   }, [])
 
+  function updateCategories() {
+    APIManager.getInstance()
+      .then((instance) => instance.getEvent())
+      .then((data) => {
+        setCategories(data.result)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   function updateEvents() {
     APIManager.getInstance()
       .then((instance) => instance.getEvent())

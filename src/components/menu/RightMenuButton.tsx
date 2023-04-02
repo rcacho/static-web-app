@@ -10,7 +10,7 @@ import { useAPIContext } from '@/store/APIContext'
 
 const RightMenuButton = () => {
   const { dayClickCount } = useCalendarContext()
-  const { setCategories } = useAPIContext()
+  const { setCategories, categories } = useAPIContext()
 
   const [panelAnchor, setPanelAnchor] = useState<null | HTMLElement | any>(null)
   const [menuState, setMenuState] = useState(0)
@@ -24,7 +24,7 @@ const RightMenuButton = () => {
 
       const cat: Category[] = data.result
       console.log(cat)
-      setCategories(cat)
+      // setCategories(cat)
       // console.log(categories)
     }
     getData().catch((err) => {

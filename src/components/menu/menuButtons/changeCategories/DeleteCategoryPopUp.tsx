@@ -1,13 +1,15 @@
 import { Button } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useImperativeHandle, useState } from 'react'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import { APIManager } from '@/utils/APIManager'
+import { useAPIContext } from '@/store/APIContext'
 
 const DeleteCategoryPopUp = (props: any) => {
+  const { setCategories, categories } = useAPIContext()
   const [open, setOpen] = useState(false)
   let admin_id = 'user'
 
@@ -28,9 +30,16 @@ const DeleteCategoryPopUp = (props: any) => {
 
   async function deleteCategory(categoryID: number) {
     APIManager.getInstance()
-      .then((instance) =>
+      .then((instance) => {
+        let newCat = []
+        for (let i = 0; i < categories.length; i++) {
+          if (!(categories[i].category_id == categoryID)) {
+            newCat.push(categories[i])
+          }
+        }
+        setCategories(newCat)
         instance.deleteCategory(categoryID, { admin_id: admin_id })
-      )
+      })
       .then((data) => {
         console.log(data)
       })
