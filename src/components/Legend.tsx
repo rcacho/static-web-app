@@ -15,7 +15,8 @@ const Legend = () => {
     setCategories,
     categories,
     setSelected,
-    updateCats
+    updateCats,
+    accountId
   } = useAPIContext()
   const [show, toggleShow] = React.useState(true)
   const [selectedNotSaved, setSelectedNotSaved] =
@@ -24,9 +25,9 @@ const Legend = () => {
   useEffect(() => {
     const getData = async () => {
       const instance = await APIManager.getInstance()
-      const data = await instance.getCategory()
-      const cat: Category[] = data.result
-      console.log(cat)
+      const catData = await instance.getCategory()
+      const cat: Category[] = catData.result
+
       setCategories(cat)
       setSelected(cat)
       setSelectedNotSaved(cat)

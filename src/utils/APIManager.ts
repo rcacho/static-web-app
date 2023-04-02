@@ -6,7 +6,7 @@ const apiPaths = {
   notifications: (userId: string) => `/api/notification/${userId}`,
   user: (userId?: number) => `/api/user/${userId ?? ''}`,
   userLogin: (userId: number) => `/api/user/login/${userId}`,
-  filter: (userId: string) => `/api/filter/${userId}`
+  filter: (userId: String) => `/api/filter/${userId}`
 }
 
 export class APIManager {
@@ -25,7 +25,7 @@ export class APIManager {
     return await this.fetch(apiPaths.filter(user_id), 'GET')
   }
 
-  public async setFilter(user_id: string, data: number[]) {
+  public async setFilter(user_id: string, data: any) {
     return await this.fetch(apiPaths.filter(user_id), 'PUT', data)
   }
 

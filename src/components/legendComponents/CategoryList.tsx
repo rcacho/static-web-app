@@ -4,11 +4,14 @@ import {
   Box,
   Button,
   Checkbox,
+  FormControlLabel,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Stack,
+  Switch
 } from '@mui/material'
 
 import React from 'react'
@@ -21,6 +24,7 @@ const SelectButtonTheme = [
     color: 'black',
     bgcolor: '#eeeeee',
     m: 1,
+    p: 0.5,
     fontSize: '10px'
   },
   { '&:hover': { bgcolor: '#cccccc' } }
@@ -34,9 +38,11 @@ const CategoryList = ({
   setSelectedNotSaved: React.Dispatch<React.SetStateAction<Category[]>>
 }) => {
   const { categories, setSelected, accountId } = useAPIContext()
+  const [showCheckBox, setShowCheckBox] = React.useState(false)
+  const [firstFilter, setFirstFilter] = React.useState(false)
 
-  const handleChange = (category: { target: { value: any } }) => {
-    const s: string = category.target.value
+  const handleChange = (category: string) => {
+    const s: string = category
     const list = [...selectedNotSaved]
     const index = list
       .map(function (e: Category) {
@@ -62,33 +68,92 @@ const CategoryList = ({
     selectedNotSaved.map((category: Category) => {
       selectedIds.push(category.category_id)
     })
-    console.log('selectedIds')
-    console.log(selectedIds)
     console.log(accountId)
-    console.log('selectedIds')
+    const data = {
+      categories: selectedIds
+    }
+    const api = await APIManager.getInstance()
+    const result = await api.setFilter(accountId, data)
 
-    // const instance = await APIManager.getInstance()
-
-    // await instance.setFilter(accountId, selectedIds)
     setSelected(selectedNotSaved)
+  }
+  const applyFilterFromDB = async () => {
+    const instance = await APIManager.getInstance()
+    const selectedData = await instance.getFilter(accountId)
+    const sel = selectedData.filters
+    const ids: (number | null)[] = []
+    sel.map((item: { category_id: any }) => {
+      ids.push(item.category_id)
+    })
+    let selectedDB: Category[] = []
+    categories.map((category: Category) => {
+      if (ids.includes(category.category_id)) {
+        selectedDB.push(category)
+      }
+    })
+    setSelected(selectedDB)
+    setSelectedNotSaved(selectedDB)
   }
 
   return (
     <Box>
-      <Button onClick={handleAll} sx={SelectButtonTheme}>
-        Select All
-      </Button>
-      <Button onClick={handleNone} sx={SelectButtonTheme}>
-        Select None
-      </Button>
+      {/* <Stack justifyContent="center" alignItems="center" sx={{ m: 0, p: 0 }}> */}
+      <Stack justifyContent="center" alignItems="center">
+        <FormControlLabel
+          value="start"
+          control={
+            <Switch
+              onChange={() => {
+                if (!firstFilter) {
+                  applyFilterFromDB()
+                  setFirstFilter(true)
+                }
+                setShowCheckBox(!showCheckBox)
+              }}
+            />
+          }
+          label="Filter"
+          labelPlacement="start"
+        />
+      </Stack>
+      <Box>
+        {showCheckBox ? (
+          <Button onClick={handleAll} sx={SelectButtonTheme}>
+            Select All
+          </Button>
+        ) : (
+          ''
+        )}
+        {showCheckBox ? (
+          <Button onClick={handleNone} sx={SelectButtonTheme}>
+            Select None
+          </Button>
+        ) : (
+          ''
+        )}
+      </Box>
+      {/* </Stack> */}
+
       <List
         dense
-        style={{ overflow: 'auto', maxWidth: '250px' }}
-        sx={{
-          bgcolor: 'background.paper',
-          height: 'calc(100vh - 200px)',
-          overflowY: 'scroll'
-        }}
+        style={
+          showCheckBox
+            ? { overflow: 'auto', maxWidth: '250px' }
+            : { overflow: 'auto', maxWidth: '200px' }
+        }
+        sx={
+          showCheckBox
+            ? {
+                bgcolor: 'background.paper',
+                height: 'calc(100vh - 225px)',
+                overflowY: 'scroll'
+              }
+            : {
+                bgcolor: 'background.paper',
+                height: 'calc(100vh - 125px)',
+                overflowY: 'scroll'
+              }
+        }
       >
         {categories.map((item: Category) => {
           const labelId = `checkbox-list-secondary-label-${item.category_name}`
@@ -98,48 +163,71 @@ const CategoryList = ({
           }
           return (
             <ListItem
-              key={Math.random()}
+              key={item.category_name}
               secondaryAction={
-                <Checkbox
-                  value={item.category_name}
-                  edge="end"
-                  onChange={handleChange}
-                  checked={selectedNotSaved.includes(item)}
-                  inputProps={{ 'aria-labelledby': labelId }}
-                />
+                showCheckBox ? (
+                  <Checkbox
+                    value={item.category_name}
+                    edge="end"
+                    onChange={() => handleChange(item.category_name)}
+                    checked={selectedNotSaved.includes(item)}
+                    inputProps={{ 'aria-labelledby': labelId }}
+                  />
+                ) : (
+                  ''
+                )
               }
               disablePadding
             >
-              <ListItemButton>
-                <ListItemIcon>
-                  <Icon sx={{ color: item.color }} />
-                </ListItemIcon>
-                <ListItemText
-                  sx={{}}
-                  id={labelId}
-                  primary={`${item.category_name}`}
-                />
-              </ListItemButton>
+              {showCheckBox ? (
+                <ListItemButton
+                  onClick={() => handleChange(item.category_name)}
+                >
+                  <ListItemIcon>
+                    <Icon sx={{ color: item.color }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    sx={{}}
+                    id={labelId}
+                    primary={`${item.category_name}`}
+                  />
+                </ListItemButton>
+              ) : (
+                <ListItem onClick={() => handleChange(item.category_name)}>
+                  <ListItemIcon>
+                    <Icon sx={{ color: item.color }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    sx={{}}
+                    id={labelId}
+                    primary={`${item.category_name}`}
+                  />
+                </ListItem>
+              )}
             </ListItem>
           )
         })}
       </List>
-      <Button
-        onClick={applyFilters}
-        sx={[
-          {
-            width: '60%',
-            color: 'black',
-            bgcolor: '#dddddd',
-            m: 3,
-            p: 0.5,
-            fontSize: '13px'
-          },
-          { '&:hover': { bgcolor: '#cccccc' } }
-        ]}
-      >
-        Apply Filters
-      </Button>
+      {showCheckBox ? (
+        <Button
+          onClick={applyFilters}
+          sx={[
+            {
+              width: '60%',
+              color: 'black',
+              bgcolor: '#dddddd',
+              m: 3,
+              p: 0.5,
+              fontSize: '13px'
+            },
+            { '&:hover': { bgcolor: '#cccccc' } }
+          ]}
+        >
+          Apply Filters
+        </Button>
+      ) : (
+        ''
+      )}
     </Box>
   )
 }
