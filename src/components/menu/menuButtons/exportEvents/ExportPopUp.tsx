@@ -12,7 +12,7 @@ import { Category } from '@/interfaces/Category'
 import MenuButton from '@/components/menu/MenuButton'
 import Export from '@mui/icons-material/IosShare'
 
-const ExportPopUp = (props: any) => {
+const ExportPopUp = () => {
   const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {

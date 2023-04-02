@@ -10,8 +10,6 @@ import AddAdmin from '@/components/menu/menuButtons/editAdmins/AddAdmin'
 import RemoveAdmin from '@/components/menu/menuButtons/editAdmins/RemoveAdmin'
 import AddNewCategory from '@/components/menu/menuButtons/changeCategories/AddNewCategory'
 import EditCategory from '@/components/menu/menuButtons/changeCategories/EditCategory'
-import ExportPopUp from '@/components/menu/menuButtons/exportEvents/ExportPopUp'
-import PrintCalPopUp from './menuButtons/printCalendar/PrintCalPopUp'
 
 const RightMenu = (props: any) => {
   // menu state to select which menu to show
