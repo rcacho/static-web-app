@@ -42,6 +42,9 @@ const EditEvent = (props: any) => {
 
   const [eventDate, setEventDate] = useState(nullDate)
   const [description, setEventDescription] = useState('')
+  const [oldDate, setOldDate] = useState(nullDate)
+  const [oldCat, setOldCat] = useState(-1)
+
   const adminID = accountId
 
   useEffect(() => {
@@ -55,6 +58,8 @@ const EditEvent = (props: any) => {
     if (first) {
       setSelected(catIDs.indexOf(selectedEvent))
       setEventDate(new Date(reformatDate(selectedDate as string)))
+      setOldDate(new Date(reformatDate(selectedDate as string)))
+      setOldCat(selectedEvent)
       setFirst(false)
     }
     if (props.fromMenu === 1) setEventDate(nullDate)
@@ -87,6 +92,8 @@ const EditEvent = (props: any) => {
 
   const handleOnClick = () => {
     setClicked(true)
+    console.log(oldDate)
+    console.log(eventDate)
     if (selected !== null) {
       APIManager.getInstance().then((instance) => {
         instance.getEvent().then((data) => {
@@ -94,8 +101,13 @@ const EditEvent = (props: any) => {
             let eDate = new Date(data.result[i].event_date)
             if (eDate.toUTCString() === eventDate.toUTCString()) {
               if (data.result[i].category_id === catIDs[selected]) {
-                setOpenFailed(true)
-                return
+                // if the date and cat hasn't changed, do the edit
+                if (+oldDate === +eventDate && oldCat === catIDs[selected]) {
+                  break
+                } else {
+                  setOpenFailed(true)
+                  return
+                }
               }
             }
           }

@@ -41,10 +41,10 @@ const AddEventRender = (props: any) => {
     }
     setEvents(EventList)
     if (first) {
-      setEventDate(new Date(reformatDate(selectedDate as string)))
       if (props.fromMenu === 0) {
-        console.log('boogers')
         setEventDate(nullDate)
+      } else {
+        setEventDate(new Date(reformatDate(selectedDate as string)))
       }
       setFirst(false)
     }
