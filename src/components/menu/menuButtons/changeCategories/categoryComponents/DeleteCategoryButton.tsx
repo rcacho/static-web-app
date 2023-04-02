@@ -3,8 +3,17 @@ import React, { useState } from 'react'
 import { APIManager } from '@/utils/APIManager'
 import { useAPIContext } from '@/store/APIContext'
 import { ButtonPopup } from '../../Popup'
+import PanelButton from '../../PanelButton'
 
-const DeleteCategoryPopUp = (props: any) => {
+interface DelButtonProps {
+  categoryID: number
+  selected: any
+  clickAway: any
+  setSelected: () => void
+}
+
+const DeleteCategoryButton = (props: DelButtonProps) => {
+  const { categoryID, selected, clickAway, setSelected } = props
   const [open, setOpen] = useState(false)
   let admin_id = 'user'
   const { updateEvents, updateCategories, setUpdateCats } = useAPIContext()
@@ -15,13 +24,13 @@ const DeleteCategoryPopUp = (props: any) => {
 
   const handleClose = () => {
     setOpen(false)
-    props.clickAway()
+    clickAway()
   }
 
   const handleDelete = () => {
     setOpen(false)
-    deleteCategory(props.catID).then(props.clickAway())
-    props.setSelected()
+    deleteCategory(categoryID).then(clickAway())
+    setSelected()
   }
 
   async function deleteCategory(categoryID: number) {
@@ -41,23 +50,11 @@ const DeleteCategoryPopUp = (props: any) => {
       })
   }
 
-  function DeleteButton() {
-    return (
-      <Button
-        className="menu-button"
-        size="medium"
-        variant="contained"
-        color="primary"
-        onClick={handleClickOpen}
-      >
-        Delete Category
-      </Button>
-    )
-  }
-
   return (
     <>
-      <DeleteButton/>
+      <PanelButton disabled={selected === null || categoryID === -1} onClick={handleClickOpen}>
+        Delete Category
+      </PanelButton>
       <ButtonPopup
         open={open}
         onClose={handleClose}
@@ -70,4 +67,4 @@ const DeleteCategoryPopUp = (props: any) => {
   )
 }
 
-export default DeleteCategoryPopUp
+export default DeleteCategoryButton

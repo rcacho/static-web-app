@@ -6,7 +6,7 @@ import {
   Button
 } from '@mui/material'
 import React, { useState } from 'react'
-import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/categoryComponents/DeleteCategoryPopUp'
+import DeleteCategoryButton from '@/components/menu/menuButtons/changeCategories/categoryComponents/DeleteCategoryButton'
 import { useAPIContext } from '@/store/APIContext'
 import PanelButton from '../PanelButton'
 import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
@@ -68,27 +68,12 @@ const ChangeCategories = (props: any) => {
         <PanelButton disabled={selected === null} onClick={() => props.updateState(2.2)}>
           Edit Category
         </PanelButton>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          {selected === null ? (
-            <Button
-              disabled
-              className="menu-button"
-              size="small"
-              variant="contained"
-              color="primary"
-            >
-              Delete Category
-            </Button>
-          ) : (
-            <DeleteCategoryPopUp
-              clickAway={props.clickAway}
-              catID={categories[selected].category_id}
-              setSelected={handleSelected}
-            >
-              Delete Category
-            </DeleteCategoryPopUp>
-          )}
-        </ListItem>
+        <DeleteCategoryButton
+          selected={selected}
+          clickAway={props.clickAway}
+          categoryID={selected === null ? -1 : categories[selected].category_id ?? -1}
+          setSelected={handleSelected}
+        />
       </RightMenuPanelBottom>
     </>
   )
