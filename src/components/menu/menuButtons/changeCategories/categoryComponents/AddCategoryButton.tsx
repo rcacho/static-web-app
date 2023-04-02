@@ -3,14 +3,9 @@ import { APIManager } from '@/utils/APIManager'
 import { useAPIContext } from '@/store/APIContext'
 import { icons } from '@/interfaces/Icons'
 import { Category } from '@/interfaces/Category'
-import { ErrorPopup, SuccessPopup } from '../../Popup'
+import { PopupType } from '../../Popup'
 import ActiveButton from '../../PanelButton'
-
-enum PopupType {
-  Success,
-  DuplicateName,
-  Duplicate
-}
+import CategoryPopup from './popups/CategoryPopups'
 
 interface AddCatProps {
   allSelected: boolean
@@ -18,7 +13,7 @@ interface AddCatProps {
   icon: keyof typeof icons
   color: string
   clickAway: () => void
-  updateState: () => void
+  updateState: (state: number) => void
 }
 
 const AddCategoryButton = (props: AddCatProps) => {
@@ -82,44 +77,18 @@ const AddCategoryButton = (props: AddCatProps) => {
     setPopupType(PopupType.Success)
   }
 
-  const renderPopup = () => {
-    switch (popupType) {
-      case PopupType.Success:
-        return (
-          <SuccessPopup
-            open={open}
-            onClose={handleClose}
-            body = {`Category ${name} added successfully.`}
-          />
-        )
-      case PopupType.DuplicateName:
-        return (
-          <ErrorPopup
-            open={open}
-            onClose={handleClose}
-            body = {`The name "${name}" is already in use by another category.
-            Please try another name.`}
-          />
-        )
-      case PopupType.Duplicate:
-        return (
-          <ErrorPopup
-            open={open}
-            onClose={handleClose}
-            body = {"Colour and symbol combination already in use. Please try a unique combination."}
-          />
-        )
-      default:
-        return null
-    }
-  }
-
   return (
     <>
       <ActiveButton disabled={!allSelected} onClick={handleClickOpen}>
         Add Category
       </ActiveButton>
-      {renderPopup()}
+      <CategoryPopup 
+        name={name} 
+        popupType={popupType}
+        action={'added'}
+        open={open}
+        onClose={handleClose}
+      />
     </>
   )
 }

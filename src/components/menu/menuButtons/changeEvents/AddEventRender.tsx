@@ -16,11 +16,10 @@ import { ErrorPopup, SuccessPopup } from '../Popup'
 import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
 import PanelButton from '../PanelButton'
 
-// placeholder for the list of categories
 let EventList: string[] = []
 let catIDs: any[] = []
 const nullDate = new Date(0)
-// @ts-ignore
+
 const AddEventRender = (props: any) => {
   const [eventDate, setEventDate] = useState(new Date(0))
   const [selected, setSelected] = useState(null)
@@ -60,43 +59,29 @@ const AddEventRender = (props: any) => {
     return res
   }
 
-  const handleAddEvent = () => {
+  const handleAddEvent = async () => {
     if (selected !== null) {
-      APIManager.getInstance().then((instance) => {
-        instance.getEvent().then((data) => {
-          for (let i = 0; i < data.result.length; i++) {
-            let eDate = new Date(data.result[i].event_date)
-            if (eDate.toUTCString() === eventDate.toUTCString()) {
-              if (data.result[i].category_id === catIDs[selected]) {
-                setOpenFailed(true)
-                return
-              }
-            }
+      const instance = await APIManager.getInstance()
+      const data = await instance.getEvent()
+      const events = data.result
+      for (const event of events) {
+        let eDate = new Date(event.event_date)
+        if (eDate.toUTCString() === eventDate.toUTCString()) {
+          if (event.category_id === catIDs[selected]) {
+            setOpenFailed(true)
+            return
           }
+        }
+      }
 
-          addEvent(
-            eventDate,
-            description,
-            accountId.toString(),
-            catIDs[selected]
-          )
-            .then(() => {
-              updateEvents()
-              setOpen(true)
-            })
-            .then(() => {
-              setUpdateCats((prev) => !prev)
-            })
-        })
-      })
+      await addEvent(eventDate, description, accountId.toString(), catIDs[selected])
+      await updateEvents()
+      setOpen(true)
+      setUpdateCats((prev) => !prev) // @TODO
     }
   }
-  async function addEvent(
-    event_date: Date,
-    event_description: string,
-    admin_id: string,
-    category_id: number
-  ) {
+
+  async function addEvent(event_date: Date, event_description: string, admin_id: string, category_id: number) {
     let payload: Event = {
       event_id: null,
       event_date: event_date,
@@ -105,19 +90,11 @@ const AddEventRender = (props: any) => {
       admin_id: admin_id
     }
 
-    APIManager.getInstance()
-      .then((instance) => instance.addEvent(payload))
-      .then((data) => {
-        console.log(data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
+    const instance = await APIManager.getInstance()
+    await instance.addEvent(payload)
     setEventDate(event_date)
   }
 
-  // render list for the scroll function
   function renderList() {
     const handleSelect = (index: any) => {
       setSelected(index)

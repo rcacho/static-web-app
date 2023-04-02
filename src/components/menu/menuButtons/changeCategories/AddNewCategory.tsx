@@ -6,13 +6,12 @@ import {
   Box
 } from '@mui/material'
 import React, { useState } from 'react'
-import ColourPicker from '@/components/menu/menuButtons/changeCategories/ColourPicker'
-import SymbolPicker from '@/components/menu/menuButtons/changeCategories/SymbolPicker'
+import ColourPicker from '@/components/menu/menuButtons/changeCategories/categoryComponents/ColourPicker'
+import SymbolPicker from '@/components/menu/menuButtons/changeCategories/categoryComponents/SymbolPicker'
 import { icons } from '@/interfaces/Icons'
-import AddCategoryButton from '@/components/menu/menuButtons/changeCategories/popups/AddCategoryButton'
+import AddCategoryButton from '@/components/menu/menuButtons/changeCategories/categoryComponents/AddCategoryButton'
 import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 
-// @ts-ignore
 const AddNewCategory = (props: any) => {
   const GenericIcon = 'PanoramaFishEyeIcon'
   const [categoryName, setCategoryName] = useState('')

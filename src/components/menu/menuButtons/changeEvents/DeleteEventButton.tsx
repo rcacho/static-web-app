@@ -1,14 +1,14 @@
-import { Button } from '@mui/material'
 import React from 'react'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
-import Popup, { ButtonPopup, SuccessPopup } from '../Popup'
+import { ButtonPopup, SuccessPopup } from '../Popup'
+import PanelButton from '../PanelButton'
 
-const DeleteEventPopUp = (props: any) => {
+const DeleteEventButton = (props: any) => {
   const [open, setOpen] = React.useState(false)
   const [openConfirm, setOpenConfirm] = React.useState(false)
-  const { accountId, eventId, updateEvents, setUpdateCats } = useAPIContext()
+  const { accountId, eventId, updateEvents } = useAPIContext()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -34,20 +34,9 @@ const DeleteEventPopUp = (props: any) => {
       event_description: null,
       admin_id: accountId.toString()
     }
-    APIManager.getInstance()
-      .then((instance) => {
-        instance.deleteEvent(id, payload)
-      })
-      .then((data) => {
-        updateEvents()
-        console.log(data)
-      })
-      .then(() => {
-        setUpdateCats((prev) => !prev)
-      })
-      .catch((err) => {
-        console.log(`DeletePopUp error: ${err}`)
-      })
+    const instance = await APIManager.getInstance()
+    await instance.deleteEvent(id, payload)
+    await updateEvents()
   }
 
   const EventDeletePopup = () => {
@@ -60,37 +49,11 @@ const DeleteEventPopUp = (props: any) => {
     )
   }
 
-  function DeleteButton() {
-    if (props.selected === null) {
-      return (
-        <Button
-          className="menu-button"
-          size="medium"
-          variant="contained"
-          color="primary"
-          disabled
-        >
-          Delete Event
-        </Button>
-      )
-    } else {
-      return (
-        <Button
-          className="menu-button"
-          size="medium"
-          variant="contained"
-          color="primary"
-          onClick={handleClickOpen}
-        >
-          Delete Event
-        </Button>
-      )
-    }
-  }
-
   return (
     <>
-      <DeleteButton />
+      <PanelButton disabled={props.selected === null} onClick={handleClickOpen}>
+        Delete Event
+      </PanelButton>
       <EventDeletePopup />
       <ButtonPopup
         open={open}
@@ -104,4 +67,4 @@ const DeleteEventPopUp = (props: any) => {
   )
 }
 
-export default DeleteEventPopUp
+export default DeleteEventButton

@@ -8,6 +8,12 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 
+export enum PopupType {
+  Success,
+  DuplicateName,
+  Duplicate
+}
+
 const popupStyle = {
 	'& .MuiDialog-container': {
 		justifyContent: 'center',

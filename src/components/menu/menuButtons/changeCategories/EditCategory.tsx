@@ -5,9 +5,9 @@ import {
   Box
 } from '@mui/material'
 import React, { useState } from 'react'
-import ColourPicker from '@/components/menu/menuButtons/changeCategories/ColourPicker'
-import SymbolPicker from '@/components/menu/menuButtons/changeCategories/SymbolPicker'
-import EditCatPopUp from '@/components/menu/menuButtons/changeCategories/popups/EditCatPopUp'
+import ColourPicker from '@/components/menu/menuButtons/changeCategories/categoryComponents/ColourPicker'
+import SymbolPicker from '@/components/menu/menuButtons/changeCategories/categoryComponents/SymbolPicker'
+import EditCategoryButton from '@/components/menu/menuButtons/changeCategories/categoryComponents/EditCategoryButton'
 import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
 
 // @ts-ignore
@@ -66,18 +66,14 @@ const EditCategory = (props: any) => {
         </Box>
       </RightMenuPanel>
       <RightMenuPanelBottom handleCancelClick={props.clickAway}>
-      <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <EditCatPopUp
-            name={categoryName}
-            icon={categorySymbol}
-            color={categoryColour}
-            clickAway={props.clickAway}
-            updateState={props.updateState}
-            category={props.category}
-          >
-            Save Changes
-          </EditCatPopUp>
-        </ListItem>
+        <EditCategoryButton
+          name={categoryName}
+          icon={categorySymbol}
+          color={categoryColour}
+          clickAway={props.clickAway}
+          updateState={props.updateState}
+          selectedCategory={props.category}
+        />
       </RightMenuPanelBottom>
     </>
   )

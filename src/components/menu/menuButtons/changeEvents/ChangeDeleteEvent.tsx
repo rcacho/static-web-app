@@ -9,7 +9,7 @@ import {
   AccordionDetails
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import DeleteEventPopUp from '@/components/menu/menuButtons/changeEvents/DeleteEventPopUp'
+import DeleteEventButton from '@/components/menu/menuButtons/changeEvents/DeleteEventButton'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
@@ -165,11 +165,9 @@ const ChangeDeleteEvent = (props: any) => {
           <PanelButton disabled={selected === null} onClick={() => props.updateState(1.6)}>
             Edit Event
           </PanelButton>
-          <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-            <DeleteEventPopUp selected={selected}>
-              Delete Event
-            </DeleteEventPopUp>
-          </ListItem>
+          <DeleteEventButton selected={selected}>
+            Delete Event
+          </DeleteEventButton>
           </RightMenuPanelBottom>
       ) : null}
     </>

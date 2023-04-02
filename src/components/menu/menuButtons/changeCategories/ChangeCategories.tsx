@@ -6,12 +6,10 @@ import {
   Button
 } from '@mui/material'
 import React, { useState } from 'react'
-import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/popups/DeleteCategoryPopUp'
+import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/categoryComponents/DeleteCategoryPopUp'
 import { useAPIContext } from '@/store/APIContext'
-import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
 import PanelButton from '../PanelButton'
-
-// placeholder for the list of categories
+import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
 
 const ChangeCategories = (props: any) => {
   const [selected, setSelected] = useState(null)
@@ -21,7 +19,6 @@ const ChangeCategories = (props: any) => {
     setSelected(null)
   }
 
-  // render list for the scroll function
   function renderList() {
     const handleSelect = (index: any) => {
       setSelected(index)
