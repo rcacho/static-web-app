@@ -15,7 +15,7 @@ export function isAdmin(req: NextApiRequest) {
   const idToken = req.headers.authorization!.substring(7)
   const parsed = decode(idToken, { complete: true })
 
-  return parsed?.payload as JwtPayload['extension_IsAdmin'] as boolean
+  return (parsed?.payload as JwtPayload)['extension_IsAdmin'] as boolean
 }
 
 export function getOid(req: NextApiRequest) {
@@ -29,7 +29,7 @@ export function getOid(req: NextApiRequest) {
   const idToken = req.headers.authorization!.substring(7)
   const parsed = decode(idToken, { complete: true })
 
-  return parsed?.payload as JwtPayload['oid'] as string
+  return (parsed?.payload as JwtPayload)['oid']
 }
 
 function getSigningKeyPromise(kid: string, client: JwksClient) {
