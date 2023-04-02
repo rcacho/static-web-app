@@ -126,7 +126,7 @@ const ExportPopUp = (props: any) => {
         <DialogTitle id="alert-dialog-title">{'Export Calendar'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Please choose the format you would like to export the calendar in:
+            Click below to download the events in .ICS format.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
