@@ -12,8 +12,9 @@ import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
-import Popup from './Popup'
+import Popup, { ErrorPopup, SuccessPopup } from '../Popup'
 import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
+import PanelButton from '../PanelButton'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -120,10 +121,9 @@ const EditEvent = (props: any) => {
 
   const EventEditPopup = () => {
     return (
-      <Popup
+      <SuccessPopup
         open={open}
         onClose={handleClose}
-        title={'Event Edited'}
         body={'Event successfully edited!'}
       />
     )
@@ -131,10 +131,9 @@ const EditEvent = (props: any) => {
 
   const EventEditFailedPopup = () => {
     return (
-      <Popup
+      <ErrorPopup
         open={openFailed}
         onClose={handleClose}
-        title={'ERROR: Edit Event'}
         body={'Event already exists!'}
       />
     )
@@ -231,18 +230,9 @@ const EditEvent = (props: any) => {
         </ListItem>
       </RightMenuPanel>
       <RightMenuPanelBottom handleCancelClick={handleBackClick}>
-      <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            disabled={clicked}
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={handleOnClick}
-          >
-            Save Changes
-          </Button>
-        </ListItem>
+        <PanelButton disabled={clicked} onClick={handleOnClick}>
+          Save Changes
+        </PanelButton>
       </RightMenuPanelBottom>
     </>
   )

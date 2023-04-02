@@ -1,6 +1,7 @@
 import MuiTheme from "@/styles/MuiTheme"
 import { ThemeProvider } from "@emotion/react"
 import { List, ListItem, ListItemText, Box, Typography, Button } from "@mui/material"
+import PanelButton from "./PanelButton"
 
 interface RightMenuBottomProps {
 	handleCancelClick: () => void
@@ -34,17 +35,9 @@ export const RightMenuPanelBottom = (props: RightMenuBottomProps)  => {
 			}}
 		>
 			{children}
-			<ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-				<Button
-					className="menu-button"
-					size="medium"
-					variant="contained"
-					color="primary"
-					onClick={handleCancelClick}
-				>
-					Cancel
-				</Button>
-			</ListItem>
+			<PanelButton onClick={handleCancelClick}>
+				Cancel
+			</PanelButton>
 		</List>
 	)
 }

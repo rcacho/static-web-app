@@ -14,6 +14,7 @@ import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
+import PanelButton from '../PanelButton'
 
 let EventList: (string | undefined)[] = []
 let IdList: (number | null)[] = []
@@ -74,36 +75,6 @@ const ChangeDeleteEvent = (props: any) => {
     }
     setEventsState(EventList)
   }, [selected, categories, eventId])
-
-  function EditEvent() {
-    if (selected === null) {
-      return (
-        <Button
-          className="menu-button"
-          size="medium"
-          variant="contained"
-          color="primary"
-          disabled
-        >
-          Edit Event
-        </Button>
-      )
-    } else {
-      return (
-        <Button
-          className="menu-button"
-          size="medium"
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            props.updateState(1.6)
-          }}
-        >
-          Edit Event
-        </Button>
-      )
-    }
-  }
 
   function renderList() {
     const handleSelect = (index: any) => {
@@ -188,22 +159,12 @@ const ChangeDeleteEvent = (props: any) => {
         <RightMenuPanelBottom
           handleCancelClick={goBack}
         >
-          <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button
-              className="menu-button"
-              size="medium"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                props.updateState(1)
-              }}
-            >
-              Add New Event
-            </Button>
-          </ListItem>
-          <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-            <EditEvent />
-          </ListItem>
+          <PanelButton onClick={() => props.updateState(1)}>
+            Add New Event
+          </PanelButton>
+          <PanelButton disabled={selected === null} onClick={() => props.updateState(1.6)}>
+            Edit Event
+          </PanelButton>
           <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
             <DeleteEventPopUp selected={selected}>
               Delete Event

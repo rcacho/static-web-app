@@ -4,7 +4,7 @@ import { APIManager } from '@/utils/APIManager'
 import { useAPIContext } from '@/store/APIContext'
 import { icons } from '@/interfaces/Icons'
 import { Category } from '@/interfaces/Category'
-import Popup from '../../changeEvents/Popup'
+import Popup, { ErrorPopup, SuccessPopup } from '../../Popup'
 
 const EditCatPopUp = (props: any) => {
   const [open, setOpen] = useState(false)
@@ -85,6 +85,7 @@ const EditCatPopUp = (props: any) => {
     setClicked(true)
     duplicateCheck()
   }
+
   const handleClose = () => {
     setOpen(false)
     props.clickAway()
@@ -109,10 +110,9 @@ const EditCatPopUp = (props: any) => {
 
   const Success = () => {
     return (
-      <Popup
+      <SuccessPopup
         open={open}
         onClose={handleClose}
-        title={'Category Updated'}
         body={'Category updated successfully.'}
       />
     )
@@ -120,10 +120,9 @@ const EditCatPopUp = (props: any) => {
 
   const DuplicateName = () => {
     return (
-      <Popup
+      <ErrorPopup
         open={open}
         onClose={handleClose}
-        title={'ERROR'}
         body={`The name "${props.name}" is already in use by another category. Please try another name.`}
       />
     )
@@ -131,10 +130,9 @@ const EditCatPopUp = (props: any) => {
 
   const DuplicateCombo = () => {
     return (
-      <Popup
+      <ErrorPopup
         open={open}
         onClose={handleClose}
-        title={'ERROR'}
         body={'Colour and symbol combination already in use. Please try a unique combination.'}
       />
     )

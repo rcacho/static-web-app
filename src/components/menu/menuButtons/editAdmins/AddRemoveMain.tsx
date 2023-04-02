@@ -4,6 +4,7 @@ import { List, ListItem, ListItemText, Typography } from '@mui/material'
 import GroupRemoveIcon from '@mui/icons-material/GroupRemove'
 import GroupAddIcon from '@mui/icons-material/GroupAdd'
 import StateMenuButton from '../../StateMenuButton'
+import RightMenuPanel from '../RightMenuPanel'
 
 const AddRemoveMain = (props: any) => {
   //function to handle Back button
@@ -12,35 +13,10 @@ const AddRemoveMain = (props: any) => {
   }
 
   return (
-    <List>
-      <ListItem>
-        <ListItemText
-          sx={{ color: '#898989', textDecoration: 'underline' }}
-          secondary="Add / Remove Admin"
-        />
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'flex-end',
-            color: '#898989',
-            textDecoration: 'underline',
-            fontFamily: 'Roboto'
-          }}
-        >
-          <Typography
-            onClick={handleBackClick}
-            sx={{
-              '&:hover': {
-                cursor: 'pointer'
-              }
-            }}
-            variant="body2"
-            color="#898989"
-          >
-            Back
-          </Typography>
-        </Box>
-      </ListItem>
+    <RightMenuPanel
+      title={"Add / Remove Admin"}
+      handleBackClick={handleBackClick}
+    >
       <ListItem disablePadding>
         <StateMenuButton
           icon={GroupAddIcon}
@@ -57,7 +33,7 @@ const AddRemoveMain = (props: any) => {
           state={3.2}
         />
       </ListItem>
-    </List>
+    </RightMenuPanel>
   )
 }
 

@@ -1,10 +1,10 @@
-import { Button } from '@mui/material'
 import React, { useState } from 'react'
 import { APIManager } from '@/utils/APIManager'
 import { useAPIContext } from '@/store/APIContext'
 import { icons } from '@/interfaces/Icons'
 import { Category } from '@/interfaces/Category'
-import Popup from '../../changeEvents/Popup'
+import { ErrorPopup, SuccessPopup } from '../../Popup'
+import ActiveButton from '../../PanelButton'
 
 enum PopupType {
   Success,
@@ -12,9 +12,26 @@ enum PopupType {
   Duplicate
 }
 
-const AddCatPopUp = (props: any) => {
+interface AddCatProps {
+  allSelected: boolean
+  name: string
+  icon: keyof typeof icons
+  color: string
+  clickAway: () => void
+  updateState: () => void
+}
+
+const AddCategoryButton = (props: AddCatProps) => {
+  const {
+    allSelected, 
+    name, 
+    icon, 
+    color, 
+    clickAway, 
+    updateState
+  } = props
+
   const [open, setOpen] = useState(false)
-  const [clicked, setClicked] = useState(false)
   const {
     categories,
     updateCategories,
@@ -23,26 +40,7 @@ const AddCatPopUp = (props: any) => {
   const admin_id_1 = 'user' // @TODO
   const [popupType, setPopupType] = useState(PopupType.Success)
 
-  const hasDuplicate = async () => {
-    setOpen(true)
-    for (const category of categories) {
-      if (category.category_name === props.name) {
-        setPopupType(PopupType.DuplicateName)
-        return true;
-      } else if (category.icon === props.icon && category.color === props.color) {
-        setPopupType(PopupType.Duplicate)
-        return true;
-      }
-    }
-    return false;
-  }
-
-  async function addCategory(
-    category_name: string,
-    admin_id: string,
-    icon: keyof typeof icons,
-    color: string
-  ) {
+  async function addCategory(category_name: string, admin_id: string, icon: keyof typeof icons, color: string) {
     let payload: Category = {
       category_id: null,
       category_name: category_name,
@@ -57,61 +55,57 @@ const AddCatPopUp = (props: any) => {
   }
 
   const handleClickOpen = async () => {
-    setClicked(true)
     await updateCategories()
     if (!(await hasDuplicate())) {
-      addCategory(props.name, admin_id_1, props.icon, props.color)
+      addCategory(name, admin_id_1, icon, color)
     }
   }
-  const handleClose = () => {
-    setOpen(false)
-    props.clickAway()
-    props.updateState(0)
-    setPopupType(PopupType.Success)
+
+  const hasDuplicate = async () => {
+    setOpen(true)
+    for (const category of categories) {
+      if (category.category_name === name) {
+        setPopupType(PopupType.DuplicateName)
+        return true;
+      } else if (category.icon === icon && category.color === color) {
+        setPopupType(PopupType.Duplicate)
+        return true;
+      }
+    }
+    return false;
   }
 
-  const AddCategoryButton = () => {
-    return (
-      <Button
-        disabled={clicked}
-        className="menu-button"
-        size="medium"
-        variant="contained"
-        color="primary"
-        onClick={handleClickOpen}
-      >
-        Add Category
-      </Button>
-    )
+  const handleClose = () => {
+    setOpen(false)
+    clickAway()
+    updateState(0)
+    setPopupType(PopupType.Success)
   }
 
   const renderPopup = () => {
     switch (popupType) {
       case PopupType.Success:
         return (
-          <Popup
+          <SuccessPopup
             open={open}
             onClose={handleClose}
-            title={'Category Added'}
-            body = {`Category ${props.name} added successfully.`}
+            body = {`Category ${name} added successfully.`}
           />
         )
       case PopupType.DuplicateName:
         return (
-          <Popup
+          <ErrorPopup
             open={open}
             onClose={handleClose}
-            title={'Category Not Added'}
-            body = {`The name "${props.name}" is already in use by another category.
+            body = {`The name "${name}" is already in use by another category.
             Please try another name.`}
           />
         )
       case PopupType.Duplicate:
         return (
-          <Popup
+          <ErrorPopup
             open={open}
             onClose={handleClose}
-            title={'Category Not Added'}
             body = {"Colour and symbol combination already in use. Please try a unique combination."}
           />
         )
@@ -122,10 +116,12 @@ const AddCatPopUp = (props: any) => {
 
   return (
     <>
-      <AddCategoryButton />
+      <ActiveButton disabled={!allSelected} onClick={handleClickOpen}>
+        Add Category
+      </ActiveButton>
       {renderPopup()}
     </>
   )
 }
 
-export default AddCatPopUp
+export default AddCategoryButton

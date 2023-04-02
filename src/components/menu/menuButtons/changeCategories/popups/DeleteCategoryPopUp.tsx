@@ -2,7 +2,7 @@ import { Button } from '@mui/material'
 import React, { useState } from 'react'
 import { APIManager } from '@/utils/APIManager'
 import { useAPIContext } from '@/store/APIContext'
-import { ButtonPopup } from '../../changeEvents/Popup'
+import { ButtonPopup } from '../../Popup'
 
 const DeleteCategoryPopUp = (props: any) => {
   const [open, setOpen] = useState(false)

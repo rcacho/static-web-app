@@ -3,7 +3,7 @@ import React from 'react'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
-import Popup, { ButtonPopup } from './Popup'
+import Popup, { ButtonPopup, SuccessPopup } from '../Popup'
 
 const DeleteEventPopUp = (props: any) => {
   const [open, setOpen] = React.useState(false)
@@ -52,10 +52,9 @@ const DeleteEventPopUp = (props: any) => {
 
   const EventDeletePopup = () => {
     return (
-      <Popup
+      <SuccessPopup
         open={openConfirm}
         onClose={handleClose}
-        title={'Event Deleted'}
         body={'Event successfully deleted!'}
       />
     )

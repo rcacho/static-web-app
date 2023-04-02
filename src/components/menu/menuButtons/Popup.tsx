@@ -85,4 +85,34 @@ export const ButtonPopup = (props: ButtonPopupProps) => {
 	)
 }
 
+interface StatusPopupProps {
+	open: boolean,
+	onClose: any,
+	body: string,
+}
+
+export const ErrorPopup = (props: StatusPopupProps) => {
+	const {open, onClose, body} = props
+	return (
+		<Popup
+			open={open}
+			onClose={onClose}
+			title={'Error'}
+			body={body}
+		/>
+	)
+}
+
+export const SuccessPopup = (props: StatusPopupProps) => {
+	const {open, onClose, body} = props
+	return (
+		<Popup
+			open={open}
+			onClose={onClose}
+			title={'Success'}
+			body={body}
+		/>
+	)
+}
+
 export default Popup

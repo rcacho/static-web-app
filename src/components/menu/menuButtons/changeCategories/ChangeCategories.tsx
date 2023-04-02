@@ -9,6 +9,7 @@ import React, { useState } from 'react'
 import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/popups/DeleteCategoryPopUp'
 import { useAPIContext } from '@/store/APIContext'
 import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
+import PanelButton from '../PanelButton'
 
 // placeholder for the list of categories
 
@@ -64,44 +65,12 @@ const ChangeCategories = (props: any) => {
           </List>
       </RightMenuPanel>
       <RightMenuPanelBottom handleCancelClick={() => props.clickAway(false)}>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="small"
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.updateState(2.1)
-            }}
-          >
-            Add New Category
-          </Button>
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          {selected === null ? (
-            <Button
-              disabled
-              className="menu-button"
-              size="small"
-              variant="contained"
-              color="primary"
-            >
-              Edit Category
-            </Button>
-          ) : (
-            <Button
-              className="menu-button"
-              size="small"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                props.updateState(2.2)
-              }}
-            >
-              Edit Category
-            </Button>
-          )}
-        </ListItem>
+        <PanelButton onClick={() => props.updateState(2.1)}>
+          Add New Category
+        </PanelButton>
+        <PanelButton disabled={selected === null} onClick={() => props.updateState(2.2)}>
+          Edit Category
+        </PanelButton>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           {selected === null ? (
             <Button

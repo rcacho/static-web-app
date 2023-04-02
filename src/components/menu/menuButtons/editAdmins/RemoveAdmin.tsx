@@ -1,16 +1,13 @@
 import React, { useState } from 'react'
-import { Box } from '@mui/material/'
 import {
-  Button,
-  List,
   ListItem,
   ListItemButton,
   ListItemText,
-  Typography
 } from '@mui/material'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
-import RemovePopUp from '@/components/menu/menuButtons/editAdmins/RemovePopUp'
+import RemoveAdminButton from '@/components/menu/menuButtons/editAdmins/RemoveAdminButton'
+import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
 
 const RemoveAdmin = (props: any) => {
   const [selected, setSelected] = useState(null)
@@ -55,35 +52,10 @@ const RemoveAdmin = (props: any) => {
 
   return (
     <>
-      <List>
-        <ListItem>
-          <ListItemText
-            sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Remove Admin"
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              color: '#898989',
-              textDecoration: 'underline',
-              fontFamily: 'Roboto'
-            }}
-          >
-            <Typography
-              onClick={handleBackClick}
-              variant="body2"
-              color="#898989"
-              sx={{
-                '&:hover': {
-                  cursor: 'pointer'
-                }
-              }}
-            >
-              Back
-            </Typography>
-          </Box>
-        </ListItem>
+      <RightMenuPanel
+        title={'Remove Admin'}
+        handleBackClick={handleBackClick}
+      >
         <ListItem>
           <ListItemText primary="Please select admin to remove:" />
         </ListItem>
@@ -97,33 +69,10 @@ const RemoveAdmin = (props: any) => {
         >
           {renderList}
         </FixedSizeList>
-      </List>
-      <List
-        className="bottom-buttons"
-        disablePadding={true}
-        sx={{
-          position: 'absolute',
-          margin: 'auto',
-          bottom: '0',
-          width: '100%',
-          height: '13%'
-        }}
-      >
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <RemovePopUp selected={selected} />
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={handleBackClick}
-          >
-            Cancel
-          </Button>
-        </ListItem>
-      </List>
+      </RightMenuPanel>
+      <RightMenuPanelBottom handleCancelClick={handleBackClick}>
+        <RemoveAdminButton selected={selected} />
+      </RightMenuPanelBottom>
     </>
   )
 }

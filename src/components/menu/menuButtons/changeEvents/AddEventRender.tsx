@@ -12,8 +12,9 @@ import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
-import Popup from './Popup'
+import { ErrorPopup, SuccessPopup } from '../Popup'
 import RightMenuPanel, { RightMenuPanelBottom } from '../RightMenuPanel'
+import PanelButton from '../PanelButton'
 
 // placeholder for the list of categories
 let EventList: string[] = []
@@ -149,10 +150,9 @@ const AddEventRender = (props: any) => {
 
   const EventAddedPopupFailed = () => { 
     return (
-      <Popup 
+      <ErrorPopup
         open={openFailed} 
         onClose={handleClose} 
-        title={'ERROR'} 
         body={'Event already exists on this date!'}
       />
     )
@@ -160,10 +160,9 @@ const AddEventRender = (props: any) => {
 
   const EventAddedPopup = () => {
     return (
-      <Popup
+      <SuccessPopup
         open={open} 
-        onClose={handleClose} 
-        title={'Event Added'} 
+        onClose={handleClose}
         body={'Event Successfully Added'}
       />
     )
@@ -230,18 +229,9 @@ const AddEventRender = (props: any) => {
         </ListItem>
       </RightMenuPanel>
       <RightMenuPanelBottom handleCancelClick={goBack}>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            disabled={selected === null || +eventDate === +nullDate}
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={handleAddEvent}
-          >
-            Add Event
-          </Button>
-        </ListItem>
+        <PanelButton disabled={selected === null || +eventDate === +nullDate} onClick={handleAddEvent}>
+          Add Event
+        </PanelButton>
       </RightMenuPanelBottom>
     </>
   )
