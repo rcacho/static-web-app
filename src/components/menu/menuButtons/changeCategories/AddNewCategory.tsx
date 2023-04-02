@@ -1,8 +1,4 @@
-import {
-  ListItem,
-  TextField,
-  Box
-} from '@mui/material'
+import { ListItem, TextField, Box } from '@mui/material'
 import React, { useState } from 'react'
 import ColourPicker from '@/components/menu/menuButtons/changeCategories/categoryComponents/ColourPicker'
 import SymbolPicker from '@/components/menu/menuButtons/changeCategories/categoryComponents/SymbolPicker'
@@ -13,7 +9,8 @@ import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 const AddNewCategory = (props: any) => {
   const GenericIcon = 'PanoramaFishEyeIcon'
   const [categoryName, setCategoryName] = useState('')
-  const [categorySymbol, setCategorySymbol] = useState<keyof typeof icons>(GenericIcon)
+  const [categorySymbol, setCategorySymbol] =
+    useState<keyof typeof icons>(GenericIcon)
   const [categoryColour, setCategoryColour] = useState('')
 
   const handleBackClick = () => {
@@ -28,43 +25,46 @@ const AddNewCategory = (props: any) => {
     setCategorySymbol(symbol)
   }
 
-  const allSelected = categoryName !== '' && categoryColour !== '' && categorySymbol != GenericIcon
+  const allSelected =
+    categoryName !== '' &&
+    categoryColour !== '' &&
+    categorySymbol != GenericIcon
 
   return (
     <>
       <RightMenuPanel
-        title={"Add New Category"}
+        title={'Add New Category'}
         handleBackClick={handleBackClick}
       >
-        <Header text='Please enter category name:'/>
+        <Header text="Please enter category name:" />
         <ListItem sx={{ pl: 5, pt: 0 }}>
-          <NameField setCategoryName={setCategoryName}/>
+          <NameField setCategoryName={setCategoryName} />
         </ListItem>
-        <Header text='Please select category symbol:'/>
+        <Header text="Please select category symbol:" />
         <Box marginLeft={5}>
           <SymbolPicker setSymbol={updateSymbol} />
         </Box>
-        <Header text='Please select category symbol colour:'/>
+        <Header text="Please select category symbol colour:" />
         <Box marginLeft={5}>
           <ColourPicker setColour={updateColour} />
         </Box>
       </RightMenuPanel>
       <RightMenuPanelBottom handleCancelClick={() => props.clickAway(false)}>
-      <AddCategoryButton
-        allSelected={allSelected}
-        name={categoryName}
-        icon={categorySymbol}
-        color={categoryColour}
-        clickAway={props.clickAway}
-        updateState={props.updateState}
-      />
+        <AddCategoryButton
+          allSelected={allSelected}
+          name={categoryName}
+          icon={categorySymbol}
+          color={categoryColour}
+          clickAway={props.clickAway}
+          updateState={props.updateState}
+        />
       </RightMenuPanelBottom>
     </>
   )
 }
 
 const NameField = (props: any) => {
-  const {setCategoryName} = props
+  const { setCategoryName } = props
   return (
     <TextField
       multiline={true}

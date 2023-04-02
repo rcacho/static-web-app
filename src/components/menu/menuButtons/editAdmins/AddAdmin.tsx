@@ -1,8 +1,5 @@
 import React, { useState } from 'react'
-import {
-  ListItem,
-  TextField,
-} from '@mui/material'
+import { ListItem, TextField } from '@mui/material'
 import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 import PanelButton from '../PanelButton'
 
@@ -20,11 +17,8 @@ const AddAdmin = (props: any) => {
 
   return (
     <>
-      <RightMenuPanel
-        title={"Add Admin"}
-        handleBackClick={handleBackClick}
-      >
-        <Header text='Please enter first name:'/>
+      <RightMenuPanel title={'Add Admin'} handleBackClick={handleBackClick}>
+        <Header text="Please enter first name:" />
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             required
@@ -38,7 +32,7 @@ const AddAdmin = (props: any) => {
             onChange={(newVal) => setName(newVal.target.value)}
           />
         </ListItem>
-        <Header text='Please enter last name:'/>
+        <Header text="Please enter last name:" />
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             required
@@ -52,7 +46,7 @@ const AddAdmin = (props: any) => {
             onChange={(newVal) => setLastName(newVal.target.value)}
           />
         </ListItem>
-        <Header text='Please enter email:'/>
+        <Header text="Please enter email:" />
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             required

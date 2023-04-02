@@ -41,14 +41,19 @@ const DeleteCategoryButton = (props: DelButtonProps) => {
 
   return (
     <>
-      <PanelButton disabled={selected === null || categoryID === -1} onClick={handleClickOpen}>
+      <PanelButton
+        disabled={selected === null || categoryID === -1}
+        onClick={handleClickOpen}
+      >
         Delete Category
       </PanelButton>
       <ButtonPopup
         open={open}
         onClose={handleClose}
         title={'Delete Category'}
-        body={'Are you sure you would like to delete the selected category? This action is permanent.'}
+        body={
+          'Are you sure you would like to delete the selected category? This action is permanent.'
+        }
         buttonLabel={'Delete'}
         buttonClick={handleDelete}
       />

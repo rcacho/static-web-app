@@ -1,62 +1,53 @@
-import MuiTheme from "@/styles/MuiTheme"
-import { ThemeProvider } from "@emotion/react"
-import { List, ListItem, ListItemText, Box, Typography } from "@mui/material"
-import PanelButton from "./PanelButton"
+import MuiTheme from '@/styles/MuiTheme'
+import { ThemeProvider } from '@emotion/react'
+import { List, ListItem, ListItemText, Box, Typography } from '@mui/material'
+import PanelButton from './PanelButton'
 
 interface RightMenuBottomProps {
-	handleCancelClick: () => void
-	children: any
+  handleCancelClick: () => void
+  children: any
 }
 
-export const Header = ({text}: {text: string}) => {
-	return (
-		<ListItem>
-			<ListItemText primary={text}/>
-		</ListItem>
-	)
+export const Header = ({ text }: { text: string }) => {
+  return (
+    <ListItem>
+      <ListItemText primary={text} />
+    </ListItem>
+  )
 }
 
-export const RightMenuPanelBottom = (props: RightMenuBottomProps)  => {
-	const {
-		handleCancelClick,
-		children
-	} = props
+export const RightMenuPanelBottom = (props: RightMenuBottomProps) => {
+  const { handleCancelClick, children } = props
 
-	return (
-		<List
-			className="bottom-buttons"
-			disablePadding={true}
-			sx={{
-				position: 'absolute',
-				margin: 'auto',
-				bottom: '0',
-				width: '100%',
-				height: '20%'
-			}}
-		>
-			{children}
-			<PanelButton onClick={handleCancelClick}>
-				Cancel
-			</PanelButton>
-		</List>
-	)
+  return (
+    <List
+      className="bottom-buttons"
+      disablePadding={true}
+      sx={{
+        position: 'absolute',
+        margin: 'auto',
+        bottom: '0',
+        width: '100%',
+        height: '20%'
+      }}
+    >
+      {children}
+      <PanelButton onClick={handleCancelClick}>Cancel</PanelButton>
+    </List>
+  )
 }
 
 interface RightMenuProps {
-	title: string
-	handleBackClick: () => void
-	children: any
+  title: string
+  handleBackClick: () => void
+  children: any
 }
 
 const RightMenuPanel = (props: RightMenuProps) => {
-	const {
-		title,
-		handleBackClick,
-		children
-	} = props
+  const { title, handleBackClick, children } = props
 
-	return (
-		<ThemeProvider theme={MuiTheme}>
+  return (
+    <ThemeProvider theme={MuiTheme}>
       <List>
         <ListItem>
           <ListItemText
@@ -87,9 +78,9 @@ const RightMenuPanel = (props: RightMenuProps) => {
           </Box>
         </ListItem>
         {children}
-        </List>
+      </List>
     </ThemeProvider>
-	)
+  )
 }
 
 export default RightMenuPanel

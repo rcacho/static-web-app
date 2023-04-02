@@ -59,7 +59,9 @@ const DeleteEventButton = (props: any) => {
         open={open}
         onClose={handleClose}
         title={'Delete Event'}
-        body={'Are you sure you would like to delete the selected event? This action is permanent.'}
+        body={
+          'Are you sure you would like to delete the selected event? This action is permanent.'
+        }
         buttonLabel={'Delete'}
         buttonClick={handleCloseDelete}
       />

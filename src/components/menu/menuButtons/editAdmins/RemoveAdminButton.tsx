@@ -22,7 +22,9 @@ const RemoveAdminButton = (props: any) => {
         open={open}
         onClose={handleClose}
         title={'Delete Admin'}
-        body={'Are you sure you would like to delete the selected administrator? This action is permanent.'}
+        body={
+          'Are you sure you would like to delete the selected administrator? This action is permanent.'
+        }
         buttonLabel={'Delete'}
         buttonClick={handleClose} // @TODO
       />

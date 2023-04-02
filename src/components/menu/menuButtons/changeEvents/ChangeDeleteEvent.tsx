@@ -124,18 +124,19 @@ const ChangeDeleteEvent = (props: any) => {
     props.updateState(0)
   }
 
-  return ( 
+  return (
     <>
-      <RightMenuPanel 
-        title={isAdmin ? 'Change / Delete Event' : 'Selected Event'} 
+      <RightMenuPanel
+        title={isAdmin ? 'Change / Delete Event' : 'Selected Event'}
         handleBackClick={goBack}
       >
-        <Header text={`Selected date: ${selectedDate}`}/>
-        <Header text={
-              eventsState.length === 0
-                ? 'No events on this day.'
-                : 'Please select event:'
-            }
+        <Header text={`Selected date: ${selectedDate}`} />
+        <Header
+          text={
+            eventsState.length === 0
+              ? 'No events on this day.'
+              : 'Please select event:'
+          }
         />
         <List
           disablePadding={true}
@@ -149,19 +150,20 @@ const ChangeDeleteEvent = (props: any) => {
         </List>
       </RightMenuPanel>
       {isAdmin ? (
-        <RightMenuPanelBottom
-          handleCancelClick={goBack}
-        >
+        <RightMenuPanelBottom handleCancelClick={goBack}>
           <PanelButton onClick={() => props.updateState(1)}>
             Add New Event
           </PanelButton>
-          <PanelButton disabled={selected === null} onClick={() => props.updateState(1.6)}>
+          <PanelButton
+            disabled={selected === null}
+            onClick={() => props.updateState(1.6)}
+          >
             Edit Event
           </PanelButton>
           <DeleteEventButton selected={selected}>
             Delete Event
           </DeleteEventButton>
-          </RightMenuPanelBottom>
+        </RightMenuPanelBottom>
       ) : null}
     </>
   )

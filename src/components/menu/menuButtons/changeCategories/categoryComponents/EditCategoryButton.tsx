@@ -17,7 +17,7 @@ interface EditCatProps {
 }
 
 const EditCategoryButton = (props: EditCatProps) => {
-  const {name, icon, color, clickAway, updateState, selectedCategory} = props
+  const { name, icon, color, clickAway, updateState, selectedCategory } = props
 
   const [open, setOpen] = useState(false)
   const [clicked, setClicked] = useState(false)
@@ -82,8 +82,8 @@ const EditCategoryButton = (props: EditCatProps) => {
         Save Changes
       </PanelButton>
       <CategoryPopup
-        name={name} 
-        popupType={popupType} 
+        name={name}
+        popupType={popupType}
         action={'updated'}
         open={open}
         onClose={handleClose}

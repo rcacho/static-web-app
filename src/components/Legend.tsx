@@ -73,11 +73,7 @@ const Legend = () => {
             p: 0
           }}
         >
-          {show ? (
-            <KeyboardArrowLeftIcon/>
-          ) : (
-            <KeyboardArrowRightIcon/>
-          )}
+          {show ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
         </Button>
       </Stack>
     </Box>

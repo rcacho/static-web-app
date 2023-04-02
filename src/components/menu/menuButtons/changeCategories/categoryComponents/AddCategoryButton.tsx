@@ -17,25 +17,19 @@ interface AddCatProps {
 }
 
 const AddCategoryButton = (props: AddCatProps) => {
-  const {
-    allSelected, 
-    name, 
-    icon, 
-    color, 
-    clickAway, 
-    updateState
-  } = props
+  const { allSelected, name, icon, color, clickAway, updateState } = props
 
   const [open, setOpen] = useState(false)
-  const {
-    categories,
-    updateCategories,
-    updateEvents
-  } = useAPIContext()
+  const { categories, updateCategories, updateEvents } = useAPIContext()
   const admin_id_1 = 'user' // @TODO
   const [popupType, setPopupType] = useState(PopupType.Success)
 
-  async function addCategory(category_name: string, admin_id: string, icon: keyof typeof icons, color: string) {
+  async function addCategory(
+    category_name: string,
+    admin_id: string,
+    icon: keyof typeof icons,
+    color: string
+  ) {
     let payload: Category = {
       category_id: null,
       category_name: category_name,
@@ -61,13 +55,13 @@ const AddCategoryButton = (props: AddCatProps) => {
     for (const category of categories) {
       if (category.category_name === name) {
         setPopupType(PopupType.DuplicateName)
-        return true;
+        return true
       } else if (category.icon === icon && category.color === color) {
         setPopupType(PopupType.Duplicate)
-        return true;
+        return true
       }
     }
-    return false;
+    return false
   }
 
   const handleClose = () => {
@@ -82,8 +76,8 @@ const AddCategoryButton = (props: AddCatProps) => {
       <ActiveButton disabled={!allSelected} onClick={handleClickOpen}>
         Add Category
       </ActiveButton>
-      <CategoryPopup 
-        name={name} 
+      <CategoryPopup
+        name={name}
         popupType={popupType}
         action={'added'}
         open={open}

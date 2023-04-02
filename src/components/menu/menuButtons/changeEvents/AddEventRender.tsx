@@ -3,7 +3,7 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
-  TextField,
+  TextField
 } from '@mui/material'
 
 import React, { useEffect, useState } from 'react'
@@ -73,14 +73,24 @@ const AddEventRender = (props: any) => {
         }
       }
 
-      await addEvent(eventDate, description, accountId.toString(), catIDs[selected])
+      await addEvent(
+        eventDate,
+        description,
+        accountId.toString(),
+        catIDs[selected]
+      )
       await updateEvents()
       setOpen(true)
       setUpdateCats((prev) => !prev) // @TODO
     }
   }
 
-  async function addEvent(event_date: Date, event_description: string, admin_id: string, category_id: number) {
+  async function addEvent(
+    event_date: Date,
+    event_description: string,
+    admin_id: string,
+    category_id: number
+  ) {
     let payload: Event = {
       event_id: null,
       event_date: event_date,
@@ -124,11 +134,11 @@ const AddEventRender = (props: any) => {
     props.clickAway()
   }
 
-  const EventAddedPopupFailed = () => { 
+  const EventAddedPopupFailed = () => {
     return (
       <ErrorPopup
-        open={openFailed} 
-        onClose={handleClose} 
+        open={openFailed}
+        onClose={handleClose}
         body={'Event already exists on this date!'}
       />
     )
@@ -137,7 +147,7 @@ const AddEventRender = (props: any) => {
   const EventAddedPopup = () => {
     return (
       <SuccessPopup
-        open={open} 
+        open={open}
         onClose={handleClose}
         body={'Event Successfully Added'}
       />
@@ -146,13 +156,10 @@ const AddEventRender = (props: any) => {
 
   return (
     <>
-      <EventAddedPopup/>
-      <EventAddedPopupFailed/>
-      <RightMenuPanel 
-        title={'Add Event'} 
-        handleBackClick={goBack}
-      >
-        <Header text="Please select a category:"/>
+      <EventAddedPopup />
+      <EventAddedPopupFailed />
+      <RightMenuPanel title={'Add Event'} handleBackClick={goBack}>
+        <Header text="Please select a category:" />
         <List
           disablePadding={true}
           style={{
@@ -163,7 +170,7 @@ const AddEventRender = (props: any) => {
         >
           {renderList()}
         </List>
-        <Header text="Please enter a date:"/>
+        <Header text="Please enter a date:" />
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             id="standard-basic"
@@ -182,7 +189,7 @@ const AddEventRender = (props: any) => {
             }}
           />
         </ListItem>
-        <Header text="Event description:"/>
+        <Header text="Event description:" />
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             multiline={true}
@@ -199,7 +206,10 @@ const AddEventRender = (props: any) => {
         </ListItem>
       </RightMenuPanel>
       <RightMenuPanelBottom handleCancelClick={goBack}>
-        <PanelButton disabled={selected === null || +eventDate === +nullDate} onClick={handleAddEvent}>
+        <PanelButton
+          disabled={selected === null || +eventDate === +nullDate}
+          onClick={handleAddEvent}
+        >
           Add Event
         </PanelButton>
       </RightMenuPanelBottom>

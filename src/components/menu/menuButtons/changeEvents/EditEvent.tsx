@@ -3,7 +3,7 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
-  TextField,
+  TextField
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { APIManager } from '@/utils/APIManager'
@@ -25,7 +25,7 @@ const EditEvent = (props: any) => {
     eventIndex,
     accountId,
     eventId,
-    updateEvents,
+    updateEvents
   } = useAPIContext()
   const { selectedDate } = useCalendarContext()
   const [clicked, setClicked] = useState(false)
@@ -90,11 +90,13 @@ const EditEvent = (props: any) => {
       const events = data.result
       for (const event of events) {
         let eDate = new Date(event.event_date)
-        if (eDate.toUTCString() === eventDate.toUTCString() 
-          && event.category_id === catIDs[selected] 
-          && (+oldDate !== +eventDate || oldCat !== catIDs[selected])) {
-            setOpenFailed(true)
-            return
+        if (
+          eDate.toUTCString() === eventDate.toUTCString() &&
+          event.category_id === catIDs[selected] &&
+          (+oldDate !== +eventDate || oldCat !== catIDs[selected])
+        ) {
+          setOpenFailed(true)
+          return
         }
       }
       editEvent(eventId, eventDate, description, adminID, catIDs[selected])
@@ -161,11 +163,8 @@ const EditEvent = (props: any) => {
     <>
       <EventEditPopup />
       <EventEditFailedPopup />
-      <RightMenuPanel
-        title={"Edit Event"}
-        handleBackClick={handleBackClick}
-      >
-        <Header text="Please select category:"/>
+      <RightMenuPanel title={'Edit Event'} handleBackClick={handleBackClick}>
+        <Header text="Please select category:" />
         <List
           disablePadding={true}
           style={{
@@ -176,7 +175,7 @@ const EditEvent = (props: any) => {
         >
           {renderList()}
         </List>
-        <Header text="Please enter date:"/>
+        <Header text="Please enter date:" />
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             id="standard-basic"
@@ -193,7 +192,7 @@ const EditEvent = (props: any) => {
             }}
           />
         </ListItem>
-        <Header text="Event description:"/>
+        <Header text="Event description:" />
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             multiline={true}

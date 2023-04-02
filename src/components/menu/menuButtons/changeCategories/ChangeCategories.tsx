@@ -1,9 +1,4 @@
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemButton,
-} from '@mui/material'
+import { List, ListItem, ListItemText, ListItemButton } from '@mui/material'
 import React, { useState } from 'react'
 import DeleteCategoryButton from '@/components/menu/menuButtons/changeCategories/categoryComponents/DeleteCategoryButton'
 import { useAPIContext } from '@/store/APIContext'
@@ -43,10 +38,10 @@ const ChangeCategories = (props: any) => {
   return (
     <>
       <RightMenuPanel
-        title={"Edit Categories"}
+        title={'Edit Categories'}
         handleBackClick={() => props.updateState(0)}
       >
-        <Header text="Please select category:"/>
+        <Header text="Please select category:" />
         <List
           disablePadding={true}
           style={{
@@ -62,13 +57,18 @@ const ChangeCategories = (props: any) => {
         <PanelButton onClick={() => props.updateState(2.1)}>
           Add New Category
         </PanelButton>
-        <PanelButton disabled={selected === null} onClick={() => props.updateState(2.2)}>
+        <PanelButton
+          disabled={selected === null}
+          onClick={() => props.updateState(2.2)}
+        >
           Edit Category
         </PanelButton>
         <DeleteCategoryButton
           selected={selected}
           clickAway={props.clickAway}
-          categoryID={selected === null ? -1 : categories[selected].category_id ?? -1}
+          categoryID={
+            selected === null ? -1 : categories[selected].category_id ?? -1
+          }
           setSelected={handleSelected}
         />
       </RightMenuPanelBottom>

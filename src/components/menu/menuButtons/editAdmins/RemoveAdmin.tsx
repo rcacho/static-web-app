@@ -1,9 +1,5 @@
 import React, { useState } from 'react'
-import {
-  ListItem,
-  ListItemButton,
-  ListItemText,
-} from '@mui/material'
+import { ListItem, ListItemButton, ListItemText } from '@mui/material'
 // @ts-ignore
 import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import RemoveAdminButton from '@/components/menu/menuButtons/editAdmins/RemoveAdminButton'
@@ -52,11 +48,8 @@ const RemoveAdmin = (props: any) => {
 
   return (
     <>
-      <RightMenuPanel
-        title={'Remove Admin'}
-        handleBackClick={handleBackClick}
-      >
-        <Header text="Please select admin to remove:"/>
+      <RightMenuPanel title={'Remove Admin'} handleBackClick={handleBackClick}>
+        <Header text="Please select admin to remove:" />
         <FixedSizeList
           height={200}
           width={360}

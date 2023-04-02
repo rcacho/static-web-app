@@ -1,8 +1,4 @@
-import {
-  ListItem,
-  TextField,
-  Box
-} from '@mui/material'
+import { ListItem, TextField, Box } from '@mui/material'
 import React, { useState } from 'react'
 import ColourPicker from '@/components/menu/menuButtons/changeCategories/categoryComponents/ColourPicker'
 import SymbolPicker from '@/components/menu/menuButtons/changeCategories/categoryComponents/SymbolPicker'
@@ -26,10 +22,10 @@ const EditCategory = (props: any) => {
   return (
     <>
       <RightMenuPanel
-        title={"Edit Category"}
+        title={'Edit Category'}
         handleBackClick={() => props.updateState(2)}
       >
-        <Header text="Please enter category name:"/>
+        <Header text="Please enter category name:" />
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             multiline={true}
@@ -43,14 +39,14 @@ const EditCategory = (props: any) => {
             onChange={(newVal) => setCategoryName(newVal.target.value)}
           />
         </ListItem>
-        <Header text="Please select category symbol:"/>
+        <Header text="Please select category symbol:" />
         <Box marginLeft={5}>
           <SymbolPicker
             selectedSymbol={props.category.icon}
             setSymbol={updateSymbol}
           />
         </Box>
-        <Header text="Please select category symbol colour:"/>
+        <Header text="Please select category symbol colour:" />
         <Box marginLeft={5}>
           <ColourPicker
             selectedColour={props.category.color}
