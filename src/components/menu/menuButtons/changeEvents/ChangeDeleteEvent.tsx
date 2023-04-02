@@ -64,7 +64,14 @@ const ChangeDeleteEvent = (props: any) => {
             EventList.push(catMap.get(events[i].category_id))
             IdList.push(events[i].event_id)
             CatList.push(events[i].category_id)
-            DescriptionList.push(events[i].event_description)
+            if (
+              events[i].event_description === null ||
+              events[i].event_description === ''
+            ) {
+              DescriptionList.push('No additional details.')
+            } else {
+              DescriptionList.push(events[i].event_description)
+            }
           }
         }
       }
@@ -187,7 +194,13 @@ const ChangeDeleteEvent = (props: any) => {
           <ListItemText primary={`Selected date: ${selectedDate}`} />
         </ListItem>
         <ListItem>
-          <ListItemText primary="Please select category:" />
+          <ListItemText
+            primary={
+              eventsState.length === 0
+                ? 'No events on this day.'
+                : 'Please select event:'
+            }
+          />
         </ListItem>
         <List
           disablePadding={true}

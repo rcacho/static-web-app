@@ -12,8 +12,14 @@ import { Category } from '@/interfaces/Category'
 
 const AddCatPopUp = (props: any) => {
   const [open, setOpen] = useState(false)
-  const { categories, setCategories, updateCategories, setUpdateCats } =
-    useAPIContext()
+  const [clicked, setClicked] = useState(false)
+  const {
+    categories,
+    setCategories,
+    updateCategories,
+    setUpdateCats,
+    updateEvents
+  } = useAPIContext()
   const admin_id_1 = 'user'
   const [popup, setPopup] = useState(100)
 
@@ -80,12 +86,10 @@ const AddCatPopUp = (props: any) => {
     }
 
     APIManager.getInstance()
-      .then((instance) => {
-        instance.addCategory(payload)
-      })
-      .then((data) => {
-        console.log(data)
+      .then((instance) => instance.addCategory(payload))
+      .then(() => {
         updateCategories()
+        updateEvents()
       })
       .then(() => {
         setUpdateCats((prev) => !prev)
@@ -99,6 +103,7 @@ const AddCatPopUp = (props: any) => {
   }
 
   const handleClickOpen = () => {
+    setClicked(true)
     duplicateCheck()
   }
   const handleClose = () => {
@@ -111,6 +116,7 @@ const AddCatPopUp = (props: any) => {
   function AddCategoryButton() {
     return (
       <Button
+        disabled={clicked}
         className="menu-button"
         size="medium"
         variant="contained"

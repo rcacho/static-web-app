@@ -69,7 +69,7 @@ const Day = (props: DayProps) => {
       let Icon = icons[iconSet[index].icon]
       let color = iconSet[index].color
       return (
-        <Icon sx={{ color: color, minHeight: '10px', maxHeight: '10px' }} />
+        <Icon sx={{ color: color, minHeight: '12px', maxHeight: '12px' }} />
       )
     } else {
       return ' '
@@ -86,7 +86,7 @@ const Day = (props: DayProps) => {
               Icon = icons['CircleOutlinedIcon']
             }
             return (
-              <Grid key={index} xs={2}>
+              <Grid key={index} xs={3}>
                 <Icon
                   sx={{
                     color: color,
@@ -136,32 +136,32 @@ const Day = (props: DayProps) => {
         maxWidth="33px"
         minWidth="33px"
       >
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(5)}
         </Grid>
 
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(6)}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(7)}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(3)}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '9px', maxHeight: '9px' }}>
           {' '}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(4)}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(0)}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(1)}
         </Grid>
-        <Grid xs={4} sx={{ minHeight: '8px', maxHeight: '8px' }}>
+        <Grid xs={4} sx={{ minHeight: '10px', maxHeight: '10px' }}>
           {CheckKey(2)}
         </Grid>
       </Grid>
@@ -248,9 +248,37 @@ const Day = (props: DayProps) => {
                 {props.day.toString()}
               </Button>
             </Grid>
-            <Grid container xs={12} paddingRight="5px" paddingLeft="5px">
-              <ReturnMonthGrid></ReturnMonthGrid>
-            </Grid>
+            <Box
+              maxWidth={'80%'}
+              minWidth={'80%'}
+              sx={{ display: { xs: 'block', sm: 'none' } }}
+            >
+              <Grid
+                container
+                xs={12}
+                paddingRight="5px"
+                paddingLeft="5px"
+                maxWidth={'80%'}
+              >
+                <ReturnMonthGrid></ReturnMonthGrid>
+              </Grid>
+            </Box>
+            <Box
+              maxWidth={'100%'}
+              minWidth={'100%'}
+              sx={{ display: { xs: 'none', sm: 'block' } }}
+            >
+              <Grid
+                container
+                xs={12}
+                paddingRight="5px"
+                paddingLeft="5px"
+                maxWidth={'100%'}
+                minWidth={'100%'}
+              >
+                <ReturnMonthGrid></ReturnMonthGrid>
+              </Grid>
+            </Box>
           </Grid>
         </>
       )

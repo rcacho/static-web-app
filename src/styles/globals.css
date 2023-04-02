@@ -63,7 +63,7 @@ button {
 }
 
 .MuiGrid2-root {
-  color: #b9b9b9;
+  color: rgba(185, 185, 185, 0.63);
 
 }
 ::-webkit-scrollbar {
