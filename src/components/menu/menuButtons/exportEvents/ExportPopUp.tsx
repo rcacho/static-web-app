@@ -23,94 +23,99 @@ const ExportPopUp = (props: any) => {
     setOpen(false)
   }
 
-  const handleClickIcs = () => {    
+  const handleClickIcs = () => {
     let EventList: Array<Event> = []
     let CategoryList: Array<Category> = []
     let ICSEvents: Array<ics.EventAttributes> = []
-  
+
     APIManager.getInstance()
       .then((instance) => instance.getCategory())
       .then((data) => {
         CategoryList = Array.from(data.result)
-      }).then(() => APIManager.getInstance())
+      })
+      .then(() => APIManager.getInstance())
       .then((instance) => instance.getEvent())
       .then((data) => {
         EventList = Array.from(data.result)
         EventList.forEach((event) => {
-          //because apparently date != date 
-          let date = event.event_date.toString().split("-")
+          //because apparently date != date
+          let date = event.event_date.toString().split('-')
           let year: number = Number(date[0])
-          let month: number = Number(date[1]) 
-          let day: number = Number(date[2].split("T")[0])   
-          
+          let month: number = Number(date[1])
+          let day: number = Number(date[2].split('T')[0])
+
           //if description is null it is undefined
-          let description: string|undefined;
-          if(event.event_description === null){
-            description = undefined;
+          let description: string | undefined
+          if (event.event_description === null) {
+            description = undefined
           } else {
             description = event.event_description
           }
-  
+
           CategoryList.forEach((category) => {
-            if(event.category_id == category.category_id) {
-              let icsEvent:ics.EventAttributes = {
+            if (event.category_id == category.category_id) {
+              let icsEvent: ics.EventAttributes = {
                 title: category.category_name,
                 start: [year, month, day],
                 duration: { days: 1 },
                 description: description
               }
               console.log(icsEvent)
-              ICSEvents.push(icsEvent)  
+              ICSEvents.push(icsEvent)
             }
           })
         })
-      }).then(() => {
+      })
+      .then(() => {
         const filename = 'events.ics'
-  
+
         //TODO: return useful info
-        if(ICSEvents.length === 0) return;
-        
-        const{error, value} = ics.createEvents(ICSEvents)
-  
-        if(error) {
+        if (ICSEvents.length === 0) return
+
+        const { error, value } = ics.createEvents(ICSEvents)
+
+        if (error) {
           //TODO: error handling??
           console.log(error)
           return
         }
-        if(value !==undefined) {
+        if (value !== undefined) {
           const file = new File([value], filename, { type: 'plain/text' })
-  
-          const url = URL.createObjectURL(file);
-    
-          const anchor = document.createElement('a');
-          anchor.href = url;
-          anchor.download = filename;
-          
-          document.body.appendChild(anchor);
-          anchor.click();
-          document.body.removeChild(anchor);
-          
-          URL.revokeObjectURL(url);
+
+          const url = URL.createObjectURL(file)
+
+          const anchor = document.createElement('a')
+          anchor.href = url
+          anchor.download = filename
+
+          document.body.appendChild(anchor)
+          anchor.click()
+          document.body.removeChild(anchor)
+
+          URL.revokeObjectURL(url)
         }
       })
       .catch((err) => {
         console.log(err)
       })
-  
-      handleClose()
-  
+
+    handleClose()
   }
 
   function ExportButton() {
     return (
-    <MenuButton handleClick={handleClickOpen} icon={Export} text={'Export Calendar'} />
+      <MenuButton
+        handleClick={handleClickOpen}
+        icon={Export}
+        text={'Export Calendar'}
+      />
     )
   }
 
   return (
     <>
-    <ExportButton />
-    <Dialog
+      <ExportButton />
+      <Dialog
         sx={{
           '& .MuiDialog-container': {
             justifyContent: 'center',
@@ -135,7 +140,7 @@ const ExportPopUp = (props: any) => {
             .ics
           </Button>
         </DialogActions>
-      </Dialog> 
+      </Dialog>
     </>
   )
 }

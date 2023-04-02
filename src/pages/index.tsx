@@ -33,8 +33,8 @@ export default function Home(this: any) {
               alignItems="stretch"
             >
               <Legend />
-              <header id="Calendar" >         
-              <Calendar />
+              <header id="Calendar" >
+                <Calendar />
               </header>
             </Stack>
           </Box>

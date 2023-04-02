@@ -49,7 +49,7 @@ const MainMenuItems = (props: any) => {
       </ListItem>
       <ListItem disablePadding>
         <PrintCalPopUp />
-      </ListItem> 
+      </ListItem>
       <ListItem disablePadding>
         <LogInOutButton />
       </ListItem>
