@@ -29,6 +29,7 @@ const SelectButtonTheme = [
   { '&:hover': { bgcolor: '#cccccc' } }
 ]
 
+//list of categories
 const CategoryList = () => {
   const {
     categories,
@@ -225,13 +226,11 @@ const CategoryList = () => {
                 <ListItemButton
                   onClick={() => handleChange(item.category_name)}
                 >
-
                   <ListItemIcon>
                     <Icon sx={{ color: item.color }} />
                   </ListItemIcon>
                   <ListItemText
                     sx={{}}
-
                     id={labelId}
                     primary={`${item.category_name}`}
                   />
