@@ -3,9 +3,9 @@ import { loginRequest, msalInstance } from '@/authConfig'
 const apiPaths = {
   category: (categoryId?: number) => `/api/category/${categoryId ?? ''}`,
   events: (eventId?: number) => `/api/event/${eventId ?? ''}`,
-  notifications: (userId: number) => `/api/notification/${userId}`,
+  notifications: (userId: string) => `/api/notification/${userId}`,
   user: (userId?: number) => `/api/user/${userId ?? ''}`,
-  userLogin: (userId: number) => `/api/user/login/${userId}`
+  userLogin: (userId: number) => `/api/user/check_notifications/${userId}`
 }
 
 export class APIManager {
@@ -52,23 +52,23 @@ export class APIManager {
     return await this.fetch(apiPaths.events(eventId), 'DELETE', data)
   }
 
-  public async getNotification(userId: number) {
+  public async getNotification(userId: string) {
     return await this.fetch(apiPaths.notifications(userId), 'GET')
   }
-
+  // @ts-ignore
   public async addUser(data: any) {
     return await this.fetch(apiPaths.user(), 'POST', data)
   }
-
+  // @ts-ignore
   public async getUser(userId: number) {
     return await this.fetch(apiPaths.user(userId), 'GET')
   }
-
+  // @ts-ignore
   public async editUser(userId: number, data: any) {
     return await this.fetch(apiPaths.user(userId), 'PUT', data)
   }
 
-  public async setUserLastLogin(userId: number) {
+  public async setUserLastLogin(userId: any) {
     return await this.fetch(apiPaths.userLogin(userId), 'PUT')
   }
 
@@ -87,7 +87,7 @@ export class APIManager {
       })
       this.accessToken = response.idToken
     }
-
+    // @ts-ignore
     var options
     if (data) {
       options = {

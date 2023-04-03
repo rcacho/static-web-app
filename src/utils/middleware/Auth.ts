@@ -4,6 +4,20 @@ import { decode, JwtPayload, verify } from 'jsonwebtoken'
 import { JwksClient } from 'jwks-rsa'
 import { label, Middleware } from 'next-api-middleware'
 
+export function isAdmin(req: NextApiRequest) {
+  if (
+    !req.headers.authorization ||
+    !req.headers.authorization.startsWith('Bearer ')
+  ) {
+    throw new Error('Missing bearer token')
+  }
+
+  const idToken = req.headers.authorization!.substring(7)
+  const parsed = decode(idToken, { complete: true })
+
+  return parsed?.payload as JwtPayload['extension_IsAdmin'] as boolean
+}
+
 function getSigningKeyPromise(kid: string, client: JwksClient) {
   return new Promise<string>((resolve, reject) => {
     try {
@@ -32,7 +46,6 @@ const authenticate: Middleware = async (
   res: NextApiResponse,
   next: () => Promise<void>
 ) => {
-  req.url
   try {
     if (
       !req.headers.authorization ||
@@ -57,7 +70,9 @@ const authenticate: Middleware = async (
 
     let signingKey = await getSigningKeyPromise(kid!, client)
 
-    const decodedAndVerified = verify(idToken, signingKey) as JwtPayload
+    const decodedAndVerified = verify(idToken, signingKey, {
+      ignoreNotBefore: true
+    }) as JwtPayload
 
     if (decodedAndVerified.aud !== process.env.AZURE_AD_B2C_CLIENT_ID) {
       throw new Error('The authentication is for the wrong application')

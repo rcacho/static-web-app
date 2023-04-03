@@ -37,9 +37,14 @@ const CategoryList = ({
   const handleChange = (category: { target: { value: any } }) => {
     const s: string = category.target.value
     const list = [...selectedNotSaved]
-    const index = list.findIndex((e: Category) => {
-      e.category_name == s
-    })
+    const index = list
+      .map(function (e: Category) {
+        return e.category_name
+      })
+      .indexOf(s)
+    // const index = list.findIndex((e: Category) => {
+    //   e.category_name == s
+    // })
     const indexAdd = categories
       .map(function (e: Category) {
         return e.category_name
@@ -54,7 +59,7 @@ const CategoryList = ({
   const applyFilters = () => setSelected(selectedNotSaved)
 
   return (
-    <Box>
+    <Box maxWidth={'300px'}>
       <Button onClick={handleAll} sx={SelectButtonTheme}>
         Select All
       </Button>

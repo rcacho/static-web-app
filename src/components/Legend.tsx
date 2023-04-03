@@ -9,9 +9,17 @@ import { useAPIContext } from '@/store/APIContext'
 import { Event } from '@/interfaces/Event'
 
 const Legend = () => {
-  const { setEvents, updateCatMap, setCategories } = useAPIContext()
+  const {
+    setEvents,
+    updateCatMap,
+    setCategories,
+    categories,
+    setSelected,
+    updateCats
+  } = useAPIContext()
   const [show, toggleShow] = React.useState(true)
-  const [selectedNotSaved, setSelectedNotSaved] = React.useState<Category[]>([])
+  const [selectedNotSaved, setSelectedNotSaved] =
+    React.useState<Category[]>(categories)
 
   useEffect(() => {
     const getData = async () => {
@@ -21,6 +29,8 @@ const Legend = () => {
       const cat: Category[] = data.result
       console.log(cat)
       setCategories(cat)
+      setSelected(cat)
+      setSelectedNotSaved(cat)
       updateCatMap(cat)
     }
     getData().catch((err) => {
@@ -38,7 +48,7 @@ const Legend = () => {
           console.log(`legend, getInstance err: ${err}`)
         })
     })
-  }, [])
+  }, [updateCats])
 
   return (
     <Box display="flex" bgcolor="white" color="black" textAlign={'center'}>

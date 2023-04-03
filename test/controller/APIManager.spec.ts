@@ -14,9 +14,9 @@ import filter from "@/pages/api/filter";
 chai.use(chaiAsPromised);
 
 //TODO: add two stuff, add two stuff same, remove stuff twice, update
-// 
+
 describe("APIManager", function () {
-	let apiManager: APIManager;
+	let apiManager: any = APIManager.getInstance();
 
 	describe("Add/Remove/Get/update Category", function () {
 		before(function () {

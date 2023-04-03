@@ -14,34 +14,40 @@ import ModeIcon from '@mui/icons-material/Mode'
 import React from 'react'
 import StateMenuButton from './StateMenuButton'
 import LogInOutButton from './LogInOutButton'
+import { useAPIContext } from '@/store/APIContext'
 
 const MainMenuItems = (props: any) => {
+  const { isAdmin } = useAPIContext()
   return (
     <List>
-      <ListItem disablePadding>
-        <StateMenuButton
-          icon={AddIcon}
-          parentProp={props}
-          state={1}
-          text={'Add Event'}
-        />
-      </ListItem>
-      <ListItem disablePadding>
-        <StateMenuButton
-          icon={ModeIcon}
-          parentProp={props}
-          state={2}
-          text={'Change Categories'}
-        />
-      </ListItem>
-      <ListItem disablePadding>
-        <StateMenuButton
-          icon={AdminIcon}
-          parentProp={props}
-          text={'Add / Remove Admin'}
-          state={3}
-        />
-      </ListItem>
+      {isAdmin && (
+        <>
+          <ListItem disablePadding>
+            <StateMenuButton
+              icon={AddIcon}
+              parentProp={props}
+              state={1.1}
+              text={'Add Event'}
+            />
+          </ListItem>
+          <ListItem disablePadding>
+            <StateMenuButton
+              icon={ModeIcon}
+              parentProp={props}
+              state={2}
+              text={'Edit Categories'}
+            />
+          </ListItem>
+          <ListItem disablePadding>
+            <StateMenuButton
+              icon={AdminIcon}
+              parentProp={props}
+              text={'Add / Remove Admin'}
+              state={3}
+            />
+          </ListItem>
+        </>
+      )}
       <ListItem disablePadding>
         <ListItemButton>
           <ListItemIcon>

@@ -11,7 +11,7 @@
     "check-console": "yarn get-diff | egrep '^.[[[:digit:]]+m\\+' | grep 'console.log\\|console.time\\|console.timeEnd' && exit 1 || exit 0",
     "check-prettier": "yarn prettier --config .prettierrc --check 'src/**/*.ts*'",
     "check-all": "yarn check-ts && yarn check-console && yarn check-prettier",
-    "test": "mocha --timeout 10000 --extension .spec.ts --recursive test"
+    "test": "set TS_NODE_COMPILER_OPTIONS='./tsconfig.commonjs.json' mocha -r ts-node/register test/**/APIManager.spec.ts*"
   },
   "dependencies": {
     "@azure/msal-browser": "^2.34.0",
@@ -44,7 +44,7 @@
     "mssql": "^9.1.1",
     "mui": "^0.0.1",
     "net": "^1.0.2",
-    "next": "13.1.6",
+    "next": "13.2.4",
     "next-api-middleware": "^2.0.1",
     "node": "^19.8.1",
     "react": "18.2.0",
