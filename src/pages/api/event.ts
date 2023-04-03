@@ -1,24 +1,22 @@
-import { isAdmin, withAuthMiddleware } from '@/utils/middleware/Auth'
+import { getOid, isAdmin, withAuthMiddleware } from '@/utils/middleware/Auth'
 import { EventDAO } from '@/utils/dao/EventDAO'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 import { Event } from '@/interfaces/Event'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { Notification } from '@/interfaces/Notification'
-import { NotificationDAO } from '@/utils/dao/NotificationDAO'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { body, method } = req
   const db: DatabaseConnector = new DatabaseConnector()
   const eventDAO: EventDAO = new EventDAO(db)
-  const notificationDAO: NotificationDAO = new NotificationDAO(db)
 
   const event: Event = {
     event_date: body.event_date,
     event_description: body.event_description,
-    admin_id: body.admin_id,
     category_id: body.category_id,
     event_id: null
   }
+
+  const oid = getOid(req)
 
   let recordset
 
@@ -33,20 +31,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         res.status(401).json({ result: 'User not permitted to make changes' })
         return
       }
-      recordset = await eventDAO.addEvent(event)
-      if (recordset.length !== 1) {
-        res.status(400).json({ result: 'Failed to add new event' })
-        return
-      }
-      const event_id: Number = recordset[0].event_id
-      const notification: Notification = {
-        event_id: event_id,
-        admin_id: event.admin_id,
-        update_type: 0,
-        time_added: null
-      }
-      notificationDAO.addNotification(notification)
-      res.status(200).json({ result: 'Successfully added new event' })
+
+      await eventDAO.addEvent(oid, event)
+
+      res.status(200).json({ result: `Successfully added new event` })
       break
     default:
       res.setHeader('Allow', ['GET', 'POST'])

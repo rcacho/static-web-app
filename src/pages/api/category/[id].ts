@@ -14,7 +14,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const category: Category = {
     category_id: id,
     category_name: body.category_name,
-    admin_id: body.admin_id,
     color: body.color,
     icon: body.icon
   }

@@ -1,8 +1,10 @@
 import { loginRequest, msalInstance } from '@/authConfig'
+import { AuthenticationResult } from '@azure/msal-browser'
 
 const apiPaths = {
-  category: (categoryId?: number) => `/api/category/${categoryId ?? ''}`,
-  events: (eventId?: number) => `/api/event/${eventId ?? ''}`,
+  category: (categoryId?: number) =>
+    `/api/category${categoryId ? '/' + categoryId : ''}`,
+  events: (eventId?: number) => `/api/event${eventId ? '/' + eventId : ''}`,
   notifications: (userId: string) => `/api/notification/${userId}`,
   user: (userId?: number) => `/api/user/${userId ?? ''}`,
   userLogin: (userId: number) => `/api/user/check_notifications/${userId}`
@@ -11,7 +13,11 @@ const apiPaths = {
 export class APIManager {
   static instance: APIManager
 
-  accessToken?: string
+  auth?: AuthenticationResult
+
+  get accessToken() {
+    return this.auth?.idToken
+  }
 
   public static async getInstance() {
     if (this.instance == undefined) {
@@ -72,8 +78,12 @@ export class APIManager {
     return await this.fetch(apiPaths.userLogin(userId), 'PUT')
   }
 
+  private isExpired(result: AuthenticationResult) {
+    return result.expiresOn && new Date() > result.expiresOn
+  }
+
   private async fetch(url: string, method: string, data?: any) {
-    if (!this.accessToken) {
+    if (!this.auth || this.isExpired(this.auth)) {
       const account = msalInstance.getAllAccounts()[0]
       if (!account) {
         throw Error(
@@ -85,8 +95,10 @@ export class APIManager {
         ...loginRequest,
         account: account
       })
-      this.accessToken = response.idToken
+
+      this.auth = response
     }
+
     // @ts-ignore
     var options
     if (data) {
@@ -104,6 +116,7 @@ export class APIManager {
         method: method
       }
     }
+    console.log('acccesstoken:', this.accessToken)
     return fetch(url, options).then((res) => {
       if (res.status !== 200) {
         throw new Error(
