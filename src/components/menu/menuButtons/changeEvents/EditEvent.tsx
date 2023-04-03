@@ -30,13 +30,8 @@ const nullDate = new Date(0)
 
 // @ts-ignore
 const EditEvent = (props: any) => {
-  const {
-    categories,
-    selectedEvent,
-    eventIndex,
-    eventId,
-    updateEvents
-  } = useAPIContext()
+  const { categories, selectedEvent, eventIndex, eventId, updateEvents } =
+    useAPIContext()
   const { selectedDate } = useCalendarContext()
   const [clicked, setClicked] = useState(false)
   const [selected, setSelected] = useState(eventIndex)
