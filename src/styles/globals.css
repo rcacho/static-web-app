@@ -34,13 +34,16 @@ button {
   height: 27px;
   width: 80%;
 }
+
 .bottom-buttons-parent {
   /* position: relative; */
   height: 15%;
 }
+
 .colour-button {
   width: 10px;
 }
+
 .MuiButton-contained {
   border-radius: 0 !important;
 }
@@ -49,11 +52,12 @@ button {
   display: grid;
   grid-template-columns: 1fr;
 }
+
 .yearParent div {
   grid-row-start: 1;
   grid-column-start: 1;
-
 }
+
 .symbols {
   height: 20px;
   max-height: 20px;
@@ -64,14 +68,15 @@ button {
 
 .MuiGrid2-root {
   color: rgba(185, 185, 185, 0.63);
-
 }
+
 ::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 7px;
 }
+
 ::-webkit-scrollbar-thumb {
   border-radius: 4px;
   background-color: rgba(0, 0, 0, 0.23);
-  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
 }

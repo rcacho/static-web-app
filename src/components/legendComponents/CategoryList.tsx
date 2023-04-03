@@ -66,45 +66,50 @@ const CategoryList = ({
       <Button onClick={handleNone} sx={SelectButtonTheme}>
         Select None
       </Button>
-      <List
-        dense
-        style={{ overflow: 'auto' }}
-        sx={{
-          bgcolor: 'background.paper',
-          height: 'calc(100vh - 200px)',
-          overflowY: 'scroll'
-        }}
-      >
-        {categories.map((item: Category) => {
-          const labelId = `checkbox-list-secondary-label-${item.category_name}`
-          let Icon = icons[item.icon]
-          if (Icon == undefined) {
-            Icon = icons['CircleOutlinedIcon']
-          }
-          return (
-            <ListItem
-              key={Math.random()}
-              secondaryAction={
-                <Checkbox
-                  value={item.category_name}
-                  edge="end"
-                  onChange={handleChange}
-                  checked={selectedNotSaved.includes(item)}
-                  inputProps={{ 'aria-labelledby': labelId }}
-                />
-              }
-              disablePadding
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <Icon sx={{ color: item.color }} />
-                </ListItemIcon>
-                <ListItemText id={labelId} primary={`${item.category_name}`} />
-              </ListItemButton>
-            </ListItem>
-          )
-        })}
-      </List>
+      <header id="Legend">
+        <List
+          dense
+          style={{ overflow: 'auto' }}
+          sx={{
+            bgcolor: 'background.paper',
+            height: 'calc(100vh - 200px)',
+            overflowY: 'scroll'
+          }}
+        >
+          {categories.map((item: Category) => {
+            const labelId = `checkbox-list-secondary-label-${item.category_name}`
+            let Icon = icons[item.icon]
+            if (Icon == undefined) {
+              Icon = icons['CircleOutlinedIcon']
+            }
+            return (
+              <ListItem
+                key={Math.random()}
+                secondaryAction={
+                  <Checkbox
+                    value={item.category_name}
+                    edge="end"
+                    onChange={handleChange}
+                    checked={selectedNotSaved.includes(item)}
+                    inputProps={{ 'aria-labelledby': labelId }}
+                  />
+                }
+                disablePadding
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <Icon sx={{ color: item.color }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    id={labelId}
+                    primary={`${item.category_name}`}
+                  />
+                </ListItemButton>
+              </ListItem>
+            )
+          })}
+        </List>
+      </header>
       <Button
         onClick={applyFilters}
         sx={[
