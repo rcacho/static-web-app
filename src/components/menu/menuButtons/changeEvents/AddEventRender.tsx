@@ -105,9 +105,7 @@ const AddEventRender = (props: any) => {
     }
 
     APIManager.getInstance()
-      .then((instance) => {
-        instance.addEvent(payload)
-      })
+      .then((instance) => instance.addEvent(payload))
       .then((data) => {
         console.log(data)
       })

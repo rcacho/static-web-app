@@ -68,7 +68,6 @@ const AddCatPopUp = (props: any) => {
       icon: icon,
       color: color
     }
-
     APIManager.getInstance()
       .then((instance) => instance.addCategory(payload))
       .then(() => {
@@ -81,9 +80,6 @@ const AddCatPopUp = (props: any) => {
       .catch((err) => {
         console.log(err)
       })
-    // const updatedCategories = categories
-    // updatedCategories.push(payload)
-    // setCategories([updatedCategories])
   }
 
   const handleClickOpen = () => {

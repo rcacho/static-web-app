@@ -9,7 +9,6 @@ import { APIManager } from '@/utils/APIManager'
 import { useAPIContext } from '@/store/APIContext'
 
 const DeleteCategoryPopUp = (props: any) => {
-  const { setCategories, categories } = useAPIContext()
   const [open, setOpen] = useState(false)
   let admin_id = 'user'
   const { updateEvents, updateCategories, setUpdateCats } = useAPIContext()
@@ -31,16 +30,9 @@ const DeleteCategoryPopUp = (props: any) => {
 
   async function deleteCategory(categoryID: number) {
     APIManager.getInstance()
-      .then((instance) => {
-        let newCat = []
-        for (let i = 0; i < categories.length; i++) {
-          if (!(categories[i].category_id == categoryID)) {
-            newCat.push(categories[i])
-          }
-        }
-        setCategories(newCat)
+      .then((instance) =>
         instance.deleteCategory(categoryID, { admin_id: admin_id })
-      })
+      )
       .then(() => {
         updateEvents()
         updateCategories()

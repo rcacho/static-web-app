@@ -28,6 +28,7 @@ let EventList: string[] = []
 let catIDs: any[] = []
 const nullDate = new Date(0)
 
+// @ts-ignore
 const EditEvent = (props: any) => {
   const { categories, selectedEvent, eventIndex, eventId, updateEvents } =
     useAPIContext()
