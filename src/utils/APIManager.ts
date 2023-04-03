@@ -1,4 +1,4 @@
-import { loginRequest, msalInstance } from '@/authConfig'
+import { loginRequest, msalInstance } from '../authConfig'
 import { AuthenticationResult } from '@azure/msal-browser'
 
 const apiPaths = {

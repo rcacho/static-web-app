@@ -1,4 +1,4 @@
-import { DatabaseError } from '@/exceptions/DatabaseError'
+import { DatabaseError } from '../exceptions/DatabaseError'
 
 const sql = require('mssql')
 
