@@ -72,11 +72,7 @@ const AddEventRender = (props: any) => {
           }
         }
       }
-      await addEvent(
-        eventDate,
-        description,
-        catIDs[selected]
-      )
+      await addEvent(eventDate, description, catIDs[selected])
       await updateEvents()
       setOpen(true)
       setUpdateCats((prev) => !prev) // @TODO
