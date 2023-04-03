@@ -15,7 +15,6 @@ const Legend = () => {
     <Box display="flex" bgcolor="white" color="black" textAlign={'center'}>
       <Stack direction="row" spacing={0}>
         {show && <CategoryList></CategoryList>}
-
         <Button
           onClick={() => toggleShow(!show)}
           style={{

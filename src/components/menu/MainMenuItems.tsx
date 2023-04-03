@@ -1,19 +1,13 @@
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText
-} from '@mui/material'
+import { List, ListItem } from '@mui/material'
 
-import PrintIcon from '@mui/icons-material/Print'
-import Export from '@mui/icons-material/IosShare'
 import AddIcon from '@mui/icons-material/Add'
 import AdminIcon from '@mui/icons-material/SupervisorAccount'
 import ModeIcon from '@mui/icons-material/Mode'
 import React from 'react'
 import StateMenuButton from './StateMenuButton'
 import LogInOutButton from './LogInOutButton'
+import ExportPopUp from './menuButtons/exportEvents/ExportPopUp'
+import PrintCalPopUp from './menuButtons/printCalendar/PrintCalPopUp'
 import { useAPIContext } from '@/store/APIContext'
 
 const MainMenuItems = (props: any) => {
@@ -49,20 +43,10 @@ const MainMenuItems = (props: any) => {
         </>
       )}
       <ListItem disablePadding>
-        <ListItemButton>
-          <ListItemIcon>
-            <Export />
-          </ListItemIcon>
-          <ListItemText primary="Export Calendar" />
-        </ListItemButton>
+        <ExportPopUp />
       </ListItem>
       <ListItem disablePadding>
-        <ListItemButton>
-          <ListItemIcon>
-            <PrintIcon />
-          </ListItemIcon>
-          <ListItemText primary="Print Calendar" />
-        </ListItemButton>
+        <PrintCalPopUp />
       </ListItem>
       <ListItem disablePadding>
         <LogInOutButton />

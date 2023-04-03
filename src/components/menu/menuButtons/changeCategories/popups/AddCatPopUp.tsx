@@ -20,7 +20,6 @@ const AddCatPopUp = (props: any) => {
     setUpdateCats,
     updateEvents
   } = useAPIContext()
-  const admin_id_1 = 'user'
   const [popup, setPopup] = useState(100)
 
   const duplicateCheck = () => {
@@ -48,20 +47,7 @@ const AddCatPopUp = (props: any) => {
           }
         }
         if (err === 0) {
-          addCategory(props.name, admin_id_1, props.icon, props.color)
-          let newCat = []
-          categories.map((category) => {
-            newCat.push(category)
-          })
-          let cat: Category = {
-            category_id: null,
-            category_name: props.name,
-            admin_id: admin_id_1,
-            icon: props.icon,
-            color: props.color
-          }
-          newCat.push(cat)
-          setCategories(newCat)
+          addCategory(props.name, props.icon, props.color)
           setPopup(0)
           setOpen(true)
         }
@@ -73,14 +59,12 @@ const AddCatPopUp = (props: any) => {
 
   async function addCategory(
     category_name: string,
-    admin_id: string,
     icon: keyof typeof icons,
     color: string
   ) {
     let payload: Category = {
       category_id: null,
       category_name: category_name,
-      admin_id: admin_id,
       icon: icon,
       color: color
     }
@@ -178,8 +162,8 @@ const AddCatPopUp = (props: any) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            The name "{props.name}" is already in use by another category.
-            Please try another name.
+            {`The name ${props.name} is already in use by another category.
+            Please try another name.`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>

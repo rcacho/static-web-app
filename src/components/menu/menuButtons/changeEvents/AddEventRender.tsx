@@ -32,7 +32,7 @@ const AddEventRender = (props: any) => {
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
   const [events, setEvents] = useState([''])
-  const { categories, updateEvents, accountId, updateCats, setUpdateCats } =
+  const { categories, updateEvents, updateCats, setUpdateCats } =
     useAPIContext()
   const [open, setOpen] = React.useState(false)
   const [openFailed, setOpenFailed] = React.useState(false)
@@ -80,12 +80,7 @@ const AddEventRender = (props: any) => {
             }
           }
 
-          addEvent(
-            eventDate,
-            description,
-            accountId.toString(),
-            catIDs[selected]
-          )
+          addEvent(eventDate, description, catIDs[selected])
             .then(() => {
               updateEvents()
               setOpen(true)
@@ -100,15 +95,13 @@ const AddEventRender = (props: any) => {
   async function addEvent(
     event_date: Date,
     event_description: string,
-    admin_id: string,
     category_id: number
   ) {
     let payload: Event = {
       event_id: null,
       event_date: event_date,
       category_id: category_id,
-      event_description: event_description,
-      admin_id: admin_id
+      event_description: event_description
     }
 
     APIManager.getInstance()

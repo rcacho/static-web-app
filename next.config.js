@@ -3,6 +3,7 @@
 require('dotenv').config()
 
 module.exports = {
+  output: 'standalone', 
   env: {
     AZURE_AD_B2C_CLIENT_ID: process.env.AZURE_AD_B2C_CLIENT_ID,
     AZURE_AD_B2C_CLIENT_SECRET: process.env.AZURE_AD_B2C_CLIENT_SECRET,
