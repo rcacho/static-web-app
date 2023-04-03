@@ -1,8 +1,13 @@
-import { getOid, isAdmin, withAuthMiddleware } from '@/utils/middleware/Auth'
+import {
+  AdminAction,
+  getOid,
+  withAuthMiddleware
+} from '@/utils/middleware/Auth'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 import { Event } from '@/interfaces/Event'
 import { EventDAO } from '@/utils/dao/EventDAO'
+import { InternalErrorHandler } from '@/utils/InternalErrorHandler'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { query, body, method } = req
@@ -19,34 +24,28 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const oid = getOid(req)
 
-  const adminStatus = isAdmin(req)
+  await AdminAction(req, res, async () => {
+    await InternalErrorHandler(req, res, async () => {
+      switch (method) {
+        case 'PUT':
+          await eventDAO.updateEvent(oid, event)
+          res
+            .status(200)
+            .json({ result: `Successfully update row with event_id = ${id}` })
 
-  if (!adminStatus) {
-    res.status(401).json({ result: 'User not permitted to make changes' })
-    return
-  }
-
-  switch (method) {
-    case 'PUT':
-      try {
-        await eventDAO.updateEvent(oid, event)
-        res
-          .status(200)
-          .json({ result: `Successfully update row with event_id = ${id}` })
-      } catch (err: any) {
-        res.status(500).json({ error: err.msg })
+          break
+        case 'DELETE':
+          await eventDAO.deleteEvent(oid, event)
+          res
+            .status(200)
+            .json({ result: `Successfully deleted row with event_id = ${id}` })
+          break
+        default:
+          res.setHeader('Allow', ['PUT', 'DELETE'])
+          res.status(405).end(`Method ${method} Not Allowed`)
       }
-      break
-    case 'DELETE':
-      await eventDAO.deleteEvent(oid, event)
-      res
-        .status(200)
-        .json({ result: `Successfully deleted row with event_id = ${id}` })
-      break
-    default:
-      res.setHeader('Allow', ['PUT', 'DELETE'])
-      res.status(405).end(`Method ${method} Not Allowed`)
-  }
+    })
+  })
 }
 
 export default withAuthMiddleware('authenticate')(handler)
