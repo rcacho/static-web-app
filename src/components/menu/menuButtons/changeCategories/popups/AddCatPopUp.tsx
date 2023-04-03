@@ -158,8 +158,8 @@ const AddCatPopUp = (props: any) => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            The name "{props.name}" is already in use by another category.
-            Please try another name.
+            {`The name ${props.name} is already in use by another category.
+            Please try another name.`}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
