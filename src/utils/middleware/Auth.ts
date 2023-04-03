@@ -1,4 +1,3 @@
-import { addCORS } from './Cors'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { decode, JwtPayload, verify } from 'jsonwebtoken'
 import { JwksClient } from 'jwks-rsa'
@@ -7,6 +6,19 @@ import { label, Middleware } from 'next-api-middleware'
 const client = new JwksClient({
   jwksUri: `https://${process.env.AZURE_AD_B2C_TENANT_NAME}.b2clogin.com/${process.env.AZURE_AD_B2C_TENANT_NAME}.onmicrosoft.com/${process.env.AZURE_AD_B2C_PRIMARY_USER_FLOW}/discovery/v2.0/keys`
 })
+
+export const AdminAction = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  fn: () => Promise<void>
+) => {
+  if (!isAdmin(req)) {
+    res.status(401).json({ result: 'User not permitted to make changes' })
+    return
+  }
+
+  await fn()
+}
 
 export function isAdmin(req: NextApiRequest) {
   if (
