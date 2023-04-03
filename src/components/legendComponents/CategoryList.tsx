@@ -11,7 +11,8 @@ import {
   ListItemIcon,
   ListItemText,
   Stack,
-  Switch
+  Switch,
+  Typography
 } from '@mui/material'
 
 import React, { useEffect } from 'react'
@@ -138,9 +139,9 @@ const CategoryList = () => {
   }
 
   return (
-    <Box>
+    <Box minWidth="250px" maxWidth="300px">
       {/* <Stack justifyContent="center" alignItems="center" sx={{ m: 0, p: 0 }}> */}
-      <Stack justifyContent="center" alignItems="center">
+      <Stack justifyContent="start" alignItems="start">
         <FormControlLabel
           value="start"
           control={
@@ -155,7 +156,7 @@ const CategoryList = () => {
               }}
             />
           }
-          label="Filter"
+          label={<Typography variant={'body2'}>Toggle Filter</Typography>}
           labelPlacement="start"
         />
       </Stack>
