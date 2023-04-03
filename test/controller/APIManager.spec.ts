@@ -1,15 +1,11 @@
-import * as fs from "fs-extra";
-import chai, {expect} from "chai";
+import { Category } from "@/interfaces/Category";
+import { User } from "@/interfaces/User";
+import { APIManager } from "@/utils/APIManager";
+import { FilterDAO } from "@/utils/dao/FilterDAO";
+import { DatabaseConnector } from "@/utils/DatabaseConnector";
+import { expect } from "chai";
 import chaiAsPromised from "chai-as-promised";
 
-import {APIManager} from "@/utils/APIManager"
-import { DatabaseConnector } from "@/utils/DatabaseConnector";
-import { Category } from "@/interfaces/Category";
-import { Event } from "@/interfaces/Event";
-import { DatabaseError } from "@/exceptions/DatabaseError";
-import { User } from "@/interfaces/User";
-import {FilterDAO} from "@/utils/dao/FilterDAO"
-import filter from "@/pages/api/filter";
 
 chai.use(chaiAsPromised);
 
@@ -47,7 +43,7 @@ describe("APIManager", function () {
 		});
     });
 
-	describe("POst/Put/Get/Delete Event", function () {
+	describe("Post/Put/Get/Delete Event", function () {
 		before(function () {
 			console.info(`Before: ${this.test?.parent?.title}`);
 		});
