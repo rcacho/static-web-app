@@ -4,6 +4,19 @@ import { decode, JwtPayload, verify } from 'jsonwebtoken'
 import { JwksClient } from 'jwks-rsa'
 import { label, Middleware } from 'next-api-middleware'
 
+export const AdminAction = async (
+  req: NextApiRequest,
+  res: NextApiResponse,
+  fn: () => Promise<void>
+) => {
+  if (!isAdmin(req)) {
+    res.status(401).json({ result: 'User not permitted to make changes' })
+    return
+  }
+
+  await fn()
+}
+
 export function isAdmin(req: NextApiRequest) {
   if (
     !req.headers.authorization ||
