@@ -8,7 +8,7 @@ import PanelButton from '../PanelButton'
 const DeleteEventButton = (props: any) => {
   const [open, setOpen] = React.useState(false)
   const [openConfirm, setOpenConfirm] = React.useState(false)
-  const { accountId, eventId, updateEvents } = useAPIContext()
+  const { eventId, updateEvents } = useAPIContext()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -31,8 +31,7 @@ const DeleteEventButton = (props: any) => {
       event_id: null,
       event_date: new Date(),
       category_id: 69,
-      event_description: null,
-      admin_id: accountId.toString()
+      event_description: null
     }
     const instance = await APIManager.getInstance()
     await instance.deleteEvent(id, payload)

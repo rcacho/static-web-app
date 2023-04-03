@@ -1,4 +1,4 @@
-import { isAdmin, withAuthMiddleware } from '@/utils/middleware/Auth'
+import { getOid, isAdmin, withAuthMiddleware } from '@/utils/middleware/Auth'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 import { Category } from '@/interfaces/Category'
@@ -9,9 +9,10 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
   const db: DatabaseConnector = new DatabaseConnector()
   const dao: CategoryDAO = new CategoryDAO(db)
 
+  const oid = getOid(req)
+
   const category: Category = {
     category_name: body.category_name,
-    admin_id: body.admin_id,
     color: body.color,
     icon: body.icon,
     category_id: null
@@ -33,7 +34,7 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
         return
       }
       try {
-        await dao.addCategory(category)
+        await dao.addCategory(oid, category)
         res.status(200).json({ result: 'Successfully added new category' })
       } catch (err: any) {
         res.status(400).json({ error: err.msg })

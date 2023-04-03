@@ -6,7 +6,7 @@ import {
   TextField
 } from '@mui/material'
 
-import React, { useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
@@ -24,14 +24,14 @@ const AddEventRender = (props: any) => {
   const [selected, setSelected] = useState(null)
   const [description, setEventDescription] = useState('')
   const [events, setEvents] = useState([''])
-  const { categories, updateEvents, accountId, updateCats, setUpdateCats } =
+  const { categories, updateEvents, updateCats, setUpdateCats } =
     useAPIContext()
   const [open, setOpen] = React.useState(false)
   const [openFailed, setOpenFailed] = React.useState(false)
   const [first, setFirst] = useState(true)
   const { selectedDate } = useCalendarContext()
 
-  useMemo(() => {
+  useEffect(() => {
     EventList = []
     for (const category of categories) {
       EventList.push(category.category_name)
@@ -72,11 +72,9 @@ const AddEventRender = (props: any) => {
           }
         }
       }
-
       await addEvent(
         eventDate,
         description,
-        accountId.toString(),
         catIDs[selected]
       )
       await updateEvents()
@@ -88,15 +86,13 @@ const AddEventRender = (props: any) => {
   async function addEvent(
     event_date: Date,
     event_description: string,
-    admin_id: string,
     category_id: number
   ) {
     let payload: Event = {
       event_id: null,
       event_date: event_date,
       category_id: category_id,
-      event_description: event_description,
-      admin_id: admin_id
+      event_description: event_description
     }
 
     const instance = await APIManager.getInstance()

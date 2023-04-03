@@ -20,20 +20,17 @@ const AddCategoryButton = (props: AddCatProps) => {
   const { allSelected, name, icon, color, clickAway, updateState } = props
 
   const [open, setOpen] = useState(false)
-  const { categories, updateCategories, updateEvents, accountId } = useAPIContext()
-  const admin_id = accountId.toString()
+  const { categories, updateCategories, updateEvents } = useAPIContext()
   const [popupType, setPopupType] = useState(PopupType.Success)
 
   async function addCategory(
     category_name: string,
-    admin_id: string,
     icon: keyof typeof icons,
     color: string
   ) {
     let payload: Category = {
       category_id: null,
       category_name: category_name,
-      admin_id: admin_id,
       icon: icon,
       color: color
     }
@@ -46,7 +43,7 @@ const AddCategoryButton = (props: AddCatProps) => {
   const handleClickOpen = async () => {
     await updateCategories()
     if (!(await hasDuplicate())) {
-      addCategory(name, admin_id, icon, color)
+      addCategory(name, icon, color)
     }
   }
 

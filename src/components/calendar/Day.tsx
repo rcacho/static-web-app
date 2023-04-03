@@ -210,7 +210,7 @@ const Day = (props: DayProps) => {
       return (
         <div className="yearParent">
           <div className="symbols">
-            <ReturnYearGrid></ReturnYearGrid>
+            <ReturnYearGrid />
           </div>
           <div className="days">
             <Button
@@ -260,7 +260,7 @@ const Day = (props: DayProps) => {
                 paddingLeft="5px"
                 maxWidth={'80%'}
               >
-                <ReturnMonthGrid></ReturnMonthGrid>
+                <ReturnMonthGrid />
               </Grid>
             </Box>
             <Box
@@ -276,7 +276,7 @@ const Day = (props: DayProps) => {
                 maxWidth={'100%'}
                 minWidth={'100%'}
               >
-                <ReturnMonthGrid></ReturnMonthGrid>
+                <ReturnMonthGrid />
               </Grid>
             </Box>
           </Grid>
