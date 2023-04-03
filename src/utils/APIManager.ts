@@ -6,8 +6,10 @@ const apiPaths = {
     `/api/category${categoryId ? '/' + categoryId : ''}`,
   events: (eventId?: number) => `/api/event${eventId ? '/' + eventId : ''}`,
   notifications: (userId: string) => `/api/notification/${userId}`,
-  user: (userId?: number) => `/api/user/${userId ?? ''}`,
-  userLogin: (userId: number) => `/api/user/check_notifications/${userId}`
+  user: () => `/api/user`,
+  userLogin: (userId: number) => `/api/user/check_notifications/${userId}`,
+  admin: () => 'api/user/admin',
+  adminMembership: () => 'api/admin-membership'
 }
 
 export class APIManager {
@@ -61,18 +63,6 @@ export class APIManager {
   public async getNotification(userId: string) {
     return await this.fetch(apiPaths.notifications(userId), 'GET')
   }
-  // @ts-ignore
-  public async addUser(data: any) {
-    return await this.fetch(apiPaths.user(), 'POST', data)
-  }
-  // @ts-ignore
-  public async getUser(userId: number) {
-    return await this.fetch(apiPaths.user(userId), 'GET')
-  }
-  // @ts-ignore
-  public async editUser(userId: number, data: any) {
-    return await this.fetch(apiPaths.user(userId), 'PUT', data)
-  }
 
   public async setUserLastLogin(userId: any) {
     return await this.fetch(apiPaths.userLogin(userId), 'PUT')
@@ -80,6 +70,29 @@ export class APIManager {
 
   private isExpired(result: AuthenticationResult) {
     return result.expiresOn && new Date() > result.expiresOn
+  }
+
+  public async getUsers() {
+    return await this.fetch(apiPaths.user(), 'GET')
+  }
+
+  public async getAdmins() {
+    return await this.fetch(apiPaths.admin(), 'GET')
+  }
+
+  public async addAdmin(userId: string) {
+    await this.fetch(apiPaths.admin(), 'POST', { userId: userId })
+  }
+
+  public async removeAdmin(userId: string) {
+    await this.fetch(apiPaths.admin(), 'DELETE', { userId: userId })
+  }
+
+  public async checkAdminMembership(userId: string) {
+    const res = await this.fetch(apiPaths.adminMembership(), 'POST', {
+      objectId: userId
+    })
+    return res.extension_IsAdmin
   }
 
   private async fetch(url: string, method: string, data?: any) {

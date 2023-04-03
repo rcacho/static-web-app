@@ -1,56 +1,81 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Box } from '@mui/material/'
 import {
   Button,
   List,
   ListItem,
-  ListItemButton,
   ListItemText,
-  Typography
+  Typography,
+  CircularProgress
 } from '@mui/material'
-// @ts-ignore
-import { FixedSizeList, ListChildComponentProps } from 'react-window'
-import RemovePopUp from '@/components/menu/menuButtons/editAdmins/RemovePopUp'
+import AdminAlert from './AdminAlert'
+import SelectAutocomplete from '../../SelectAutocomplete'
+import { APIManager } from '@/utils/APIManager'
 
 const RemoveAdmin = (props: any) => {
+  const [loadingUsers, setLoadingUsers] = useState(false)
   const [selected, setSelected] = useState(null)
-  const FakeAdminList = [
-    'aa',
-    'bb',
-    'cc',
-    'dd',
-    'ee',
-    'ff',
-    'gg',
-    'hh',
-    'ii',
-    'jj'
-  ]
-  //function to handle Back button
+  const [users, setUsers] = useState([])
+  const [error, setError] = useState(false)
+  const [errorMessage, setErrorMessage] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [successMessage, setSuccessMessage] = useState('')
+
   const handleBackClick = () => {
     props.updateState(3)
+    setLoadingUsers(false)
     setSelected(null)
+    setUsers([])
+    setError(false)
+    setLoadingUsers(false)
+    setErrorMessage('')
+    setSuccess(false)
+    setSuccessMessage('')
   }
 
-  function renderList(props: ListChildComponentProps) {
-    const { index, style } = props
-
-    const handleSelect = () => {
-      setSelected(index)
+  useEffect(() => {
+    const getAdmins = async () => {
+      try {
+        setLoadingUsers(true)
+        setError(false)
+        const instance = await APIManager.getInstance()
+        const res = await instance.getAdmins()
+        setUsers(res.admins)
+      } catch (err: any) {
+        setError(true)
+        setErrorMessage(err.message)
+      } finally {
+        setLoadingUsers(false)
+      }
     }
-    return (
-      <ListItem
-        style={style}
-        key={index}
-        component="div"
-        disablePadding
-        onClick={handleSelect}
-      >
-        <ListItemButton sx={{ pl: 5, pt: 0 }} selected={selected === index}>
-          <ListItemText primary={`Admin ${FakeAdminList[index]}`} />
-        </ListItemButton>
-      </ListItem>
-    )
+    getAdmins()
+  }, [])
+
+  const onClick = async () => {
+    try {
+      setLoading(true)
+      setError(false)
+      setSuccess(false)
+      const instance = await APIManager.getInstance()
+      if (!selected) {
+        setError(true)
+        setErrorMessage('Please select a user')
+        return
+      }
+      let id = selected['id']
+      await instance.removeAdmin(id)
+      let usersCopy = [...users]
+      setSelected(null)
+      setUsers(usersCopy.filter((user) => user['id'] !== id))
+      setSuccess(true)
+      setSuccessMessage('Successfully removed admin')
+    } catch (err: any) {
+      setError(true)
+      setErrorMessage(err.message)
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
@@ -59,7 +84,7 @@ const RemoveAdmin = (props: any) => {
         <ListItem>
           <ListItemText
             sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Remove Admin"
+            secondary="Add Admin"
           />
           <Box
             sx={{
@@ -72,45 +97,47 @@ const RemoveAdmin = (props: any) => {
           >
             <Typography
               onClick={handleBackClick}
-              variant="body2"
-              color="#898989"
               sx={{
                 '&:hover': {
                   cursor: 'pointer'
                 }
               }}
+              variant="body2"
+              color="#898989"
             >
               Back
             </Typography>
           </Box>
         </ListItem>
         <ListItem>
-          <ListItemText primary="Please select admin to remove:" />
+          {error && (
+            <AdminAlert isError={true} alertMessage={errorMessage}></AdminAlert>
+          )}
+          {success && (
+            <AdminAlert
+              isError={false}
+              alertMessage={successMessage}
+            ></AdminAlert>
+          )}
         </ListItem>
-
-        <FixedSizeList
-          height={200}
-          width={360}
-          itemSize={38}
-          itemCount={FakeAdminList.length}
-          overscanCount={5}
-        >
-          {renderList}
-        </FixedSizeList>
-      </List>
-      <List
-        className="bottom-buttons"
-        disablePadding={true}
-        sx={{
-          position: 'absolute',
-          margin: 'auto',
-          bottom: '0',
-          width: '100%',
-          height: '13%'
-        }}
-      >
+        <ListItem>
+          <SelectAutocomplete
+            loading={loadingUsers}
+            options={users}
+            value={selected}
+            setValue={setSelected}
+            label="Users"
+          />
+        </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <RemovePopUp selected={selected} />
+          <Button
+            size="medium"
+            className="menu-button"
+            disabled={loading || error}
+            onClick={onClick}
+          >
+            {loading ? <CircularProgress size={20} /> : 'Remove'}
+          </Button>
         </ListItem>
         <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
           <Button
