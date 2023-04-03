@@ -1,63 +1,20 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Box, Button, Stack } from '@mui/material/'
 import CategoryList from './legendComponents/CategoryList'
 import KeyboardArrowLeftIcon from '@mui/icons-material/KeyboardArrowLeft'
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight'
-import { APIManager } from '@/utils/APIManager'
-import { Category } from '@/interfaces/Category'
-import { useAPIContext } from '@/store/APIContext'
-import { Event } from '@/interfaces/Event'
 
+// desired effects:
+// on load have all categories showing
+// once you press filter, only your filtered categories show
+// if you press filter again, all categories show
 const Legend = () => {
-  const {
-    setEvents,
-    updateCatMap,
-    setCategories,
-    categories,
-    setSelected,
-    updateCats
-  } = useAPIContext()
   const [show, toggleShow] = React.useState(true)
-  const [selectedNotSaved, setSelectedNotSaved] =
-    React.useState<Category[]>(categories)
-
-  useEffect(() => {
-    const getData = async () => {
-      const instance = await APIManager.getInstance()
-      const catData = await instance.getCategory()
-      const cat: Category[] = catData.result
-
-      setCategories(cat)
-      setSelected(cat)
-      setSelectedNotSaved(cat)
-      updateCatMap(cat)
-    }
-    getData().catch((err) => {
-      console.log(err)
-    })
-
-    APIManager.getInstance().then((instance) => {
-      instance
-        .getEvent()
-        .then((data) => {
-          const eventResult: Event[] = data.result
-          setEvents(eventResult)
-        })
-        .catch((err) => {
-          console.log(`legend, getInstance err: ${err}`)
-        })
-    })
-  }, [updateCats])
 
   return (
     <Box display="flex" bgcolor="white" color="black" textAlign={'center'}>
       <Stack direction="row" spacing={0}>
-        {show && (
-          <CategoryList
-            selectedNotSaved={selectedNotSaved}
-            setSelectedNotSaved={setSelectedNotSaved}
-          ></CategoryList>
-        )}
+        {show && <CategoryList></CategoryList>}
 
         <Button
           onClick={() => toggleShow(!show)}

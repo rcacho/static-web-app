@@ -14,10 +14,9 @@ import {
   Switch
 } from '@mui/material'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { icons } from '@/interfaces/Icons'
 import { APIManager } from '@/utils/APIManager'
-
 const SelectButtonTheme = [
   {
     width: '40%',
@@ -30,16 +29,49 @@ const SelectButtonTheme = [
   { '&:hover': { bgcolor: '#cccccc' } }
 ]
 
-const CategoryList = ({
-  selectedNotSaved,
-  setSelectedNotSaved
-}: {
-  selectedNotSaved: Category[]
-  setSelectedNotSaved: React.Dispatch<React.SetStateAction<Category[]>>
-}) => {
-  const { categories, setSelected, accountId } = useAPIContext()
+const CategoryList = () => {
+  const {
+    categories,
+    setSelected,
+    accountId,
+    updateCats,
+    updateCatMap,
+    setCategories,
+    selectedNotSaved,
+    setSelectedNotSaved,
+    updateEvents,
+    updateCategories
+  } = useAPIContext()
   const [showCheckBox, setShowCheckBox] = React.useState(false)
   const [firstFilter, setFirstFilter] = React.useState(false)
+
+  useEffect(() => {
+    const getData = async () => {
+      const instance = await APIManager.getInstance()
+      const catData = await instance.getCategory()
+      const cat: Category[] = catData.result
+
+      setCategories(cat)
+      console.log(firstFilter)
+      setSelected(cat)
+      setSelectedNotSaved(cat)
+      updateCatMap(cat)
+    }
+    getData().catch((err) => {
+      console.log(err)
+    })
+  }, [])
+
+  useEffect(() => {
+    updateCategories()
+    updateEvents()
+    updateCatMap(categories)
+    console.log(firstFilter)
+    if (firstFilter) {
+      console.log(selectedNotSaved)
+      applyFilterFromDB()
+    }
+  }, [updateCats])
 
   const handleChange = (category: string) => {
     const s: string = category
@@ -95,6 +127,15 @@ const CategoryList = ({
     setSelectedNotSaved(selectedDB)
   }
 
+  const checkMark = (sel: Category[], item: Category) => {
+    for (let i = 0; i < sel.length; i++) {
+      if (sel[i].category_id === item.category_id) {
+        return true
+      }
+    }
+    return false
+  }
+
   return (
     <Box>
       {/* <Stack justifyContent="center" alignItems="center" sx={{ m: 0, p: 0 }}> */}
@@ -104,6 +145,7 @@ const CategoryList = ({
           control={
             <Switch
               onChange={() => {
+                console.log(selectedNotSaved)
                 if (!firstFilter) {
                   applyFilterFromDB()
                   setFirstFilter(true)
@@ -170,7 +212,7 @@ const CategoryList = ({
                     value={item.category_name}
                     edge="end"
                     onChange={() => handleChange(item.category_name)}
-                    checked={selectedNotSaved.includes(item)}
+                    checked={checkMark(selectedNotSaved, item)}
                     inputProps={{ 'aria-labelledby': labelId }}
                   />
                 ) : (

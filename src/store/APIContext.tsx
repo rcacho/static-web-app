@@ -28,6 +28,8 @@ interface APIStoreValue {
   updateCategories: () => void
   updateCats: boolean
   setUpdateCats: React.Dispatch<React.SetStateAction<boolean>>
+  selectedNotSaved: Category[]
+  setSelectedNotSaved: React.Dispatch<React.SetStateAction<Category[]>>
 }
 
 export const useAPIContext = () => {
@@ -61,7 +63,7 @@ const APIStore = ({ children }: any) => {
   const [eventId, setEventId] = useState(-1)
   const [eventIndex, setEventIndex] = useState(-1)
   const [updateCats, setUpdateCats] = useState(false)
-
+  const [selectedNotSaved, setSelectedNotSaved] = React.useState<Category[]>([])
   const changeEventId = (id: number) => {
     setEventId(id)
   }
@@ -116,7 +118,9 @@ const APIStore = ({ children }: any) => {
     changeEventId: changeEventId,
     updateCategories: updateCategories,
     updateCats: updateCats,
-    setUpdateCats: setUpdateCats
+    setUpdateCats: setUpdateCats,
+    setSelectedNotSaved: setSelectedNotSaved,
+    selectedNotSaved: selectedNotSaved
   }
 
   return (
