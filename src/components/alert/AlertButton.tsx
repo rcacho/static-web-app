@@ -11,7 +11,6 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import CloseIcon from '@mui/icons-material/Close'
 import { APIManager } from '@/utils/APIManager'
 import { Alert } from '@/interfaces/Alert'
-import { useAPIContext } from '@/store/APIContext'
 import { Button } from '@mui/material/'
 
 const defaultColour = 'rgb(137,137,137)'
