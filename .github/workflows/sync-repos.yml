@@ -9,7 +9,7 @@ on:
     branches:
       - development
     types: [opened, synchronize, reopened, closed]
-  
+
 jobs:
   sync_repos:
     runs-on: ubuntu-latest
