@@ -28,7 +28,7 @@ export const RightMenuPanelBottom = (props: RightMenuBottomProps) => {
         margin: 'auto',
         bottom: '0',
         width: '100%',
-        height: '20%'
+        height: children.length == 3 ? '26%' : '13%'
       }}
     >
       {children}
