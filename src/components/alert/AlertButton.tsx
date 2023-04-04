@@ -22,14 +22,14 @@ const logNotificationsChecked = () => {
 }
 
 const AlertButton = () => {
-  const [notfChecked, setNotfChecked] = useState<boolean>(false)
+  const [alertsChecked, setAlertsChecked] = useState<boolean>(false)
   const [hasAlerts, setHasAlerts] = useState<boolean>(false)
   const [panelAnchor, setPanelAnchor] = useState<null | HTMLElement>(null)
 
   const handleClick = (event: any) => {
     panelAnchor ? setPanelAnchor(null) : setPanelAnchor(event.currentTarget)
-    if (!notfChecked) logNotificationsChecked()
-    setNotfChecked(true)
+    if (!alertsChecked) logNotificationsChecked()
+    setAlertsChecked(true)
   }
 
   return (
@@ -85,7 +85,7 @@ const AlertPanel = (props: any) => {
         <AlertItem key={alert} alert={alert} handleClick={handleClick} />
       )
     }
-    return alertItems
+    return alertItems.reverse()
   }
 
   return (
