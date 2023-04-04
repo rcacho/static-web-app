@@ -202,7 +202,7 @@ const CategoryList = () => {
         <ThemeProvider theme={toggleTheme}>
           {' '}
           <FormControlLabel
-            sx={{ marginTop: '10px' }}
+            sx={{ marginTop: '10px', color: 'darkslategrey' }}
             value="start"
             control={
               <Switch
