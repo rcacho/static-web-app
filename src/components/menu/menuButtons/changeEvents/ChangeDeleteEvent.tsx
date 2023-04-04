@@ -246,7 +246,11 @@ const ChangeDeleteEvent = (props: any) => {
             <EditEvent />
           </ListItem>
           <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-            <DeleteEventPopUp selected={selected}>
+            <DeleteEventPopUp
+              clickAway={props.clickAway}
+              updateState={props.updateState}
+              selected={selected}
+            >
               Delete Event
             </DeleteEventPopUp>
           </ListItem>
