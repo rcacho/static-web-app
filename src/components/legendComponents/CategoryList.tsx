@@ -53,7 +53,6 @@ const CategoryList = () => {
       const cat: Category[] = catData.result
 
       setCategories(cat)
-      console.log(firstFilter)
       setSelected(cat)
       setSelectedNotSaved(cat)
       updateCatMap(cat)
@@ -67,11 +66,6 @@ const CategoryList = () => {
     updateCategories()
     updateEvents()
     updateCatMap(categories)
-    console.log(firstFilter)
-    if (firstFilter) {
-      console.log(selectedNotSaved)
-      applyFilterFromDB()
-    }
   }, [updateCats])
 
   const handleChange = (category: string) => {
@@ -101,18 +95,17 @@ const CategoryList = () => {
     selectedNotSaved.map((category: Category) => {
       selectedIds.push(category.category_id)
     })
-    console.log(accountId)
     const data = {
       categories: selectedIds
     }
     const api = await APIManager.getInstance()
-    await api.setFilter(accountId, data)
+    await api.setFilter(data)
 
     setSelected(selectedNotSaved)
   }
   const applyFilterFromDB = async () => {
     const instance = await APIManager.getInstance()
-    const selectedData = await instance.getFilter(accountId)
+    const selectedData = await instance.getFilter()
     const sel = selectedData.filters
     const ids: (number | null)[] = []
     sel.map((item: { category_id: any }) => {
@@ -146,12 +139,13 @@ const CategoryList = () => {
           control={
             <Switch
               onChange={() => {
-                console.log(selectedNotSaved)
-                if (!firstFilter) {
-                  applyFilterFromDB()
-                  setFirstFilter(true)
-                }
                 setShowCheckBox(!showCheckBox)
+                if (!showCheckBox) {
+                  applyFilterFromDB()
+                } else {
+                  setSelected(categories)
+                  setSelectedNotSaved(categories)
+                }
               }}
             />
           }
