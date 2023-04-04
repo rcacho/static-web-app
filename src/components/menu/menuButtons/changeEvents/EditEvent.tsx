@@ -152,8 +152,6 @@ const EditEvent = (props: any) => {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
-          </DialogActions>
-          <DialogActions>
             <Button onClick={handleConfirm}>Confirm</Button>
           </DialogActions>
         </Dialog>
