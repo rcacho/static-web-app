@@ -1,23 +1,37 @@
 import { loginRequest, msalInstance } from '@/authConfig'
+import { AuthenticationResult } from '@azure/msal-browser'
 
 const apiPaths = {
-  category: (categoryId?: number) => `/api/category/${categoryId ?? ''}`,
-  events: (eventId?: number) => `/api/event/${eventId ?? ''}`,
-  notifications: (userId: string) => `/api/notification/${userId}`,
-  user: (userId?: number) => `/api/user/${userId ?? ''}`,
-  userLogin: (userId: number) => `/api/user/check_notifications/${userId}`
+  category: (categoryId?: number) =>
+    `/api/category${categoryId ? '/' + categoryId : ''}`,
+  events: (eventId?: number) => `/api/event${eventId ? '/' + eventId : ''}`,
+  notifications: () => `/api/notification`,
+  notificationCheck: () => `/api/notification-check`,
+  filter: () => `/api/filter`
 }
 
 export class APIManager {
   static instance: APIManager
 
-  accessToken?: string
+  auth?: AuthenticationResult
+
+  get accessToken() {
+    return this.auth?.idToken
+  }
 
   public static async getInstance() {
     if (this.instance == undefined) {
       this.instance = new APIManager()
     }
     return this.instance
+  }
+
+  public async getFilter() {
+    return await this.fetch(apiPaths.filter(), 'GET')
+  }
+
+  public async setFilter(data: any) {
+    return await this.fetch(apiPaths.filter(), 'PUT', data)
   }
 
   public async getCategory() {
@@ -52,28 +66,20 @@ export class APIManager {
     return await this.fetch(apiPaths.events(eventId), 'DELETE', data)
   }
 
-  public async getNotification(userId: string) {
-    return await this.fetch(apiPaths.notifications(userId), 'GET')
-  }
-  // @ts-ignore
-  public async addUser(data: any) {
-    return await this.fetch(apiPaths.user(), 'POST', data)
-  }
-  // @ts-ignore
-  public async getUser(userId: number) {
-    return await this.fetch(apiPaths.user(userId), 'GET')
-  }
-  // @ts-ignore
-  public async editUser(userId: number, data: any) {
-    return await this.fetch(apiPaths.user(userId), 'PUT', data)
+  public async getNotification() {
+    return await this.fetch(apiPaths.notifications(), 'GET')
   }
 
-  public async setUserLastLogin(userId: any) {
-    return await this.fetch(apiPaths.userLogin(userId), 'PUT')
+  public async setLastNotificationCheck() {
+    return await this.fetch(apiPaths.notificationCheck(), 'PUT')
+  }
+
+  private isExpired(result: AuthenticationResult) {
+    return result.expiresOn && new Date() > result.expiresOn
   }
 
   private async fetch(url: string, method: string, data?: any) {
-    if (!this.accessToken) {
+    if (!this.auth || this.isExpired(this.auth)) {
       const account = msalInstance.getAllAccounts()[0]
       if (!account) {
         throw Error(
@@ -85,8 +91,10 @@ export class APIManager {
         ...loginRequest,
         account: account
       })
-      this.accessToken = response.idToken
+
+      this.auth = response
     }
+
     // @ts-ignore
     var options
     if (data) {
@@ -104,6 +112,7 @@ export class APIManager {
         method: method
       }
     }
+    console.log('acccesstoken:', this.accessToken)
     return fetch(url, options).then((res) => {
       if (res.status !== 200) {
         throw new Error(

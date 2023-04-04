@@ -30,15 +30,8 @@ const nullDate = new Date(0)
 
 // @ts-ignore
 const EditEvent = (props: any) => {
-  const {
-    categories,
-    selectedEvent,
-    eventIndex,
-    accountId,
-    eventId,
-    updateEvents,
-    setUpdateCats
-  } = useAPIContext()
+  const { categories, selectedEvent, eventIndex, eventId, updateEvents } =
+    useAPIContext()
   const { selectedDate } = useCalendarContext()
   const [clicked, setClicked] = useState(false)
   const [selected, setSelected] = useState(eventIndex)
@@ -51,8 +44,6 @@ const EditEvent = (props: any) => {
   const [description, setEventDescription] = useState('')
   const [oldDate, setOldDate] = useState(nullDate)
   const [oldCat, setOldCat] = useState(-1)
-
-  const adminID = accountId
 
   useEffect(() => {
     EventList = []
@@ -119,15 +110,11 @@ const EditEvent = (props: any) => {
             }
           }
 
-          editEvent(
-            eventId,
-            eventDate,
-            description,
-            adminID,
-            catIDs[selected]
-          ).then((_) => {
-            setOpen(true)
-          })
+          editEvent(eventId, eventDate, description, catIDs[selected]).then(
+            (_) => {
+              setOpen(true)
+            }
+          )
         })
       })
     }
@@ -204,30 +191,24 @@ const EditEvent = (props: any) => {
     event_id: number,
     event_date: Date,
     event_description: string,
-    admin_id: string,
     category_id: number
   ) {
     let payload: Event = {
       event_id: event_id,
       event_date: event_date,
       category_id: category_id,
-      event_description: event_description,
-      admin_id: admin_id
+      event_description: event_description
     }
     APIManager.getInstance()
       .then((instance) => instance.editEvent(event_id, payload))
-      .then((data) => {
-        console.log(data)
-      })
       .then(() => {
-        setUpdateCats((prev) => !prev)
+        updateEvents()
       })
       .catch((err) => {
         console.log(err)
       })
 
     setEventDate(event_date)
-    updateEvents()
   }
 
   function reformatDate(date: string) {

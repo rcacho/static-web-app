@@ -1,4 +1,3 @@
-import { Notification } from '@/interfaces/Notification'
 import { DatabaseConnector } from '../DatabaseConnector'
 
 export class NotificationDAO {
@@ -7,24 +6,24 @@ export class NotificationDAO {
   constructor(db: DatabaseConnector) {
     this.db = db
   }
-
-  async addNotification(notification: Notification) {
-    const query = `INSERT INTO dbo.notification (event_id, admin_id, time_added, update_type)
-                   VALUES (${notification.event_id}, '${notification.admin_id}', GETUTCDATE(), ${notification.update_type})`
-    await this.db.ConnectAndQuery(query)
-  }
-
-  async getNotifications(uid: string) {
-    const query = `SELECT dbo.event.event_id, dbo.event.event_description, dbo.event.event_date, dbo.event.admin_id, dbo.notification.time_added, dbo.category.category_id, dbo.category.category_name, dbo.calendar_user.first_name, dbo.calendar_user.last_name, dbo.notification.update_type
-    FROM dbo.notification
-    INNER JOIN dbo.event ON dbo.event.event_id = dbo.notification.event_id
-    INNER JOIN dbo.calendar_user ON dbo.calendar_user.user_id = dbo.event.admin_id
-    INNER JOIN dbo.category ON dbo.event.category_id = dbo.category.category_id
-    WHERE dbo.notification.time_added >= (
-        SELECT notification_check
-        FROM dbo.calendar_user
-        WHERE user_id = '${uid}'
-    )`
+  async getNotifications(oid: string) {
+    const query = `
+    SELECT 
+      calendar.event.id
+     ,calendar.event.event_description
+     ,calendar.event.event_date
+     ,calendar.event.user_id
+     ,calendar.notification.time_added
+     ,calendar.category.id AS category_id
+     ,calendar.category.name AS category_name
+     ,calendar.notification.update_type
+    FROM calendar.notification
+    INNER JOIN calendar.event ON calendar.event.id = calendar.notification.event_id
+    INNER JOIN calendar.app_user ON calendar.app_user.id = calendar.event.user_id
+    INNER JOIN calendar.category ON calendar.event.category_id = calendar.category.id
+    WHERE calendar.notification.time_added >= COALESCE((SELECT MAX(checked_at) 
+                                                        FROM calendar.notification_check
+                                                        WHERE active_directory_oid = '${oid}'), 0)`
 
     const resultset = await this.db.ConnectAndQuery(query)
     return resultset.recordset
