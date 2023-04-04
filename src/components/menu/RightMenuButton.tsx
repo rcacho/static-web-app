@@ -3,7 +3,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 import RightMenu from './RightMenu'
 import { Backdrop } from '@mui/material'
 import { useCalendarContext } from '@/store/CalendarContext'
-import { Button } from '@mui/material/'
+import { Button, Stack } from '@mui/material/'
 
 const RightMenuButton = () => {
   const { dayClickCount } = useCalendarContext()
@@ -39,21 +39,28 @@ const RightMenuButton = () => {
 
   return (
     <div>
-      <Button sx={{ minWidth: '40px', maxWidth: '40px', borderRadius: '60px' }}>
-        <MenuIcon onClick={handleOpen} color="action" ref={ref} />
+      <Button
+        onClick={handleOpen}
+        sx={{ minWidth: '40px', maxWidth: '40px', borderRadius: '60px' }}
+      >
+        <MenuIcon color="action" ref={ref} />
       </Button>
-      <RightMenu
-        panelAnchor={panelAnchor}
-        onClickAway={handleClose}
-        updateState={updateState}
-        menuState={menuState}
-      />
+      <Stack>
+        {' '}
+        <RightMenu
+          className="popper"
+          panelAnchor={panelAnchor}
+          onClickAway={handleClose}
+          updateState={updateState}
+          menuState={menuState}
+        />
+      </Stack>
       <Backdrop
         sx={{
-          height: 'calc(100vh - 63px)',
+          height: 'calc(100vh - 64px)',
           color: '#fff',
           zIndex: 1200,
-          top: '63px'
+          top: '64px'
         }}
         open={backDrop}
         onClick={handleClose}

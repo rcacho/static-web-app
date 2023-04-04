@@ -13,8 +13,13 @@ import { Category } from '@/interfaces/Category'
 const EditCatPopUp = (props: any) => {
   const [open, setOpen] = useState(false)
   const [clicked, setClicked] = useState(false)
-  const { categories, setCategories, updateCategories, setUpdateCats } =
-    useAPIContext()
+  const {
+    categories,
+    setCategories,
+    updateCategories,
+    setUpdateCats,
+    updateEvents
+  } = useAPIContext()
   const [popup, setPopup] = useState(100)
 
   const duplicateCheck = () => {
@@ -70,11 +75,13 @@ const EditCatPopUp = (props: any) => {
       )
       .then(() => {
         updateCategories()
+        updateEvents()
       })
       .then(() => {
         setUpdateCats((prev) => !prev)
       })
       .then(() => {
+        alert('yoooo')
         setOpen(true)
       })
       .catch((err) => {

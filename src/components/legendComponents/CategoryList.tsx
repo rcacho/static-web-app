@@ -139,7 +139,7 @@ const CategoryList = () => {
   }
 
   return (
-    <Box minWidth="250px" maxWidth="300px">
+    <Box>
       {/* <Stack justifyContent="center" alignItems="center" sx={{ m: 0, p: 0 }}> */}
       <Stack justifyContent="start" alignItems="start">
         <FormControlLabel
@@ -190,12 +190,16 @@ const CategoryList = () => {
             ? {
                 bgcolor: 'background.paper',
                 height: 'calc(100vh - 225px)',
-                overflowY: 'scroll'
+                overflowY: 'scroll',
+                minWidth: '280px',
+                maxWidth: '280px'
               }
             : {
                 bgcolor: 'background.paper',
                 height: 'calc(100vh - 125px)',
-                overflowY: 'scroll'
+                overflowY: 'scroll',
+                minWidth: '280px',
+                maxWidth: '280px'
               }
         }
       >
