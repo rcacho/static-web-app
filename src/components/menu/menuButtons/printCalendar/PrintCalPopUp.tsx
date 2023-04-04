@@ -8,9 +8,12 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import DialogTitle from '@mui/material/DialogTitle'
 import { APIManager } from '@/utils/APIManager'
+import { useAPIContext } from '@/store/APIContext'
+
 
 const PrintCalPopUp = () => {
   const [open, setOpen] = React.useState(false)
+  const { categories } = useAPIContext()
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -44,72 +47,75 @@ const PrintCalPopUp = () => {
       legCanv.width = legend.scrollWidth
       legCanv.height = legend.scrollHeight
 
-      APIManager.getInstance()
-        .then((instance) => instance.getCategory())
-        .then((data) => {
-          let categoryList = Array.from(data.result)
-          let legendWindowHeight = categoryList.length * 75
 
-          html2canvas(cal, {
+
+      let legendWindowHeight = categories.length * 75
+      console.log(categories)
+
+      html2canvas(cal, {
+        logging: true,
+        useCORS: true,
+        windowWidth: 1415,
+        windowHeight: 880
+      })
+        .then((calCanv) => {
+          const calWidth = pdfWidth - 30
+          const calHeight = (calCanv.height * calWidth) / calCanv.width
+          const calData = calCanv.toDataURL('img/png')
+          console.log(calData)
+
+          html2canvas(legend, {
             logging: true,
             useCORS: true,
-            windowWidth: 1415,
-            windowHeight: 880
-          })
-            .then((calCanv) => {
-              const calWidth = pdfWidth - 30
-              const calHeight = (calCanv.height * calWidth) / calCanv.width
-              const calData = calCanv.toDataURL('img/png')
+            windowHeight: legendWindowHeight
+          }).then((legCanv) => {
+            const legendWidth = 30
+            const legendHeight = pdfHeight //(legCanv.height * legendWidth) / pdfWidth
+            const legendData = legCanv.toDataURL('img/png')
 
-              html2canvas(legend, {
-                logging: true,
-                useCORS: true,
-                windowHeight: legendWindowHeight
-              }).then((legCanv) => {
-                const legendWidth = 30
-                const legendHeight = pdfHeight //(legCanv.height * legendWidth) / pdfWidth
-                const legendData = legCanv.toDataURL('img/png')
+            console.log(legCanv)
 
-                console.log(legCanv)
+            html2canvas(tb, { logging: true, useCORS: true }).then(
+              (tbCanv) => {
+                const tbHeight = 15
+                const tbWidth = (tbCanv.width * tbHeight) / tbCanv.height
+                const tbData = tbCanv.toDataURL('img/png')
 
-                html2canvas(tb, { logging: true, useCORS: true }).then(
-                  (tbCanv) => {
-                    const tbHeight = 15
-                    const tbWidth = (tbCanv.width * tbHeight) / tbCanv.height
-                    const tbData = tbCanv.toDataURL('img/png')
+                console.log(tbData)
 
-                    const pdf = new jsPDF('l', 'mm', 'a4')
 
-                    pdf.addImage('/img/logo.png', 0, 0, 20, tbHeight)
-                    pdf.addImage(
-                      legendData,
-                      'PNG',
-                      0,
-                      tbHeight,
-                      legendWidth,
-                      legendHeight
-                    )
-                    pdf.addImage(tbData, 'PNG', 20, 0, tbWidth, tbHeight)
-                    pdf.addImage(
-                      calData,
-                      'PNG',
-                      legendWidth,
-                      tbHeight,
-                      calWidth,
-                      calHeight
-                    )
+                const pdf = new jsPDF('l', 'mm', 'a4')
 
-                    pdf.save('MasterCalendar.pdf')
-
-                    handleClose()
-                  }
+                pdf.addImage('/img/logo.png', 0, 0, 20, tbHeight)
+                pdf.addImage(
+                  legendData,
+                  'PNG',
+                  0,
+                  tbHeight,
+                  legendWidth,
+                  legendHeight
                 )
-              })
-            })
-            .catch((err) => {
-              console.log(err)
-            })
+                pdf.addImage(tbData, 'PNG', 20, 0, tbWidth, tbHeight)
+                pdf.addImage(
+                  calData,
+                  'PNG',
+                  legendWidth,
+                  tbHeight,
+                  calWidth,
+                  calHeight
+                )
+
+                pdf.save('MasterCalendar.pdf')
+
+                handleClose()
+              }
+            )
+          })
         })
+        .catch((err) => {
+          console.log(err)
+        })
+
     }
   }
 
