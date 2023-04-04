@@ -13,6 +13,7 @@ import { useCalendarContext } from '@/store/CalendarContext'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 import PanelButton from '../PanelButton'
+import EditEvent from './EditEvent'
 
 let EventList: (string | undefined)[] = []
 let IdList: (number | null)[] = []
@@ -158,12 +159,7 @@ const ChangeDeleteEvent = (props: any) => {
           <PanelButton onClick={() => props.updateState(1)}>
             Add New Event
           </PanelButton>
-          <PanelButton
-            disabled={selected === null}
-            onClick={() => props.updateState(1.6)}
-          >
-            Edit Event
-          </PanelButton>
+          <EditEvent/>
           <DeleteEventButton selected={selected}>
             Delete Event
           </DeleteEventButton>

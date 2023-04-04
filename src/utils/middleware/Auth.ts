@@ -90,7 +90,7 @@ const authenticate: Middleware = async (
 
     const kid = parsed?.header.kid
     if (!kid) {
-      throw new Error(`Missing kid: ${parsed?.header}`)
+      throw new Error(`Missing kid: ${JSON.stringify(parsed?.header)}`)
     }
 
     let signingKey = await getSigningKeyPromise(kid!, client)

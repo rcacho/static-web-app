@@ -155,7 +155,7 @@ const EditEvent = (props: any) => {
   }
 
   return (
-    <>
+    <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
       <EventEditPopup />
       <EventEditFailedPopup />
       <RightMenuPanel title={'Edit Event'} handleBackClick={handleBackClick}>
@@ -206,7 +206,7 @@ const EditEvent = (props: any) => {
           Save Changes
         </PanelButton>
       </RightMenuPanelBottom>
-    </>
+    </ListItem>
   )
 }
 

@@ -22,9 +22,9 @@ const RightMenu = (props: any) => {
   const [selectedCategory, setSelectedCategory] = useState(null)
 
   const rightMenuStyle = {
+    opacity: 1,
     bgcolor: 'white',
     color: 'black',
-    marginTop: '20px',
     paddingTop: '10px',
     height: 'calc(100vh - 64px)',
     width: 320,
@@ -44,12 +44,16 @@ const RightMenu = (props: any) => {
     <Popper
       open={Boolean(props.panelAnchor)}
       anchorEl={props.panelAnchor}
-      sx={{ bgcolor: 'white', zIndex: (theme) => theme.zIndex.drawer + 2 }}
+      sx={{
+        height: 'calc(100vh - 64px)',
+        bgcolor: 'white',
+        zIndex: (theme) => theme.zIndex.drawer + 2
+      }}
       modifiers={[
         {
           name: 'offset',
           options: {
-            offset: [-114]
+            offset: [0, 20]
           }
         }
       ]}
