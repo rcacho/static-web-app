@@ -106,13 +106,13 @@ const CategoryList = () => {
       categories: selectedIds
     }
     const api = await APIManager.getInstance()
-    await api.setFilter(accountId, data)
+    await api.setFilter(data)
 
     setSelected(selectedNotSaved)
   }
   const applyFilterFromDB = async () => {
     const instance = await APIManager.getInstance()
-    const selectedData = await instance.getFilter(accountId)
+    const selectedData = await instance.getFilter()
     const sel = selectedData.filters
     const ids: (number | null)[] = []
     sel.map((item: { category_id: any }) => {
