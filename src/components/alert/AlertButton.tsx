@@ -54,7 +54,7 @@ const AlertPanel = (props: any) => {
     paddingTop: '10px',
     height: 'calc(100vh - 64px)',
     overflow: 'auto',
-    width: 400,
+    width: 300,
     boxShadow: '0 0 5px #ccc'
   }
 
@@ -115,13 +115,13 @@ const AlertItem = (props: any) => {
   let action: string
   switch (update_type) {
     case 1:
-      action = 'updated'
+      action = 'Updated'
       break
     case 3:
-      action = 'deleted'
+      action = 'Deleted'
       break
     default:
-      action = 'added'
+      action = 'Added'
   }
 
   const date = new Date( // @TODO: Clean this up here and in ChangeDeleteEvent
@@ -141,6 +141,9 @@ const AlertItem = (props: any) => {
     paddingLeft: '10px'
   }
 
+  const dateStr = date.toDateString().substring(4);
+  const formattedDateStr = dateStr.slice(0, dateStr.length - 5) + ',' + dateStr.slice(dateStr.length - 5);
+
   return (
     <Stack
       direction="row"
@@ -150,9 +153,9 @@ const AlertItem = (props: any) => {
       style={alertItemStyle}
     >
       <Typography color={fontColour} style={{ paddingLeft: 10 }}>
-        {`Event ${action} `}
+        {`${action} `}
         <strong>{category_name}</strong>
-        {` on ${date.toDateString().substring(4)}`}
+        {` on ${formattedDateStr}.`}
       </Typography>
       <CloseIcon onClick={props.handleClick}></CloseIcon>
     </Stack>
