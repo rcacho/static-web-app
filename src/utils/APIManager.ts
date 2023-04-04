@@ -6,7 +6,8 @@ const apiPaths = {
     `/api/category${categoryId ? '/' + categoryId : ''}`,
   events: (eventId?: number) => `/api/event${eventId ? '/' + eventId : ''}`,
   notifications: () => `/api/notification`,
-  notificationCheck: () => `/api/notification-check`
+  notificationCheck: () => `/api/notification-check`,
+  filter: () => `/api/filter`
 }
 
 export class APIManager {
@@ -23,6 +24,14 @@ export class APIManager {
       this.instance = new APIManager()
     }
     return this.instance
+  }
+
+  public async getFilter() {
+    return await this.fetch(apiPaths.filter(), 'GET')
+  }
+
+  public async setFilter(data: any) {
+    return await this.fetch(apiPaths.filter(), 'PUT', data)
   }
 
   public async getCategory() {

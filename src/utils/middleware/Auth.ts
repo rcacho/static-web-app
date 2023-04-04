@@ -1,8 +1,11 @@
-import { addCORS } from './Cors'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { decode, JwtPayload, verify } from 'jsonwebtoken'
 import { JwksClient } from 'jwks-rsa'
 import { label, Middleware } from 'next-api-middleware'
+
+const client = new JwksClient({
+  jwksUri: `https://${process.env.AZURE_AD_B2C_TENANT_NAME}.b2clogin.com/${process.env.AZURE_AD_B2C_TENANT_NAME}.onmicrosoft.com/${process.env.AZURE_AD_B2C_PRIMARY_USER_FLOW}/discovery/v2.0/keys`
+})
 
 export const AdminAction = async (
   req: NextApiRequest,
@@ -90,11 +93,6 @@ const authenticate: Middleware = async (
       throw new Error('Malformed IdToken')
     }
 
-    const client = new JwksClient({
-      jwksUri:
-        'https://t3am319.b2clogin.com/t3am319.onmicrosoft.com/B2C_1_SISOPolicy/discovery/v2.0/keys'
-    })
-
     let signingKey = await getSigningKeyPromise(kid!, client)
 
     const decodedAndVerified = verify(idToken, signingKey, {
@@ -105,17 +103,13 @@ const authenticate: Middleware = async (
       throw new Error('The authentication is for the wrong application')
     }
 
-    next()
+    await next()
   } catch (err) {
     console.log(err)
-    res.status(401).json({ result: err })
+    res.status(401).json({ result: `Authentication failed with error: ${err}` })
   }
 }
 
-export const withAuthMiddleware = label(
-  {
-    addCORS,
-    authenticate
-  },
-  ['addCORS']
-)
+export const withAuthMiddleware = label({
+  authenticate
+})

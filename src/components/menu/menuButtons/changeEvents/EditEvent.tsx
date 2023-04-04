@@ -30,14 +30,8 @@ const nullDate = new Date(0)
 
 // @ts-ignore
 const EditEvent = (props: any) => {
-  const {
-    categories,
-    selectedEvent,
-    eventIndex,
-    eventId,
-    updateEvents,
-    setUpdateCats
-  } = useAPIContext()
+  const { categories, selectedEvent, eventIndex, eventId, updateEvents } =
+    useAPIContext()
   const { selectedDate } = useCalendarContext()
   const [clicked, setClicked] = useState(false)
   const [selected, setSelected] = useState(eventIndex)
@@ -207,18 +201,14 @@ const EditEvent = (props: any) => {
     }
     APIManager.getInstance()
       .then((instance) => instance.editEvent(event_id, payload))
-      .then((data) => {
-        console.log(data)
-      })
       .then(() => {
-        setUpdateCats((prev) => !prev)
+        updateEvents()
       })
       .catch((err) => {
         console.log(err)
       })
 
     setEventDate(event_date)
-    updateEvents()
   }
 
   function reformatDate(date: string) {

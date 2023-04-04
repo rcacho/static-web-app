@@ -4,38 +4,78 @@ import {
   Box,
   Button,
   Checkbox,
+  FormControlLabel,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
-  ListItemText
+  ListItemText,
+  Stack,
+  Switch
 } from '@mui/material'
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { icons } from '@/interfaces/Icons'
-
+import { APIManager } from '@/utils/APIManager'
 const SelectButtonTheme = [
   {
     width: '40%',
     color: 'black',
     bgcolor: '#eeeeee',
     m: 1,
-    fontSize: '12px'
+    p: 0.5,
+    fontSize: '10px'
   },
   { '&:hover': { bgcolor: '#cccccc' } }
 ]
 
-const CategoryList = ({
-  selectedNotSaved,
-  setSelectedNotSaved
-}: {
-  selectedNotSaved: Category[]
-  setSelectedNotSaved: React.Dispatch<React.SetStateAction<Category[]>>
-}) => {
-  const { categories, setSelected } = useAPIContext()
+//list of categories
+const CategoryList = () => {
+  const {
+    categories,
+    setSelected,
+    accountId,
+    updateCats,
+    updateCatMap,
+    setCategories,
+    selectedNotSaved,
+    setSelectedNotSaved,
+    updateEvents,
+    updateCategories
+  } = useAPIContext()
+  const [showCheckBox, setShowCheckBox] = React.useState(false)
+  const [firstFilter, setFirstFilter] = React.useState(false)
 
-  const handleChange = (category: { target: { value: any } }) => {
-    const s: string = category.target.value
+  useEffect(() => {
+    const getData = async () => {
+      const instance = await APIManager.getInstance()
+      const catData = await instance.getCategory()
+      const cat: Category[] = catData.result
+
+      setCategories(cat)
+      console.log(firstFilter)
+      setSelected(cat)
+      setSelectedNotSaved(cat)
+      updateCatMap(cat)
+    }
+    getData().catch((err) => {
+      console.log(err)
+    })
+  }, [])
+
+  useEffect(() => {
+    updateCategories()
+    updateEvents()
+    updateCatMap(categories)
+    console.log(firstFilter)
+    if (firstFilter) {
+      console.log(selectedNotSaved)
+      applyFilterFromDB()
+    }
+  }, [updateCats])
+
+  const handleChange = (category: string) => {
+    const s: string = category
     const list = [...selectedNotSaved]
     const index = list
       .map(function (e: Category) {
@@ -56,77 +96,181 @@ const CategoryList = ({
 
   const handleAll = () => setSelectedNotSaved(categories)
   const handleNone = () => setSelectedNotSaved([])
-  const applyFilters = () => setSelected(selectedNotSaved)
+  const applyFilters = async () => {
+    let selectedIds: (number | null)[] = []
+    selectedNotSaved.map((category: Category) => {
+      selectedIds.push(category.category_id)
+    })
+    console.log(accountId)
+    const data = {
+      categories: selectedIds
+    }
+    const api = await APIManager.getInstance()
+    await api.setFilter(accountId, data)
+
+    setSelected(selectedNotSaved)
+  }
+  const applyFilterFromDB = async () => {
+    const instance = await APIManager.getInstance()
+    const selectedData = await instance.getFilter(accountId)
+    const sel = selectedData.filters
+    const ids: (number | null)[] = []
+    sel.map((item: { category_id: any }) => {
+      ids.push(item.category_id)
+    })
+    let selectedDB: Category[] = []
+    categories.map((category: Category) => {
+      if (ids.includes(category.category_id)) {
+        selectedDB.push(category)
+      }
+    })
+    setSelected(selectedDB)
+    setSelectedNotSaved(selectedDB)
+  }
+
+  const checkMark = (sel: Category[], item: Category) => {
+    for (let i = 0; i < sel.length; i++) {
+      if (sel[i].category_id === item.category_id) {
+        return true
+      }
+    }
+    return false
+  }
 
   return (
-    <Box maxWidth={'300px'}>
-      <Button onClick={handleAll} sx={SelectButtonTheme}>
-        Select All
-      </Button>
-      <Button onClick={handleNone} sx={SelectButtonTheme}>
-        Select None
-      </Button>
-      <header id="Legend">
-        <List
-          dense
-          style={{ overflow: 'auto' }}
-          sx={{
-            bgcolor: 'background.paper',
-            height: 'calc(100vh - 200px)',
-            overflowY: 'scroll'
-          }}
-        >
-          {categories.map((item: Category) => {
-            const labelId = `checkbox-list-secondary-label-${item.category_name}`
-            let Icon = icons[item.icon]
-            if (Icon == undefined) {
-              Icon = icons['CircleOutlinedIcon']
-            }
-            return (
-              <ListItem
-                key={Math.random()}
-                secondaryAction={
+    <Box>
+      {/* <Stack justifyContent="center" alignItems="center" sx={{ m: 0, p: 0 }}> */}
+      <Stack justifyContent="center" alignItems="center">
+        <FormControlLabel
+          value="start"
+          control={
+            <Switch
+              onChange={() => {
+                console.log(selectedNotSaved)
+                if (!firstFilter) {
+                  applyFilterFromDB()
+                  setFirstFilter(true)
+                }
+                setShowCheckBox(!showCheckBox)
+              }}
+            />
+          }
+          label="Filter"
+          labelPlacement="start"
+        />
+      </Stack>
+      <Box>
+        {showCheckBox ? (
+          <Button onClick={handleAll} sx={SelectButtonTheme}>
+            Select All
+          </Button>
+        ) : (
+          ''
+        )}
+        {showCheckBox ? (
+          <Button onClick={handleNone} sx={SelectButtonTheme}>
+            Select None
+          </Button>
+        ) : (
+          ''
+        )}
+      </Box>
+      {/* </Stack> */}
+
+      <List
+        dense
+        style={
+          showCheckBox
+            ? { overflow: 'auto', maxWidth: '250px' }
+            : { overflow: 'auto', maxWidth: '200px' }
+        }
+        sx={
+          showCheckBox
+            ? {
+                bgcolor: 'background.paper',
+                height: 'calc(100vh - 225px)',
+                overflowY: 'scroll'
+              }
+            : {
+                bgcolor: 'background.paper',
+                height: 'calc(100vh - 125px)',
+                overflowY: 'scroll'
+              }
+        }
+      >
+        {categories.map((item: Category) => {
+          const labelId = `checkbox-list-secondary-label-${item.category_name}`
+          let Icon = icons[item.icon]
+          if (Icon == undefined) {
+            Icon = icons['CircleOutlinedIcon']
+          }
+          return (
+            <ListItem
+              key={item.category_name}
+              secondaryAction={
+                showCheckBox ? (
                   <Checkbox
                     value={item.category_name}
                     edge="end"
-                    onChange={handleChange}
-                    checked={selectedNotSaved.includes(item)}
+                    onChange={() => handleChange(item.category_name)}
+                    checked={checkMark(selectedNotSaved, item)}
                     inputProps={{ 'aria-labelledby': labelId }}
                   />
-                }
-                disablePadding
-              >
-                <ListItemButton>
+                ) : (
+                  ''
+                )
+              }
+              disablePadding
+            >
+              {showCheckBox ? (
+                <ListItemButton
+                  onClick={() => handleChange(item.category_name)}
+                >
                   <ListItemIcon>
                     <Icon sx={{ color: item.color }} />
                   </ListItemIcon>
                   <ListItemText
+                    sx={{}}
                     id={labelId}
                     primary={`${item.category_name}`}
                   />
                 </ListItemButton>
-              </ListItem>
-            )
-          })}
-        </List>
-      </header>
-      <Button
-        onClick={applyFilters}
-        sx={[
-          {
-            width: '60%',
-            color: 'black',
-            bgcolor: '#dddddd',
-            m: 3,
-            p: 0.5,
-            fontSize: '13px',
-            borderRadius: 0
-          },
-          { '&:hover': { bgcolor: '#cccccc' } }
-        ]}
-      >
-        Apply Filters
-      </Button>
+              ) : (
+                <ListItem onClick={() => handleChange(item.category_name)}>
+                  <ListItemIcon>
+                    <Icon sx={{ color: item.color }} />
+                  </ListItemIcon>
+                  <ListItemText
+                    sx={{}}
+                    id={labelId}
+                    primary={`${item.category_name}`}
+                  />
+                </ListItem>
+              )}
+            </ListItem>
+          )
+        })}
+      </List>
+      {showCheckBox ? (
+        <Button
+          onClick={applyFilters}
+          sx={[
+            {
+              width: '60%',
+              color: 'black',
+              bgcolor: '#dddddd',
+              m: 3,
+              p: 0.5,
+              fontSize: '13px'
+            },
+            { '&:hover': { bgcolor: '#cccccc' } }
+          ]}
+        >
+          Apply Filters
+        </Button>
+      ) : (
+        ''
+      )}
     </Box>
   )
 }
