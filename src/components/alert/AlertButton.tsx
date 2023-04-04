@@ -28,8 +28,8 @@ const AlertButton = () => {
 
   const handleClick = (event: any) => {
     panelAnchor ? setPanelAnchor(null) : setPanelAnchor(event.currentTarget)
-    setLoggedIn(true)
     if (!loggedIn) logNotificationsChecked()
+    setLoggedIn(true)
   }
 
   return (
