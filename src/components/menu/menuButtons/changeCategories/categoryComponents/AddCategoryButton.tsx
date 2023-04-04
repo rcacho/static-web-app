@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { APIManager } from '@/utils/APIManager'
 import { useAPIContext } from '@/store/APIContext'
 import { icons } from '@/interfaces/Icons'
 import { Category } from '@/interfaces/Category'
 import { PopupType } from '../../Popup'
 import ActiveButton from '../../PanelButton'
-import CategoryPopup from './popups/CategoryPopups'
+import showPopup from './popups/CategoryPopups'
 
 interface AddCatProps {
   allSelected: boolean
@@ -17,11 +17,8 @@ interface AddCatProps {
 }
 
 const AddCategoryButton = (props: AddCatProps) => {
-  const { allSelected, name, icon, color, clickAway, updateState } = props
-
-  const [open, setOpen] = useState(false)
+  const { allSelected, name, icon, color } = props
   const { categories, updateCategories, updateEvents } = useAPIContext()
-  const [popupType, setPopupType] = useState(PopupType.Success)
 
   async function addCategory(
     category_name: string,
@@ -44,28 +41,21 @@ const AddCategoryButton = (props: AddCatProps) => {
     await updateCategories()
     if (!(await hasDuplicate())) {
       addCategory(name, icon, color)
+      showPopup(PopupType.Success, name, 'added')
     }
   }
 
   const hasDuplicate = async () => {
-    setOpen(true)
     for (const category of categories) {
       if (category.category_name === name) {
-        setPopupType(PopupType.DuplicateName)
+        showPopup(PopupType.DuplicateName, name, 'added')
         return true
       } else if (category.icon === icon && category.color === color) {
-        setPopupType(PopupType.Duplicate)
+        showPopup(PopupType.Duplicate, name, 'added')
         return true
       }
     }
     return false
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-    clickAway()
-    updateState(0)
-    setPopupType(PopupType.Success)
   }
 
   return (
@@ -73,13 +63,6 @@ const AddCategoryButton = (props: AddCatProps) => {
       <ActiveButton disabled={!allSelected} onClick={handleClickOpen}>
         Add Category
       </ActiveButton>
-      <CategoryPopup
-        name={name}
-        popupType={popupType}
-        action={'added'}
-        open={open}
-        onClose={handleClose}
-      />
     </>
   )
 }

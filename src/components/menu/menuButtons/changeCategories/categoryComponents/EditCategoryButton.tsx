@@ -5,7 +5,7 @@ import { icons } from '@/interfaces/Icons'
 import { Category } from '@/interfaces/Category'
 import { PopupType } from '../../Popup'
 import PanelButton from '../../PanelButton'
-import CategoryPopup from './popups/CategoryPopups'
+import showPopup from './popups/CategoryPopups'
 
 interface EditCatProps {
   name: string
@@ -17,12 +17,10 @@ interface EditCatProps {
 }
 
 const EditCategoryButton = (props: EditCatProps) => {
-  const { name, icon, color, clickAway, updateState, selectedCategory } = props
+  const { name, icon, color, selectedCategory } = props
 
-  const [open, setOpen] = useState(false)
   const [clicked, setClicked] = useState(false)
   const { categories, setCategories, updateCategories } = useAPIContext()
-  const [popupType, setPopupType] = useState(PopupType.Success)
 
   const hasDuplicate = async () => {
     const instance = await APIManager.getInstance()
@@ -31,10 +29,10 @@ const EditCategoryButton = (props: EditCatProps) => {
     for (const category of categories) {
       if (category.category_id !== selectedCategory.category_id) {
         if (category.category_name === name) {
-          setPopupType(PopupType.DuplicateName)
+          showPopup(PopupType.DuplicateName, name, 'updated')
           return true
         } else if (category.icon === icon && category.color == color) {
-          setPopupType(PopupType.Duplicate)
+          showPopup(PopupType.Duplicate, name, 'updated')
           return true
         }
       }
@@ -62,15 +60,8 @@ const EditCategoryButton = (props: EditCatProps) => {
     setClicked(true)
     if (!(await hasDuplicate())) {
       updateCategory(name, icon, color)
+      showPopup(PopupType.Success, name, 'updated')
     }
-    setOpen(true)
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-    clickAway()
-    updateState(0)
-    setPopupType(PopupType.Success)
   }
 
   return (
@@ -78,13 +69,6 @@ const EditCategoryButton = (props: EditCatProps) => {
       <PanelButton disabled={clicked} onClick={handleClickOpen}>
         Save Changes
       </PanelButton>
-      <CategoryPopup
-        name={name}
-        popupType={popupType}
-        action={'updated'}
-        open={open}
-        onClose={handleClose}
-      />
     </>
   )
 }

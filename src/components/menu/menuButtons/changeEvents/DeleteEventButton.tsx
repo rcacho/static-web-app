@@ -2,28 +2,27 @@ import React from 'react'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
-import { ButtonPopup, SuccessPopup } from '../Popup'
+import { ButtonPopup } from '../Popup'
 import PanelButton from '../PanelButton'
 
 const DeleteEventButton = (props: any) => {
   const [open, setOpen] = React.useState(false)
-  const [openConfirm, setOpenConfirm] = React.useState(false)
   const { eventId, updateEvents } = useAPIContext()
 
   const handleClickOpen = () => {
     setOpen(true)
   }
 
-  const handleCloseDelete = () => {
-    deleteEvent(eventId).then(() => {
-      setOpen(false)
-      setOpenConfirm(true)
-    })
+  const handleCloseDelete = async () => {
+    await deleteEvent(eventId)
+    setOpen(false)
+    props.clickAway()
+    props.updateState(0)
+    alert('Event successfully deleted.')
   }
 
   const handleClose = () => {
     setOpen(false)
-    setOpenConfirm(false)
   }
 
   async function deleteEvent(id: number) {
@@ -38,22 +37,12 @@ const DeleteEventButton = (props: any) => {
     await updateEvents()
   }
 
-  const EventDeletePopup = () => {
-    return (
-      <SuccessPopup
-        open={openConfirm}
-        onClose={handleClose}
-        body={'Event successfully deleted!'}
-      />
-    )
-  }
 
   return (
     <>
       <PanelButton disabled={props.selected === null} onClick={handleClickOpen}>
         Delete Event
       </PanelButton>
-      <EventDeletePopup />
       <ButtonPopup
         open={open}
         onClose={handleClose}

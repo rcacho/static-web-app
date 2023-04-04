@@ -52,7 +52,8 @@ const DeleteCategoryButton = (props: DelButtonProps) => {
         onClose={handleClose}
         title={'Delete Category'}
         body={
-          'Are you sure you would like to delete the selected category? This action is permanent.'
+          `Are you sure you would like to delete the selected category?
+           All related events will also be deleted. This action is permanent.`
         }
         buttonLabel={'Delete'}
         buttonClick={handleDelete}

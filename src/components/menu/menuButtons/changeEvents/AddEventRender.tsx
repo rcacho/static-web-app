@@ -11,7 +11,6 @@ import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
-import { ErrorPopup, SuccessPopup } from '../Popup'
 import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 import PanelButton from '../PanelButton'
 
@@ -26,8 +25,6 @@ const AddEventRender = (props: any) => {
   const [events, setEvents] = useState([''])
   const { categories, updateEvents, updateCats, setUpdateCats } =
     useAPIContext()
-  const [open, setOpen] = React.useState(false)
-  const [openFailed, setOpenFailed] = React.useState(false)
   const [first, setFirst] = useState(true)
   const { selectedDate } = useCalendarContext()
 
@@ -67,14 +64,14 @@ const AddEventRender = (props: any) => {
         let eDate = new Date(event.event_date)
         if (eDate.toUTCString() === eventDate.toUTCString()) {
           if (event.category_id === catIDs[selected]) {
-            setOpenFailed(true)
+            alert('An event of this category already exists on this date.')
             return
           }
         }
       }
       await addEvent(eventDate, description, catIDs[selected])
       await updateEvents()
-      setOpen(true)
+      alert('Event added.')
       setUpdateCats((prev) => !prev) // @TODO
     }
   }
@@ -120,36 +117,8 @@ const AddEventRender = (props: any) => {
     props.updateState(0)
   }
 
-  const handleClose = () => {
-    setOpen(false)
-    setOpenFailed(false)
-    props.clickAway()
-  }
-
-  const EventAddedPopupFailed = () => {
-    return (
-      <ErrorPopup
-        open={openFailed}
-        onClose={handleClose}
-        body={'Event already exists on this date!'}
-      />
-    )
-  }
-
-  const EventAddedPopup = () => {
-    return (
-      <SuccessPopup
-        open={open}
-        onClose={handleClose}
-        body={'Event Successfully Added'}
-      />
-    )
-  }
-
   return (
     <>
-      <EventAddedPopup />
-      <EventAddedPopupFailed />
       <RightMenuPanel title={'Add Event'} handleBackClick={goBack}>
         <Header text="Please select a category:" />
         <List

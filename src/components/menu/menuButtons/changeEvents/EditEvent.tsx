@@ -10,7 +10,7 @@ import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
-import { ErrorPopup, SuccessPopup } from '../Popup'
+import Popup, { ErrorPopup, SuccessPopup } from '../Popup'
 import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 import PanelButton from '../PanelButton'
 
@@ -97,17 +97,21 @@ const EditEvent = (props: any) => {
     }
   }
 
-  const handleClose = () => {
-    setOpen(false)
-    props.clickAway()
+  const handleConfirm = () => {
+    editEvent(eventId, eventDate, description, catIDs[selected]).then((_) => {
+      alert('Event changes saved.')
+      setOpen(false)
+      props.clickAway()
+    })
   }
 
   const EventEditPopup = () => {
     return (
-      <SuccessPopup
+      <Popup
         open={open}
-        onClose={handleClose}
-        body={'Event successfully edited!'}
+        onClose={handleConfirm}
+        title={'Edit Event'}
+        body={'Please confirm you would like to change the selected event.'}
       />
     )
   }
@@ -116,8 +120,8 @@ const EditEvent = (props: any) => {
     return (
       <ErrorPopup
         open={openFailed}
-        onClose={handleClose}
-        body={'Event already exists!'}
+        onClose={() => setOpen(false)}
+        body={'Event already exists on this date.'}
       />
     )
   }

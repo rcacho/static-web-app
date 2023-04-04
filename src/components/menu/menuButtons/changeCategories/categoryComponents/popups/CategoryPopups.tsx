@@ -1,50 +1,18 @@
-import { PopupType, SuccessPopup, ErrorPopup } from '../../../Popup'
+import { PopupType } from '../../../Popup'
 
-interface CategoryPopupProps {
-  popupType: PopupType
-  name: string
-  open: boolean
-  onClose: () => void
-  action: string
-}
-
-const CategoryPopup = (props: CategoryPopupProps) => {
-  const { popupType, name, action, open, onClose } = props
-  const renderPopup = () => {
-    switch (popupType) {
-      case PopupType.Success:
-        return (
-          <SuccessPopup
-            open={open}
-            onClose={onClose}
-            body={`Category ${name} ${action} successfully.`}
-          />
-        )
-      case PopupType.DuplicateName:
-        return (
-          <ErrorPopup
-            open={open}
-            onClose={onClose}
-            body={`The name "${name}" is already in use by another category.
-            Please try another name.`}
-          />
-        )
-      case PopupType.Duplicate:
-        return (
-          <ErrorPopup
-            open={open}
-            onClose={onClose}
-            body={
-              'Colour and symbol combination already in use. Please try a unique combination.'
-            }
-          />
-        )
-      default:
-        return <></>
-    }
+function showPopup(popupType: PopupType, name: string, action: string) {
+  switch (popupType) {
+    case PopupType.Success:
+      alert(`Category ${name} ${action} successfully.`)
+      break
+    case PopupType.DuplicateName:
+      alert(`The name "${name}" is already in use by another category. Please try another name.`)
+      break
+    case PopupType.Duplicate:
+      alert('Colour and symbol combination already in use. Please try a unique combination.')
+      break
+    default:
   }
-
-  return <>{renderPopup()}</>
 }
 
-export default CategoryPopup
+export default showPopup
