@@ -124,11 +124,7 @@ const AlertItem = (props: any) => {
       action = 'Added'
   }
 
-  const date = new Date( // @TODO: Clean this up here and in ChangeDeleteEvent
-    +(event_date as unknown as string).substring(0, 4),
-    +(event_date as unknown as string).substring(5, 7),
-    +(event_date as unknown as string).substring(8, 10)
-  )
+  const date = new Date(event_date)
 
   const alertItemStyle = {
     minHeight: '60px',
