@@ -142,13 +142,13 @@ const AddCatPopUp = (props: any) => {
         <DialogTitle id="alert-dialog-title">{'Add Category'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Please confirm you would like to add "{props.name}" to the category
-            list.
+            Please confirm you would like to add {<strong>{props.name}</strong>}{' '}
+            to the category list.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseError} autoFocus>
-            Close
+            Cancel
           </Button>
           <Button onClick={handleConfirm} autoFocus>
             Confirm

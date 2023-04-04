@@ -21,6 +21,9 @@ const DeleteCategoryPopUp = (props: any) => {
     setOpen(false)
     props.clickAway()
   }
+  const handleCancel = () => {
+    setOpen(false)
+  }
 
   const handleDelete = () => {
     setOpen(false)
@@ -79,12 +82,13 @@ const DeleteCategoryPopUp = (props: any) => {
         <DialogTitle id="alert-dialog-title">{'Delete Category'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you would like to delete the selected category? All
-            related events will also be deleted. This action is permanent.
+            Are you sure you would like to delete{' '}
+            {<strong>{props.name}</strong>}? All related events will also be
+            deleted. This action is permanent.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={handleCancel}>Cancel</Button>
           <Button onClick={handleDelete} autoFocus>
             Delete
           </Button>

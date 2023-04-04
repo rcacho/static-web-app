@@ -148,13 +148,13 @@ const EditCatPopUp = (props: any) => {
         <DialogTitle id="alert-dialog-title">{'Category Update'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Please confirm that you would like to make these changes. Any
-            related events will be updated.
+            Please confirm that you would like to update{' '}
+            {<strong>{props.name}</strong>}. Any related events will be updated.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseError} autoFocus>
-            Close
+            Cancel
           </Button>
           <Button onClick={handleConfirm} autoFocus>
             Confirm
