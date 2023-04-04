@@ -136,6 +136,7 @@ const EditEvent = (props: any) => {
     }
     const instance = await APIManager.getInstance()
     await instance.editEvent(event_id, payload)
+    await updateEvents()
     setEventDate(event_date)
   }
 
