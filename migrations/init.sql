@@ -72,6 +72,17 @@ CREATE TABLE calendar.notification (
 	REFERENCES calendar.app_user (id)
 );
 
+CREATE TABLE calendar.notification_check (
+	 id INT IDENTITY (1, 1) PRIMARY KEY
+	,user_id NOT NULL
+	,checked_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
+	,UNIQUE(user_id, checked_at)
+	,CONSTRAINT FK_User_NotificationCheck FOREIGN KEY (user_id)
+	REFERENCES calendar.app_user (id)
+	ON DELETE CASCADE
+	ON UPDATE CASCADE
+);
+
 
 CREATE PROCEDURE calendar.usp_GetErrorInfo  
 AS  
@@ -183,6 +194,30 @@ BEGIN
 			SELECT @id = id FROM calendar.app_user WHERE active_directory_oid = @oid
 			
 			INSERT INTO calendar.category_filter (category_id, user_id) VALUES (@category_id, @id)
+			END
+
+		COMMIT TRANSACTION insert_filter_tran;
+	END TRY
+	BEGIN CATCH
+		EXECUTE calendar.usp_GetErrorInfo; 
+		ROLLBACK TRANSACTION insert_filter_tran;
+	END CATCH
+END;
+
+CREATE PROCEDURE calendar.insert_notification_check (@oid UNIQUEIDENTIFIER) AS
+BEGIN
+        DECLARE @id int
+	BEGIN TRY
+			BEGIN TRANSACTION
+			SAVE TRANSACTION insert_filter_tran
+
+			IF NOT EXISTS (SELECT * FROM calendar.app_user WHERE active_directory_oid = @oid)
+				INSERT INTO calendar.app_user (active_directory_oid) VALUES (@oid);
+			
+			BEGIN
+			SELECT @id = id FROM calendar.app_user WHERE active_directory_oid = @oid
+			
+			INSERT INTO calendar.notification_check (user_id) VALUES (@id)
 			END
 
 		COMMIT TRANSACTION insert_filter_tran;
