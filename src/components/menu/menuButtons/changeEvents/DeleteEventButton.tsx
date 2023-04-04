@@ -37,7 +37,6 @@ const DeleteEventButton = (props: any) => {
     await updateEvents()
   }
 
-
   return (
     <>
       <PanelButton disabled={props.selected === null} onClick={handleClickOpen}>
