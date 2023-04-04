@@ -7,10 +7,8 @@ export class NotificationCheckDAO {
     this.db = db
   }
 
-  async check_notifications(uid: string) {
-    const query = `UPDATE dbo.calendar_user
-                   SET notification_check = GETUTCDATE() 
-                   WHERE user_id = '${uid}'`
+  async check_notifications(oid: string) {
+    const query = `EXEC calendar.insert_notification_check @oid = '${oid}'`
     await this.db.ConnectAndQuery(query)
   }
 }

@@ -23,7 +23,10 @@ export class NotificationDAO {
     INNER JOIN calendar.category ON calendar.event.category_id = calendar.category.id
     WHERE calendar.notification.time_added >= COALESCE((SELECT MAX(checked_at) 
                                                         FROM calendar.notification_check
-                                                        WHERE active_directory_oid = '${oid}'), 0)`
+                                                        WHERE user_id =
+                                                          (SELECT id
+                                                           FROM calendar.app_user
+                                                           WHERE active_directory_oid = '${oid}')), 0)`
 
     const resultset = await this.db.ConnectAndQuery(query)
     return resultset.recordset
