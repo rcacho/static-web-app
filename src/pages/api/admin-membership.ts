@@ -72,8 +72,7 @@ export default async function handler(
     res.status(200).json({
       version: '1.0.0',
       action: 'Continue',
-      extension_IsAdmin: isAdmin,
-      jobTitle: 'bob_the_builder'
+      extension_IsAdmin: isAdmin
     })
   } catch (error) {
     res.status(500).json({ error })

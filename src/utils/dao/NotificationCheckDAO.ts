@@ -1,6 +1,6 @@
 import { DatabaseConnector } from '../DatabaseConnector'
 
-export class UserDAO {
+export class NotificationCheckDAO {
   db: DatabaseConnector
 
   constructor(db: DatabaseConnector) {
