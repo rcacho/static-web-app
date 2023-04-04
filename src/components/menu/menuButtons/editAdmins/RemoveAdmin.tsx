@@ -11,6 +11,7 @@ import {
 import AdminAlert from './AdminAlert'
 import SelectAutocomplete from '../../SelectAutocomplete'
 import { APIManager } from '@/utils/APIManager'
+import { useAPIContext } from '@/store/APIContext'
 
 const RemoveAdmin = (props: any) => {
   const [loadingUsers, setLoadingUsers] = useState(false)
@@ -21,6 +22,7 @@ const RemoveAdmin = (props: any) => {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
+  const apiContext = useAPIContext()
 
   const handleBackClick = () => {
     props.updateState(3)
@@ -41,7 +43,11 @@ const RemoveAdmin = (props: any) => {
         setError(false)
         const instance = await APIManager.getInstance()
         const res = await instance.getAdmins()
-        setUsers(res.admins)
+        setUsers(
+          res.admins.filter((user: any) => {
+            return user.id !== apiContext.accountId
+          })
+        )
       } catch (err: any) {
         setError(true)
         setErrorMessage(err.message)
@@ -84,7 +90,7 @@ const RemoveAdmin = (props: any) => {
         <ListItem>
           <ListItemText
             sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Add Admin"
+            secondary="Remove Admin"
           />
           <Box
             sx={{
@@ -133,8 +139,10 @@ const RemoveAdmin = (props: any) => {
           <Button
             size="medium"
             className="menu-button"
-            disabled={loading || error}
+            disabled={loading || error || selected === null}
             onClick={onClick}
+            variant="contained"
+            color="primary"
           >
             {loading ? <CircularProgress size={20} /> : 'Remove'}
           </Button>

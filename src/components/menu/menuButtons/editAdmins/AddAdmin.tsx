@@ -11,6 +11,7 @@ import {
 import SelectAutocomplete from '../../SelectAutocomplete'
 import { APIManager } from '@/utils/APIManager'
 import AdminAlert from './AdminAlert'
+import { useAPIContext } from '@/store/APIContext'
 
 const AddAdmin = (props: any) => {
   const [loadingUsers, setLoadingUsers] = useState(false)
@@ -21,6 +22,7 @@ const AddAdmin = (props: any) => {
   const [loading, setLoading] = useState(false)
   const [success, setSuccess] = useState(false)
   const [successMessage, setSuccessMessage] = useState('')
+  const apiContext = useAPIContext()
   //function to handle Back button
   const handleBackClick = () => {
     props.updateState(3)
@@ -83,8 +85,12 @@ const AddAdmin = (props: any) => {
     async function fetchUsers() {
       setLoadingUsers(true)
       const instance = await APIManager.getInstance()
-      const response = await instance.getUsers()
-      setUsers(response.users)
+      const res = await instance.getUsers()
+      setUsers(
+        res.users.filter((user: any) => {
+          return user.id !== apiContext.accountId
+        })
+      )
       setLoadingUsers(false)
     }
     fetchUsers()
@@ -144,7 +150,9 @@ const AddAdmin = (props: any) => {
           <Button
             size="medium"
             className="menu-button"
-            disabled={loading || error}
+            variant="contained"
+            color="primary"
+            disabled={loading || error || selected === null}
             onClick={onClick}
           >
             {loading ? <CircularProgress size={20} /> : 'Add'}
