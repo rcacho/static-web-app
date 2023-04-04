@@ -34,7 +34,6 @@ const CategoryList = () => {
   const {
     categories,
     setSelected,
-    accountId,
     updateCats,
     updateCatMap,
     setCategories,
@@ -44,7 +43,6 @@ const CategoryList = () => {
     updateCategories
   } = useAPIContext()
   const [showCheckBox, setShowCheckBox] = React.useState(false)
-  const [firstFilter, setFirstFilter] = React.useState(false)
 
   useEffect(() => {
     const getData = async () => {
