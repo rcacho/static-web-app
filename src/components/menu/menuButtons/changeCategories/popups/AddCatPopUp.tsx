@@ -18,7 +18,8 @@ const AddCatPopUp = (props: any) => {
     setCategories,
     updateCategories,
     setUpdateCats,
-    updateEvents
+    updateEvents,
+    updateFilters
   } = useAPIContext()
   const [popup, setPopup] = useState(100)
 
@@ -71,6 +72,7 @@ const AddCatPopUp = (props: any) => {
     APIManager.getInstance()
       .then((instance) => instance.addCategory(payload))
       .then(() => {
+        updateFilters()
         updateCategories()
         updateEvents()
       })

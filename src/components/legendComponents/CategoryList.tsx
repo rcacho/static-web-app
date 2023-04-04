@@ -34,7 +34,6 @@ const CategoryList = () => {
   const {
     categories,
     setSelected,
-    accountId,
     updateCats,
     updateCatMap,
     setCategories,
@@ -44,7 +43,6 @@ const CategoryList = () => {
     updateCategories
   } = useAPIContext()
   const [showCheckBox, setShowCheckBox] = React.useState(false)
-  const [firstFilter, setFirstFilter] = React.useState(false)
 
   useEffect(() => {
     const getData = async () => {
@@ -53,7 +51,6 @@ const CategoryList = () => {
       const cat: Category[] = catData.result
 
       setCategories(cat)
-      console.log(firstFilter)
       setSelected(cat)
       setSelectedNotSaved(cat)
       updateCatMap(cat)
@@ -67,11 +64,6 @@ const CategoryList = () => {
     updateCategories()
     updateEvents()
     updateCatMap(categories)
-    console.log(firstFilter)
-    if (firstFilter) {
-      console.log(selectedNotSaved)
-      applyFilterFromDB()
-    }
   }, [updateCats])
 
   const handleChange = (category: string) => {
@@ -101,7 +93,6 @@ const CategoryList = () => {
     selectedNotSaved.map((category: Category) => {
       selectedIds.push(category.category_id)
     })
-    console.log(accountId)
     const data = {
       categories: selectedIds
     }
@@ -146,12 +137,13 @@ const CategoryList = () => {
           control={
             <Switch
               onChange={() => {
-                console.log(selectedNotSaved)
-                if (!firstFilter) {
-                  applyFilterFromDB()
-                  setFirstFilter(true)
-                }
                 setShowCheckBox(!showCheckBox)
+                if (!showCheckBox) {
+                  applyFilterFromDB()
+                } else {
+                  setSelected(categories)
+                  setSelectedNotSaved(categories)
+                }
               }}
             />
           }
