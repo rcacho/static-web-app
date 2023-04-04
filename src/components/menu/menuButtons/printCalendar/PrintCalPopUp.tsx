@@ -46,8 +46,8 @@ const PrintCalPopUp = () => {
       html2canvas(cal, {
         logging: true,
         useCORS: true,
-        windowWidth: 1415,
-        windowHeight: 880
+        windowWidth: 1600,
+        windowHeight: 1000
       })
         .then((calCanv) => {
           const calWidth = pdfWidth - 40
