@@ -150,7 +150,7 @@ const AlertItem = (props: any) => {
       style={alertItemStyle}
     >
       <Typography color={fontColour} style={{ paddingLeft: 10 }}>
-        {`Event ${action} to `}
+        {`Event ${action} `}
         <strong>{category_name}</strong>
         {` on ${date.toDateString().substring(4)}`}
       </Typography>
