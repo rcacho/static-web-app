@@ -22,14 +22,14 @@ const logNotificationsChecked = () => {
 }
 
 const AlertButton = () => {
-  const [loggedIn, setLoggedIn] = useState<boolean>(false)
+  const [notfChecked, setNotfChecked] = useState<boolean>(false)
   const [hasAlerts, setHasAlerts] = useState<boolean>(false)
   const [panelAnchor, setPanelAnchor] = useState<null | HTMLElement>(null)
 
   const handleClick = (event: any) => {
     panelAnchor ? setPanelAnchor(null) : setPanelAnchor(event.currentTarget)
-    if (!loggedIn) logNotificationsChecked()
-    setLoggedIn(true)
+    if (!notfChecked) logNotificationsChecked()
+    setNotfChecked(true)
   }
 
   return (
