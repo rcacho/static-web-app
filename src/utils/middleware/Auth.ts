@@ -90,7 +90,7 @@ const authenticate: Middleware = async (
 
     const kid = parsed?.header.kid
     if (!kid) {
-      throw new Error('Malformed IdToken')
+      throw new Error(`Missing kid: ${parsed?.header}`)
     }
 
     let signingKey = await getSigningKeyPromise(kid!, client)
