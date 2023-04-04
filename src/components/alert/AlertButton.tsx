@@ -124,11 +124,7 @@ const AlertItem = (props: any) => {
       action = 'added'
   }
 
-  const date = new Date( // @TODO: Clean this up here and in ChangeDeleteEvent
-    +(event_date as unknown as string).substring(0, 4),
-    +(event_date as unknown as string).substring(5, 7),
-    +(event_date as unknown as string).substring(8, 10)
-  )
+  const date = new Date(event_date)
 
   const alertItemStyle = {
     minHeight: '60px',
@@ -150,9 +146,11 @@ const AlertItem = (props: any) => {
       style={alertItemStyle}
     >
       <Typography color={fontColour} style={{ paddingLeft: 10 }}>
-        {`Event ${action} to `}
+        {`Event on`}
+        <strong>{date.toUTCString().substring(4, 16)}</strong>
+        {` in `}
         <strong>{category_name}</strong>
-        {` on ${date.toDateString().substring(4)}`}
+        {` has been ${action} `}
       </Typography>
       <CloseIcon onClick={props.handleClick}></CloseIcon>
     </Stack>
