@@ -93,40 +93,38 @@ const AddAdmin = (props: any) => {
     fetchUsers()
   }, [])
   return (
-    <>
-      <RightMenuPanel
-        title={'Add Admin'}
-        handleBackClick={handleBackClick}
+    <RightMenuPanel
+      title={'Add Admin'}
+      handleBackClick={handleBackClick}
+    >
+      <ListItem>
+        {error && (
+          <AdminAlert isError={true} alertMessage={errorMessage}></AdminAlert>
+        )}
+        {success && (
+          <AdminAlert
+            isError={false}
+            alertMessage={successMessage}
+          ></AdminAlert>
+        )}
+      </ListItem>
+      <ListItem>
+        <SelectAutocomplete
+          loading={loadingUsers}
+          options={users}
+          value={selected}
+          setValue={setAutocompleteSelectValue}
+          label="Users"
+        />
+      </ListItem>
+      <PanelButton
+        disabled={loading || error || selected === null}
+        onClick={onClick}
       >
-        <ListItem>
-          {error && (
-            <AdminAlert isError={true} alertMessage={errorMessage}></AdminAlert>
-          )}
-          {success && (
-            <AdminAlert
-              isError={false}
-              alertMessage={successMessage}
-            ></AdminAlert>
-          )}
-        </ListItem>
-        <ListItem>
-          <SelectAutocomplete
-            loading={loadingUsers}
-            options={users}
-            value={selected}
-            setValue={setAutocompleteSelectValue}
-            label="Users"
-          />
-        </ListItem>
-        <PanelButton
-          disabled={loading || error || selected === null}
-          onClick={onClick}
-        >
-          {loading ? <CircularProgress size={20} /> : 'Add'}
-        </PanelButton>
-        <PanelButton onClick={handleBackClick}>Cancel</PanelButton>
-      </RightMenuPanel>
-    </>
+        {loading ? <CircularProgress size={20} /> : 'Add'}
+      </PanelButton>
+      <PanelButton onClick={handleBackClick}>Cancel</PanelButton>
+    </RightMenuPanel>
   )
 }
 
