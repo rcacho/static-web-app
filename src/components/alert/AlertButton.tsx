@@ -11,6 +11,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications'
 import CloseIcon from '@mui/icons-material/Close'
 import { APIManager } from '@/utils/APIManager'
 import { Alert } from '@/interfaces/Alert'
+import { Button } from '@mui/material/'
 
 const defaultColour = 'rgb(137,137,137)'
 const fontColour = 'rgb(90,90,90)'
@@ -33,15 +34,25 @@ const AlertButton = () => {
   }
 
   return (
-    <Badge variant="dot" badgeContent={2} color="error" invisible={!hasAlerts}>
-      <NotificationsIcon onClick={handleClick} color="action" />
-      <AlertPanel
-        hasAlerts={hasAlerts}
-        setHasAlerts={setHasAlerts}
-        panelAnchor={panelAnchor}
-        onClickAway={handleClick}
-      />
-    </Badge>
+    <Button
+      onClick={handleClick}
+      sx={{ minWidth: '45px', maxWidth: '45px', borderRadius: '60px' }}
+    >
+      <Badge
+        variant="dot"
+        badgeContent={2}
+        color="error"
+        invisible={!hasAlerts}
+      >
+        <NotificationsIcon color="action" />
+        <AlertPanel
+          hasAlerts={hasAlerts}
+          setHasAlerts={setHasAlerts}
+          panelAnchor={panelAnchor}
+          onClickAway={handleClick}
+        />
+      </Badge>
+    </Button>
   )
 }
 
@@ -54,7 +65,6 @@ const AlertPanel = (props: any) => {
     paddingTop: '10px',
     height: 'calc(100vh - 64px)',
     overflow: 'auto',
-    width: 400,
     boxShadow: '0 0 5px #ccc'
   }
 
@@ -92,7 +102,7 @@ const AlertPanel = (props: any) => {
     <Popper
       open={Boolean(props.panelAnchor)}
       anchorEl={props.panelAnchor}
-      sx={{ bgcolor: 'white' }}
+      sx={{ bgcolor: 'white', width: { sm: '300px', md: '400px' } }}
     >
       <ClickAwayListener onClickAway={props.onClickAway}>
         <List style={alertPanelStyle}>

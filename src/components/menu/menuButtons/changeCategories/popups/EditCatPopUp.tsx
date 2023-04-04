@@ -13,8 +13,13 @@ import { Category } from '@/interfaces/Category'
 const EditCatPopUp = (props: any) => {
   const [open, setOpen] = useState(false)
   const [clicked, setClicked] = useState(false)
-  const { categories, setCategories, updateCategories, setUpdateCats } =
-    useAPIContext()
+  const {
+    categories,
+    setCategories,
+    updateCategories,
+    setUpdateCats,
+    updateEvents
+  } = useAPIContext()
   const [popup, setPopup] = useState(100)
 
   const duplicateCheck = () => {
@@ -44,8 +49,8 @@ const EditCatPopUp = (props: any) => {
           }
         }
         if (err === 0) {
-          updateCategory(props.name, props.icon, props.color)
           setPopup(0)
+          setOpen(true)
         }
       })
       .catch((err) => {
@@ -70,16 +75,25 @@ const EditCatPopUp = (props: any) => {
       )
       .then(() => {
         updateCategories()
+        updateEvents()
       })
       .then(() => {
         setUpdateCats((prev) => !prev)
       })
       .then(() => {
-        setOpen(true)
+        alert('Category updated.')
       })
       .catch((err) => {
         console.log(err)
       })
+  }
+
+  const handleCloseError = () => {
+    setOpen(false)
+    setClicked(!clicked)
+    // props.clickAway()
+    // props.updateState(0)
+    setPopup(100)
   }
 
   const handleClickOpen = () => {
@@ -87,6 +101,14 @@ const EditCatPopUp = (props: any) => {
     duplicateCheck()
   }
   const handleClose = () => {
+    setOpen(false)
+    props.clickAway()
+    props.updateState(0)
+    setPopup(100)
+  }
+
+  const handleConfirm = () => {
+    updateCategory(props.name, props.icon, props.color)
     setOpen(false)
     props.clickAway()
     props.updateState(0)
@@ -123,15 +145,19 @@ const EditCatPopUp = (props: any) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{'Category Updated'}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'Category Update'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Category updated successfully.
+            Please confirm that you would like to update{' '}
+            {<strong>{props.name}</strong>}. Any related events will be updated.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} autoFocus>
-            Close
+          <Button onClick={handleCloseError} autoFocus>
+            Cancel
+          </Button>
+          <Button onClick={handleConfirm} autoFocus>
+            Confirm
           </Button>
         </DialogActions>
       </Dialog>
@@ -149,7 +175,7 @@ const EditCatPopUp = (props: any) => {
           }
         }}
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseError}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -163,7 +189,7 @@ const EditCatPopUp = (props: any) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleCloseError} autoFocus>
             Close
           </Button>
         </DialogActions>
@@ -182,7 +208,7 @@ const EditCatPopUp = (props: any) => {
           }
         }}
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseError}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -196,7 +222,7 @@ const EditCatPopUp = (props: any) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleCloseError} autoFocus>
             Close
           </Button>
         </DialogActions>
