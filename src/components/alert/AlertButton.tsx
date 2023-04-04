@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Badge,
   ClickAwayListener,
   List,
@@ -18,14 +17,13 @@ import { Button } from '@mui/material/'
 const defaultColour = 'rgb(137,137,137)'
 const fontColour = 'rgb(90,90,90)'
 
-const login = (accountId: string) => {
+const logNotificationsChecked = () => {
   APIManager.getInstance().then((instance) =>
-    instance.setUserLastLogin(accountId)
+    instance.setLastNotificationCheck()
   )
 }
 
 const AlertButton = () => {
-  const { accountId } = useAPIContext()
   const [loggedIn, setLoggedIn] = useState<boolean>(false)
   const [hasAlerts, setHasAlerts] = useState<boolean>(false)
   const [panelAnchor, setPanelAnchor] = useState<null | HTMLElement>(null)
@@ -33,7 +31,7 @@ const AlertButton = () => {
   const handleClick = (event: any) => {
     panelAnchor ? setPanelAnchor(null) : setPanelAnchor(event.currentTarget)
     setLoggedIn(true)
-    if (!loggedIn) login(accountId)
+    if (!loggedIn) logNotificationsChecked()
   }
 
   return (
@@ -60,7 +58,6 @@ const AlertButton = () => {
 }
 
 const AlertPanel = (props: any) => {
-  const { accountId } = useAPIContext()
   const [alerts, setAlerts] = useState<Alert[]>([])
   const alertPanelStyle = {
     bgcolor: 'white',
@@ -75,7 +72,7 @@ const AlertPanel = (props: any) => {
 
   useEffect(() => {
     APIManager.getInstance()
-      .then((instance) => instance.getNotification(accountId))
+      .then((instance) => instance.getNotification())
       .then((data) => data.result)
       .then((result) => {
         if (result.length > 0) {
@@ -125,9 +122,19 @@ const AlertPanel = (props: any) => {
 }
 
 const AlertItem = (props: any) => {
-  const { first_name, category_name, event_date, update_type } = props.alert
+  const { category_name, event_date, update_type } = props.alert
 
-  const action = (update_type as boolean) ? 'updated' : 'added'
+  let action: string
+  switch (update_type) {
+    case 1:
+      action = 'updated'
+      break
+    case 3:
+      action = 'deleted'
+      break
+    default:
+      action = 'added'
+  }
 
   const date = new Date( // @TODO: Clean this up here and in ChangeDeleteEvent
     +(event_date as unknown as string).substring(0, 4),
@@ -154,9 +161,8 @@ const AlertItem = (props: any) => {
       justifyContent="space-between"
       style={alertItemStyle}
     >
-      <Avatar alt={first_name} src={`placeholder`} />
       <Typography color={fontColour} style={{ paddingLeft: 10 }}>
-        {`${first_name} ${action} `}
+        {`Event ${action} to `}
         <strong>{category_name}</strong>
         {` on ${date.toDateString().substring(4)}`}
       </Typography>

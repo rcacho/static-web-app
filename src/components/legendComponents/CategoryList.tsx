@@ -164,13 +164,13 @@ const CategoryList = () => {
       categories: selectedIds
     }
     const api = await APIManager.getInstance()
-    await api.setFilter(accountId, data)
+    await api.setFilter(data)
 
     setSelected(selectedNotSaved)
   }
   const applyFilterFromDB = async () => {
     const instance = await APIManager.getInstance()
-    const selectedData = await instance.getFilter(accountId)
+    const selectedData = await instance.getFilter()
     const sel = selectedData.filters
     const ids: (number | null)[] = []
     sel.map((item: { category_id: any }) => {
@@ -239,6 +239,82 @@ const CategoryList = () => {
       </Box>
       {/* </Stack> */}
 
+      <header id="Legend">
+        <List
+          dense
+          style={
+            showCheckBox
+              ? { overflow: 'auto', maxWidth: '250px' }
+              : { overflow: 'auto', maxWidth: '200px' }
+          }
+          sx={
+            showCheckBox
+              ? {
+                  bgcolor: 'background.paper',
+                  height: 'calc(100vh - 225px)',
+                  overflowY: 'scroll'
+                }
+              : {
+                  bgcolor: 'background.paper',
+                  height: 'calc(100vh - 125px)',
+                  overflowY: 'scroll'
+                }
+          }
+        >
+          {categories.map((item: Category) => {
+            const labelId = `checkbox-list-secondary-label-${item.category_name}`
+            let Icon = icons[item.icon]
+            if (Icon == undefined) {
+              Icon = icons['CircleOutlinedIcon']
+            }
+            return (
+              <ListItem
+                key={item.category_name}
+                secondaryAction={
+                  showCheckBox ? (
+                    <Checkbox
+                      value={item.category_name}
+                      edge="end"
+                      onChange={() => handleChange(item.category_name)}
+                      checked={checkMark(selectedNotSaved, item)}
+                      inputProps={{ 'aria-labelledby': labelId }}
+                    />
+                  ) : (
+                    ''
+                  )
+                }
+                disablePadding
+              >
+                {showCheckBox ? (
+                  <ListItemButton
+                    onClick={() => handleChange(item.category_name)}
+                  >
+                    <ListItemIcon>
+                      <Icon sx={{ color: item.color }} />
+                    </ListItemIcon>
+                    <ListItemText
+                      sx={{}}
+                      id={labelId}
+                      primary={`${item.category_name}`}
+                    />
+                  </ListItemButton>
+                ) : (
+                  <ListItem onClick={() => handleChange(item.category_name)}>
+                    <ListItemIcon>
+                      <Icon sx={{ color: item.color }} />
+                    </ListItemIcon>
+                    <ListItemText
+                      sx={{}}
+                      id={labelId}
+                      primary={`${item.category_name}`}
+                    />
+                  </ListItem>
+                )}
+              </ListItem>
+            )
+          })}
+        </List>
+      </header>
       <List
         dense
         style={
