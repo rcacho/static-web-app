@@ -28,9 +28,10 @@ let IconList: IconItems[] = []
 const Day = (props: DayProps) => {
   const [iconSet, setIconSet] = useState(IconList)
   const { isYearView, currentDate } = useCalendarContext()
-  const { events, selected, categories } = useAPIContext()
+  const { events, selected, categories, updateCats } = useAPIContext()
 
   useEffect(() => {
+    console.log('updating days')
     IconList = []
     if (events.length > 0 && selected.length > 0) {
       for (let j = 0; j < events.length; j++) {
@@ -60,7 +61,7 @@ const Day = (props: DayProps) => {
       }
     }
     setIconSet(IconList)
-  }, [currentDate, events, selected, categories])
+  }, [currentDate, events, selected, categories, updateCats])
 
   const CheckKey = (index: number) => {
     if (index === 7 && iconSet.length > 8) {
