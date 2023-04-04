@@ -65,7 +65,6 @@ const AlertPanel = (props: any) => {
     paddingTop: '10px',
     height: 'calc(100vh - 64px)',
     overflow: 'auto',
-    width: 400,
     boxShadow: '0 0 5px #ccc'
   }
 
@@ -103,7 +102,7 @@ const AlertPanel = (props: any) => {
     <Popper
       open={Boolean(props.panelAnchor)}
       anchorEl={props.panelAnchor}
-      sx={{ bgcolor: 'white' }}
+      sx={{ bgcolor: 'white', width: { sm: '300px', md: '400px' } }}
     >
       <ClickAwayListener onClickAway={props.onClickAway}>
         <List style={alertPanelStyle}>

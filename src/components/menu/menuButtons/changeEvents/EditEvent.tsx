@@ -88,6 +88,14 @@ const EditEvent = (props: any) => {
     props.updateState(0)
   }
 
+  const handleConfirm = () => {
+    editEvent(eventId, eventDate, description, catIDs[selected]).then((_) => {
+      alert('Event changes saved.')
+      setOpen(false)
+      props.clickAway()
+    })
+  }
+
   const handleOnClick = () => {
     setClicked(true)
     console.log(oldDate)
@@ -109,12 +117,7 @@ const EditEvent = (props: any) => {
               }
             }
           }
-
-          editEvent(eventId, eventDate, description, catIDs[selected]).then(
-            (_) => {
-              setOpen(true)
-            }
-          )
+          setOpen(true)
         })
       })
     }
@@ -122,7 +125,7 @@ const EditEvent = (props: any) => {
 
   const handleClose = () => {
     setOpen(false)
-    props.clickAway()
+    setClicked((prev) => !prev)
   }
 
   function EventEditPopup() {
@@ -141,14 +144,17 @@ const EditEvent = (props: any) => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{'Event Edited'}</DialogTitle>
+          <DialogTitle id="alert-dialog-title">{'Edit Event'}</DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Event successfully edited!
+              Please confirm you would like to change the selected event.
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>OK</Button>
+            <Button onClick={handleClose}>Cancel</Button>
+          </DialogActions>
+          <DialogActions>
+            <Button onClick={handleConfirm}>Confirm</Button>
           </DialogActions>
         </Dialog>
       </>
@@ -172,11 +178,11 @@ const EditEvent = (props: any) => {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">
-            {'ERROR: Edit Event'}
+            {'Edit Event Error'}
           </DialogTitle>
           <DialogContent>
             <DialogContentText id="alert-dialog-description">
-              Event already exists!
+              Event already exists on this date.
             </DialogContentText>
           </DialogContent>
           <DialogActions>

@@ -153,7 +153,7 @@ const EditCatPopUp = (props: any) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleCloseError} autoFocus>
             Close
           </Button>
           <Button onClick={handleConfirm} autoFocus>
