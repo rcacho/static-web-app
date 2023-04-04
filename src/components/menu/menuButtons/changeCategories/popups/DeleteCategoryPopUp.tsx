@@ -39,6 +39,7 @@ const DeleteCategoryPopUp = (props: any) => {
       })
       .then(() => {
         setUpdateCats((prev) => !prev)
+        alert('Category deleted.')
       })
       .catch((err) => {
         console.log(err)
@@ -78,8 +79,8 @@ const DeleteCategoryPopUp = (props: any) => {
         <DialogTitle id="alert-dialog-title">{'Delete Category'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you would like to delete the selected category? This
-            action is permanent.
+            Are you sure you would like to delete the selected category? All
+            related events will also be deleted. This action is permanent.
           </DialogContentText>
         </DialogContent>
         <DialogActions>

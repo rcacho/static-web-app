@@ -47,7 +47,6 @@ const AddCatPopUp = (props: any) => {
           }
         }
         if (err === 0) {
-          addCategory(props.name, props.icon, props.color)
           setPopup(0)
           setOpen(true)
         }
@@ -76,6 +75,7 @@ const AddCatPopUp = (props: any) => {
       })
       .then(() => {
         setUpdateCats((prev) => !prev)
+        alert('Category added.')
       })
       .catch((err) => {
         console.log(err)
@@ -87,6 +87,22 @@ const AddCatPopUp = (props: any) => {
     duplicateCheck()
   }
   const handleClose = () => {
+    setOpen(false)
+    props.clickAway()
+    props.updateState(0)
+    setPopup(100)
+  }
+
+  const handleCloseError = () => {
+    setOpen(false)
+    setClicked(!clicked)
+    // props.clickAway()
+    // props.updateState(0)
+    setPopup(100)
+  }
+
+  const handleConfirm = () => {
+    addCategory(props.name, props.icon, props.color)
     setOpen(false)
     props.clickAway()
     props.updateState(0)
@@ -123,15 +139,19 @@ const AddCatPopUp = (props: any) => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{'Category Added'}</DialogTitle>
+        <DialogTitle id="alert-dialog-title">{'Add Category'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Category {props.name} added successfully.
+            Please confirm you would like to add "{props.name}" to the category
+            list.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} autoFocus>
             Close
+          </Button>
+          <Button onClick={handleConfirm} autoFocus>
+            Confirm
           </Button>
         </DialogActions>
       </Dialog>
@@ -149,7 +169,7 @@ const AddCatPopUp = (props: any) => {
           }
         }}
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseError}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -163,7 +183,7 @@ const AddCatPopUp = (props: any) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleCloseError} autoFocus>
             Close
           </Button>
         </DialogActions>
@@ -182,7 +202,7 @@ const AddCatPopUp = (props: any) => {
           }
         }}
         open={open}
-        onClose={handleClose}
+        onClose={handleCloseError}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
@@ -196,7 +216,7 @@ const AddCatPopUp = (props: any) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} autoFocus>
+          <Button onClick={handleCloseError} autoFocus>
             Close
           </Button>
         </DialogActions>
