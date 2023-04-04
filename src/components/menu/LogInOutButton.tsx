@@ -44,7 +44,7 @@ const LogInOutButton = () => {
   ) {
     return <LoginButton />
   } else {
-    return null
+    return <></>
   }
 }
 

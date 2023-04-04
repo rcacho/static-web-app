@@ -12,19 +12,30 @@ export enum PopupType {
   Duplicate
 }
 
+interface PopupProps {
+  open: boolean
+  onClose: any
+  title: string
+  body: string
+}
+
+interface ButtonPopupProps extends PopupProps {
+  buttonLabel: string
+  buttonClick: any
+}
+
+interface StatusPopupProps {
+  open: boolean
+  onClose: any
+  body: string
+}
+
 const popupStyle = {
   '& .MuiDialog-container': {
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: '90vh'
   }
-}
-
-interface PopupProps {
-  open: boolean
-  onClose: any
-  title: string
-  body: string
 }
 
 const Popup = (props: PopupProps) => {
@@ -50,9 +61,24 @@ const Popup = (props: PopupProps) => {
   )
 }
 
-interface ButtonPopupProps extends PopupProps {
-  buttonLabel: string
-  buttonClick: any
+export const ButtonlessPopup = (props: PopupProps) => {
+  const { open, onClose, title, body } = props
+  return (
+    <Dialog
+      sx={popupStyle}
+      open={open}
+      onClose={onClose}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          {body}
+        </DialogContentText>
+      </DialogContent>
+    </Dialog>
+  )
 }
 
 export const ButtonPopup = (props: ButtonPopupProps) => {
@@ -80,12 +106,6 @@ export const ButtonPopup = (props: ButtonPopupProps) => {
       </DialogActions>
     </Dialog>
   )
-}
-
-interface StatusPopupProps {
-  open: boolean
-  onClose: any
-  body: string
 }
 
 export const ErrorPopup = (props: StatusPopupProps) => {
