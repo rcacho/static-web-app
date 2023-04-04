@@ -5,11 +5,13 @@ const apiPaths = {
   category: (categoryId?: number) =>
     `/api/category${categoryId ? '/' + categoryId : ''}`,
   events: (eventId?: number) => `/api/event${eventId ? '/' + eventId : ''}`,
-  notifications: (userId: string) => `/api/notification/${userId}`,
   user: () => `/api/user`,
   userLogin: (userId: number) => `/api/user/check_notifications/${userId}`,
   admin: () => 'api/user/admin',
-  adminMembership: () => 'api/admin-membership'
+  adminMembership: () => 'api/admin-membership',
+  notifications: () => `/api/notification`,
+  notificationCheck: () => `/api/notification-check`,
+  filter: () => `/api/filter`
 }
 
 export class APIManager {
@@ -26,6 +28,14 @@ export class APIManager {
       this.instance = new APIManager()
     }
     return this.instance
+  }
+
+  public async getFilter() {
+    return await this.fetch(apiPaths.filter(), 'GET')
+  }
+
+  public async setFilter(data: any) {
+    return await this.fetch(apiPaths.filter(), 'PUT', data)
   }
 
   public async getCategory() {
@@ -60,12 +70,12 @@ export class APIManager {
     return await this.fetch(apiPaths.events(eventId), 'DELETE', data)
   }
 
-  public async getNotification(userId: string) {
-    return await this.fetch(apiPaths.notifications(userId), 'GET')
+  public async getNotification() {
+    return await this.fetch(apiPaths.notifications(), 'GET')
   }
 
-  public async setUserLastLogin(userId: any) {
-    return await this.fetch(apiPaths.userLogin(userId), 'PUT')
+  public async setLastNotificationCheck() {
+    return await this.fetch(apiPaths.notificationCheck(), 'PUT')
   }
 
   private isExpired(result: AuthenticationResult) {

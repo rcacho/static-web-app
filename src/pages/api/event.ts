@@ -1,8 +1,13 @@
-import { getOid, isAdmin, withAuthMiddleware } from '@/utils/middleware/Auth'
+import {
+  AdminAction,
+  getOid,
+  withAuthMiddleware
+} from '@/utils/middleware/Auth'
 import { EventDAO } from '@/utils/dao/EventDAO'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 import { Event } from '@/interfaces/Event'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { InternalErrorHandler } from '@/utils/InternalErrorHandler'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { body, method } = req
@@ -22,19 +27,19 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   switch (method) {
     case 'GET':
-      recordset = await eventDAO.getEvent()
-      res.status(200).json({ result: recordset })
+      await InternalErrorHandler(req, res, async () => {
+        recordset = await eventDAO.getEvent()
+        res.status(200).json({ result: recordset })
+      })
       break
     case 'POST':
-      let adminStatus = isAdmin(req)
-      if (!adminStatus) {
-        res.status(401).json({ result: 'User not permitted to make changes' })
-        return
-      }
+      await AdminAction(req, res, async () => {
+        await InternalErrorHandler(req, res, async () => {
+          await eventDAO.addEvent(oid, event)
+          res.status(200).json({ result: `Successfully added new event` })
+        })
+      })
 
-      await eventDAO.addEvent(oid, event)
-
-      res.status(200).json({ result: `Successfully added new event` })
       break
     default:
       res.setHeader('Allow', ['GET', 'POST'])

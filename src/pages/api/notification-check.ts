@@ -1,13 +1,13 @@
 import { withAuthMiddleware } from '@/utils/middleware/Auth'
 import type { NextApiRequest, NextApiResponse } from 'next'
-import { UserDAO } from '@/utils/dao/UserDAO'
+import { NotificationCheckDAO } from '@/utils/dao/NotificationCheckDAO'
 import { DatabaseConnector } from '@/utils/DatabaseConnector'
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
   const { method, query } = req
   const id = query.id as string
   const db: DatabaseConnector = new DatabaseConnector()
-  const userDAO: UserDAO = new UserDAO(db)
+  const userDAO: NotificationCheckDAO = new NotificationCheckDAO(db)
 
   switch (method) {
     case 'PUT':
