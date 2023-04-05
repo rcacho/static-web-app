@@ -1,14 +1,5 @@
 
 
-IF object_id('calendar_user', 'U') is null
-    SELECT * FROM calendar_user;
-ELSE
-    CREATE TABLE calendar_user_2 (
-	 id INT IDENTITY (1, 1) PRIMARY KEY
-	,active_directory_oid UNIQUEIDENTIFIER
-);
-
-
 CREATE TABLE calendar.app_user (
 	 id INT IDENTITY (1, 1) PRIMARY KEY
 	,active_directory_oid UNIQUEIDENTIFIER UNIQUE
