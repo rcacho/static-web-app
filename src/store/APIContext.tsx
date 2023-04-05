@@ -18,6 +18,7 @@ interface APIStoreValue {
   setEvents: React.Dispatch<React.SetStateAction<Event[]>>
   catMap: Map<number, string>
   updateCatMap: (category: Category[]) => void
+  updateFilters: () => void
   selectedEvent: number
   setSelectedEvent: React.Dispatch<React.SetStateAction<number>>
   updateEvents: () => void
@@ -90,6 +91,71 @@ const APIStore = ({ children }: any) => {
       })
   }
 
+  function updateFilters() {
+    APIManager.getInstance()
+      .then((instance) => instance.getCategory())
+      .then((data) => {
+        let cats = data.result
+        let category = cats[cats.length - 1]
+        let catID = {
+          category_id: category.category_id
+        }
+        addFilter(catID, category)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  // sorry
+  function addFilter(cat: any, category: any) {
+    APIManager.getInstance()
+      .then((instance) => instance.getFilter())
+      .then((data) => {
+        let sel = data.filters
+
+        // array of ids
+        let filterIDs: any[] = []
+        sel.map((item: any) => {
+          filterIDs.push(item.category_id)
+        })
+
+        // make array of categories to set selected and selectedNotSaved with new category
+        let selectedDB: Category[] = []
+        categories.map((category: Category) => {
+          if (filterIDs.includes(category.category_id)) {
+            selectedDB.push(category)
+          }
+        })
+        selectedDB.push(category)
+
+        // array of current filter ids to send to API + current category id being added
+        filterIDs.push(cat.category_id)
+        let filterOBJ = {
+          categories: filterIDs
+        }
+        setFilter(filterOBJ, selectedDB)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  function setFilter(filters: any, filterArray: any) {
+    APIManager.getInstance()
+      .then((instance) => {
+        setSelected(filterArray)
+        setSelectedNotSaved(filterArray)
+        instance.setFilter(filters)
+      })
+      .then((data) => {
+        console.log(data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
   const updateCatMap = (categories: Category[]) => {
     let tempMap = new Map()
     for (let i = 0; i < categories.length; i++) {
@@ -109,6 +175,7 @@ const APIStore = ({ children }: any) => {
     setEvents: setEvents,
     catMap: catMap,
     updateCatMap: updateCatMap,
+    updateFilters: updateFilters,
     selectedEvent: selectedEvent,
     setSelectedEvent: setSelectedEvent,
     updateEvents: updateEvents,

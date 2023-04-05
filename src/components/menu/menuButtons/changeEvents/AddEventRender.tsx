@@ -15,11 +15,6 @@ import MuiTheme from '@/styles/MuiTheme'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
 import { useCalendarContext } from '@/store/CalendarContext'
 
 // placeholder for the list of categories
@@ -34,8 +29,6 @@ const AddEventRender = (props: any) => {
   const [events, setEvents] = useState([''])
   const { categories, updateEvents, updateCats, setUpdateCats } =
     useAPIContext()
-  const [open, setOpen] = React.useState(false)
-  const [openFailed, setOpenFailed] = React.useState(false)
   const [first, setFirst] = useState(true)
   const { selectedDate } = useCalendarContext()
 
@@ -74,7 +67,7 @@ const AddEventRender = (props: any) => {
             let eDate = new Date(data.result[i].event_date)
             if (eDate.toUTCString() === eventDate.toUTCString()) {
               if (data.result[i].category_id === catIDs[selected]) {
-                setOpenFailed(true)
+                alert('An event of this category already exists on this date.')
                 return
               }
             }
@@ -83,7 +76,7 @@ const AddEventRender = (props: any) => {
           addEvent(eventDate, description, catIDs[selected])
             .then(() => {
               updateEvents()
-              setOpen(true)
+              alert('Event added.')
             })
             .then(() => {
               setUpdateCats((prev) => !prev)
@@ -141,76 +134,8 @@ const AddEventRender = (props: any) => {
     props.updateState(0)
   }
 
-  const handleClose = () => {
-    setOpen(false)
-    setOpenFailed(false)
-    props.clickAway()
-  }
-
-  function EventAddedPopupFailed() {
-    return (
-      <>
-        <Dialog
-          sx={{
-            '& .MuiDialog-container': {
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '90vh'
-            }
-          }}
-          open={openFailed}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{'ERROR'}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Event already exists on this date!
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>OK</Button>
-          </DialogActions>
-        </Dialog>
-      </>
-    )
-  }
-
-  function EventAddedPopup() {
-    return (
-      <>
-        <Dialog
-          sx={{
-            '& .MuiDialog-container': {
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '90vh'
-            }
-          }}
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{'Event Added'}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Event successfully added
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>OK</Button>
-          </DialogActions>
-        </Dialog>
-      </>
-    )
-  }
-
   return (
     <ThemeProvider theme={MuiTheme}>
-      <EventAddedPopup />
-      <EventAddedPopupFailed />
       <List>
         <ListItem>
           <ListItemText

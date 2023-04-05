@@ -162,6 +162,7 @@ const ChangeCategories = (props: any) => {
               clickAway={props.clickAway}
               catID={categories[selected].category_id}
               setSelected={handleSelected}
+              name={categories[selected].category_name}
             >
               Delete Category
             </DeleteCategoryPopUp>

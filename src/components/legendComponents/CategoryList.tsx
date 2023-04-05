@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Checkbox,
+  createTheme,
   FormControlLabel,
   List,
   ListItem,
@@ -11,12 +12,15 @@ import {
   ListItemIcon,
   ListItemText,
   Stack,
-  Switch
+  Switch,
+  ThemeProvider,
+  Typography
 } from '@mui/material'
 
 import React, { useEffect } from 'react'
 import { icons } from '@/interfaces/Icons'
 import { APIManager } from '@/utils/APIManager'
+
 const SelectButtonTheme = [
   {
     width: '40%',
@@ -29,12 +33,65 @@ const SelectButtonTheme = [
   { '&:hover': { bgcolor: '#cccccc' } }
 ]
 
+const toggleTheme = createTheme({
+  components: {
+    MuiSwitch: {
+      styleOverrides: {
+        root: {
+          width: '38px',
+          height: '16px',
+          padding: '0px',
+          marginLeft: '10px'
+        },
+        switchBase: {
+          color: 'lightgray',
+          padding: '1px',
+          '&$checked': {
+            '& + $track': {
+              backgroundColor: '#23bf58'
+            }
+          }
+        },
+        thumb: {
+          color: 'white',
+          width: '16px',
+          height: '16px',
+          marginTop: '-1px',
+          marginLeft: '1px'
+        },
+        track: {
+          borderRadius: '20px',
+          backgroundColor: '#ee0979',
+          opacity: '1 !important',
+          '&:after, &:before': {
+            color: 'white',
+            fontSize: '10px',
+            position: 'absolute',
+            top: '2px'
+          },
+          '&:after': {
+            content: "'on'",
+            left: '3px'
+          },
+          '&:before': {
+            content: "'off'",
+            right: '4px'
+          }
+        },
+        checked: {
+          color: '#23bf58 !important',
+          transform: 'translateX(26px) !important'
+        }
+      }
+    }
+  }
+})
+
 //list of categories
 const CategoryList = () => {
   const {
     categories,
     setSelected,
-    accountId,
     updateCats,
     updateCatMap,
     setCategories,
@@ -44,7 +101,6 @@ const CategoryList = () => {
     updateCategories
   } = useAPIContext()
   const [showCheckBox, setShowCheckBox] = React.useState(false)
-  const [firstFilter, setFirstFilter] = React.useState(false)
 
   useEffect(() => {
     const getData = async () => {
@@ -53,7 +109,6 @@ const CategoryList = () => {
       const cat: Category[] = catData.result
 
       setCategories(cat)
-      console.log(firstFilter)
       setSelected(cat)
       setSelectedNotSaved(cat)
       updateCatMap(cat)
@@ -67,11 +122,6 @@ const CategoryList = () => {
     updateCategories()
     updateEvents()
     updateCatMap(categories)
-    console.log(firstFilter)
-    if (firstFilter) {
-      console.log(selectedNotSaved)
-      applyFilterFromDB()
-    }
   }, [updateCats])
 
   const handleChange = (category: string) => {
@@ -101,7 +151,6 @@ const CategoryList = () => {
     selectedNotSaved.map((category: Category) => {
       selectedIds.push(category.category_id)
     })
-    console.log(accountId)
     const data = {
       categories: selectedIds
     }
@@ -140,24 +189,29 @@ const CategoryList = () => {
   return (
     <Box>
       {/* <Stack justifyContent="center" alignItems="center" sx={{ m: 0, p: 0 }}> */}
-      <Stack justifyContent="center" alignItems="center">
-        <FormControlLabel
-          value="start"
-          control={
-            <Switch
-              onChange={() => {
-                console.log(selectedNotSaved)
-                if (!firstFilter) {
-                  applyFilterFromDB()
-                  setFirstFilter(true)
-                }
-                setShowCheckBox(!showCheckBox)
-              }}
-            />
-          }
-          label="Filter"
-          labelPlacement="start"
-        />
+      <Stack justifyContent="start" alignItems="start">
+        <ThemeProvider theme={toggleTheme}>
+          {' '}
+          <FormControlLabel
+            sx={{ marginTop: '10px', color: 'darkslategrey' }}
+            value="start"
+            control={
+              <Switch
+                onChange={() => {
+                  setShowCheckBox(!showCheckBox)
+                  if (!showCheckBox) {
+                    applyFilterFromDB()
+                  } else {
+                    setSelected(categories)
+                    setSelectedNotSaved(categories)
+                  }
+                }}
+              />
+            }
+            label={<Typography variant={'body2'}>Toggle Filter</Typography>}
+            labelPlacement="start"
+          />{' '}
+        </ThemeProvider>
       </Stack>
       <Box>
         {showCheckBox ? (
@@ -190,12 +244,16 @@ const CategoryList = () => {
               ? {
                   bgcolor: 'background.paper',
                   height: 'calc(100vh - 225px)',
-                  overflowY: 'scroll'
+                  overflowY: 'scroll',
+                  minWidth: '280px',
+                  maxWidth: '280px'
                 }
               : {
                   bgcolor: 'background.paper',
                   height: 'calc(100vh - 125px)',
-                  overflowY: 'scroll'
+                  overflowY: 'scroll',
+                  minWidth: '280px',
+                  maxWidth: '280px'
                 }
           }
         >
