@@ -84,17 +84,19 @@ const authenticate: Middleware = async (
       throw new Error('Missing bearer token')
     }
 
-    const idToken = req.headers.authorization!.substring(7)
+    const foo = req.headers['X-Custom-Authorization']
+
+    let idToken = req.headers.authorization!.substring(7)
 
     const parsed = decode(idToken, { complete: true })
 
-    const kid = parsed?.header.kid
+    let kid = parsed?.header.kid
     if (!kid) {
-      throw new Error(
-        `Missing kid in token ${req.headers.authorization}: ${JSON.stringify(
-          parsed?.header
-        )}`
-      )
+      idToken = (foo as string).substring(7)
+
+      const parsed = decode(idToken, { complete: true })
+
+      kid = parsed?.header.kid
     }
 
     let signingKey = await getSigningKeyPromise(kid!, client)
