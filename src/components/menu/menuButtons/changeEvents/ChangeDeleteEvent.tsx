@@ -159,7 +159,7 @@ const ChangeDeleteEvent = (props: any) => {
           <PanelButton onClick={() => props.updateState(1)}>
             Add New Event
           </PanelButton>
-          <EditEvent/>
+          <EditEvent />
           <DeleteEventButton selected={selected}>
             Delete Event
           </DeleteEventButton>

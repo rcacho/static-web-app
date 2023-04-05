@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  ListItem,
-  CircularProgress
-} from '@mui/material'
+import { ListItem, CircularProgress } from '@mui/material'
 import SelectAutocomplete from '../../SelectAutocomplete'
 import { APIManager } from '@/utils/APIManager'
 import AdminAlert from './AdminAlert'
@@ -93,10 +90,7 @@ const AddAdmin = (props: any) => {
     fetchUsers()
   }, [])
   return (
-    <RightMenuPanel
-      title={'Add Admin'}
-      handleBackClick={handleBackClick}
-    >
+    <RightMenuPanel title={'Add Admin'} handleBackClick={handleBackClick}>
       <ListItem>
         {error && (
           <AdminAlert isError={true} alertMessage={errorMessage}></AdminAlert>

@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import {
-  ListItem,
-  CircularProgress
-} from '@mui/material'
+import { ListItem, CircularProgress } from '@mui/material'
 import AdminAlert from './AdminAlert'
 import SelectAutocomplete from '../../SelectAutocomplete'
 import { APIManager } from '@/utils/APIManager'
@@ -82,11 +79,8 @@ const RemoveAdmin = (props: any) => {
   }
 
   return (
-    <RightMenuPanel
-      title={'Remove Admin'}
-      handleBackClick={handleBackClick}
-    >
-        <ListItem>
+    <RightMenuPanel title={'Remove Admin'} handleBackClick={handleBackClick}>
+      <ListItem>
         {error && (
           <AdminAlert isError={true} alertMessage={errorMessage}></AdminAlert>
         )}
