@@ -32,7 +32,10 @@ const AddCatPopUp = (props: any) => {
       .then(() => {
         let err = 0
         for (let i = 0; i < categories.length; i++) {
-          if (categories[i].category_name === props.name) {
+          if (
+            categories[i].category_name.toLowerCase() ===
+            props.name.toLowerCase()
+          ) {
             console.log('name error')
             err += 1
             setPopup(1)

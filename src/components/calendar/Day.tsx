@@ -42,17 +42,25 @@ const Day = (props: DayProps) => {
           7
         )
         let year = date.getFullYear()
+
         if (
           day === props.day &&
           eventMonth === props.month &&
           year === currentDate.getFullYear()
         ) {
+          let sels = []
           for (let i = 0; i < selected.length; i++) {
-            if (events[j].category_id === selected[i].category_id) {
+            sels.push(selected[i].category_id)
+          }
+          for (let i = 0; i < categories.length; i++) {
+            if (
+              events[j].category_id === categories[i].category_id &&
+              sels.includes(events[j].category_id)
+            ) {
               let item: IconItems = {
-                icon: selected[i].icon,
-                color: selected[i].color,
-                event: selected[i].category_name
+                icon: categories[i].icon,
+                color: categories[i].color,
+                event: categories[i].category_name
               }
               IconList.push(item)
             }
