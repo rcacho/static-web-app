@@ -3,25 +3,21 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
-  ThemeProvider,
-  TextField,
-  Button,
-  Typography,
-  Box
+  TextField
 } from '@mui/material'
 
 import React, { useEffect, useState } from 'react'
-import MuiTheme from '@/styles/MuiTheme'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
+import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
+import PanelButton from '../PanelButton'
 
-// placeholder for the list of categories
 let EventList: string[] = []
 let catIDs: any[] = []
 const nullDate = new Date(0)
-// @ts-ignore
+
 const AddEventRender = (props: any) => {
   const [eventDate, setEventDate] = useState(new Date(0))
   const [selected, setSelected] = useState(null)
@@ -34,9 +30,9 @@ const AddEventRender = (props: any) => {
 
   useEffect(() => {
     EventList = []
-    for (let i = 0; i < categories.length; i++) {
-      EventList.push(categories[i].category_name)
-      catIDs.push(categories[i].category_id)
+    for (const category of categories) {
+      EventList.push(category.category_name)
+      catIDs.push(category.category_id)
     }
     setEvents(EventList)
     if (first) {
@@ -59,32 +55,27 @@ const AddEventRender = (props: any) => {
     return res
   }
 
-  const handleAddEvent = () => {
+  const handleAddEvent = async () => {
     if (selected !== null) {
-      APIManager.getInstance().then((instance) => {
-        instance.getEvent().then((data) => {
-          for (let i = 0; i < data.result.length; i++) {
-            let eDate = new Date(data.result[i].event_date)
-            if (eDate.toUTCString() === eventDate.toUTCString()) {
-              if (data.result[i].category_id === catIDs[selected]) {
-                alert('An event of this category already exists on this date.')
-                return
-              }
-            }
+      const instance = await APIManager.getInstance()
+      const data = await instance.getEvent()
+      const events = data.result
+      for (const event of events) {
+        let eDate = new Date(event.event_date)
+        if (eDate.toUTCString() === eventDate.toUTCString()) {
+          if (event.category_id === catIDs[selected]) {
+            alert('An event of this category already exists on this date.')
+            return
           }
-
-          addEvent(eventDate, description, catIDs[selected])
-            .then(() => {
-              updateEvents()
-              alert('Event added.')
-            })
-            .then(() => {
-              setUpdateCats((prev) => !prev)
-            })
-        })
-      })
+        }
+      }
+      await addEvent(eventDate, description, catIDs[selected])
+      await updateEvents()
+      alert('Event added.')
+      setUpdateCats((prev) => !prev) // @TODO
     }
   }
+
   async function addEvent(
     event_date: Date,
     event_description: string,
@@ -97,19 +88,11 @@ const AddEventRender = (props: any) => {
       event_description: event_description
     }
 
-    APIManager.getInstance()
-      .then((instance) => instance.addEvent(payload))
-      .then((data) => {
-        console.log(data)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
+    const instance = await APIManager.getInstance()
+    await instance.addEvent(payload)
     setEventDate(event_date)
   }
 
-  // render list for the scroll function
   function renderList() {
     const handleSelect = (index: any) => {
       setSelected(index)
@@ -130,45 +113,14 @@ const AddEventRender = (props: any) => {
     })
   }
 
-  const handleBackClick = () => {
+  const goBack = () => {
     props.updateState(0)
   }
 
   return (
-    <ThemeProvider theme={MuiTheme}>
-      <List>
-        <ListItem>
-          <ListItemText
-            sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Add Event"
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              color: '#898989',
-              textDecoration: 'underline',
-              fontFamily: 'Roboto',
-              input: { cursor: 'pointer' }
-            }}
-          >
-            <Typography
-              onClick={() => handleBackClick()}
-              sx={{
-                '&:hover': {
-                  cursor: 'pointer'
-                }
-              }}
-              variant="body2"
-              color="#898989"
-            >
-              Back
-            </Typography>
-          </Box>
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Please select category:" />
-        </ListItem>
+    <>
+      <RightMenuPanel title={'Add Event'} handleBackClick={goBack}>
+        <Header text="Please select a category:" />
         <List
           disablePadding={true}
           style={{
@@ -179,9 +131,7 @@ const AddEventRender = (props: any) => {
         >
           {renderList()}
         </List>
-        <ListItem>
-          <ListItemText primary="Please enter a date:" />
-        </ListItem>
+        <Header text="Please enter a date:" />
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             id="standard-basic"
@@ -200,9 +150,7 @@ const AddEventRender = (props: any) => {
             }}
           />
         </ListItem>
-        <ListItem>
-          <ListItemText primary="Event description:" />
-        </ListItem>
+        <Header text="Event description:" />
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             multiline={true}
@@ -217,43 +165,16 @@ const AddEventRender = (props: any) => {
             }}
           />
         </ListItem>
-      </List>
-      <List
-        className="bottom-buttons"
-        disablePadding={true}
-        sx={{
-          position: 'absolute',
-          margin: 'auto',
-          bottom: '0',
-          width: '100%',
-          height: '13%'
-        }}
-      >
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            disabled={selected === null || +eventDate === +nullDate}
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={() => handleAddEvent()}
-          >
-            Add Event
-          </Button>
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={() => handleBackClick()}
-          >
-            Cancel
-          </Button>
-        </ListItem>
-      </List>
-    </ThemeProvider>
+      </RightMenuPanel>
+      <RightMenuPanelBottom handleCancelClick={goBack}>
+        <PanelButton
+          disabled={selected === null || +eventDate === +nullDate}
+          onClick={handleAddEvent}
+        >
+          Add Event
+        </PanelButton>
+      </RightMenuPanelBottom>
+    </>
   )
 }
 

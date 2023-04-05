@@ -3,13 +3,10 @@ import MenuButton from '../../MenuButton'
 import Print from '@mui/icons-material/Print'
 import html2canvas from 'html2canvas'
 import jsPDF from 'jspdf'
-import Dialog from '@mui/material/Dialog'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
 import { useAPIContext } from '@/store/APIContext'
+import { ButtonlessPopup } from '../Popup'
 
-const PrintCalPopUp = () => {
+const PrintButton = () => {
   const [open, setOpen] = React.useState(false)
   const { categories } = useAPIContext()
 
@@ -113,28 +110,14 @@ const PrintCalPopUp = () => {
   return (
     <>
       <PrintButton />
-      <Dialog
-        sx={{
-          '& .MuiDialog-container': {
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '90vh'
-          }
-        }}
+      <ButtonlessPopup
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{'Print Calendar'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            PDF Download in Progress. Please Wait!
-          </DialogContentText>
-        </DialogContent>
-      </Dialog>
+        title={'Print Calendar'}
+        body={'PDF Download in Progress. Please Wait!'}
+      />
     </>
   )
 }
 
-export default PrintCalPopUp
+export default PrintButton

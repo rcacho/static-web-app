@@ -21,7 +21,7 @@ const RightMenu = (props: any) => {
 
   const [selectedCategory, setSelectedCategory] = useState(null)
 
-  const alertPanelStyle = {
+  const rightMenuStyle = {
     opacity: 1,
     bgcolor: 'white',
     color: 'black',
@@ -59,7 +59,7 @@ const RightMenu = (props: any) => {
       ]}
     >
       <ClickAwayListener onClickAway={handleClickAway}>
-        <Stack style={alertPanelStyle}>
+        <Stack style={rightMenuStyle}>
           {/*Render the menu bar items here*/}
           {props.menuState === 0 ? (
             <MainMenuItems

@@ -28,11 +28,7 @@ const Legend = () => {
             p: 0
           }}
         >
-          {show ? (
-            <KeyboardArrowLeftIcon></KeyboardArrowLeftIcon>
-          ) : (
-            <KeyboardArrowRightIcon></KeyboardArrowRightIcon>
-          )}
+          {show ? <KeyboardArrowLeftIcon /> : <KeyboardArrowRightIcon />}
         </Button>
       </Stack>
     </Box>

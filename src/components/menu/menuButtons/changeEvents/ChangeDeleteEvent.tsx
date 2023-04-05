@@ -1,23 +1,19 @@
 import {
   List,
   ListItem,
-  ListItemText,
-  ThemeProvider,
-  Button,
   Typography,
-  Box,
   AccordionSummary,
   Accordion,
   AccordionDetails
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import MuiTheme from '@/styles/MuiTheme'
-// @ts-ignore
-import { FixedSizeList, ListChildComponentProps } from 'react-window'
-import DeleteEventPopUp from '@/components/menu/menuButtons/changeEvents/DeleteEventPopUp'
+import DeleteEventButton from '@/components/menu/menuButtons/changeEvents/DeleteEventButton'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
+import PanelButton from '../PanelButton'
+import EditEvent from './EditEvent'
 
 let EventList: (string | undefined)[] = []
 let IdList: (number | null)[] = []
@@ -83,36 +79,6 @@ const ChangeDeleteEvent = (props: any) => {
     setEventsState(EventList)
   }, [selected, categories, eventId, events, updateCats])
 
-  function EditEvent() {
-    if (selected === null) {
-      return (
-        <Button
-          className="menu-button"
-          size="medium"
-          variant="contained"
-          color="primary"
-          disabled
-        >
-          Edit Event
-        </Button>
-      )
-    } else {
-      return (
-        <Button
-          className="menu-button"
-          size="medium"
-          variant="contained"
-          color="primary"
-          onClick={() => {
-            props.updateState(1.6)
-          }}
-        >
-          Edit Event
-        </Button>
-      )
-    }
-  }
-
   function renderList() {
     const handleSelect = (index: any) => {
       setSelected(index)
@@ -159,53 +125,24 @@ const ChangeDeleteEvent = (props: any) => {
     })
   }
 
-  const handleBackClick = () => {
+  const goBack = () => {
     props.updateState(0)
   }
 
   return (
-    <ThemeProvider theme={MuiTheme}>
-      <List>
-        <ListItem>
-          <ListItemText
-            sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary={isAdmin ? 'Change / Delete Event' : 'Selected Event'}
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              color: '#898989',
-              textDecoration: 'underline',
-              fontFamily: 'Roboto'
-            }}
-          >
-            <Typography
-              onClick={handleBackClick}
-              sx={{
-                '&:hover': {
-                  cursor: 'pointer'
-                }
-              }}
-              variant="body2"
-              color="#898989"
-            >
-              Back
-            </Typography>
-          </Box>
-        </ListItem>
-        <ListItem>
-          <ListItemText primary={`Selected date: ${selectedDate}`} />
-        </ListItem>
-        <ListItem>
-          <ListItemText
-            primary={
-              eventsState.length === 0
-                ? 'No events on this day.'
-                : 'Please select event:'
-            }
-          />
-        </ListItem>
+    <>
+      <RightMenuPanel
+        title={isAdmin ? 'Change / Delete Event' : 'Selected Event'}
+        handleBackClick={goBack}
+      >
+        <Header text={`Selected date: ${selectedDate}`} />
+        <Header
+          text={
+            eventsState.length === 0
+              ? 'No events on this day.'
+              : 'Please select event:'
+          }
+        />
         <List
           disablePadding={true}
           style={{
@@ -216,58 +153,19 @@ const ChangeDeleteEvent = (props: any) => {
         >
           {renderList()}
         </List>
-      </List>
-      {isAdmin && (
-        <List
-          className="bottom-buttons-cat"
-          disablePadding={true}
-          sx={{
-            position: 'absolute',
-            margin: 'auto',
-            bottom: '0',
-            width: '100%',
-            height: '26%'
-          }}
-        >
-          <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button
-              className="menu-button"
-              size="medium"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                props.updateState(1)
-              }}
-            >
-              Add New Event
-            </Button>
-          </ListItem>
-          <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-            <EditEvent />
-          </ListItem>
-          <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-            <DeleteEventPopUp
-              clickAway={props.clickAway}
-              updateState={props.updateState}
-              selected={selected}
-            >
-              Delete Event
-            </DeleteEventPopUp>
-          </ListItem>
-          <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-            <Button
-              className="menu-button"
-              size="medium"
-              variant="contained"
-              color="primary"
-              onClick={handleBackClick}
-            >
-              Cancel
-            </Button>
-          </ListItem>
-        </List>
-      )}
-    </ThemeProvider>
+      </RightMenuPanel>
+      {isAdmin ? (
+        <RightMenuPanelBottom handleCancelClick={goBack}>
+          <PanelButton onClick={() => props.updateState(1)}>
+            Add New Event
+          </PanelButton>
+          <EditEvent />
+          <DeleteEventButton selected={selected}>
+            Delete Event
+          </DeleteEventButton>
+        </RightMenuPanelBottom>
+      ) : null}
+    </>
   )
 }
 

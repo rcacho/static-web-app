@@ -6,8 +6,8 @@ import ModeIcon from '@mui/icons-material/Mode'
 import React from 'react'
 import StateMenuButton from './StateMenuButton'
 import LogInOutButton from './LogInOutButton'
-import ExportPopUp from './menuButtons/exportEvents/ExportPopUp'
-import PrintCalPopUp from './menuButtons/printCalendar/PrintCalPopUp'
+import ExportButton from './menuButtons/exportEvents/ExportButton'
+import PrintButton from './menuButtons/printCalendar/PrintButton'
 import { useAPIContext } from '@/store/APIContext'
 
 const MainMenuItems = (props: any) => {
@@ -43,10 +43,10 @@ const MainMenuItems = (props: any) => {
         </>
       )}
       <ListItem disablePadding>
-        <ExportPopUp />
+        <ExportButton />
       </ListItem>
       <ListItem disablePadding>
-        <PrintCalPopUp />
+        <PrintButton />
       </ListItem>
       <ListItem disablePadding>
         <LogInOutButton />

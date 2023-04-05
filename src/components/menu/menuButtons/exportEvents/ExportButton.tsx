@@ -1,18 +1,13 @@
-import { Button } from '@mui/material'
 import React from 'react'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
 import * as ics from 'ics'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { Category } from '@/interfaces/Category'
 import MenuButton from '@/components/menu/MenuButton'
 import Export from '@mui/icons-material/IosShare'
+import { ButtonPopup } from '../Popup'
 
-const ExportPopUp = () => {
+const ExportButton = () => {
   const [open, setOpen] = React.useState(false)
 
   const handleClickOpen = () => {
@@ -115,34 +110,16 @@ const ExportPopUp = () => {
   return (
     <>
       <ExportButton />
-      <Dialog
-        sx={{
-          '& .MuiDialog-container': {
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '90vh'
-          }
-        }}
+      <ButtonPopup
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{'Export Calendar'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Click below to download the events in .ICS format.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}> Cancel</Button>
-          <Button onClick={handleClickIcs} autoFocus>
-            .ics
-          </Button>
-        </DialogActions>
-      </Dialog>
+        title={'Export Calendar'}
+        body={'Click below to download the events in .ICS format.'}
+        buttonLabel={'Download'}
+        buttonClick={handleClickIcs}
+      />
     </>
   )
 }
 
-export default ExportPopUp
+export default ExportButton

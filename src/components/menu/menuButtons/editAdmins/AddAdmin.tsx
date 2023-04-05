@@ -1,17 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Box } from '@mui/material/'
-import {
-  Button,
-  List,
-  ListItem,
-  ListItemText,
-  Typography,
-  CircularProgress
-} from '@mui/material'
+import { ListItem, CircularProgress } from '@mui/material'
 import SelectAutocomplete from '../../SelectAutocomplete'
 import { APIManager } from '@/utils/APIManager'
 import AdminAlert from './AdminAlert'
 import { useAPIContext } from '@/store/APIContext'
+import RightMenuPanel from '../RightMenuPanel'
+import PanelButton from '../PanelButton'
 
 const AddAdmin = (props: any) => {
   const [loadingUsers, setLoadingUsers] = useState(false)
@@ -96,81 +90,35 @@ const AddAdmin = (props: any) => {
     fetchUsers()
   }, [])
   return (
-    <>
-      <List>
-        <ListItem>
-          <ListItemText
-            sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Add Admin"
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              color: '#898989',
-              textDecoration: 'underline',
-              fontFamily: 'Roboto'
-            }}
-          >
-            <Typography
-              onClick={handleBackClick}
-              sx={{
-                '&:hover': {
-                  cursor: 'pointer'
-                }
-              }}
-              variant="body2"
-              color="#898989"
-            >
-              Back
-            </Typography>
-          </Box>
-        </ListItem>
-        <ListItem>
-          {error && (
-            <AdminAlert isError={true} alertMessage={errorMessage}></AdminAlert>
-          )}
-          {success && (
-            <AdminAlert
-              isError={false}
-              alertMessage={successMessage}
-            ></AdminAlert>
-          )}
-        </ListItem>
-        <ListItem>
-          <SelectAutocomplete
-            loading={loadingUsers}
-            options={users}
-            value={selected}
-            setValue={setAutocompleteSelectValue}
-            label="Users"
-          />
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            size="medium"
-            className="menu-button"
-            variant="contained"
-            color="primary"
-            disabled={loading || error || selected === null}
-            onClick={onClick}
-          >
-            {loading ? <CircularProgress size={20} /> : 'Add'}
-          </Button>
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={handleBackClick}
-          >
-            Cancel
-          </Button>
-        </ListItem>
-      </List>
-    </>
+    <RightMenuPanel title={'Add Admin'} handleBackClick={handleBackClick}>
+      <ListItem>
+        {error && (
+          <AdminAlert isError={true} alertMessage={errorMessage}></AdminAlert>
+        )}
+        {success && (
+          <AdminAlert
+            isError={false}
+            alertMessage={successMessage}
+          ></AdminAlert>
+        )}
+      </ListItem>
+      <ListItem>
+        <SelectAutocomplete
+          loading={loadingUsers}
+          options={users}
+          value={selected}
+          setValue={setAutocompleteSelectValue}
+          label="Users"
+        />
+      </ListItem>
+      <PanelButton
+        disabled={loading || error || selected === null}
+        onClick={onClick}
+      >
+        {loading ? <CircularProgress size={20} /> : 'Add'}
+      </PanelButton>
+      <PanelButton onClick={handleBackClick}>Cancel</PanelButton>
+    </RightMenuPanel>
   )
 }
 

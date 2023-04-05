@@ -3,32 +3,21 @@ import {
   ListItem,
   ListItemText,
   ListItemButton,
-  ThemeProvider,
-  TextField,
-  Button,
-  Typography,
-  Box
+  TextField
 } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import MuiTheme from '@/styles/MuiTheme'
-// @ts-ignore
-import { FixedSizeList, ListChildComponentProps } from 'react-window'
 import { APIManager } from '@/utils/APIManager'
 import { Event } from '@/interfaces/Event'
 import { useAPIContext } from '@/store/APIContext'
 import { useCalendarContext } from '@/store/CalendarContext'
-import Dialog from '@mui/material/Dialog'
-import DialogActions from '@mui/material/DialogActions'
-import DialogContent from '@mui/material/DialogContent'
-import DialogContentText from '@mui/material/DialogContentText'
-import DialogTitle from '@mui/material/DialogTitle'
+import Popup, { ErrorPopup } from '../Popup'
+import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
+import PanelButton from '../PanelButton'
 
-// placeholder for the list of categories
 let EventList: string[] = []
 let catIDs: any[] = []
 const nullDate = new Date(0)
 
-// @ts-ignore
 const EditEvent = (props: any) => {
   const { categories, selectedEvent, eventIndex, eventId, updateEvents } =
     useAPIContext()
@@ -39,7 +28,6 @@ const EditEvent = (props: any) => {
   const [events, setEvents] = useState([''])
   const [open, setOpen] = React.useState(false)
   const [openFailed, setOpenFailed] = React.useState(false)
-
   const [eventDate, setEventDate] = useState(nullDate)
   const [description, setEventDescription] = useState('')
   const [oldDate, setOldDate] = useState(nullDate)
@@ -48,9 +36,9 @@ const EditEvent = (props: any) => {
   useEffect(() => {
     EventList = []
     catIDs = []
-    for (let i = 0; i < categories.length; i++) {
-      EventList.push(categories[i].category_name)
-      catIDs.push(categories[i].category_id)
+    for (const category of categories) {
+      EventList.push(category.category_name)
+      catIDs.push(category.category_id)
     }
     setEvents(EventList)
     if (first) {
@@ -63,7 +51,6 @@ const EditEvent = (props: any) => {
     if (props.fromMenu === 1) setEventDate(nullDate)
   }, [selected])
 
-  // render list for the scroll function
   function renderList() {
     const handleSelect = (index: any) => {
       setSelected(index)
@@ -88,6 +75,28 @@ const EditEvent = (props: any) => {
     props.updateState(0)
   }
 
+  const handleOnClick = async () => {
+    setClicked(true)
+    if (selected !== null) {
+      const instance = await APIManager.getInstance()
+      const data = await instance.getEvent()
+      const events = data.result
+      for (const event of events) {
+        let eDate = new Date(event.event_date)
+        if (
+          eDate.toUTCString() === eventDate.toUTCString() &&
+          event.category_id === catIDs[selected] &&
+          (+oldDate !== +eventDate || oldCat !== catIDs[selected])
+        ) {
+          setOpenFailed(true)
+          return
+        }
+      }
+      editEvent(eventId, eventDate, description, catIDs[selected])
+      setOpen(true)
+    }
+  }
+
   const handleConfirm = () => {
     editEvent(eventId, eventDate, description, catIDs[selected]).then((_) => {
       alert('Event changes saved.')
@@ -96,98 +105,24 @@ const EditEvent = (props: any) => {
     })
   }
 
-  const handleOnClick = () => {
-    setClicked(true)
-    console.log(oldDate)
-    console.log(eventDate)
-    if (selected !== null) {
-      APIManager.getInstance().then((instance) => {
-        instance.getEvent().then((data) => {
-          for (let i = 0; i < data.result.length; i++) {
-            let eDate = new Date(data.result[i].event_date)
-            if (eDate.toUTCString() === eventDate.toUTCString()) {
-              if (data.result[i].category_id === catIDs[selected]) {
-                // if the date and cat hasn't changed, do the edit
-                if (+oldDate === +eventDate && oldCat === catIDs[selected]) {
-                  break
-                } else {
-                  setOpenFailed(true)
-                  return
-                }
-              }
-            }
-          }
-          setOpen(true)
-        })
-      })
-    }
-  }
-
-  const handleClose = () => {
-    setOpen(false)
-    setClicked((prev) => !prev)
-  }
-
-  function EventEditPopup() {
+  const EventEditPopup = () => {
     return (
-      <>
-        <Dialog
-          sx={{
-            '& .MuiDialog-container': {
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '90vh'
-            }
-          }}
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{'Edit Event'}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Please confirm you would like to change the selected event.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancel</Button>
-            <Button onClick={handleConfirm}>Confirm</Button>
-          </DialogActions>
-        </Dialog>
-      </>
+      <Popup
+        open={open}
+        onClose={handleConfirm}
+        title={'Edit Event'}
+        body={'Please confirm you would like to change the selected event.'}
+      />
     )
   }
 
-  function EventEditFailedPopup() {
+  const EventEditFailedPopup = () => {
     return (
-      <>
-        <Dialog
-          sx={{
-            '& .MuiDialog-container': {
-              justifyContent: 'center',
-              alignItems: 'center',
-              minHeight: '90vh'
-            }
-          }}
-          open={openFailed}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">
-            {'Edit Event Error'}
-          </DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              Event already exists on this date.
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>OK</Button>
-          </DialogActions>
-        </Dialog>
-      </>
+      <ErrorPopup
+        open={openFailed}
+        onClose={() => setOpen(false)}
+        body={'Event already exists on this date.'}
+      />
     )
   }
 
@@ -203,15 +138,9 @@ const EditEvent = (props: any) => {
       category_id: category_id,
       event_description: event_description
     }
-    APIManager.getInstance()
-      .then((instance) => instance.editEvent(event_id, payload))
-      .then(() => {
-        updateEvents()
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-
+    const instance = await APIManager.getInstance()
+    await instance.editEvent(event_id, payload)
+    await updateEvents()
     setEventDate(event_date)
   }
 
@@ -226,41 +155,11 @@ const EditEvent = (props: any) => {
   }
 
   return (
-    <ThemeProvider theme={MuiTheme}>
+    <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
       <EventEditPopup />
       <EventEditFailedPopup />
-      <List>
-        <ListItem>
-          <ListItemText
-            sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Edit Event"
-          />
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              color: '#898989',
-              textDecoration: 'underline',
-              fontFamily: 'Roboto'
-            }}
-          >
-            <Typography
-              onClick={handleBackClick}
-              sx={{
-                '&:hover': {
-                  cursor: 'pointer'
-                }
-              }}
-              variant="body2"
-              color="#898989"
-            >
-              Back
-            </Typography>
-          </Box>
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Please select category:" />
-        </ListItem>
+      <RightMenuPanel title={'Edit Event'} handleBackClick={handleBackClick}>
+        <Header text="Please select category:" />
         <List
           disablePadding={true}
           style={{
@@ -271,10 +170,7 @@ const EditEvent = (props: any) => {
         >
           {renderList()}
         </List>
-
-        <ListItem>
-          <ListItemText primary="Please enter date:" />
-        </ListItem>
+        <Header text="Please enter date:" />
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             id="standard-basic"
@@ -291,9 +187,7 @@ const EditEvent = (props: any) => {
             }}
           />
         </ListItem>
-        <ListItem>
-          <ListItemText primary="Event description:" />
-        </ListItem>
+        <Header text="Event description:" />
         <ListItem sx={{ pl: 5, pt: 0 }}>
           <TextField
             multiline={true}
@@ -306,43 +200,13 @@ const EditEvent = (props: any) => {
             onChange={(newVal) => setEventDescription(newVal.target.value)}
           />
         </ListItem>
-      </List>
-      <List
-        className="bottom-buttons"
-        disablePadding={true}
-        sx={{
-          position: 'absolute',
-          margin: 'auto',
-          bottom: '0',
-          width: '100%',
-          height: '13%'
-        }}
-      >
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            disabled={clicked}
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={handleOnClick}
-          >
-            Save Changes
-          </Button>
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="medium"
-            variant="contained"
-            color="primary"
-            onClick={handleBackClick}
-          >
-            Cancel
-          </Button>
-        </ListItem>
-      </List>
-    </ThemeProvider>
+      </RightMenuPanel>
+      <RightMenuPanelBottom handleCancelClick={handleBackClick}>
+        <PanelButton disabled={clicked} onClick={handleOnClick}>
+          Save Changes
+        </PanelButton>
+      </RightMenuPanelBottom>
+    </ListItem>
   )
 }
 

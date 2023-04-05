@@ -1,21 +1,9 @@
-import {
-  List,
-  ListItem,
-  ListItemText,
-  ListItemButton,
-  ThemeProvider,
-  Button,
-  Box,
-  Typography
-} from '@mui/material'
+import { List, ListItem, ListItemText, ListItemButton } from '@mui/material'
 import React, { useState } from 'react'
-import MuiTheme from '@/styles/MuiTheme'
-// @ts-ignore
-import { FixedSizeList, ListChildComponentProps } from 'react-window'
-import DeleteCategoryPopUp from '@/components/menu/menuButtons/changeCategories/popups/DeleteCategoryPopUp'
+import DeleteCategoryButton from '@/components/menu/menuButtons/changeCategories/categoryComponents/DeleteCategoryButton'
 import { useAPIContext } from '@/store/APIContext'
-
-// placeholder for the list of categories
+import PanelButton from '../PanelButton'
+import RightMenuPanel, { Header, RightMenuPanelBottom } from '../RightMenuPanel'
 
 const ChangeCategories = (props: any) => {
   const [selected, setSelected] = useState(null)
@@ -25,7 +13,6 @@ const ChangeCategories = (props: any) => {
     setSelected(null)
   }
 
-  // render list for the scroll function
   function renderList() {
     const handleSelect = (index: any) => {
       setSelected(index)
@@ -48,44 +35,13 @@ const ChangeCategories = (props: any) => {
     })
   }
 
-  //function to handle Back button
-  const handleBackClick = () => {
-    props.updateState(0)
-  }
   return (
-    <ThemeProvider theme={MuiTheme}>
-      <List disablePadding={true}>
-        <ListItem>
-          <ListItemText
-            sx={{ color: '#898989', textDecoration: 'underline' }}
-            secondary="Edit Categories"
-          />{' '}
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              color: '#898989',
-              textDecoration: 'underline',
-              fontFamily: 'Roboto'
-            }}
-          >
-            <Typography
-              onClick={handleBackClick}
-              variant="body2"
-              color="#898989"
-              sx={{
-                '&:hover': {
-                  cursor: 'pointer'
-                }
-              }}
-            >
-              Back
-            </Typography>
-          </Box>
-        </ListItem>
-        <ListItem>
-          <ListItemText primary="Please select category:" />
-        </ListItem>
+    <>
+      <RightMenuPanel
+        title={'Edit Categories'}
+        handleBackClick={() => props.updateState(0)}
+      >
+        <Header text="Please select category:" />
         <List
           disablePadding={true}
           style={{
@@ -96,91 +52,27 @@ const ChangeCategories = (props: any) => {
         >
           {renderList()}
         </List>
-      </List>
-      <List
-        className="bottom-buttons-cat"
-        disablePadding={true}
-        sx={{
-          position: 'absolute',
-          margin: 'auto',
-          bottom: '0',
-          width: '100%',
-          height: '26%'
-        }}
-      >
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="small"
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              props.updateState(2.1)
-            }}
-          >
-            Add New Category
-          </Button>
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          {selected === null ? (
-            <Button
-              disabled
-              className="menu-button"
-              size="small"
-              variant="contained"
-              color="primary"
-            >
-              Edit Category
-            </Button>
-          ) : (
-            <Button
-              className="menu-button"
-              size="small"
-              variant="contained"
-              color="primary"
-              onClick={() => {
-                props.updateState(2.2)
-              }}
-            >
-              Edit Category
-            </Button>
-          )}
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          {selected === null ? (
-            <Button
-              disabled
-              className="menu-button"
-              size="small"
-              variant="contained"
-              color="primary"
-            >
-              Delete Category
-            </Button>
-          ) : (
-            <DeleteCategoryPopUp
-              clickAway={props.clickAway}
-              catID={categories[selected].category_id}
-              setSelected={handleSelected}
-              name={categories[selected].category_name}
-            >
-              Delete Category
-            </DeleteCategoryPopUp>
-          )}
-        </ListItem>
-        <ListItem style={{ display: 'flex', justifyContent: 'center' }}>
-          <Button
-            className="menu-button"
-            size="small"
-            variant="contained"
-            color="primary"
-            onClick={() => props.clickAway(false)}
-          >
-            Cancel
-          </Button>
-        </ListItem>
-      </List>
-    </ThemeProvider>
+      </RightMenuPanel>
+      <RightMenuPanelBottom handleCancelClick={() => props.clickAway(false)}>
+        <PanelButton onClick={() => props.updateState(2.1)}>
+          Add New Category
+        </PanelButton>
+        <PanelButton
+          disabled={selected === null}
+          onClick={() => props.updateState(2.2)}
+        >
+          Edit Category
+        </PanelButton>
+        <DeleteCategoryButton
+          selected={selected}
+          clickAway={props.clickAway}
+          categoryID={
+            selected === null ? -1 : categories[selected].category_id ?? -1
+          }
+          setSelected={handleSelected}
+        />
+      </RightMenuPanelBottom>
+    </>
   )
 }
 
