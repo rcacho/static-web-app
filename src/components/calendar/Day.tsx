@@ -31,7 +31,6 @@ const Day = (props: DayProps) => {
   const { events, selected, categories, updateCats } = useAPIContext()
 
   useEffect(() => {
-    console.log('updating days')
     IconList = []
     if (events.length > 0 && selected.length > 0) {
       for (let j = 0; j < events.length; j++) {
