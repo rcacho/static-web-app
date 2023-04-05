@@ -36,18 +36,18 @@ const PrintButton = () => {
 
     const pdfWidth = 297
     const pdfHeight = 207
-    const legendWindowHeight = categories.length * 50
+    const legendWindowHeight = categories.length * 90
 
     console.log(legend)
     if (cal != null && legend != null && tb != null) {
       html2canvas(cal, {
         logging: true,
         useCORS: true,
-        windowWidth: 1415,
-        windowHeight: 880
+        windowWidth: 1600,
+        windowHeight: 1000
       })
         .then((calCanv) => {
-          const calWidth = pdfWidth - 30
+          const calWidth = pdfWidth - 40
           const calHeight = (calCanv.height * calWidth) / calCanv.width
           const calData = calCanv.toDataURL('img/png')
           console.log(calData)

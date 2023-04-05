@@ -23,14 +23,14 @@ const logNotificationsChecked = () => {
 }
 
 const AlertButton = () => {
-  const [loggedIn, setLoggedIn] = useState<boolean>(false)
+  const [alertsChecked, setAlertsChecked] = useState<boolean>(false)
   const [hasAlerts, setHasAlerts] = useState<boolean>(false)
   const [panelAnchor, setPanelAnchor] = useState<null | HTMLElement>(null)
 
   const handleClick = (event: any) => {
     panelAnchor ? setPanelAnchor(null) : setPanelAnchor(event.currentTarget)
-    setLoggedIn(true)
-    if (!loggedIn) logNotificationsChecked()
+    if (!alertsChecked) logNotificationsChecked()
+    setAlertsChecked(true)
   }
 
   return (
@@ -95,7 +95,7 @@ const AlertPanel = (props: any) => {
         <AlertItem key={alert} alert={alert} handleClick={handleClick} />
       )
     }
-    return alertItems
+    return alertItems.reverse()
   }
 
   return (
@@ -125,13 +125,13 @@ const AlertItem = (props: any) => {
   let action: string
   switch (update_type) {
     case 1:
-      action = 'updated'
+      action = 'Updated'
       break
     case 3:
-      action = 'deleted'
+      action = 'Deleted'
       break
     default:
-      action = 'added'
+      action = 'Added'
   }
 
   const date = new Date(event_date)
@@ -147,6 +147,12 @@ const AlertItem = (props: any) => {
     paddingLeft: '10px'
   }
 
+  const dateStr = date.toDateString().substring(4)
+  const formattedDateStr =
+    dateStr.slice(0, dateStr.length - 5) +
+    ',' +
+    dateStr.slice(dateStr.length - 5)
+
   return (
     <Stack
       direction="row"
@@ -156,11 +162,9 @@ const AlertItem = (props: any) => {
       style={alertItemStyle}
     >
       <Typography color={fontColour} style={{ paddingLeft: 10 }}>
-        {`Event on`}
-        <strong>{date.toUTCString().substring(4, 16)}</strong>
-        {` in `}
+        {`${action} `}
         <strong>{category_name}</strong>
-        {` has been ${action} `}
+        {` on ${formattedDateStr}.`}
       </Typography>
       <CloseIcon onClick={props.handleClick}></CloseIcon>
     </Stack>

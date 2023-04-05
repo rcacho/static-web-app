@@ -129,13 +129,17 @@ export class APIManager {
         method: method,
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${this.accessToken}`
+          Authorization: `Bearer ${this.accessToken}`,
+          'X-Custom-Authorization': `Bearer ${this.accessToken}`
         },
         body: JSON.stringify(data)
       }
     } else {
       options = {
-        headers: { Authorization: `Bearer ${this.accessToken}` },
+        headers: {
+          Authorization: `Bearer ${this.accessToken}`,
+          'X-Custom-Authorization': `Bearer ${this.accessToken}`
+        },
         method: method
       }
     }
