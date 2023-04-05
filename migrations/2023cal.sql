@@ -4,7 +4,7 @@ DELETE FROM [calendar].[category];
 
 INSERT INTO [calendar].[category] (user_id, name, icon, color)
 OUTPUT INSERTED.id, INSERTED.name INTO #RowsInserted
-VALUES (1, 'Statuatory Holiday', 'CircleIcon', 'black'),
+VALUES (1, 'Statutory holiday', 'CircleIcon', 'black'),
 (1, 'Month End', 'CloseIcon', 'black'),
 (1, 'Plan', 'HexagonIcon', '#2678F3'),
 (1, 'EPSP', 'CropSquareIcon', 'black'),
@@ -23,7 +23,7 @@ SELECT * FROM #RowsInserted;
 INSERT INTO [calendar].[event] (user_id, event_date, category_id, event_description, is_deleted)
 VALUES 
 (1, '2023-01-02T00:00:00.0000000', 
-(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statuatory Holiday'), --
+(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statutory holiday'), --
 '', 0),
 (1, '2023-01-06T00:00:00.0000000', 
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Expense Cutoff'),--
@@ -59,7 +59,7 @@ VALUES
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Expense Cutoff'),--
 '', 0),
 (1, '2023-02-20T00:00:00.0000000', 
-(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statuatory Holiday'), --
+(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statutory holiday'), --
 '', 0),
 (1, '2023-02-24T00:00:00.0000000', 
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'EPSP'),--
@@ -83,7 +83,7 @@ VALUES
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Month End'),--
 '', 0),
 (1, '2023-04-07T00:00:00.0000000', 
-(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statuatory Holiday'),--
+(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statutory holiday'),--
 '', 0),
 (1, '2023-04-10T00:00:00.0000000', 
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'UBAR Distribution'),--
@@ -128,7 +128,7 @@ VALUES
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Annual General Meeting'),--
 '', 0),
 (1, '2023-05-22T00:00:00.0000000', 
-(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statuatory Holiday'),--
+(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statutory holiday'),--
 '', 0),
 (1, '2023-06-02T00:00:00.0000000', 
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Expense Cutoff'),--
@@ -149,7 +149,7 @@ VALUES
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Month End'),--
 '', 0),
 (1, '2023-07-03T00:00:00.0000000', 
-(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statuatory Holiday'),--
+(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statutory holiday'),--
 '', 0),
 (1, '2023-07-10T00:00:00.0000000', 
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'UBAR Distribution'),--
@@ -170,7 +170,7 @@ VALUES
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Month End'),--
 '', 0),
 (1, '2023-08-07T00:00:00.0000000', 
-(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statuatory Holiday'),--
+(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statutory holiday'),--
 '', 0),
 (1, '2023-08-08T00:00:00.0000000', 
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'UBAR Distribution'),--
@@ -203,7 +203,7 @@ VALUES
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Month End'),--
 '', 0),
 (1, '2023-09-04T00:00:00.0000000', 
-(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statuatory Holiday'),--
+(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statutory holiday'),--
 '', 0),
 (1, '2023-09-11T00:00:00.0000000', 
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'UBAR Distribution'),--
@@ -218,7 +218,7 @@ VALUES
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Month End'),--
 '', 0),
 (1, '2023-10-09T00:00:00.0000000', 
-(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statuatory Holiday'),--
+(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statutory holiday'),--
 '', 0),
 (1, '2023-10-10T00:00:00.0000000', 
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'UBAR Distribution'),--
@@ -242,7 +242,7 @@ VALUES
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Month End'),--
 '', 0),
 (1, '2023-11-13T00:00:00.0000000', 
-(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statuatory Holiday'),--
+(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statutory holiday'),--
 '', 0),
 (1, '2023-11-14T00:00:00.0000000', 
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'UBAR Distribution'),--
@@ -278,10 +278,10 @@ VALUES
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Expense Cutoff'),--
 '', 0),
 (1, '2023-12-25T00:00:00.0000000', 
-(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statuatory Holiday'),--
+(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statutory holiday'),--
 '', 0),
 (1, '2023-12-26T00:00:00.0000000', 
-(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statuatory Holiday'),--
+(SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Statutory holiday'),--
 '', 0),
 (1, '2023-12-27T00:00:00.0000000', 
 (SELECT Id FROM #RowsInserted WHERE #RowsInserted.name = 'Office Closed'),--
