@@ -2,7 +2,7 @@ import { useAccount, useMsal } from '@azure/msal-react'
 import * as React from 'react'
 import { Category } from '@/interfaces/Category'
 import { Event } from '@/interfaces/Event'
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { APIManager } from '@/utils/APIManager'
 
 const APIContext = React.createContext<APIStoreValue | undefined>(undefined)
@@ -31,6 +31,7 @@ interface APIStoreValue {
   setUpdateCats: React.Dispatch<React.SetStateAction<boolean>>
   selectedNotSaved: Category[]
   setSelectedNotSaved: React.Dispatch<React.SetStateAction<Category[]>>
+  selectedList: null | number[]
 }
 
 export const useAPIContext = () => {
@@ -65,9 +66,18 @@ const APIStore = ({ children }: any) => {
   const [eventIndex, setEventIndex] = useState(-1)
   const [updateCats, setUpdateCats] = useState(false)
   const [selectedNotSaved, setSelectedNotSaved] = React.useState<Category[]>([])
+  const [selectedList, setSelectedList] = React.useState<any>([])
   const changeEventId = (id: number) => {
     setEventId(id)
   }
+
+  useEffect(() => {
+    let selList: any[] = []
+    for (let i = 0; i < selected.length; i++) {
+      selList.push(selected[i].category_id)
+    }
+    setSelectedList(selList)
+  }, [selected])
 
   function updateEvents() {
     APIManager.getInstance()
@@ -85,6 +95,11 @@ const APIStore = ({ children }: any) => {
       .then((instance) => instance.getCategory())
       .then((data) => {
         setCategories(data.result)
+        updateCatMap(data.result)
+      })
+      .then(() => {
+        console.log(categories)
+        console.log(catMap)
       })
       .catch((err) => {
         console.log(err)
@@ -187,7 +202,8 @@ const APIStore = ({ children }: any) => {
     updateCats: updateCats,
     setUpdateCats: setUpdateCats,
     setSelectedNotSaved: setSelectedNotSaved,
-    selectedNotSaved: selectedNotSaved
+    selectedNotSaved: selectedNotSaved,
+    selectedList: selectedList
   }
 
   return (

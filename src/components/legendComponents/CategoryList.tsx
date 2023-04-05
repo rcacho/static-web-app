@@ -122,6 +122,7 @@ const CategoryList = () => {
     updateCategories()
     updateEvents()
     updateCatMap(categories)
+    applyFilters()
   }, [updateCats])
 
   const handleChange = (category: string) => {

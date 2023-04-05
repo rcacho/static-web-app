@@ -81,7 +81,7 @@ const ChangeDeleteEvent = (props: any) => {
     }
     setDescriptionList(DescriptionList)
     setEventsState(EventList)
-  }, [selected, categories, eventId, events, updateCats])
+  }, [selected, categories, eventId, events, updateCats, catMap])
 
   function EditEvent() {
     if (selected === null) {

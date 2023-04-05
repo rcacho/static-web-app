@@ -32,7 +32,10 @@ const EditCatPopUp = (props: any) => {
         let err = 0
         for (let i = 0; i < categories.length; i++) {
           if (categories[i].category_id !== props.category.category_id) {
-            if (categories[i].category_name === props.name) {
+            if (
+              categories[i].category_name.toLowerCase() ===
+              props.name.toLowerCase()
+            ) {
               console.log('name error')
               err += 1
               setPopup(1)
@@ -84,6 +87,7 @@ const EditCatPopUp = (props: any) => {
         alert('Category updated.')
       })
       .catch((err) => {
+        alert('Category could not be updated.')
         console.log(err)
       })
   }
@@ -91,8 +95,6 @@ const EditCatPopUp = (props: any) => {
   const handleCloseError = () => {
     setOpen(false)
     setClicked(!clicked)
-    // props.clickAway()
-    // props.updateState(0)
     setPopup(100)
   }
 
@@ -109,10 +111,16 @@ const EditCatPopUp = (props: any) => {
 
   const handleConfirm = () => {
     updateCategory(props.name, props.icon, props.color)
-    setOpen(false)
-    props.clickAway()
-    props.updateState(0)
-    setPopup(100)
+      .then(() => {
+        setOpen(false)
+        props.clickAway()
+        props.updateState(0)
+        setPopup(100)
+        console.log(categories)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   function AddCategoryButton() {
