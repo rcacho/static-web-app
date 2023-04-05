@@ -1,4 +1,12 @@
+## About
+
+T3am was commissioned by Associated Engineering (AE) to construct a Master Calendar for their company to keep better track of their company calendar. AE previously distributed a calendar with key dates across the company in PDF format, which prevented dynamic changes, and led to errors and misunderstandings throughout the organization. This web-based application features a calendar which can be viewed and edited in real-time.
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+
+## Contributors
+
+This project was developed by Steven Yan, Julia Sotiri, Joseph Gao, Karl Sheng, Chris Mitchell, Jaren Agujo, Ricardo Cacho, and Chloe Curry.
 
 ## Getting Started
 
@@ -24,15 +32,13 @@ yarn dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Releases are done through github actions. The repo is currently setup to release new versions as pull requests are merged into the main branch.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+A live version of the application can be found at:
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+https://zealous-moss-07bc5e510.2.azurestaticapps.net/
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
+## Learn More About Next.js
 
 To learn more about Next.js, take a look at the following resources:
 
