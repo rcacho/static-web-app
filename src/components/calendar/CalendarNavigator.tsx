@@ -80,12 +80,29 @@ const DecrementDateButton = () => {
   }
 
   return (
-    <Button sx={{ borderRadius: '60px' }}>
-      <ChevronLeftIcon
-        onClick={handleClick}
-        style={{ fontSize: '32px', color: '#4D4D4D' }}
-      ></ChevronLeftIcon>
-    </Button>
+    <>
+      <Button
+        sx={{ borderRadius: '60px', display: { xs: 'none', sm: 'block' } }}
+      >
+        <ChevronLeftIcon
+          onClick={handleClick}
+          style={{ fontSize: '32px', color: '#4D4D4D' }}
+        ></ChevronLeftIcon>
+      </Button>
+      <Button
+        sx={{
+          borderRadius: '60px',
+          display: { xs: 'block', sm: 'none' },
+          maxWidth: '40px',
+          minWidth: '40px'
+        }}
+      >
+        <ChevronLeftIcon
+          onClick={handleClick}
+          style={{ fontSize: '32px', color: '#4D4D4D' }}
+        ></ChevronLeftIcon>
+      </Button>
+    </>
   )
 }
 
@@ -109,12 +126,29 @@ const IncrementDateButton = () => {
   }
 
   return (
-    <Button sx={{ borderRadius: '60px' }}>
-      <ChevronRightIcon
-        onClick={handleClick}
-        style={{ fontSize: '32px', color: '#4D4D4D' }}
-      ></ChevronRightIcon>
-    </Button>
+    <>
+      <Button
+        sx={{ borderRadius: '60px', display: { xs: 'none', sm: 'block' } }}
+      >
+        <ChevronRightIcon
+          onClick={handleClick}
+          style={{ fontSize: '32px', color: '#4D4D4D' }}
+        ></ChevronRightIcon>
+      </Button>{' '}
+      <Button
+        sx={{
+          borderRadius: '60px',
+          display: { xs: 'block', sm: 'none' },
+          maxWidth: '40px',
+          minWidth: '40px'
+        }}
+      >
+        <ChevronRightIcon
+          onClick={handleClick}
+          style={{ fontSize: '32px', color: '#4D4D4D' }}
+        ></ChevronRightIcon>
+      </Button>
+    </>
   )
 }
 
