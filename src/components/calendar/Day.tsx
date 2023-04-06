@@ -298,10 +298,10 @@ const Day = (props: DayProps) => {
     <Grid
       sx={{ height: 'auto' }}
       xs={1}
-      borderRight={!isYearView || toggleGrid ? 1 : 0}
-      borderBottom={!isYearView || toggleGrid ? 1 : 0}
-      borderTop={!isYearView || toggleGrid ? 1 : 0}
-      borderLeft={!isYearView || toggleGrid ? 1 : 0}
+      borderRight={!isYearView || (toggleGrid && isYearView) ? 1 : 0}
+      borderBottom={!isYearView || (toggleGrid && isYearView) ? 1 : 0}
+      borderTop={toggleGrid && isYearView ? 1 : 0}
+      borderLeft={toggleGrid && isYearView ? 1 : 0}
       display="flex"
       justifyContent="center"
       alignItems="top"
