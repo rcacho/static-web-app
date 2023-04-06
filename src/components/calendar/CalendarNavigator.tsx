@@ -82,11 +82,16 @@ const DecrementDateButton = () => {
   return (
     <>
       <Button
-        sx={{ borderRadius: '60px', display: { xs: 'none', sm: 'block' } }}
+        sx={{
+          borderRadius: '60px',
+          display: { xs: 'none', sm: 'block' },
+          maxWidth: '70px',
+          minWidth: '70px'
+        }}
       >
         <ChevronLeftIcon
           onClick={handleClick}
-          style={{ fontSize: '32px', color: '#4D4D4D' }}
+          style={{ fontSize: '32px', color: '#4D4D4D', marginTop: '7px' }}
         ></ChevronLeftIcon>
       </Button>
       <Button
@@ -99,7 +104,11 @@ const DecrementDateButton = () => {
       >
         <ChevronLeftIcon
           onClick={handleClick}
-          style={{ fontSize: '32px', color: '#4D4D4D' }}
+          style={{
+            fontSize: '32px',
+            color: '#4D4D4D',
+            marginTop: '10px'
+          }}
         ></ChevronLeftIcon>
       </Button>
     </>
@@ -126,15 +135,20 @@ const IncrementDateButton = () => {
   }
 
   return (
-    <>
+    <Box>
       <Button
-        sx={{ borderRadius: '60px', display: { xs: 'none', sm: 'block' } }}
+        sx={{
+          borderRadius: '60px',
+          display: { xs: 'none', sm: 'block' },
+          maxWidth: '70px',
+          minWidth: '70px'
+        }}
       >
         <ChevronRightIcon
           onClick={handleClick}
-          style={{ fontSize: '32px', color: '#4D4D4D' }}
+          style={{ fontSize: '32px', color: '#4D4D4D', marginTop: '7px' }}
         ></ChevronRightIcon>
-      </Button>{' '}
+      </Button>
       <Button
         sx={{
           borderRadius: '60px',
@@ -145,10 +159,10 @@ const IncrementDateButton = () => {
       >
         <ChevronRightIcon
           onClick={handleClick}
-          style={{ fontSize: '32px', color: '#4D4D4D' }}
+          style={{ fontSize: '32px', color: '#4D4D4D', marginTop: '10px' }}
         ></ChevronRightIcon>
       </Button>
-    </>
+    </Box>
   )
 }
 
