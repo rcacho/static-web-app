@@ -27,7 +27,6 @@ const AlertButton = () => {
   const [hasAlerts, setHasAlerts] = useState<boolean>(false)
   const [panelAnchor, setPanelAnchor] = useState<null | HTMLElement>(null)
 
-
   const handleClick = (event: any) => {
     setPanelAnchor(event.currentTarget)
     if (!alertsChecked) logNotificationsChecked()
