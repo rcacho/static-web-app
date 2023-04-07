@@ -27,8 +27,9 @@ const AlertButton = () => {
   const [hasAlerts, setHasAlerts] = useState<boolean>(false)
   const [panelAnchor, setPanelAnchor] = useState<null | HTMLElement>(null)
 
+
   const handleClick = (event: any) => {
-    panelAnchor ? setPanelAnchor(null) : setPanelAnchor(event.currentTarget)
+    setPanelAnchor(event.currentTarget)
     if (!alertsChecked) logNotificationsChecked()
     setAlertsChecked(true)
   }
@@ -49,7 +50,7 @@ const AlertButton = () => {
           hasAlerts={hasAlerts}
           setHasAlerts={setHasAlerts}
           panelAnchor={panelAnchor}
-          onClickAway={handleClick}
+          onClickAway={() => setPanelAnchor(null)}
         />
       </Badge>
     </Button>
@@ -83,7 +84,7 @@ const AlertPanel = (props: any) => {
   const renderAlerts = () => {
     const alertItems = []
     for (const alert of alerts) {
-      const handleClick = () => {
+      const handleAlertClick = () => {
         var index = alerts.indexOf(alert)
         if (index > -1) {
           alerts.splice(index, 1)
@@ -92,7 +93,7 @@ const AlertPanel = (props: any) => {
         if (alerts.length == 0) props.setHasAlerts(false)
       }
       alertItems.push(
-        <AlertItem key={alert} alert={alert} handleClick={handleClick} />
+        <AlertItem key={alert} alert={alert} handleClick={handleAlertClick} />
       )
     }
     return alertItems.reverse()
@@ -147,7 +148,7 @@ const AlertItem = (props: any) => {
     paddingLeft: '10px'
   }
 
-  const dateStr = date.toDateString().substring(4)
+  const dateStr = date.toUTCString().substring(4, 16)
   const formattedDateStr =
     dateStr.slice(0, dateStr.length - 5) +
     ',' +
