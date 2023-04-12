@@ -68,7 +68,7 @@ const EditCatPopUp = (props: any) => {
   ) {
     let payload: Category = {
       category_id: props.category.category_id,
-      category_name: category_name,
+      category_name: category_name.trim(),
       icon: icon,
       color: color
     }

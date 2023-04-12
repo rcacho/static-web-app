@@ -67,7 +67,7 @@ const AddCatPopUp = (props: any) => {
   ) {
     let payload: Category = {
       category_id: null,
-      category_name: category_name,
+      category_name: category_name.trim(),
       icon: icon,
       color: color
     }
