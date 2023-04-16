@@ -1,12 +1,14 @@
-import { AppBar, Typography, styled } from '@mui/material'
+import { AppBar, Typography, styled, Button, Box } from '@mui/material'
 import { Stack, Toolbar } from '@mui/material/'
 import Image from 'next/image'
 import RightMenuButton from './menu/RightMenuButton'
 import AlertButton from './alert/AlertButton'
 import React from 'react'
 import CalendarNavigator from './calendar/CalendarNavigator'
+import { useCalendarContext } from '@/store/CalendarContext'
 
 const TopBar = () => {
+  const { setToggleGrid, isYearView } = useCalendarContext()
   const StyledTopBar = styled(Toolbar)({
     display: 'flex',
     justifyContent: 'space-between',
@@ -37,6 +39,52 @@ const TopBar = () => {
         </Stack>
 
         <Stack direction="row" spacing={1}>
+          {isYearView && (
+            <Button
+              sx={{
+                borderRadius: '60px'
+              }}
+              onClick={() => {
+                setToggleGrid((prev) => !prev)
+              }}
+            >
+              <Box
+                sx={{
+                  display: { xs: 'none', sm: 'block' },
+                  justifyContent: 'flex-end',
+                  color: '#898989',
+                  textDecoration: 'underline',
+                  fontFamily: 'Roboto'
+                }}
+              >
+                <Typography
+                  // textTransform="capitalize"
+                  variant="body2"
+                >
+                  Toggle Grid
+                </Typography>
+              </Box>
+              <Box
+                sx={{
+                  display: { xs: 'block', sm: 'none' },
+                  justifyContent: 'flex-end',
+                  color: '#898989',
+                  textDecoration: 'underline',
+                  fontFamily: 'Roboto',
+                  position: 'absolute'
+                }}
+              >
+                <Typography
+                  // textTransform="capitalize"
+                  variant="body2"
+                  fontSize={'10px'}
+                  width="60px"
+                >
+                  Toggle Grid
+                </Typography>
+              </Box>
+            </Button>
+          )}
           <AlertButton />
           <RightMenuButton />
         </Stack>

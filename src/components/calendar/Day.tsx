@@ -27,7 +27,7 @@ let IconList: IconItems[] = []
 
 const Day = (props: DayProps) => {
   const [iconSet, setIconSet] = useState(IconList)
-  const { isYearView, currentDate } = useCalendarContext()
+  const { isYearView, currentDate, toggleGrid } = useCalendarContext()
   const { events, selected, categories, updateCats } = useAPIContext()
 
   useEffect(() => {
@@ -297,8 +297,10 @@ const Day = (props: DayProps) => {
     <Grid
       sx={{ height: 'auto' }}
       xs={1}
-      borderRight={isYearView ? 0 : 1}
-      borderBottom={isYearView ? 0 : 1}
+      borderRight={!isYearView || (toggleGrid && isYearView) ? 1 : 0}
+      borderBottom={!isYearView || (toggleGrid && isYearView) ? 1 : 0}
+      borderTop={toggleGrid && isYearView ? 1 : 0}
+      borderLeft={toggleGrid && isYearView ? 1 : 0}
       display="flex"
       justifyContent="center"
       alignItems="top"

@@ -80,12 +80,38 @@ const DecrementDateButton = () => {
   }
 
   return (
-    <Button sx={{ borderRadius: '60px' }}>
-      <ChevronLeftIcon
-        onClick={handleClick}
-        style={{ fontSize: '32px', color: '#4D4D4D' }}
-      ></ChevronLeftIcon>
-    </Button>
+    <>
+      <Button
+        sx={{
+          borderRadius: '60px',
+          display: { xs: 'none', sm: 'block' },
+          maxWidth: '70px',
+          minWidth: '70px'
+        }}
+      >
+        <ChevronLeftIcon
+          onClick={handleClick}
+          style={{ fontSize: '32px', color: '#4D4D4D', marginTop: '7px' }}
+        ></ChevronLeftIcon>
+      </Button>
+      <Button
+        sx={{
+          borderRadius: '60px',
+          display: { xs: 'block', sm: 'none' },
+          maxWidth: '40px',
+          minWidth: '40px'
+        }}
+      >
+        <ChevronLeftIcon
+          onClick={handleClick}
+          style={{
+            fontSize: '32px',
+            color: '#4D4D4D',
+            marginTop: '10px'
+          }}
+        ></ChevronLeftIcon>
+      </Button>
+    </>
   )
 }
 
@@ -109,12 +135,34 @@ const IncrementDateButton = () => {
   }
 
   return (
-    <Button sx={{ borderRadius: '60px' }}>
-      <ChevronRightIcon
-        onClick={handleClick}
-        style={{ fontSize: '32px', color: '#4D4D4D' }}
-      ></ChevronRightIcon>
-    </Button>
+    <Box>
+      <Button
+        sx={{
+          borderRadius: '60px',
+          display: { xs: 'none', sm: 'block' },
+          maxWidth: '70px',
+          minWidth: '70px'
+        }}
+      >
+        <ChevronRightIcon
+          onClick={handleClick}
+          style={{ fontSize: '32px', color: '#4D4D4D', marginTop: '7px' }}
+        ></ChevronRightIcon>
+      </Button>
+      <Button
+        sx={{
+          borderRadius: '60px',
+          display: { xs: 'block', sm: 'none' },
+          maxWidth: '40px',
+          minWidth: '40px'
+        }}
+      >
+        <ChevronRightIcon
+          onClick={handleClick}
+          style={{ fontSize: '32px', color: '#4D4D4D', marginTop: '10px' }}
+        ></ChevronRightIcon>
+      </Button>
+    </Box>
   )
 }
 
