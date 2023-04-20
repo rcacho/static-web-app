@@ -9,10 +9,10 @@ export const InternalErrorHandler = async (
   try {
     await fn()
   } catch (err) {
+    const originalError = (err as DatabaseError).originalError
     if (
-      (err as DatabaseError).originalError.includes(
-        'Violation of UNIQUE KEY constraint'
-      )
+      typeof originalError == 'string' &&
+      originalError.includes('Violation of UNIQUE KEY constraint')
     ) {
       res.status(409).json({ result: `Request failed with conflict: ${err}` })
     } else {

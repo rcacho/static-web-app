@@ -1,7 +1,4 @@
-import request from 'supertest'
 import { NextApiHandler } from 'next'
-import { createServer, RequestListener } from 'http'
-import { apiResolver } from 'next/dist/server//api-utils/node'
 import category from '../src/pages/api/category'
 import categoryid from '../src/pages/api/category/[id]'
 import { testApiHandler } from 'next-test-api-route-handler'
@@ -35,7 +32,7 @@ describe('Test Category API endpoints', () => {
     WHERE user_id = 
       (SELECT id 
       FROM calendar.app_user
-      WHERE active_directory_oid = 'a18a9cd9-17e4-48a2-899e-9d072dac7654')`
+      WHERE active_directory_oid = '${process.env.ADMIN_OID}')`
 
     await db.ConnectAndQuery(query)
   })

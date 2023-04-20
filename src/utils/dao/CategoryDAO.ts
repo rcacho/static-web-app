@@ -1,6 +1,5 @@
 import { DatabaseConnector } from '../DatabaseConnector'
 import { Category } from '@/interfaces/Category'
-import { DatabaseError } from '@/exceptions/DatabaseError'
 
 export class CategoryDAO {
   db: DatabaseConnector
