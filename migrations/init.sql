@@ -100,6 +100,7 @@ BEGIN
 	END TRY
 	BEGIN CATCH
 		EXECUTE calendar.usp_GetErrorInfo;
+		THROW;
 	END CATCH
 END;
 
