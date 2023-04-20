@@ -14,8 +14,7 @@ export class CategoryDAO {
     try {
       await this.db.ConnectAndQuery(query)
     } catch (err: any) {
-      console.log(err)
-      throw new DatabaseError(err.msg)
+      throw err
     }
   }
 
@@ -25,7 +24,7 @@ export class CategoryDAO {
       const resultset = await this.db.ConnectAndQuery(query)
       return resultset.recordset
     } catch (err: any) {
-      throw new DatabaseError(err.msg)
+      throw err
     }
   }
 
@@ -40,7 +39,7 @@ export class CategoryDAO {
     try {
       await this.db.ConnectAndQuery(query)
     } catch (err: any) {
-      throw new DatabaseError(err.msg)
+      throw err
     }
   }
 
@@ -49,7 +48,7 @@ export class CategoryDAO {
     try {
       await this.db.ConnectAndQuery(query)
     } catch (err: any) {
-      throw new DatabaseError(err.msg)
+      throw err
     }
   }
 }
