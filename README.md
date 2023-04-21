@@ -38,6 +38,18 @@ A live version of the application can be found at:
 
 https://zealous-moss-07bc5e510.2.azurestaticapps.net/
 
+## Running API tests
+
+Tests expect a file called .env.test for configuration.
+
+See sample.env.test to see environment variables used for testing.
+
+On the command line run:
+
+```
+yarn test __test__
+```
+
 ## Learn More About Next.js
 
 To learn more about Next.js, take a look at the following resources:

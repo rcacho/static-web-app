@@ -1,5 +1,7 @@
 export class DatabaseError extends Error {
-  constructor(msg: string) {
+  originalError: string
+  constructor(originalError: string, msg: string) {
     super(msg)
+    this.originalError = originalError
   }
 }

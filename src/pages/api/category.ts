@@ -16,13 +16,6 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
   const oid = getOid(req)
 
-  const category: Category = {
-    category_name: body.category_name,
-    color: body.color,
-    icon: body.icon,
-    category_id: null
-  }
-
   switch (method) {
     case 'GET':
       await InternalErrorHandler(req, res, async () => {
@@ -32,6 +25,13 @@ async function handler(req: NextApiRequest, res: NextApiResponse) {
 
       break
     case 'POST':
+      const category: Category = {
+        category_name: body.category_name,
+        color: body.color,
+        icon: body.icon,
+        category_id: null
+      }
+
       await AdminAction(req, res, async () => {
         await InternalErrorHandler(req, res, async () => {
           await dao.addCategory(oid, category)

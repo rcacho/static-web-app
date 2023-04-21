@@ -100,10 +100,11 @@ BEGIN
 	END TRY
 	BEGIN CATCH
 		EXECUTE calendar.usp_GetErrorInfo;
+		THROW;
 	END CATCH
 END;
 
-CREATE PROCEDURE calendar.insert_event @oid UNIQUEIDENTIFIER, @category_id int, @event_date date, @description VARCHAR(255) = null, @e_id OUT AS
+CREATE PROCEDURE calendar.insert_event @oid UNIQUEIDENTIFIER, @category_id int, @event_date date, @description VARCHAR(255) = null, @e_id int OUTPUT AS
 BEGIN
     DECLARE @id int;
     DECLARE @event_id TABLE (id INT);
@@ -125,6 +126,7 @@ BEGIN
     END TRY
     BEGIN CATCH
         EXECUTE calendar.usp_GetErrorInfo;
+	THROW;
     END CATCH
 END;
 

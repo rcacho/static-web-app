@@ -15,15 +15,19 @@ export class EventDAO {
     let event_id: number = 0
     const request = await this.db.CreateRequest()
 
-    request
-      .input('oid', sql.UniqueIdentifier, oid)
-      .input('category_id', sql.Int, event.category_id)
-      .input('event_date', sql.DateTime, event.event_date)
-      .input('description', sql.VarChar(255), event.event_description)
-      .output('e_id', sql.Int, event_id)
+    try {
+      request
+        .input('oid', sql.UniqueIdentifier, oid)
+        .input('category_id', sql.Int, event.category_id)
+        .input('event_date', sql.DateTime, event.event_date)
+        .input('description', sql.VarChar(255), event.event_description)
+        .output('e_id', sql.Int, event_id)
 
-    await request.execute('calendar.insert_event')
-    return event_id
+      await request.execute('calendar.insert_event')
+      return event_id
+    } catch (err: any) {
+      throw new DatabaseError(err.originalError.info.message, err.stack)
+    }
   }
 
   async getEvent() {
@@ -45,7 +49,7 @@ export class EventDAO {
 
       await request.execute('calendar.update_event')
     } catch (err: any) {
-      throw new DatabaseError(err.msg)
+      throw new DatabaseError(err.originalError.info.message, err.stack)
     }
   }
 

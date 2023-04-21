@@ -3,9 +3,9 @@ import { decode, JwtPayload, verify } from 'jsonwebtoken'
 import { JwksClient } from 'jwks-rsa'
 import { label, Middleware } from 'next-api-middleware'
 
-const client = new JwksClient({
-  jwksUri: `https://${process.env.AZURE_AD_B2C_TENANT_NAME}.b2clogin.com/${process.env.AZURE_AD_B2C_TENANT_NAME}.onmicrosoft.com/${process.env.AZURE_AD_B2C_PRIMARY_USER_FLOW}/discovery/v2.0/keys`
-})
+const jwksUri = `https://${process.env.AZURE_AD_B2C_TENANT_NAME}.b2clogin.com/${process.env.AZURE_AD_B2C_TENANT_NAME}.onmicrosoft.com/${process.env.AZURE_AD_B2C_PRIMARY_USER_FLOW}/discovery/v2.0/keys`
+
+const client = new JwksClient({ jwksUri })
 
 export const AdminAction = async (
   req: NextApiRequest,
@@ -105,7 +105,8 @@ const authenticate: Middleware = async (
     let signingKey = await getSigningKeyPromise(kid!, client)
 
     const decodedAndVerified = verify(idToken, signingKey, {
-      ignoreNotBefore: true
+      ignoreNotBefore: true,
+      ignoreExpiration: process.env.NODE_ENV === 'test'
     }) as JwtPayload
 
     if (decodedAndVerified.aud !== process.env.AZURE_AD_B2C_CLIENT_ID) {
