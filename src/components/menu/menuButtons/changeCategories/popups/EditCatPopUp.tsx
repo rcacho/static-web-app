@@ -121,7 +121,7 @@ const EditCatPopUp = (props: any) => {
   function AddCategoryButton() {
     return (
       <Button
-        disabled={clicked}
+        disabled={clicked || props.name.toLowerCase() === ''}
         className="menu-button"
         size="medium"
         variant="contained"
